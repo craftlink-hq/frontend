@@ -15,16 +15,13 @@ import { ArtisanProfileProps } from "@/utils/profile";
 import { useAccount } from "wagmi";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
-import IPFS from "@/hooks/useIPFS";
-// import { useEthersProvider } from "@/hooks/useEthersProvider";
-import { readOnlyProvider } from "@/constants/providers";
-import { getRegistryContract } from "@/constants/contracts";
-import { toast } from "sonner";
 import { useEffect, useState } from "react";
+import useGetUserDetails from "@/hooks/useGetUserDetails";
 
 export default function Profile() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
+  const detail = useGetUserDetails();
 
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
   const {
@@ -45,88 +42,15 @@ export default function Profile() {
   } = useGetArtisanData();
   const router = useRouter();
 
-  const { fetchFromIPFS } = IPFS();
   const { address } = useAccount();
-  // const provider = useEthersProvider();
-  const provider = readOnlyProvider;
-  const [detail, setDetail] = useState<{
-    username: string;
-    location: string;
-  } | null>(null);
-  const { isLoading, startLoading, stopLoading } = useLoading();
-  const [, setUserRole] = useState("");
+  const { isLoading } = useLoading();
 
   const handleNext = () => {
     router.push("/marketplace");
   };
 
-  // Fetch user details from IPFS
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (!address || isLoading) return;
-      startLoading();
-
-      try {
-        console.log("Fetching user details");
-        const contract = provider ? getRegistryContract(provider) : null;
-        if (!contract) {
-          toast.error("Provider not initialized");
-          return;
-        }
-
-        console.log("Checking user role");
-        const isClient = contract ? await contract.isClient(address) : false;
-
-        if (isClient) {
-          console.log("User is a client", isClient);
-          setUserRole("client");
-          const detail = contract
-            ? await contract.getClientDetails(address)
-            : null;
-
-          if (detail?.ipfsHash) {
-            try {
-              const fetchedDetail = await fetchFromIPFS(detail.ipfsHash);
-              setDetail(JSON.parse(fetchedDetail));
-            } catch (error) {
-              toast.error("Error fetching from IPFS");
-              console.error(error);
-            }
-          }
-        } else {
-          console.log("User is an artisan", !isClient);
-          setUserRole("artisan");
-          const detail = contract
-            ? await contract.getArtisanDetails(address)
-            : null;
-
-          if (detail?.ipfsHash) {
-            try {
-              const fetchedDetail = await fetchFromIPFS(detail.ipfsHash);
-              setDetail(JSON.parse(fetchedDetail));
-            } catch (ipfsError) {
-              toast.error("Error fetching from IPFS");
-              console.error(ipfsError);
-            }
-          }
-        }
-      } catch (error) {
-        toast.error("Error fetching user details");
-        console.error(error);
-      } finally {
-        stopLoading();
-      }
-    };
-
-    fetchUserDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Transform and set profile data when all required data is available
   useEffect(() => {
-    console.log("Transforming profile data");
-    console.log("Address: ", address);
-    console.log("Detail: ", detail);
     if (address && detail) {
       const fetchedData = {
         category,
@@ -145,14 +69,12 @@ export default function Profile() {
         whMediaUrls,
       };
 
-      console.log("Fetched data", fetchedData);
       const transformedProfile = transformProfileData(
         fetchedData,
         detail,
         address
       );
       setProfile(transformedProfile);
-      console.log("Profile data transformed", transformedProfile);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detail, address]);

@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import gigMarketPlaceABI from "./gigMarketplaceABI.json";
-import registryABI from "./registryABI.json";
-import tokenABI from "./tokenABI.json";
-import reviewABI from "./reviewSystemABI.json";
-import chatABI from "./chatSystemABI.json";
+import gigMarketPlaceABI from "./abi/gigMarketplaceABI.json";
+import registryABI from "./abi/registryABI.json";
+import tokenABI from "./abi/tokenABI.json";
+import reviewABI from "./abi/reviewSystemABI.json";
+import chatABI from "./abi/chatSystemABI.json";
 
 export const getGigContract = (providerOrSigner: ethers.Provider | ethers.Signer) =>
   new ethers.Contract(
