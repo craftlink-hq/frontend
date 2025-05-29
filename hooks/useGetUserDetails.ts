@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 import IPFS from "@/hooks/useIPFS";
 import { toast } from "sonner";
 import useIsClient from "./useIsClient";
+import useIsArtisan from "./useIsArtisan";
 
 const useGetUserDetails = () => {
     const isClient = useIsClient();
+    const isArtisan = useIsArtisan();
     const { fetchFromIPFS } = IPFS();
     const { address } = useAccount();
     const [userDetails, setUserDetails] = useState<{
@@ -22,10 +24,13 @@ const useGetUserDetails = () => {
             if (isClient === null) return;
 
             try {
+                if (!isClient && !isArtisan) {
+                    toast.error("You have to be a client or artisan to view details");
+                    return;
+                }
+
                 const contract = getRegistryContract(readOnlyProvider);
-                const details = isClient
-                    ? await contract.getClientDetails(address)
-                    : await contract.getArtisanDetails(address);
+                const details = isClient ? await contract.getClientDetails(address) : await contract.getArtisanDetails(address);
                 
                 if (details?.ipfsHash) {
                     try {
@@ -47,7 +52,7 @@ const useGetUserDetails = () => {
             fetchUserDetails();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address, isClient]);
+    }, [address, isClient, isArtisan]);
 
     return userDetails;
 }
