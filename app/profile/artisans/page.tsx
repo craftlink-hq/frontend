@@ -9,79 +9,67 @@ import Status from "@/components/Profile/Status";
 import Review from "@/components/Profile/Review";
 import Settings from "@/components/Profile/Settings";
 import { usePathname, useRouter } from "next/navigation";
-import { useGetArtisanData } from "@/utils/store";
-import { transformProfileData } from "@/utils/transformProfileData";
 import { ArtisanProfileProps } from "@/utils/profile";
 import { useAccount } from "wagmi";
 import Loading from "@/components/Loading";
-import { useLoading } from "@/hooks/useLoading";
 import { useEffect, useState } from "react";
 import useGetUserDetails from "@/hooks/useGetUserDetails";
+import axios from "@/app/API/axios";
+import { transformBackendProfileData } from "@/utils/transformBackendProfileData";
 
 export default function Profile() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
+  const { address } = useAccount();
   const detail = useGetUserDetails();
-
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
-  const {
-    category,
-    skills,
-    experienceLevel,
-    preferredLanguage,
-    yearsOfExperience,
-    tagline,
-    bio,
-    rate,
-    availability,
-    avatar,
-    whProjectTitle,
-    whDescription,
-    whDuration,
-    whMediaUrls,
-  } = useGetArtisanData();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const { address } = useAccount();
-  const { isLoading } = useLoading();
-
-  const handleNext = () => {
-    router.push("/marketplace");
-  };
-
-  // Transform and set profile data when all required data is available
   useEffect(() => {
-    if (address && detail) {
-      const fetchedData = {
-        category,
-        skills,
-        experienceLevel,
-        preferredLanguage,
-        yearsOfExperience,
-        tagline,
-        bio,
-        rate,
-        availability,
-        avatar,
-        whProjectTitle: [whProjectTitle],
-        whDescription: [whDescription],
-        whDuration: [whDuration],
-        whMediaUrls,
-      };
+    const fetchArtisanProfile = async () => {
+      if (!address) {
+        setIsLoading(false);
+        return;
+      }
 
-      const transformedProfile = transformProfileData(
-        fetchedData,
-        detail,
-        address
-      );
-      setProfile(transformedProfile);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detail, address]);
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await axios.get(`/api/artisans/${address}`);
+        console.log("Artisan Profile Response:", response.data);
+        const artisanData = response.data.artisan;
+        console.log("Artisan Data:", artisanData);
+
+        if (detail) {
+          const transformedProfile = transformBackendProfileData(artisanData, detail, address);
+          console.log("Transformed Profile:", transformedProfile);
+          setProfile(transformedProfile);
+        }
+      } catch (err) {
+        console.error("Error fetching artisan profile:", err);
+        setError("Failed to load artisan profile.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchArtisanProfile();
+  }, [address, detail]);
 
   if (isLoading || !profile) {
     return <Loading show={false} />;
   }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  const handleNext = () => {
+    router.push("/marketplace");
+  };
 
   return (
     <div>
