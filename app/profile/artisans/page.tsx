@@ -13,7 +13,7 @@ import { ArtisanProfileProps } from "@/utils/profile";
 import { useAccount } from "wagmi";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
-import useGetUserDetails from "@/hooks/useGetUserDetails";
+import useGetArtisanDetails from "@/hooks/useGetArtisanDetails";
 import axios from "@/app/API/axios";
 import { transformBackendProfileData } from "@/utils/transformBackendProfileData";
 
@@ -21,7 +21,7 @@ export default function Profile() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
   const { address } = useAccount();
-  const detail = useGetUserDetails();
+  const detail = useGetArtisanDetails();
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,13 +39,10 @@ export default function Profile() {
 
       try {
         const response = await axios.get(`/api/artisans/${address}`);
-        console.log("Artisan Profile Response:", response.data);
         const artisanData = response.data.artisan;
-        console.log("Artisan Data:", artisanData);
 
         if (detail) {
           const transformedProfile = transformBackendProfileData(artisanData, detail, address);
-          console.log("Transformed Profile:", transformedProfile);
           setProfile(transformedProfile);
         }
       } catch (err) {
