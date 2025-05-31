@@ -1,67 +1,29 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-// import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { wssProvider } from "@/constants/providers";
-import { getRegistryContract } from "@/constants/contracts";
-import {useRouter} from "next/navigation";
 import { toast } from "sonner";
-import { useStoreIPFS } from "@/utils/store";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
+import useRegisterArtisan from "@/hooks/useRegisterArtisan";
+import useRegisterClient from "@/hooks/useRegisterClient";
 
 export default function Role() {
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const signer = wssProvider;
-  const { ipfsUrl } = useStoreIPFS();
-  const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
+  const registerArtisan = useRegisterArtisan();
+  const registerClient = useRegisterClient();
 
   const handleRoleSelection = (role: string) => {
     setSelectedRole(role);
   };
 
   const callRegister = async () => {
-    if (!signer) {
-      toast.warning("Wallet not connected");
-      router.push("/");
-      return;
-    }
-
     startLoading();
     try {
-      const contract = getRegistryContract(signer);
-
-      if (selectedRole === "client") {
-        const estimatedGas = await contract.registerAsClient.estimateGas(
-          ipfsUrl
-        );
-
-        const tx = await contract.registerAsClient(ipfsUrl, {
-          gasLimit: estimatedGas,
-        });
-
-        toast.message("Please wait while we process your transaction.");
-
-        await tx.wait();
-        toast.success("Account created");
-
-        router.push("/role/clients/claim-token");
-      } else if (selectedRole === "artisan") {
-        const estimatedGas = await contract.registerAsArtisan.estimateGas(
-          ipfsUrl
-        );
-
-        const tx = await contract.registerAsArtisan(ipfsUrl, {
-          gasLimit: estimatedGas,
-        });
-
-        toast.message("Please wait while we process your transaction.");
-
-        await tx.wait();
-        toast.success("Account created");
-
-        router.push("/role/artisans/welcome");
+      if (selectedRole === "artisan") {
+        registerArtisan();
+      } else if (selectedRole === "client") {
+        registerClient();
       } else {
         toast.error("Please select a role to continue.");
       }
