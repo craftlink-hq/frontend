@@ -4,22 +4,21 @@ import Image from "next/image";
 import { MdOutlineMenu } from "react-icons/md";
 import { useState } from "react";
 import Button from "../Button";
-// import Link from "next/link";
-// import { links } from "@/utils/links";
 import AnimatedDiv from "@/components/AnimatedDiv";
-import { readOnlyProvider } from "@/constants/providers";
-// import { useEthersProvider } from "@/hooks/useEthersProvider";
 import { useAccount } from "wagmi";
-import { getRegistryContract, getTokenContract } from "@/constants/contracts";
 import { useRouter } from "next/navigation";
 import ConnectWallet from "../ConnectWallet";
+import useIsClient from "@/hooks/useIsClient";
+import useIsArtisan from "@/hooks/useIsArtisan";
+import useHasClaimed from "@/hooks/useHasClaimed";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const provider = readOnlyProvider;
-  // const provider = useEthersProvider();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const router = useRouter();
+  const isClient = useIsClient();
+  const isArtisan = useIsArtisan();
+  const hasClaimed = useHasClaimed();
 
   // Menu items array
   const menuItems = [
@@ -36,22 +35,6 @@ const Header = () => {
 
   const handleLogin = async () => {
     try {
-      if (!provider) {
-        throw new Error("Provider not initialized");
-      }
-
-      const registryContract = getRegistryContract(provider);
-      const tokenContract = getTokenContract(provider);
-
-      const isClient = await registryContract.isClient(address);
-      console.log("Client checked", isClient);
-      const isArtisan = await registryContract.isArtisan(address);
-      console.log("Artisan checked", isArtisan);
-
-      const hasClaimed = await tokenContract.hasClaimed(address);
-      console.log("Claim checked", hasClaimed);
-
-      console.log("Roles checked");
       if (isArtisan) {
         router.push("/marketplace");
       } else if (isClient) {

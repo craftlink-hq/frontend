@@ -10,7 +10,7 @@ import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
 // Set up queryClient
 const queryClient = new QueryClient();
 
-export const SUPPORTED_CHAIN_ID = 4202;
+export const SUPPORTED_CHAIN_ID = 11155111; // to be changed to 4202
 
 if (!projectId) {
   throw new Error("Project ID is not defined");

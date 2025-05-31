@@ -2,44 +2,16 @@
 
 import Image from "next/image";
 import Button from "@/components/Button";
-// import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { wssProvider } from "@/constants/providers";
-import { toast } from "sonner";
-import { getTokenContract } from "@/constants/contracts";
-import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
+import useClaim from "@/hooks/useClaim";
 
 export default function ClaimToken() {
-  const signer = wssProvider;
-  const router = useRouter();
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const claim = useClaim();
+  const { isLoading } = useLoading();
 
   const handleClaim = async () => {
-    if (!signer) {
-      toast.warning("Wallet not connected");
-      router.push("/");
-      return;
-    }
-
-    startLoading();
-    try {
-      const contract = getTokenContract(signer);
-      const gasEstimate = await contract.claim.estimateGas();
-
-      const tx = await contract.claim({
-        gasLimit: gasEstimate,
-      });
-      toast.message("Please wait while we process your transaction.");
-      await tx.wait();
-      toast.success("Token claimed");
-
-      router.push("/role/clients/welcome");
-    } catch (error) {
-      console.error(error); 
-    } finally {
-      stopLoading();
-    }
+    claim();
   };
   return (
     <Loading show={isLoading}>
@@ -51,7 +23,6 @@ export default function ClaimToken() {
           <span className="text-center text-[#D8D6CF] lg:w-[70%] text-balance md:p-8 p-4 font-merriweather">
             Use this token to test secure payments and experience seamless
             transactions.
-            (0xeF840E811b86A753291990B2A6DD219e407d231D)
           </span>
           <div className="relative h-[40%] w-[50%] p-4">
             <Image
