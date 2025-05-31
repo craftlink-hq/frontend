@@ -6,55 +6,53 @@ import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState } from "react";
 import IPFS from "@/hooks/useIPFS";
 import { toast } from "sonner";
-import useIsClient from "./useIsClient";
 import useIsArtisan from "./useIsArtisan";
 
-const useGetUserDetails = () => {
-    const isClient = useIsClient();
+const useGetArtisanDetails = () => {
     const isArtisan = useIsArtisan();
     const { fetchFromIPFS } = IPFS();
     const { address } = useAccount();
-    const [userDetails, setUserDetails] = useState<{
+    const [artisanDetails, setArtisanDetails] = useState<{
         username: string;
         location: string;
     } | null>(null);
 
     useEffect(() => {
-        const fetchUserDetails = async () => {
-            if (isClient === null) return;
+        const fetchArtisanDetails = async () => {
+            if (isArtisan === null) return;
 
             try {
-                if (!isClient && !isArtisan) {
-                    toast.error("You have to be a client or artisan to view details");
+                if (!isArtisan) {
+                    toast.error("Please create an artisan account");
                     return;
                 }
 
                 const contract = getRegistryContract(readOnlyProvider);
-                const details = isClient ? await contract.getClientDetails(address) : await contract.getArtisanDetails(address);
+                const details = await contract.getArtisanDetails(address);
                 
                 if (details?.ipfsHash) {
                     try {
                         const fetchedDetail = await fetchFromIPFS(details.ipfsHash);
-                        setUserDetails(JSON.parse(fetchedDetail));
+                        setArtisanDetails(JSON.parse(fetchedDetail));
                     } catch (error) {
                         toast.error("Error fetching from IPFS");
                         console.error("Error fetching from IPFS:", error);
-                        setUserDetails(null);
+                        setArtisanDetails(null);
                     }
                 }
             } catch (error) {
-                toast.error("Error fetching user details");
-                console.error("Error fetching user details:", error);
+                toast.error("Error fetching artisan details");
+                console.error("Error fetching artisan details:", error);
             }
         }
 
         if (address) {
-            fetchUserDetails();
+            fetchArtisanDetails();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address, isClient, isArtisan]);
+    }, [address, isArtisan]);
 
-    return userDetails;
+    return artisanDetails;
 }
 
-export default useGetUserDetails;
+export default useGetArtisanDetails;
