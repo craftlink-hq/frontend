@@ -4,24 +4,17 @@ import ClientCard from "@/components/PostJob/ClientCard";
 import ClientStatus from "@/components/PostJob/ClientStatus";
 import ProjectDetails from "@/components/PostJob/ProjectDetails";
 import { useGetJobData, useGetClientData } from "@/utils/store";
-import { useEffect, useState } from "react";
-import { Job, Client } from "@/utils/job";
+import { Job } from "@/utils/job";
 import { useAccount } from "wagmi";
 import { useLoading } from "@/hooks/useLoading";
-import IPFS from "@/hooks/useIPFS";
-// import { useEthersProvider } from "@/hooks/useEthersProvider";
-import { readOnlyProvider } from "@/constants/providers";
-import {
-  getGigContract,
-  getRegistryContract,
-  getTokenContract,
-} from "@/constants/contracts";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from "@/app/API/axios";
 import handleApiError, { GigResponse } from "@/app/API/handleApiError";
-// import { useEthersSigner } from "@/hooks/useEthersSigner";
 import { wssProvider } from "@/constants/providers";
+import useGetClientDetails from "@/hooks/useGetClientDetails";
+import useApproveTransaction from "@/hooks/useApproveTransaction";
+import useCreateGig from "@/hooks/useCreateGig";
 
 export default function ProfilePreview() {
   const {
@@ -38,19 +31,12 @@ export default function ProfilePreview() {
   } = useGetJobData();
   const { clientBio, clientAvatar } = useGetClientData();
   const { address } = useAccount();
-  const { fetchFromIPFS } = IPFS();
-  const provider = readOnlyProvider;
-  const [clientDetail, setClientDetail] = useState<Client | null>(null);
+  const clientDetail = useGetClientDetails();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const router = useRouter();
-  const signer = wssProvider;
+  const createGig = useCreateGig();
 
   const handlePostJobClick = async () => {
-    if (!address || !signer) {
-      toast.error("Please connect your wallet first");
-      return;
-    }
-
     startLoading();
     try {
       const jobData = {
@@ -82,33 +68,7 @@ export default function ProfilePreview() {
         ? data.databaseId
         : `0x${data.databaseId}`;
 
-      const tokenContract = getTokenContract(signer);
-      const tokenBalance = await tokenContract.balanceOf(address);
-      if (tokenBalance < amount) {
-        toast.error("Insufficient token balance");
-        return;
-      }
-
-      await tokenContract.approve(process.env.PAYMENT_PROCESSOR, amount);
-
-      const gigContract = getGigContract(signer);
-      const gigGasEstimate = await gigContract.createGig.estimateGas(
-        formattedRoot,
-        formattedDatabaseId,
-        amount
-      );
-      const tx = await gigContract.createGig(
-        formattedRoot,
-        formattedDatabaseId,
-        amount,
-        {
-          gasLimit: gigGasEstimate,
-        }
-      );
-      await tx.wait();
-
-      toast.success("Job posted successfully");
-      router.push("/manage-jobs/clients");
+      createGig(formattedRoot, formattedDatabaseId, amount);
     } catch (error) {
       toast.error("Error posting job");
       console.error(error);
@@ -120,45 +80,6 @@ export default function ProfilePreview() {
   const handleEditJobClick = () => {
     router.push("/role/clients/create-job/title");
   };
-
-  // Fetch client details from IPFS
-  useEffect(() => {
-    const fetchClientDetails = async () => {
-      if (!address || isLoading) return;
-      startLoading();
-
-      try {
-        const contract = provider ? getRegistryContract(provider) : null;
-        if (!contract) {
-          toast.error("Provider not initialized");
-          return;
-        }
-
-        const isClient = contract ? await contract.isClient(address) : false;
-
-        if (!isClient) {
-          toast.error("You are not a client");
-          return;
-        }
-
-        const detail = contract
-          ? await contract.getClientDetails(address)
-          : null;
-        if (detail?.ipfsHash) {
-          const fetchedDetail = await fetchFromIPFS(detail.ipfsHash);
-          setClientDetail(JSON.parse(fetchedDetail));
-        }
-      } catch (error) {
-        toast.error("Error fetching client details");
-        console.error(error);
-      } finally {
-        stopLoading();
-      }
-    };
-
-    fetchClientDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Transform job data into the Job interface
   const jobData: Job = {
