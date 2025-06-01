@@ -13,14 +13,11 @@ import { ArtisanProfileProps } from "@/utils/profile";
 import { useAccount } from "wagmi";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
-import IPFS from "@/hooks/useIPFS";
-// import { useEthersProvider } from "@/hooks/useEthersProvider";
-import { readOnlyProvider } from "@/constants/providers";
-import { getRegistryContract } from "@/constants/contracts";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from '@/app/API/axios';
 import handleApiError, { ArtisanResponse } from "@/app/API/handleApiError";
+import useGetArtisanDetails from "@/hooks/useGetArtisanDetails";
 
 export default function ProfilePreview() {
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
@@ -42,16 +39,10 @@ export default function ProfilePreview() {
   } = useGetArtisanData();
   const router = useRouter();
   
-  const { fetchFromIPFS } = IPFS();
   const { address } = useAccount();
-  const provider = readOnlyProvider;
-  // const provider = useEthersProvider();
-  const [detail, setDetail] = useState<{
-    username: string;
-    location: string;
-  } | null>(null);
+  const detail = useGetArtisanDetails();
   const { isLoading, startLoading, stopLoading } = useLoading();
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isInitialLoading] = useState(true);
 
   const handleNext = async () => {
     if (!profile || !address) {
@@ -99,50 +90,6 @@ export default function ProfilePreview() {
       stopLoading();
     }
   };
-
-  // Fetch user details from IPFS
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (!address || isLoading) return;
-      startLoading();
-
-      try {
-        const contract = provider ? getRegistryContract(provider) : null;
-        if (!contract) {
-          toast.error("Provider not initialized");
-          return;
-        }
-
-        const isArtisan = contract ? await contract.isArtisan(address) : false;
-
-        if (!isArtisan) {
-          toast.error("User is not an artisan");
-          return;
-        }
-
-        const ipfsDetail = contract ? await contract.getArtisanDetails(address) : null;
-
-        if (ipfsDetail && ipfsDetail.ipfsHash) {
-          try {
-            const fetchedDetail = await fetchFromIPFS(ipfsDetail.ipfsHash);
-            setDetail(JSON.parse(fetchedDetail));
-          } catch (ipfsError) {
-            toast.error("Error fetching from IPFS");
-            console.error(ipfsError);
-          }
-        }
-      } catch (error) {
-        toast.error("Error fetching user details");
-        console.error(error);
-      } finally {
-        stopLoading();
-        setIsInitialLoading(false);
-      }
-    };
-
-    fetchUserDetails();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Transform and set profile data when all required data is available
   useEffect(() => {
