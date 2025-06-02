@@ -5,32 +5,18 @@ import { wssProvider } from "@/constants/providers";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getGigContract } from "@/constants/contracts";
+import useApplyForGig from "@/hooks/useApplyForGig";
 
 const Apply: FC<{
   onCancel?: () => void;
   databaseId?: string;
 }> = ({onCancel, databaseId}) => {
+  const applyForGig = useApplyForGig();
   const router = useRouter();
   const signer = wssProvider;
 
   const handleApply = async () => {
-    if (!signer) {
-      toast.warning("Wallet not connected");
-      router.push("/");
-      return;
-    }
-
-    try {
-      const gigContract = getGigContract(signer);
-      const tx = await gigContract.applyForGig(databaseId);
-      await tx.wait();
-
-      toast.success("Successfully applied for job");
-      router.push("/manage-jobs/artisans");
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-      console.error(error);
-    }
+    applyForGig(databaseId!);
   };
 
   return (
