@@ -6,11 +6,9 @@ import SearchBar from "./SearchBar";
 import Link from "next/link";
 import { links } from "@/utils/links";
 import { AccountCard } from "@/utils/profile";
-import { useAccount } from 'wagmi';
-// import { useEthersProvider } from "@/hooks/useEthersProvider";
-import { readOnlyProvider } from '@/constants/providers';
-import { getRegistryContract } from "@/constants/contracts";
 import { toast } from "sonner";
+import useIsArtisan from '@/hooks/useIsArtisan';
+import useIsClient from '@/hooks/useIsClient';
 
 interface Header {
   isActive: (path: string) => boolean;
@@ -18,8 +16,8 @@ interface Header {
 
 const HomeHeader = ({ isActive }: Header) => {
   const [userCard, setUserCard] = useState<AccountCard | null>(null);
-  const { address } = useAccount();
-  const provider = readOnlyProvider; // Use the read-only provider for fetching user roles
+  const isArtisan = useIsArtisan();
+  const isClient = useIsClient();
 
   // Menu items array
   const menuItems = [
@@ -31,17 +29,7 @@ const HomeHeader = ({ isActive }: Header) => {
 
   useEffect(() => {
     const determineUserRole = async () => {
-      if (!address || !provider) return;
-
       try {
-        const contract = getRegistryContract(provider);
-        
-        // Check if the address is an artisan
-        const isArtisan = await contract.isArtisan(address);
-        
-        // Check if the address is a client
-        const isClient = await contract.isClient(address);
-
         // Set the user card based on role
         if (isArtisan) {
           setUserCard({
@@ -66,7 +54,7 @@ const HomeHeader = ({ isActive }: Header) => {
     };
 
     determineUserRole();
-  }, [address, provider]);
+  }, []);
 
   return (
     <div className="bg-[#333333] bg-opacity-[98%] bg-header z-10 ">
