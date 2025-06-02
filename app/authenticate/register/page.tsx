@@ -28,9 +28,11 @@ export default function Register() {
 
     startLoading();
     try {
+      const joinedDate = new Date().toISOString(); // To be displayed using `new Date(user.joined).toLocaleDateString()`
       const data = {
         username,
         location,
+        joined: joinedDate,
       };
       const url = await uploadToIPFS(JSON.stringify(data));
       console.log("IPFS Url: ", url);
