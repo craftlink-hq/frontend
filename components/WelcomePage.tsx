@@ -6,10 +6,10 @@ import { toast } from "sonner";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "./Loading";
 import { useRouter } from "next/navigation";
-import useIsArtisan from "@/hooks/useIsArtisan";
-import useIsClient from "@/hooks/useIsClient";
-import useGetArtisanDetails from "@/hooks/useGetArtisanDetails";
-import useGetClientDetails from "@/hooks/useGetClientDetails";
+import useIsArtisan from "@/hooks/Registry/useIsArtisan";
+import useIsClient from "@/hooks/Registry/useIsClient";
+import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
+import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
 
 interface WelcomeProps {
   image: string;

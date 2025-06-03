@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from '@/app/API/axios';
 import handleApiError, { ArtisanResponse } from "@/app/API/handleApiError";
-import useGetArtisanDetails from "@/hooks/useGetArtisanDetails";
+import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
 
 export default function ProfilePreview() {
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);

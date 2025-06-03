@@ -4,8 +4,8 @@ import Image from "next/image";
 import { toast } from "sonner";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
-import useRegisterArtisan from "@/hooks/useRegisterArtisan";
-import useRegisterClient from "@/hooks/useRegisterClient";
+import useRegisterArtisan from "@/hooks/Registry/useRegisterArtisan";
+import useRegisterClient from "@/hooks/Registry/useRegisterClient";
 
 export default function Role() {
   const [selectedRole, setSelectedRole] = useState<string>("");

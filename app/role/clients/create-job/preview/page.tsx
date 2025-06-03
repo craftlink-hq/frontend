@@ -11,8 +11,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from "@/app/API/axios";
 import handleApiError, { GigResponse } from "@/app/API/handleApiError";
-import useGetClientDetails from "@/hooks/useGetClientDetails";
-import useCreateGig from "@/hooks/useCreateGig";
+import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
+import useCreateGig from "@/hooks/GigMarketplace/useCreateGig";
 
 export default function ProfilePreview() {
   const {

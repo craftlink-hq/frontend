@@ -14,14 +14,14 @@ type ErrorWithReason = {
   message?: string;
 };
 
-const useApplyForGig = () => {
+const useHireArtisan = () => {
     const chainId = useChainId();
     const { isConnected } = useAccount();
     const { walletProvider } = useAppKitProvider<Provider>('eip155');
     const router = useRouter();
 
     return useCallback(
-        async (databaseId: string) => {
+        async (databaseId: string, artisanAddress: string) => {
             if (!isConnected) {
                 toast.warning("Please connect your wallet first.");
                 return;
@@ -36,9 +36,13 @@ const useApplyForGig = () => {
             const contract = getGigContract(signer);
 
             try {
-                const gasEstimate = await contract.applyForGig.estimateGas(databaseId);
-                const txn = await contract.applyForGig(databaseId, { gasLimit: gasEstimate });
-
+                const gasEstimate = await contract.hireArtisan.estimateGas(databaseId, artisanAddress);
+                const txn = await contract.hireArtisan(
+                    databaseId, 
+                    artisanAddress, 
+                    { gasLimit: gasEstimate }
+                );
+                
                 toast.message("Please wait while we process your transaction.");
                 const receipt = await txn.wait();
 
@@ -46,38 +50,31 @@ const useApplyForGig = () => {
                     throw new Error("Transaction failed");
                 }
 
-                toast.success("Application Submitted");
-                router.push("/manage-jobs/artisans");
+                toast.success("Artisan hired successfully");
+                router.push("/manage-jobs/clients/active");
             } catch (error) {
                 const err = error as ErrorWithReason;
-                let errorText: string;
-
-                if (err?.reason === "Invalid gig ID") {
-                    errorText = "The gig ID is invalid";
+                let errorMessage = "An error occurred while hiring the artisan.";
+                
+                if (err.reason === "Not gig owner") {
+                    errorMessage = "You don't own this gig.";
+                } else if (err.reason === "Artisan already hired") {
+                    errorMessage = "You have already hired an artisan for this gig.";
+                } else if (err.reason === "Gig is closed") {
+                    errorMessage = "This gig is already closed.";
+                } else if (err.reason === "Not an applicant") {
+                    errorMessage = "This artisan has not applied for the gig.";
+                } else if (err.reason === "Invalid gig ID") {
+                    errorMessage = "The gig ID is invalid.";
                 }
-                else if (err?.reason === "Not registered as an artisan") {
-                    errorText = "You must register as an artisan to apply for gigs";
-                }
-                else if (err?.reason === "Unverified artisan") {
-                    errorText = "You must be a verified artisan to apply for gigs";
-                }
-                else if (err?.reason === "Gig is closed") {
-                    errorText = "This gig is closed for applications";
-                }
-                else if (err?.reason === "Artisan already hired") {
-                    errorText = "An artisan has already been hired for this gig";
-                }
-                else {
-                    // console.log(err?.message);
-                    
-                    errorText ="Trying to resolve error!";
-                }
-
-                toast.warning(`Error: ${errorText}`);
+                
+                toast.error(errorMessage);
+                console.error("Hire artisan error:", error);
             }
         },
-        [chainId, isConnected, walletProvider]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [chainId, isConnected]
     );
 };
 
-export default useApplyForGig;
+export default useHireArtisan;

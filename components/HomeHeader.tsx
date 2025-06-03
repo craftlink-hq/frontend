@@ -7,8 +7,8 @@ import Link from "next/link";
 import { links } from "@/utils/links";
 import { AccountCard } from "@/utils/profile";
 import { toast } from "sonner";
-import useIsArtisan from '@/hooks/useIsArtisan';
-import useIsClient from '@/hooks/useIsClient';
+import useIsArtisan from '@/hooks/Registry/useIsArtisan';
+import useIsClient from '@/hooks/Registry/useIsClient';
 
 interface Header {
   isActive: (path: string) => boolean;

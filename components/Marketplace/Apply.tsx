@@ -1,6 +1,6 @@
 "use client";
 import { FC } from "react";
-import useApplyForGig from "@/hooks/useApplyForGig";
+import useApplyForGig from "@/hooks/GigMarketplace/useApplyForGig";
 
 const Apply: FC<{
   onCancel?: () => void;
