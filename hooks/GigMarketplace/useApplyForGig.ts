@@ -14,14 +14,14 @@ type ErrorWithReason = {
   message?: string;
 };
 
-const useUpdateGigInfo = () => {
+const useApplyForGig = () => {
     const chainId = useChainId();
     const { isConnected } = useAccount();
     const { walletProvider } = useAppKitProvider<Provider>('eip155');
     const router = useRouter();
 
     return useCallback(
-        async (databaseId: string, newRootHash: string) => {
+        async (databaseId: string) => {
             if (!isConnected) {
                 toast.warning("Please connect your wallet first.");
                 return;
@@ -36,13 +36,9 @@ const useUpdateGigInfo = () => {
             const contract = getGigContract(signer);
 
             try {
-                const gasEstimate = await contract.updateGigInfo.estimateGas(databaseId, newRootHash);
-                const txn = await contract.updateGigInfo(
-                    databaseId, 
-                    newRootHash, 
-                    { gasLimit: gasEstimate }
-                );
-                
+                const gasEstimate = await contract.applyForGig.estimateGas(databaseId);
+                const txn = await contract.applyForGig(databaseId, { gasLimit: gasEstimate });
+
                 toast.message("Please wait while we process your transaction.");
                 const receipt = await txn.wait();
 
@@ -50,21 +46,39 @@ const useUpdateGigInfo = () => {
                     throw new Error("Transaction failed");
                 }
 
-                toast.success("Gig information updated successfully");
-                router.push("/manage-jobs/clients");
+                toast.success("Application Submitted");
+                router.push("/manage-jobs/artisans");
             } catch (error) {
                 const err = error as ErrorWithReason;
-                const errorMessage = err.reason === "Not gig owner" 
-                    ? "You are not the owner of this gig." 
-                    : err.reason === "Gig finished"
-                    ? "This gig is already completed or closed."
-                    : "An error occurred while updating the gig information.";
-                toast.error(errorMessage);
-                console.error("Gig update error:", error);
+                let errorText: string;
+
+                if (err?.reason === "Invalid gig ID") {
+                    errorText = "The gig ID is invalid";
+                }
+                else if (err?.reason === "Not registered as an artisan") {
+                    errorText = "You must register as an artisan to apply for gigs";
+                }
+                else if (err?.reason === "Unverified artisan") {
+                    errorText = "You must be a verified artisan to apply for gigs";
+                }
+                else if (err?.reason === "Gig is closed") {
+                    errorText = "This gig is closed for applications";
+                }
+                else if (err?.reason === "Artisan already hired") {
+                    errorText = "An artisan has already been hired for this gig";
+                }
+                else {
+                    // console.log(err?.message);
+                    
+                    errorText ="Trying to resolve error!";
+                }
+
+                toast.warning(`Error: ${errorText}`);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [chainId, isConnected]
     );
 };
 
-export default useUpdateGigInfo;
+export default useApplyForGig;

@@ -13,7 +13,7 @@ import { ArtisanProfileProps } from "@/utils/profile";
 import { useAccount } from "wagmi";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
-import useGetArtisanDetails from "@/hooks/useGetArtisanDetails";
+import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
 import axios from "@/app/API/axios";
 import { transformBackendProfileData } from "@/utils/transformBackendProfileData";
 
