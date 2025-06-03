@@ -1,10 +1,5 @@
 "use client";
 import { FC } from "react";
-// import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { wssProvider } from "@/constants/providers";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { getGigContract } from "@/constants/contracts";
 import useApplyForGig from "@/hooks/useApplyForGig";
 
 const Apply: FC<{
@@ -12,8 +7,6 @@ const Apply: FC<{
   databaseId?: string;
 }> = ({onCancel, databaseId}) => {
   const applyForGig = useApplyForGig();
-  const router = useRouter();
-  const signer = wssProvider;
 
   const handleApply = async () => {
     applyForGig(databaseId!);

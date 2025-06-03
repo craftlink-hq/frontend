@@ -11,9 +11,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from "@/app/API/axios";
 import handleApiError, { GigResponse } from "@/app/API/handleApiError";
-import { wssProvider } from "@/constants/providers";
 import useGetClientDetails from "@/hooks/useGetClientDetails";
-import useApproveTransaction from "@/hooks/useApproveTransaction";
 import useCreateGig from "@/hooks/useCreateGig";
 
 export default function ProfilePreview() {

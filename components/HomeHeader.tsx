@@ -54,7 +54,7 @@ const HomeHeader = ({ isActive }: Header) => {
     };
 
     determineUserRole();
-  }, []);
+  }, [isArtisan, isClient]);
 
   return (
     <div className="bg-[#333333] bg-opacity-[98%] bg-header z-10 ">
