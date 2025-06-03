@@ -18,7 +18,7 @@ interface WelcomeProps {
 }
 
 const WelcomePage = ({ image, role }: WelcomeProps) => {
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { isLoading } = useLoading(); // startLoading, stopLoading 
   const [userRole, setUserRole] = useState("");
   const isArtisan = useIsArtisan();
   const isClient = useIsClient();

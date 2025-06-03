@@ -56,19 +56,20 @@ const useMarkComplete = () => {
                 let errorMessage = "An error occurred while marking the gig as complete.";
                 
                 if (err.reason === "Not hired artisan") {
-                    errorMessage = "You are not the hired artisan for this gig.";
+                    errorMessage = "You are not the artisan hired for this gig.";
                 } else if (err.reason === "Gig finished") {
-                    errorMessage = "This gig is already completed or closed.";
+                    errorMessage = "This gig has already been marked as complete.";
                 } else if (err.reason === "Already marked") {
-                    errorMessage = "You have already marked this gig as complete.";
+                    errorMessage = "You already marked this gig as complete.";
                 } else if (err.reason === "Invalid gig ID") {
-                    errorMessage = "The gig ID is invalid.";
+                    errorMessage = "This gig is invalid or does not exist.";
                 }
                 
                 toast.error(errorMessage);
                 console.error("Mark complete error:", error);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [chainId, isConnected]
     );
 };

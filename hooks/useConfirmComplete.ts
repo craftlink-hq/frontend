@@ -57,17 +57,18 @@ const useConfirmComplete = () => {
                 let errorMessage = "An error occurred while confirming gig completion.";
                 
                 if (err.reason === "Not gig owner") {
-                    errorMessage = "You don't own this gig.";
+                    errorMessage = "You are not the owner of this gig.";
                 } else if (err.reason === "Gig not completed || Closed") {
-                    errorMessage = "The artisan has not marked this gig as complete or the gig is already closed.";
+                    errorMessage = "The artisan has not marked this gig as completed or the gig is already closed.";
                 } else if (err.reason === "Invalid gig ID") {
-                    errorMessage = "The gig ID is invalid.";
+                    errorMessage = "This gig is invalid or does not exist.";
                 }
                 
                 toast.error(errorMessage);
                 console.error("Confirm complete error:", error);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [chainId, isConnected]
     );
 };

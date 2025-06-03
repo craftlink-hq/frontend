@@ -56,19 +56,20 @@ const useCloseGig = () => {
                 let errorMessage = "An error occurred while closing the gig.";
                 
                 if (err.reason === "Not gig owner") {
-                    errorMessage = "You don't own this gig.";
+                    errorMessage = "You are not the owner of this gig.";
                 } else if (err.reason === "Cannot close active gig") {
-                    errorMessage = "You cannot close a gig that has an artisan hired.";
+                    errorMessage = "You cannot close an active gig.";
                 } else if (err.reason === "Gig already Completed || Closed") {
-                    errorMessage = "This gig is already completed or closed.";
+                    errorMessage = "This gig has already been completed or closed.";
                 } else if (err.reason === "Invalid gig ID") {
-                    errorMessage = "The gig ID is invalid.";
+                    errorMessage = "This gig is invalid or does not exist.";
                 }
                 
                 toast.error(errorMessage);
                 console.error("Close gig error:", error);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [chainId, isConnected]
     );
 };
