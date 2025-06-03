@@ -49,20 +49,20 @@ const useMarkComplete = () => {
                     throw new Error("Transaction failed");
                 }
 
-                toast.success("Job marked as complete");
+                toast.success("Gig marked as complete");
                 router.push("/manage-jobs/artisans/completed");
             } catch (error) {
                 const err = error as ErrorWithReason;
-                let errorMessage = "An error occurred while marking the job as complete.";
+                let errorMessage = "An error occurred while marking the gig as complete.";
                 
                 if (err.reason === "Not hired artisan") {
-                    errorMessage = "You are not the hired artisan for this job.";
+                    errorMessage = "You are not the hired artisan for this gig.";
                 } else if (err.reason === "Gig finished") {
-                    errorMessage = "This job is already completed or closed.";
+                    errorMessage = "This gig is already completed or closed.";
                 } else if (err.reason === "Already marked") {
-                    errorMessage = "You have already marked this job as complete.";
+                    errorMessage = "You have already marked this gig as complete.";
                 } else if (err.reason === "Invalid gig ID") {
-                    errorMessage = "The job ID is invalid.";
+                    errorMessage = "The gig ID is invalid.";
                 }
                 
                 toast.error(errorMessage);

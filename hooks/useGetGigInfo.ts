@@ -1,13 +1,11 @@
 "use client";
 
 import { getGigContract } from "@/constants/contracts";
-import { useAccount } from "wagmi";
 import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const useGetGigInfo = (databaseId: string) => {
-    const { address } = useAccount();
     const [gigInfo, setGigInfo] = useState<{
         client: string;
         hiredArtisan: string;
@@ -40,10 +38,10 @@ const useGetGigInfo = (databaseId: string) => {
             }
         }
 
-        if (address && databaseId) {
+        if (databaseId) {
             fetchGigInfo();
         }
-    }, [address, databaseId]);
+    }, [databaseId]);
 
     return gigInfo;
 }

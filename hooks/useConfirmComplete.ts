@@ -50,18 +50,18 @@ const useConfirmComplete = () => {
                     throw new Error("Transaction failed");
                 }
 
-                toast.success("Job completion confirmed and payment released to artisan");
+                toast.success("Gig completion confirmed and payment released to artisan");
                 router.push("/manage-jobs/clients/completed");
             } catch (error) {
                 const err = error as ErrorWithReason;
-                let errorMessage = "An error occurred while confirming job completion.";
+                let errorMessage = "An error occurred while confirming gig completion.";
                 
                 if (err.reason === "Not gig owner") {
                     errorMessage = "You don't own this gig.";
                 } else if (err.reason === "Gig not completed || Closed") {
-                    errorMessage = "The artisan has not marked this job as complete or the job is already closed.";
+                    errorMessage = "The artisan has not marked this gig as complete or the gig is already closed.";
                 } else if (err.reason === "Invalid gig ID") {
-                    errorMessage = "The job ID is invalid.";
+                    errorMessage = "The gig ID is invalid.";
                 }
                 
                 toast.error(errorMessage);

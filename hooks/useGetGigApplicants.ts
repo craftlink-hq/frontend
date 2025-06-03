@@ -1,13 +1,11 @@
 "use client";
 
 import { getGigContract } from "@/constants/contracts";
-import { useAccount } from "wagmi";
 import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const useGetGigApplicants = (databaseId: string) => {
-    const { address } = useAccount();
     const [applicants, setApplicants] = useState<string[] | null>(null);
 
     useEffect(() => {
@@ -24,10 +22,10 @@ const useGetGigApplicants = (databaseId: string) => {
             }
         }
 
-        if (address && databaseId) {
+        if (databaseId) {
             fetchGigApplicants();
         }
-    }, [address, databaseId]);
+    }, [databaseId]);
 
     return applicants;
 }

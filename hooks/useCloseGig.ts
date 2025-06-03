@@ -49,20 +49,20 @@ const useCloseGig = () => {
                     throw new Error("Transaction failed");
                 }
 
-                toast.success("Job closed successfully and funds refunded");
+                toast.success("Gig closed successfully and he funds have been refunded.");
                 router.push("/manage-jobs/clients");
             } catch (error) {
                 const err = error as ErrorWithReason;
-                let errorMessage = "An error occurred while closing the job.";
+                let errorMessage = "An error occurred while closing the gig.";
                 
                 if (err.reason === "Not gig owner") {
-                    errorMessage = "You don't own this job.";
+                    errorMessage = "You don't own this gig.";
                 } else if (err.reason === "Cannot close active gig") {
-                    errorMessage = "You cannot close a job that has an artisan hired.";
+                    errorMessage = "You cannot close a gig that has an artisan hired.";
                 } else if (err.reason === "Gig already Completed || Closed") {
-                    errorMessage = "This job is already completed or closed.";
+                    errorMessage = "This gig is already completed or closed.";
                 } else if (err.reason === "Invalid gig ID") {
-                    errorMessage = "The job ID is invalid.";
+                    errorMessage = "The gig ID is invalid.";
                 }
                 
                 toast.error(errorMessage);

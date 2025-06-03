@@ -1,13 +1,11 @@
 "use client";
 
 import { getGigContract } from "@/constants/contracts";
-import { useAccount } from "wagmi";
 import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const useGetLatestRootHash = () => {
-    const { address } = useAccount();
     const [rootHash, setRootHash] = useState<string | null>(null);
 
     useEffect(() => {
@@ -24,10 +22,8 @@ const useGetLatestRootHash = () => {
             }
         }
 
-        if (address) {
-            fetchLatestRootHash();
-        }
-    }, [address]);
+        fetchLatestRootHash();
+    }, []);
 
     return rootHash;
 }
