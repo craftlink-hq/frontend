@@ -28,16 +28,27 @@ const metadata = {
 export const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [sepolia], // [mainnet, arbitrum, avalanche, base, optimism, polygon]
-  defaultNetwork: mainnet,
+  networks: [mainnet, sepolia], // [mainnet, arbitrum, avalanche, base, optimism, polygon]
+  defaultNetwork: sepolia,
   metadata: metadata,
   features: {
-    analytics: true, // Optional - defaults to your Cloud configuration
+    email: true,
+    socials: [
+      "google",
+      "x",
+      "github",
+      "discord",
+      "apple",
+      "facebook",
+      "farcaster",
+    ],
+    emailShowWallets: false, // if true, will show all wallets
   },
+  allWallets: "SHOW",
   themeVariables: {
     "--w3m-accent": "#262208",
     "--w3m-color-mix": "#333333",
-    "--w3m-color-mix-strength": 100,
+    "--w3m-color-mix-strength": 20,
   },
 });
 
