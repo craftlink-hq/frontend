@@ -18,12 +18,12 @@ export const useStoreIPFS = create(
     )
 );
 
-// interface WorkHistoryItem {
-//   projectTitle: string;
-//   description: string;
-//   duration: string;
-//   mediaUrls: string[]; // Array of URLs pointing to uploaded media files
-// }
+interface WorkHistoryItem {
+  projectTitle: string;
+  description: string;
+  duration: string;
+  mediaUrls: string[]; // Array of URLs pointing to uploaded media files
+}
 
 interface artisanData {
   category: string;
@@ -36,11 +36,7 @@ interface artisanData {
   rate: number;
   availability: boolean;
   avatar: string;
-  whProjectTitle: string;
-  whDescription: string;
-  whDuration: string;
-  whMediaUrls: string[];
-//   workHistory: WorkHistoryItem[];
+  workHistory: WorkHistoryItem[];
   setCategory: (category: string) => void;
   setSelectedSkills: (skills: string) => void;
   setExperienceLevel: (level: string) => void;
@@ -51,15 +47,9 @@ interface artisanData {
   setRate: (rate: number) => void;
   setAvailability: (availability: boolean) => void;
   setAvatar: (avatar: string) => void;
-  setWhProjectTitle: (title: string) => void;
-  setWhDescription: (description: string) => void;
-  setWhDuration: (duration: string) => void;
-  setWhMediaUrls: (mediaUrls: string[]) => void;
-
-//   addWorkHistoryItem: (item: WorkHistoryItem) => void;
-//   updateWorkHistoryItem: (index: number, item: WorkHistoryItem) => void;
-//   removeWorkHistoryItem: (index: number) => void;
-//   uploadMedia: (file: File) => Promise<string>;
+  addWorkHistoryItem: (item: WorkHistoryItem) => void;
+  updateWorkHistoryItem: (index: number, item: WorkHistoryItem) => void;
+  removeWorkHistoryItem: (index: number) => void;
 }
 
 export const useGetArtisanData = create<artisanData>()(
@@ -75,10 +65,7 @@ export const useGetArtisanData = create<artisanData>()(
             rate: 1,
             availability: false,
             avatar: "",
-            whProjectTitle: "",
-            whDescription: "",
-            whDuration: "",
-            whMediaUrls: [],
+            workHistory: [],
             setCategory: (category) => set({ category: category }),
             setSelectedSkills: (skill) =>
                 set((state) => {
@@ -98,12 +85,17 @@ export const useGetArtisanData = create<artisanData>()(
             setRate: (rate) => set({ rate: rate }),
             setAvailability: (availability) => set({ availability: availability }),
             setAvatar: (avatar) => set({ avatar: avatar }),
-            setWhProjectTitle: (title) => set({ whProjectTitle: title }),
-            setWhDescription: (description) => set({ whDescription: description }),
-            setWhDuration: (duration) => set({ whDuration: duration }),
-            setWhMediaUrls: (mediaUrls) => set({ whMediaUrls: mediaUrls }),
-            
-            
+            addWorkHistoryItem: (item) => set((state) => ({
+              workHistory: [...state.workHistory, item]
+            })),
+            updateWorkHistoryItem: (index, item) => set((state) => {
+              const workHistory = [...state.workHistory];
+              workHistory[index] = item;
+              return { workHistory };
+            }),
+            removeWorkHistoryItem: (index) => set((state) => ({
+              workHistory: state.workHistory.filter((_, i) => i !== index)
+            })),   
         }),
         {
             name: "new-artisan-data",
@@ -114,8 +106,12 @@ export const useGetArtisanData = create<artisanData>()(
 interface clientData {
   clientBio: string;
   clientAvatar: string;
+  preferredLanguage: string;
+  joined: string;
   setClientBio: (bio: string) => void;
   setClientAvatar: (avatar: string) => void;
+  setPreferredLanguage: (language: string) => void;
+  setJoined: (joined: string) => void;
 }
 
 export const useGetClientData = create<clientData>()(
@@ -123,8 +119,12 @@ export const useGetClientData = create<clientData>()(
     (set) => ({
         clientBio: "",
         clientAvatar: "",
+        preferredLanguage: "",
+        joined: "",
         setClientBio: (bio) => set({ clientBio: bio }),
         setClientAvatar: (avatar) => set({ clientAvatar: avatar }),
+        setPreferredLanguage: (language) => set({ preferredLanguage: language }),
+        setJoined: (joined) => set({ joined: joined }),
     }),
     {
       name: "new-client-data",
@@ -199,32 +199,3 @@ export const useGetJobData = create<JobData>()(
     }
   )
 );
-
-// TO BE IMPLEMENTED LATER
-
-// workHistory: [],
-
-// addWorkHistoryItem: (item) =>
-//                 set((state) => ({
-//                     workHistory: [...state.workHistory, item],
-//                 })),
-//             updateWorkHistoryItem: (index, item) =>
-//                 set((state) => {
-//                     const workHistory = state.workHistory;
-//                     workHistory[index] = item;
-//                     return { workHistory: workHistory };
-//                 }),
-//             removeWorkHistoryItem: (index) =>
-//                 set((state) => ({
-//                     workHistory: state.workHistory.filter((_, i) => i !== index),
-//                 })),
-//             uploadMedia: async (file: string | Blob) => {
-//                 const formData = new FormData();
-//                 formData.append("file", file);
-//                 const response = await fetch("https://api.example.com/upload", {
-//                     method: "POST",
-//                     body: formData,
-//                 });
-//                 const data = await response.json();
-//                 return data.url;
-//             },
