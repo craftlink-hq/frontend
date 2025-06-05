@@ -32,10 +32,7 @@ export default function ProfilePreview() {
     rate,
     availability,
     avatar,
-    whProjectTitle,
-    whDescription,
-    whDuration,
-    whMediaUrls 
+    workHistory,
   } = useGetArtisanData();
   const router = useRouter();
   
@@ -52,14 +49,14 @@ export default function ProfilePreview() {
 
     startLoading();
     try {
-      const portfolio = profile.portfolio.map(item => ({
-        projectTitle: item.title,
-        projectDuration: { "weeks": item.duration },
-        description: item.desc,
-        files: [{
-          "type": "IMAGE",
-          "url": item.imgSrc
-        }],
+      const portfolio = workHistory.map(item => ({
+        projectTitle: item.projectTitle,
+        projectDuration: { weeks: parseInt(item.duration) || 0 }, // Adjust parsing as needed
+        description: item.description,
+        files: item.mediaUrls.map(url => ({
+          type: "IMAGE",
+          url: url
+        })),
       }));
 
       const artisanProfileData = {
@@ -105,10 +102,7 @@ export default function ProfilePreview() {
         rate,
         availability,
         avatar,
-        whProjectTitle: [whProjectTitle],
-        whDescription: [whDescription],
-        whDuration: [whDuration],
-        whMediaUrls
+        workHistory
       };
 
       const transformedProfile = transformProfileData(fetchedData, detail, address);
