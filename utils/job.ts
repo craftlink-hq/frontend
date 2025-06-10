@@ -143,6 +143,7 @@ const fashionDesigner = {
   experienceLevel: "Intermediate",
   price: 1500,
   rating: 3.5,
+  contextLink: "https://pinterest.com/fashion-inspiration",
   projectDescription: `We’re seeking a highly skilled and experienced tailor to bring our upcoming fashion collection to life. The project involves creating 15 bespoke pieces, including evening gowns, tailored suits, and casual wear, designed to align with the theme of elegance and contemporary style. Detailed sketches and fabric materials will be provided for each piece.
 The tailor is expected to:
 
