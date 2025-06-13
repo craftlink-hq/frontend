@@ -8,7 +8,7 @@ import Portfolio from "@/components/Profile/Portfolio";
 import Review from "@/components/Profile/Review";
 import Settings from "@/components/Profile/Settings";
 import ProfileCard from "@/components/Profile/ProfileCard";
-import TokenBalance from "@/components/Profile/TokenBalance";
+import EarningsDisplay from "@/components/Profile/TokenBalance";
 import { usePathname } from "next/navigation";
 // import type { ArtisanProfileProps } from "@/utils/profile"
 import { dummyProfile as profile } from "@/utils/profile";
@@ -70,24 +70,44 @@ export default function Profile() {
   //   router.push("/marketplace")
   // }
 
+  const handleClaimCraftcoin = () => {
+    // Set the current date as the last claim date
+    // const now = new Date();
+    // setLastClaimDate(now.toISOString().split("T")[0]);
+
+    // Here you would typically call an API to process the claim
+    console.log("Claiming Craftcoin...");
+  };
+
+  const handleBuyCraftcoin = () => {
+    // Here you would typically redirect to a purchase page or open a modal
+    console.log("Buying Craftcoin...");
+  };
+
   return (
     <div>
       <div className="fixed z-50 backdrop-blur-3xl bg-opacity-100 h-[75px] w-full">
         <ProfileHeader isActive={isActive} />
       </div>
-      <div className="pt-24 px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
+      <div className="pt-24 px-4 flex flex-col gap-y-4  md:px-16 2xl:px-32">
         <div className="w-fit pt-8">
           <h1 className="font-bold text-xl">PROFILE</h1>
           <p className="border-b-2 border-yellow w-[80%]"></p>
         </div>
 
         {/* New Profile Header Section */}
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-2">
           <div className="lg:col-span-2 h-full">
             <ProfileCard profile={profile} />
           </div>
           <div className="lg:col-span-1">
-            <TokenBalance />
+            <EarningsDisplay
+              availableAmount={25}
+              totalEarned={1000}
+              craftcoinBalance={500}
+              onClaimCraftcoin={handleClaimCraftcoin}
+              onBuyCraftcoin={handleBuyCraftcoin}
+            />
           </div>
         </div>
 

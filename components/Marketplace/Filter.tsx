@@ -74,11 +74,11 @@ const Filter = ({ filters }: { filters: FilterProps[] }) => {
               </button>
               {openFilters[filter] && (
                 <div className="px-2 mt-2">
-                  <div className="flex justify-between bg-[#F2E8CF0A] text-[#B5B4AD] py-2 px-4 rounded-md border border-[#FCFBF726]">
+                  <div className="flex justify-between bg-[#F2E8CF0A] text-[#B5B4AD] py-2 px-4 rounded-md border rounded-b-none border-b-0 border-[#FCFBF726]">
                     Select category
                     <RiArrowDropDownLine size={24} color={"#B5B4AD"} />
                   </div>
-                  <ul className="w-full p-4 border rounded-md shadow-md bg-[#26220826] border-t-0 border-[#FCFBF726] space-y-2">
+                  <ul className="w-full p-4 border rounded-md shadow-md bg-[#26220826] border-t-0 rounded-t-none border-[#FCFBF726] space-y-2">
                     {options.map((option) => (
                       <li key={option} className="flex gap-4 capitalize">
                         <div className="relative h-[20px] w-[20px]">

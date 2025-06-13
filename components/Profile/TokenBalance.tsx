@@ -1,57 +1,110 @@
-import Image from "next/image";
+"use client";
 
-const TokenBalance = () => {
+import type React from "react";
+import { IoIosInformationCircleOutline } from "react-icons/io";
+import Image from "next/image";
+import { useState } from "react";
+
+interface EarningsDisplayProps {
+  availableAmount: number;
+  totalEarned: number;
+  craftcoinBalance: number;
+  onClaimCraftcoin: () => void;
+  onBuyCraftcoin: () => void;
+}
+
+const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
+  availableAmount,
+  totalEarned,
+  craftcoinBalance,
+  onClaimCraftcoin,
+  onBuyCraftcoin,
+}) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
   return (
-    <div className="space-y-2">
-      {/* Token Balance Card */}
-      <div className="bg-[#F2E8CF0A] rounded-xl p-4 border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
-        <div className="flex justify-between items-start mb-4">
+    <div className="space-y-2 font-merriweather">
+      {/* Earnings Card */}
+      <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 ">
+        <div className="flex items-center gap-2 mb-1">
+          <Image src={"/wallet.png"} alt={"coin"} width="18" height="18" />{" "}
+          <h2 className="text-base text-[#F9F1E2]">Earnings</h2>
+        </div>
+        <p className="text-sm text-[#D8D6CF] mb-2">
+          Your earnings, in tokens. withdraw when you&apos;re ready.
+        </p>
+
+        <div className="flex justify-between px-4">
           <div>
-            <h3 className="text-sm text-[#D8D6CF] mb-1">Token Balance</h3>
-            <p className="text-xs text-[#B5B4AD]">
-              Your earnings, withdraw when you&apos;re ready.
-            </p>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-[#04DF76] rounded-full"></div>
+              <span className="text-sm text-[#B5B4AD]">Available</span>
+            </div>
+            <div className="text-2xl font-bold text-[#FFCC6D] font-alata">
+              {availableAmount} <span className="text-lg">USDT</span>
+            </div>
           </div>
 
-        </div>
-
-        <div className="space-y-4">
           <div>
-            <div className="text-2xl font-bold text-yellow mb-1">
-              1000 <span className="text-sm font-normal">USDT</span>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-[#47F9FF] rounded-full"></div>
+              <span className="text-sm text-[#B5B4AD]">Total Earned</span>
+            </div>
+            <div className="text-2xl font-bold text-[#FFCC6D] font-alata">
+              {totalEarned} <span className="text-lg">USDT</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Craftcoin Balance Card */}
-      <div className="bg-[#F2E8CF0A] rounded-xl p-6 border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="text-sm text-[#D8D6CF]">Craftcoin Balance</h3>
-          <button className="text-[#D8D6CF] hover:text-[#F9F1E2]">
-            <Image src="/info.png" alt="info" width={16} height={16} />
-          </button>
+      <div className="bg-[#F2E8CF0A] relative border border-[#FCFBF726] rounded-lg p-5 lg:py-2 ">
+        <div className="flex justify-between items-center mb-1">
+          <div className="flex items-center gap-2">
+            <Image src={"/coin.png"} alt={"coin"} width="18" height="18" />{" "}
+            <h2 className="text-base text-[#F9F1E2]">Craftcoin Balance</h2>
+          </div>
+          <IoIosInformationCircleOutline
+            className="h-5 w-5 text-[#8B8B8B] cursor-help transition-colors hover:text-[#F9F1E2]"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          />
+          {showTooltip && (
+            <div className="absolute right-0 top-6 w-64 p-3 bg-[#1A1A1A] rounded text-xs text-[#B5B4AD] border border-[#3A3A3A] z-10 shadow-lg transition-opacity">
+              You can only claim once a month! Your last claim sets the next
+              date.
+              <div className="absolute -top-2 right-2 w-3 h-3 bg-[#1A1A1A] border-t border-l border-[#3A3A3A] transform rotate-45"></div>
+            </div>
+          )}{" "}
         </div>
-        <p className="text-xs text-[#B5B4AD] mb-4">
-          Spend your CraftCoin to boost your profile to clients
+
+        <p className="text-sm text-[#B5B4AD] mb-2">
+          Want more jobs? Use CraftCoins to apply and get hired.
         </p>
 
-        <div className="border-t border-[#FCFBF726] pt-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-xs text-[#D8D6CF]">Available</span>
+        <div className="mb-2">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span className="text-sm text-[#B5B4AD]">Available</span>
           </div>
-          <div className="text-xl font-bold text-yellow mb-4">
-            500 <span className="text-sm font-normal">CFT</span>
+          <div className="text-2xl font-bold text-[#FFCC6D] font-alata">
+            {craftcoinBalance} <span className="text-lg">CFT</span>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-2">
-          <button className="bg-yellow text-[#1A1203] font-bold px-4 py-2 rounded-md text-sm uppercase hover:bg-yellow/90 transition-colors">
-            Claim CraftCoin
+        <div className="flex w-full justify-between">
+          <button
+            onClick={onClaimCraftcoin}
+            className="bg-[#FFD700] text-[#1A1203]  py-2 px-4 rounded-[4px] uppercase text-sm hover:bg-[#FFD700]/90 transition-colors"
+          >
+            Claim Craftcoin
           </button>
-          <button className="bg-[#262208] text-[#FCF8E3] font-bold px-4 py-2 rounded-md text-sm uppercase hover:bg-[#262208]/80 transition-colors">
-            Buy CraftCoin
+
+          <button
+            onClick={onBuyCraftcoin}
+            className=" text-[#FFD700] border border-[#FFD700]  py-2 px-4 rounded-[4px] uppercase text-sm   transition-colors"
+          >
+            Buy Craftcoin
           </button>
         </div>
       </div>
@@ -59,4 +112,4 @@ const TokenBalance = () => {
   );
 };
 
-export default TokenBalance;
+export default EarningsDisplay;

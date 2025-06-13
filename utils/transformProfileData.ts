@@ -7,7 +7,7 @@ export const transformProfileData = (
     experienceLevel: string | undefined;
     preferredLanguage: string | undefined;
     yearsOfExperience: number | undefined;
-    tagline: string | undefined;
+    tagline: string;
     bio: string | undefined;
     rate: number | undefined;
     availability: boolean | undefined;
@@ -42,12 +42,14 @@ export const transformProfileData = (
     walletAddress: address,
     amountEarned: undefined,
     rating: undefined,
+    tagline: fetchedData.tagline
+
   };
 
   // Transform Portfolio section
   const portfolio: PortfolioProps[] = fetchedData.whProjectTitle?.map((title, index) => ({
     id: index + 1,
-    imgSrc: (fetchedData.whMediaUrls && fetchedData.whMediaUrls[index]) || "/elegant-dress.png",
+    imgSrc: (fetchedData.whMediaUrls && fetchedData.whMediaUrls) || ["/elegant-dress.png"],
     title: title,
     desc: (fetchedData.whDescription && fetchedData.whDescription[index]) || "",
     duration: (fetchedData.whDuration && fetchedData.whDuration[index]) || "",

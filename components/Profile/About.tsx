@@ -36,11 +36,17 @@ const About = () => {
         <div className="md:col-span-1  h-full ">
           <Bio about={profile.about} />
         </div>
-        <div className="md:col-span-1 gap-y-4 h-full ">
-          <Details details={profile.details} />
+        <div className="md:col-span-1 flex flex-col gap-y-4 h-full ">
+          <div>
+            {" "}
+            <Details details={profile.details} />
+          </div>
+          <div>
+            {" "}
+            <Skills skills={profile.skills} />
+          </div>
         </div>
       </div>
-      <Skills skills={profile.skills} />
     </div>
   );
 };

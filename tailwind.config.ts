@@ -34,7 +34,7 @@ export default {
       },
       fontFamily: {
         mooli: ["Mooli", "sans-serif"],
-        merriweather: ["Merriweather", "serif"],
+        merriweather: ["Merriweather", "Merriweather Sans"],
         alata: ["Alata", "sans-serif"],
       },
       keyframes: {

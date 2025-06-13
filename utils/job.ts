@@ -14,6 +14,7 @@ export interface Client {
   posted: number;
   noProjectSpentMoney: number;
   rating: number;
+  category?: string;
 }
 
 export interface Job {
@@ -58,6 +59,9 @@ export interface Artisan {
   expertise: string;
   rating: number;
   review?: string;
+  category: string;
+  avatar: string;
+  username: string;
 }
 
 export interface Applied {
@@ -103,6 +107,9 @@ const Tolu: Artisan = {
   expertise: "Intermediate",
   rating: 3.5,
   review: "Described as clear, collaborative, and timely",
+  avatar: "/client-avatar.png",
+  category: "Fashion",
+  username: "abdul",
 };
 
 const DummyArtisans: Artisan[] = [
@@ -118,6 +125,9 @@ const DummyArtisans: Artisan[] = [
     expertise: "Intermediate",
     rating: 3.5,
     review: "Described as clear, collaborative, and timely",
+    avatar: "/client-avatar.png",
+    category: "Fashion",
+    username: "abdul",
   },
   {
     walletAddress: "0x1286eefgegvsbj73yop3hne",
@@ -130,6 +140,9 @@ const DummyArtisans: Artisan[] = [
     language: "English",
     expertise: "Intermediate",
     rating: 3.5,
+    avatar: "/client-avatar.png",
+    category: "Fashion",
+    username: "abdul",
   },
 ];
 

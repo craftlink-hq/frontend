@@ -21,6 +21,8 @@ export const transformBackendProfileData = (
       description: string;
       projectDuration: { weeks: number } | undefined;
       files?: Array<{ url: string }>;
+      simplified_files?: Array<string>;
+
       id: string;
     }> | undefined;
   },
@@ -42,19 +44,20 @@ export const transformBackendProfileData = (
   // Transform Details section
   const details: DetailsProps = {
     language: Array.isArray(fetchedData.preferredLanguages) ? fetchedData.preferredLanguages.join(', ') : fetchedData.preferredLanguages || "Not specified",
-    location: detail?.location || "Not specified",
-    experience: `${fetchedData.experienceLevel || "Not specified"}/${fetchedData.yearsOfPractice || "0"} years`,
-    availability: fetchedData.availableForProjects || "Not specified",
-    pricing: fetchedData.rate || 0,
+    location: detail?.location ?? "Not specified",
+    experience: `${fetchedData.experienceLevel ?? "Not specified"}/${fetchedData.yearsOfPractice ?? "0"} years`,
+    availability: fetchedData.availableForProjects ?? "Not specified",
+    pricing: fetchedData.rate ?? 0,
     walletAddress: address,
     amountEarned: undefined,
     rating: undefined,
+    tagline: fetchedData.serviceTagline ?? ""
   };
 
   // Transform Portfolio section
   const portfolio: PortfolioProps[] = fetchedData.portfolio?.map((item, index) => ({
     id: index + 1,
-    imgSrc: item.files?.[0]?.url || "/default-image.png",
+    imgSrc: item.simplified_files || ["/default-image.png"],
     title: item.projectTitle,
     desc: item.description,
     duration: item.projectDuration ? `${item.projectDuration.weeks} weeks` : "Not specified",

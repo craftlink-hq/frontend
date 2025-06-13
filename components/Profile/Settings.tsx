@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { FaCheck } from "react-icons/fa";
 import { useState } from "react";
 
@@ -23,17 +22,7 @@ const Settings = () => {
     <div className="flex font-merriweather text-[#F9F1E2] p-4 md:p-8 bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg gap-y-8 flex-col">
       <div className="flex justify-between">
         <h3 className="text-2xl">Settings</h3>
-        <div className="bg-[#262208] rounded-full flex items-center px-[10px] py-[6px] gap-x-2">
-          Edit{" "}
-          <span className="relative h-[28px] w-[28px] rounded-full bg-[#F2E8CF0A]">
-            <Image
-              src={"/edit.png"}
-              alt="pen"
-              fill
-              className="object-contain p-2"
-            />
-          </span>
-        </div>
+        
       </div>
       <div className="flex space-x-4 justify-between items-start border-b border-[#F2E8CFB2]">
         <button
