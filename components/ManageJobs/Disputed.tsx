@@ -7,7 +7,7 @@ import { formatDate } from "@/utils/formatDate";
 import NoJob from "./NoJob";
 import ActiveJobSidebar from "./ActiveJobSidebar";
 import { FilterProps } from "@/utils/filters";
-import Pagnation from "../Pagnation";
+//import Pagnation from "../Pagnation";
 
 const filters: FilterProps[] = [
   { filter: "Status", options: ["Accepted", "In Progress", "Pending Start"] },
