@@ -140,3 +140,22 @@ export const appliedJobFilters: FilterProps[] = [
     options: Location,
   },
 ];
+
+export const disputedJobFilters: FilterProps[] = [
+  { 
+    filter: "Status", 
+    options: ["Pending Client Action", "Pending Artisan Response", "Under Review", "Escalated"] 
+  },
+  { 
+    filter: "Dispute Type", 
+    options: ["Payment Not Released", "Work Quality", "Scope Change", "Delivery Delay", "Communication Issue"] 
+  },
+  { 
+    filter: "Raised Date", 
+    options: ["Last 7 days", "Last 30 days", "Last 3 months", "Older"] 
+  },
+  { 
+    filter: "Sort By", 
+    options: ["Date Raised", "Priority", "Amount", "Resolution Status"] 
+  }
+];

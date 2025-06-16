@@ -59,42 +59,81 @@ const ManageJobs = ({
                   className="rounded-lg border border-[#FCFBF726] p-4"
                   style={{ backgroundColor: '#F2E8CF0A', height: '60vh' }}
                 >
-                  <div 
-                    className="overflow-y-auto space-y-4 w-full job-container" 
-                    style={{ height: 'calc(60vh - 2rem)' }}
-                  >
-                    <style jsx>{`
-                      .job-container {
-                        scrollbar-width: thin;
-                        scrollbar-color: #6b7280 transparent;
-                      }
+                  {jobType === "disputed" ? (
+                    // Horizontal slider for disputed jobs
+                    <div 
+                      className="overflow-x-auto w-full h-full flex gap-x-4 disputed-slider"
+                      style={{ 
+                        scrollbarWidth: 'thin', 
+                        scrollbarColor: '#6b7280 transparent',
+                        height: 'calc(60vh - 2rem)'
+                      }}
+                    >
+                      <style jsx>{`
+                        .disputed-slider::-webkit-scrollbar {
+                          height: 6px;
+                        }
+                        
+                        .disputed-slider::-webkit-scrollbar-track {
+                          background: transparent;
+                        }
+                        
+                        .disputed-slider::-webkit-scrollbar-thumb {
+                          background: #6b7280;
+                          border-radius: 10px;
+                        }
+                        
+                        .disputed-slider::-webkit-scrollbar-thumb:hover {
+                          background: #9ca3af;
+                        }
+                      `}</style>
                       
-                      .job-container::-webkit-scrollbar {
-                        width: 6px;
-                      }
+                      {/* Each disputed job card */}
+                      {jobs?.map((job, index) => (
+                        <div key={`${job?.job?.title}-${index}`} className="flex-shrink-0">
+                          <JobStatus job={job} />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    // Vertical scroll for other job types (existing code)
+                    <div 
+                      className="overflow-y-auto space-y-4 w-full job-container" 
+                      style={{ height: 'calc(60vh - 2rem)' }}
+                    >
+                      <style jsx>{`
+                        .job-container {
+                          scrollbar-width: thin;
+                          scrollbar-color: #6b7280 transparent;
+                        }
+                        
+                        .job-container::-webkit-scrollbar {
+                          width: 6px;
+                        }
+                        
+                        .job-container::-webkit-scrollbar-track {
+                          background: transparent;
+                        }
+                        
+                        .job-container::-webkit-scrollbar-thumb {
+                          background: #6b7280;
+                          border-radius: 10px;
+                          height: 40px;
+                        }
+                        
+                        .job-container::-webkit-scrollbar-thumb:hover {
+                          background: #9ca3af;
+                        }
+                      `}</style>
                       
-                      .job-container::-webkit-scrollbar-track {
-                        background: transparent;
-                      }
-                      
-                      .job-container::-webkit-scrollbar-thumb {
-                        background: #6b7280;
-                        border-radius: 10px;
-                        height: 40px;
-                      }
-                      
-                      .job-container::-webkit-scrollbar-thumb:hover {
-                        background: #9ca3af;
-                      }
-                    `}</style>
-                    
-                    {/* Each job card wrapped in its own div */}
-                    {jobs?.map((job, index) => (
-                      <div key={`${job?.job?.title}-${index}`}>
-                        <JobStatus job={job} />
-                      </div>
-                    ))}
-                  </div>
+                      {/* Each job card wrapped in its own div */}
+                      {jobs?.map((job, index) => (
+                        <div key={`${job?.job?.title}-${index}`}>
+                          <JobStatus job={job} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
               
