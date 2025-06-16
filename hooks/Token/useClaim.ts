@@ -55,7 +55,8 @@ const useClaim = () => {
                 console.error("Registration error:", error);
             }
         },
-        []
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [chainId, isConnected]
     );
 };
 

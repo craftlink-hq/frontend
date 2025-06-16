@@ -8,22 +8,20 @@ import { toast } from "sonner";
 import { useChainId, useAccount } from "wagmi";
 import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { useRouter } from "next/navigation";
-import useApproveTransaction from "./useApproveTransaction";
 
 type ErrorWithReason = {
   reason?: string;
   message?: string;
 };
 
-const useCreateGig = () => {
+const useApplyForGig = () => {
     const chainId = useChainId();
     const { isConnected } = useAccount();
     const { walletProvider } = useAppKitProvider<Provider>('eip155');
     const router = useRouter();
-    const approveTransaction = useApproveTransaction();
 
     return useCallback(
-        async (formattedRoot: string, formattedDatabaseId: string, amount: number) => {
+        async (databaseId: string) => {
             if (!isConnected) {
                 toast.warning("Please connect your wallet first.");
                 return;
@@ -38,17 +36,8 @@ const useCreateGig = () => {
             const contract = getGigContract(signer);
 
             try {
-                await approveTransaction(amount);
-
-                const gasEstimate = await contract.createGig.estimateGas(formattedRoot, formattedDatabaseId, amount);
-                const txn = await contract.createGig(
-                    formattedRoot,
-                    formattedDatabaseId,
-                    amount,
-                    {
-                        gasLimit: gasEstimate,
-                    }
-                );
+                const gasEstimate = await contract.applyForGig.estimateGas(databaseId);
+                const txn = await contract.applyForGig(databaseId, { gasLimit: gasEstimate });
 
                 toast.message("Please wait while we process your transaction.");
                 const receipt = await txn.wait();
@@ -57,17 +46,39 @@ const useCreateGig = () => {
                     throw new Error("Transaction failed");
                 }
 
-                toast.success("Gig created successfully");
-                router.push("/manage-jobs/clients");
+                toast.success("Application Submitted");
+                router.push("/manage-jobs/artisans");
             } catch (error) {
                 const err = error as ErrorWithReason;
-                const errorMessage = err.reason === "Not a client" ? "You are not registered as a client." : "An error occurred while creating the gig.";
-                toast.error(errorMessage);
-                console.error("Gig creation error:", error);
+                let errorText: string;
+
+                if (err?.reason === "Invalid gig ID") {
+                    errorText = "The gig ID is invalid";
+                }
+                else if (err?.reason === "Not registered as an artisan") {
+                    errorText = "You must register as an artisan to apply for gigs";
+                }
+                else if (err?.reason === "Unverified artisan") {
+                    errorText = "You must be a verified artisan to apply for gigs";
+                }
+                else if (err?.reason === "Gig is closed") {
+                    errorText = "This gig is closed for applications";
+                }
+                else if (err?.reason === "Artisan already hired") {
+                    errorText = "An artisan has already been hired for this gig";
+                }
+                else {
+                    // console.log(err?.message);
+                    
+                    errorText ="Trying to resolve error!";
+                }
+
+                toast.warning(`Error: ${errorText}`);
             }
         },
-        []
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [chainId, isConnected]
     );
 };
 
-export default useCreateGig;
+export default useApplyForGig;

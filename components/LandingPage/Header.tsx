@@ -8,9 +8,9 @@ import AnimatedDiv from "@/components/AnimatedDiv";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 import ConnectWallet from "../ConnectWallet";
-import useIsClient from "@/hooks/useIsClient";
-import useIsArtisan from "@/hooks/useIsArtisan";
-import useHasClaimed from "@/hooks/useHasClaimed";
+import useIsClient from "@/hooks/Registry/useIsClient";
+import useIsArtisan from "@/hooks/Registry/useIsArtisan";
+import useHasClaimed from "@/hooks/Token/useHasClaimed";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

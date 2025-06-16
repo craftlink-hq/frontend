@@ -4,7 +4,7 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
-import useClaim from "@/hooks/useClaim";
+import useClaim from "@/hooks/Token/useClaim";
 
 export default function ClaimToken() {
   const claim = useClaim();

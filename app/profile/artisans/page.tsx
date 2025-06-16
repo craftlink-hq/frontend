@@ -9,15 +9,14 @@ import Review from "@/components/Profile/Review";
 import Settings from "@/components/Profile/Settings";
 import ProfileCard from "@/components/Profile/ProfileCard";
 import EarningsDisplay from "@/components/Profile/TokenBalance";
-import { usePathname } from "next/navigation";
 import type { ArtisanProfileProps } from "@/utils/profile"
-import { useAccount } from "wagmi"
-import Loading from "@/components/Loading"
-import { useEffect, useState } from "react"
-import useGetArtisanDetails from "@/hooks/useGetArtisanDetails"
-import axios from "@/app/API/axios"
 import { transformBackendProfileData } from "@/utils/transformBackendProfileData"
-// import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+import { useAccount } from "wagmi";
+import Loading from "@/components/Loading";
+import { useEffect, useState } from "react";
+import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
+import axios from "@/app/API/axios";
 
 export default function Profile() {
   const pathname = usePathname();

@@ -1,16 +1,15 @@
 "use client";
 import Image from "next/image";
 import Button from "./Button";
-import IPFS from "@/hooks/useIPFS";
-import { useAccount } from "wagmi";
-// import { useEthersProvider } from "@/hooks/useEthersProvider";
-import { readOnlyProvider } from "@/constants/providers";
-import { getRegistryContract } from "@/constants/contracts";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "./Loading";
 import { useRouter } from "next/navigation";
+import useIsArtisan from "@/hooks/Registry/useIsArtisan";
+import useIsClient from "@/hooks/Registry/useIsClient";
+import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
+import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
 
 interface WelcomeProps {
   image: string;
@@ -19,16 +18,23 @@ interface WelcomeProps {
 }
 
 const WelcomePage = ({ image, role }: WelcomeProps) => {
-  const { fetchFromIPFS } = IPFS();
-  const { address } = useAccount();
-  const provider = readOnlyProvider;
-  const [detail, setDetail] = useState<{
-    username: string;
-    location: string;
-  } | null>(null);
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { isLoading } = useLoading(); // startLoading, stopLoading 
   const [userRole, setUserRole] = useState("");
+  const isArtisan = useIsArtisan();
+  const isClient = useIsClient();
+  const artisanDetails = useGetArtisanDetails();
+  const clientDetails = useGetClientDetails();
   const router = useRouter();
+
+  console.log("isArtisan:", isArtisan);
+  console.log("isClient:", isClient);
+  useEffect(() => {
+    if (isClient) {
+      setUserRole("client");
+    } else if (isArtisan) {
+      setUserRole("artisan");
+    }
+  }, [isClient, isArtisan]);
 
   const welcomeMsg =
     userRole === "client"
@@ -47,63 +53,85 @@ const WelcomePage = ({ image, role }: WelcomeProps) => {
     }
   };
 
-  useEffect(() => {
-    const userDetail = async () => {
-      if (!address || isLoading) return;
-      startLoading();
+  const detail = userRole === "client" ? clientDetails : userRole === "artisan" ? artisanDetails : null;
 
-      try {
-        const contract = provider ? getRegistryContract(provider) : null;
-        if (!contract) {
-          toast.error("Provider not initialized");
-          return;
-        }
+  // let detail;
+  // console.log("isClient", isClient);
+  // console.log("isArtisan", isArtisan);
+  // if (isClient) {
+  //   console.log("Client details");
+  //   setUserRole("client");
+  //   console.log("got here");
 
-        const isClient = contract ? await contract.isClient(address) : false;
+  //   detail = clientDetails;
+  //   console.log("final client details", detail);
+  // } else if (isArtisan) {
+  //   console.log("Artisan details");
+  //   setUserRole("artisan");
 
-        if (isClient) {
-          setUserRole("client");
-          const detail = contract ? await contract.getClientDetails(address) : null;
+  //   detail = artisanDetails;
+  // } else {
+  //   toast.error("User role not recognized");
+  //   return null;
+  // }
 
-          if (detail && detail.ipfsHash) {
-            try {
-              const fetchedDetail = await fetchFromIPFS(detail.ipfsHash);
-              setDetail(JSON.parse(fetchedDetail));
-            } catch (error) {
-              toast.error("Error fetching from IPFS");
-              console.error(error);
-            }
-          } else {
-            toast.error("No IPFS hash found in client details");
-          }
-        } else {
-          setUserRole("artisan");
-          const detail = contract ? await contract.getArtisanDetails(address) : null
+  // useEffect(() => {
+  //   const userDetail = async () => {
+  //     if (!address || isLoading) return;
+  //     startLoading();
 
-          if (detail && detail.ipfsHash) {
-            try {
-              const fetchedDetail = await fetchFromIPFS(detail.ipfsHash);
-              setDetail(JSON.parse(fetchedDetail));
-            } catch (ipfsError) {
-              toast.error("Error fetching from IPFS");
-              console.error(ipfsError);
-            }
-          } else {
-          toast.error("No IPFS hash found in artisan details");
-          }
-        }
+  //     try {
+  //       const contract = provider ? getRegistryContract(provider) : null;
+  //       if (!contract) {
+  //         toast.error("Provider not initialized");
+  //         return;
+  //       }
 
-      } catch (error) {
-        toast.error("Error fetching artisan details");
-        console.error(error);
-      } finally {
-        stopLoading();
-      }
-    };
+  //       const isClient = contract ? await contract.isClient(address) : false;
 
-    userDetail();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //       if (isClient) {
+  //         setUserRole("client");
+  //         const detail = contract ? await contract.getClientDetails(address) : null;
+
+  //         if (detail && detail.ipfsHash) {
+  //           try {
+  //             const fetchedDetail = await fetchFromIPFS(detail.ipfsHash);
+  //             setDetail(JSON.parse(fetchedDetail));
+  //           } catch (error) {
+  //             toast.error("Error fetching from IPFS");
+  //             console.error(error);
+  //           }
+  //         } else {
+  //           toast.error("No IPFS hash found in client details");
+  //         }
+  //       } else {
+  //         setUserRole("artisan");
+  //         const detail = contract ? await contract.getArtisanDetails(address) : null
+
+  //         if (detail && detail.ipfsHash) {
+  //           try {
+  //             const fetchedDetail = await fetchFromIPFS(detail.ipfsHash);
+  //             setDetail(JSON.parse(fetchedDetail));
+  //           } catch (ipfsError) {
+  //             toast.error("Error fetching from IPFS");
+  //             console.error(ipfsError);
+  //           }
+  //         } else {
+  //         toast.error("No IPFS hash found in artisan details");
+  //         }
+  //       }
+
+  //     } catch (error) {
+  //       toast.error("Error fetching artisan details");
+  //       console.error(error);
+  //     } finally {
+  //       stopLoading();
+  //     }
+  //   };
+
+  //   userDetail();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <Loading show={isLoading}>
