@@ -3,15 +3,15 @@
 import { useCallback, useState } from "react";
 import { useAccount, useChainId, useSignMessage, useSignTypedData } from "wagmi";
 import { toast } from "sonner";
-import { ethers, Signature } from "ethers";
+import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
-import { getTokenContract } from "@/constants/contracts";
 import { getProvider } from "@/constants/providers";
+import { getCraftCoinContract, getGigContract } from "@/constants/contracts";
 import { isSupportedChain } from "@/constants/chain";
 import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { Address } from "viem";
 
-const useCreateGig = () => {
+const useApplyForGig = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signTypedDataAsync } = useSignTypedData();
@@ -20,8 +20,8 @@ const useCreateGig = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const createGig = useCallback(
-    async (rootHash: string, databaseId: string, budget: number) => {
+  const applyForGig = useCallback(
+    async (databaseId: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
         return;
@@ -34,20 +34,24 @@ const useCreateGig = () => {
       setIsLoading(true);
       try {
         const provider = getProvider(walletProvider);
-        const tokenContract = getTokenContract(provider);
 
-        // Fetch nonce from token contract
-        const nonce = await tokenContract.nonces(address);
+        // Fetch required CFT for the gig
+        const gigContract = getGigContract(provider);
+        const requiredCFT = await gigContract.getRequiredCFT(databaseId);
+
+        // Fetch user's nonce from CraftCoin contract
+        const craftCoinContract = getCraftCoinContract(provider);
+        const nonce = await craftCoinContract.nonces(address);
 
         // Set deadline (1 hour from now)
         const deadline = Math.floor(Date.now() / 1000) + 3600;
 
-        // Prepare permit message for USDT approval
+        // Prepare permit message for CraftCoin
         const domain = {
-          name: "USD Tethers",
+          name: "CraftCoin",
           version: "1",
           chainId: chainId,
-          verifyingContract: process.env.TOKEN as Address,
+          verifyingContract: process.env.CRAFT_COIN as Address,
         };
 
         const types = {
@@ -60,18 +64,15 @@ const useCreateGig = () => {
           ],
         };
 
-        // Convert budget to smallest unit (USDT has 6 decimals)
-        const value = ethers.parseUnits(budget.toString(), 6);
-
         const permitMessage = {
           owner: address,
-          spender: process.env.PAYMENT_PROCESSOR,
-          value: value.toString(),
+          spender: process.env.GIG_MARKET_PLACE,
+          value: requiredCFT.toString(),
           nonce: nonce.toString(),
           deadline: deadline.toString(),
         };
 
-        // Sign permit message to get signature
+        // Sign permit message
         const permitSignature = await signTypedDataAsync({
           domain,
           types,
@@ -80,14 +81,12 @@ const useCreateGig = () => {
         });
 
         // Split permit signature into v, r, s
-        const signature = Signature.from(permitSignature);
+        const signature = ethers.Signature.from(permitSignature);
         const { v, r, s } = signature;
 
-        // Prepare params for gasless transaction
+        // Prepare params for the gasless transaction
         const params = {
-          rootHash,
           databaseId,
-          budget: value.toString(),
           deadline: deadline.toString(),
           v,
           r,
@@ -95,13 +94,13 @@ const useCreateGig = () => {
         };
 
         // Prepare gasless transaction message
-        const functionName = "createGig";
+        const functionName = "applyForGig";
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
 
-        // Sign gasless transaction message
+        // Sign the gasless transaction message
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
-        // Send request to backend
+        // Send request to the relayer backend
         const response = await fetch("http://localhost:3005/gasless-transaction", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -115,8 +114,8 @@ const useCreateGig = () => {
 
         const result = await response.json();
         if (result.success) {
-          toast.success("Gig created successfully");
-          router.push("/manage-jobs/clients");
+          toast.success("Application Submitted");
+          router.push("/manage-jobs/artisans");
         } else {
           toast.error(`Error: ${result.message}`);
         }
@@ -124,7 +123,7 @@ const useCreateGig = () => {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
         } else {
-          toast.error("Error during gig creation");
+          toast.error("Error during application");
           console.error(error);
         }
       } finally {
@@ -134,7 +133,7 @@ const useCreateGig = () => {
     [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, router]
   );
 
-  return { createGig, isLoading };
+  return { applyForGig, isLoading };
 };
 
-export default useCreateGig;
+export default useApplyForGig;
