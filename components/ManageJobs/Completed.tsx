@@ -154,12 +154,12 @@ const CompletedJob = ({ job }: { job: Applied }) => {
         </div>
 
         <div className="flex justify-between gap-3">
-          <button className="bg-yellow text-[#262208]  font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
+          {job.user_type === "artisan" && (<button className="bg-yellow text-[#262208]  font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
             Claim Payment
-          </button>
+          </button>)}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#262208]  text-[#F9F1E2] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"
+            className="bg-[#262208] self-end  text-[#F9F1E2] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"
           >
             Give Feedback
           </button>

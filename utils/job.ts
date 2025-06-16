@@ -74,6 +74,7 @@ export interface Applied {
   feedback?: string;
   disputeType?: string;
   issue?: string;
+  user_type?: "artisan" | "client"
 }
 
 export const Abdul: Client = {
@@ -265,6 +266,7 @@ export const Actives: Applied[] = [
     feedback:
       "The artisan did an excellent job with the designs. Highly recommend!",
     rating: 4.5,
+    user_type: "artisan"
   },
   {
     startDate: "16/01/25",
@@ -275,6 +277,7 @@ export const Actives: Applied[] = [
     feedback:
       "The artisan did an excellent job with the designs. Highly recommend!",
     rating: 4.8,
+    user_type: "artisan"
   },
 ];
 
@@ -310,5 +313,30 @@ export const dispute: Applied = {
   issue:
     "The client has not confirmed that the artisan has completed the job on their end, preventing the release of funds.",
 };
+
+export const Completed: Applied[] = [
+  {
+    startDate: "13/01/25",
+    status: "progress",
+    statusMsg: "In progress",
+    job: fashionDesigner,
+    endDate: "24/01/25",
+    feedback:
+      "The artisan did an excellent job with the designs. Highly recommend!",
+    rating: 4.5,
+    user_type: "client"
+  },
+  {
+    startDate: "16/01/25",
+    status: "progress",
+    statusMsg: "In progress",
+    job: fashion,
+    endDate: "28/01/25",
+    feedback:
+      "The artisan did an excellent job with the designs. Highly recommend!",
+    rating: 4.8,
+    user_type: "client"
+  },
+];
 
 export const jobs: Job[] = [fashionDesigner, fashion];

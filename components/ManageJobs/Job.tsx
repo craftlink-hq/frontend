@@ -31,7 +31,7 @@ const ManageJobs = ({
   return (
     <div className="grid h-full w-full">
       {jobs.length > 1 ? (
-        <div className="w-full px-4 md:px-8 xl:px-16 py-8">
+        <div className="w-full px-4 md:px-8 2xl:px-16 py-8">
           <p className=" text-[#F9F1E2] py-4 w-[90%]">
             {pageDetails}
           </p>
@@ -41,7 +41,7 @@ const ManageJobs = ({
                 <Filter filters={filters} />
               </div>
             )}
-            <div className="hidden md:grid md:w-[25%] xl:w-[20%] min-h-[60%]">
+            <div className="hidden md:grid md:w-[25%] min-h-[60%]">
               <Filter filters={filters} />
             </div>
             <div className="grid gap-y-4 w-[90vw] md:w-[75%] h-full overflow-y-scroll">
