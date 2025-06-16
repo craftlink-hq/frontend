@@ -1,9 +1,8 @@
 "use client"
 
-import { IoClose, IoInformationCircleOutline } from "react-icons/io5"
+import { IoInformationCircleOutline } from "react-icons/io5"
 
 interface ClaimPaymentModalProps {
-  onClose: () => void
   onClaim: () => void
   onCancel: () => void
   jobTitle?: string
@@ -13,7 +12,6 @@ interface ClaimPaymentModalProps {
 }
 
 const ClaimPaymentModal = ({
-  onClose,
   onClaim,
   onCancel,
   jobTitle = "Fashion Designer for a New Clothing Line",
@@ -25,14 +23,8 @@ const ClaimPaymentModal = ({
   const receiveAmount = totalAmount - feeAmount
 
   return (
-    <div className="bg-[#2A2A2A] rounded-lg p-6 w-full max-w-md text-[#F9F1E2] font-merriweather relative">
-      {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
-      >
-        <IoClose className="h-6 w-6" />
-      </button>
+    <div className=" rounded-lg p-6 w-full text-[#F9F1E2] font-merriweather relative">
+    
 
       {/* Header */}
       <div className="mb-6">

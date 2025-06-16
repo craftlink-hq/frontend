@@ -12,7 +12,7 @@ interface PaginationProps {
   onItemsPerPageChange: (items: number) => void
 }
 
-const MarketplacePagination = ({
+const Pagination = ({
   currentPage,
   totalPages,
   itemsPerPage,
@@ -49,7 +49,7 @@ const MarketplacePagination = ({
   }
 
   return (
-    <div className="flex justify-between items-center mt-6 text-[#F9F1E2]">
+    <div className="flex bg-[#F2E8CF0A] border border-[#F2E8CF0A] rounded-md justify-between items-center  p-4 text-[#F9F1E2]">
       {/* Items per page info */}
       <div className="flex items-center gap-2 text-[#B5B4AD] text-sm">
         <span>Showing per page:</span>
@@ -100,4 +100,4 @@ const MarketplacePagination = ({
   )
 }
 
-export default MarketplacePagination
+export default Pagination

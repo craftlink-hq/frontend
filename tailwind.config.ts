@@ -31,6 +31,8 @@ export default {
         faq: "linear-gradient(180deg, rgba(64, 53, 0, 0.0275) 5%, rgba(18, 15, 0, 0.0625) 77%)",
         profile:
           "linear-gradient(180deg, rgba(64, 53, 0, 0.0726) 5%, rgba(18, 15, 0, 0.165) 77%)",
+        blurBg:
+          "linear-gradient(179.99deg, rgba(51, 51, 51, 0.45) 0.01%, rgba(47, 47, 47, 0.45) 76.07%)",
       },
       fontFamily: {
         mooli: ["Mooli", "sans-serif"],

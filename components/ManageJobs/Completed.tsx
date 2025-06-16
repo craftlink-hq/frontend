@@ -1,14 +1,25 @@
 "use client";
 
-import type { Applied } from "@/utils/job";
+import type { CompletedProps } from "@/utils/job";
+import { percentage } from "@/utils/job";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { useState } from "react";
 import Feedback from "./Feedback";
 import Modal from "../Modal";
 import Image from "next/image";
+import ClaimPaymentModal from "./ClaimPaymentModal";
+import PaymentSuccessModal from "./PaymentSuccess";
 
-const CompletedJob = ({ job }: { job: Applied }) => {
+
+const CompletedJob = ({ job }: { job: CompletedProps }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
+  const onClaim = () => {
+    setIsClaimModalOpen(false)
+    setIsSuccessOpen(true)
+  };
 
   return (
     <AnimatedDiv
@@ -153,17 +164,32 @@ const CompletedJob = ({ job }: { job: Applied }) => {
           </div>
         </div>
 
-        <div className="flex justify-between gap-3">
-          {job.user_type === "artisan" && (<button className="bg-yellow text-[#262208]  font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
-            Claim Payment
-          </button>)}
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-[#262208] self-end  text-[#F9F1E2] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"
-          >
-            Give Feedback
-          </button>
-        </div>
+        {job.user_type === "artisan" ? (
+          <div className="flex justify-between gap-3">
+            <button
+              className="bg-yellow text-[#262208]  font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors"
+              onClick={() => setIsClaimModalOpen(true)}
+            >
+              Claim Payment
+            </button>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-[#262208] self-end  text-[#F9F1E2] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"
+            >
+              Give Feedback
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-end">
+            {" "}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-[#262208] self-end  text-[#F9F1E2] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"
+            >
+              Give Feedback
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -174,9 +200,47 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             animateX={0}
             exitX={"-100%"}
             duration={0.5}
-            className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] lg:w-[30vw] rounded-xl p-4 relative"
+            className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] lg:w-[35vw] rounded-xl p-4 relative"
           >
             <Feedback />
+          </AnimatedDiv>
+        </Modal>
+      )}
+      {isClaimModalOpen && (
+        <Modal closeFn={() => setIsClaimModalOpen(false)}>
+          <AnimatedDiv
+            initialX="200%"
+            animateX={0}
+            exitX={"-100%"}
+            duration={0.5}
+            className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] lg:w-[35vw] rounded-xl p-4 relative"
+          >
+            <ClaimPaymentModal
+              onClaim={onClaim}
+              onCancel={() => setIsModalOpen(false)}
+              jobTitle={job.job.title}
+              totalAmount={job.job.price}
+              feePercentage={percentage}
+              walletAddress={job.job.completedBy.walletAddress}
+            />
+          </AnimatedDiv>
+        </Modal>
+      )}
+       {isSuccessOpen && (
+        <Modal closeFn={() => setIsSuccessOpen(false)}>
+          <AnimatedDiv
+            initialX="200%"
+            animateX={0}
+            exitX={"-100%"}
+            duration={0.5}
+            className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] lg:w-[35vw] rounded-xl p-4 relative"
+          >
+            <PaymentSuccessModal
+              onDone={() => setIsModalOpen(false)}
+              onLeaveReview={() => ""}
+             amount={job.job.price}
+              walletAddress={job.job.completedBy.walletAddress}
+            />
           </AnimatedDiv>
         </Modal>
       )}

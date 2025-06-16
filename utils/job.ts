@@ -1,3 +1,5 @@
+import { dummyProfile, ArtisanProfileProps } from "@/utils/profile";
+
 export interface Client {
   walletAddress: string;
   verificationStatus: boolean;
@@ -48,6 +50,37 @@ export interface Job {
   clientDescription?: string;
 }
 
+export interface CompletedJob {
+  id?: string;
+  _id?: string;
+  createdAt: string;
+  projectDuration: { weeks: number };
+  title: string;
+  preferredLocation: string;
+  language?: string;
+  totalJobs?: number;
+  experienceLevel: string;
+  price: number;
+  rating?: number;
+  projectDescription?: string;
+  type?: string;
+  payment?: string;
+  skillCategory?: string[];
+  paymentType?: string;
+  notes?: string;
+  artisans?: string;
+  files: string[];
+  images: string[];
+  client: Client;
+  status?: string;
+  applicants: Artisan[] | [];
+  completedBy: Artisan;
+  contextLink?: string;
+  additionalProjectInfo?: string;
+  clientAddress?: string;
+  clientDescription?: string;
+}
+
 export interface Artisan {
   walletAddress: string;
   verificationStatus: boolean;
@@ -62,6 +95,7 @@ export interface Artisan {
   category: string;
   avatar: string;
   username: string;
+  profile: ArtisanProfileProps
 }
 
 export interface Applied {
@@ -76,6 +110,11 @@ export interface Applied {
   issue?: string;
   user_type?: "artisan" | "client"
 }
+
+export interface CompletedProps extends Applied {
+  job: CompletedJob;
+}
+
 
 export const Abdul: Client = {
   walletAddress: "0x1276eefgegvsbj73yop3hne",
@@ -111,6 +150,7 @@ const Tolu: Artisan = {
   avatar: "/client-avatar.png",
   category: "Fashion",
   username: "abdul",
+  profile: dummyProfile
 };
 
 const DummyArtisans: Artisan[] = [
@@ -129,6 +169,8 @@ const DummyArtisans: Artisan[] = [
     avatar: "/client-avatar.png",
     category: "Fashion",
     username: "abdul",
+    profile: dummyProfile
+
   },
   {
     walletAddress: "0x1286eefgegvsbj73yop3hne",
@@ -144,6 +186,8 @@ const DummyArtisans: Artisan[] = [
     avatar: "/client-avatar.png",
     category: "Fashion",
     username: "abdul",
+    profile: dummyProfile
+
   },
 ];
 
@@ -340,3 +384,6 @@ export const Completed: Applied[] = [
 ];
 
 export const jobs: Job[] = [fashionDesigner, fashion];
+
+
+export const percentage = 5

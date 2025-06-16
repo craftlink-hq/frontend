@@ -10,61 +10,61 @@ import Settings from "@/components/Profile/Settings";
 import ProfileCard from "@/components/Profile/ProfileCard";
 import EarningsDisplay from "@/components/Profile/TokenBalance";
 import { usePathname } from "next/navigation";
-// import type { ArtisanProfileProps } from "@/utils/profile"
-import { dummyProfile as profile } from "@/utils/profile";
-// import { useAccount } from "wagmi"
-// import Loading from "@/components/Loading"
-// import { useEffect, useState } from "react"
-// import useGetArtisanDetails from "@/hooks/useGetArtisanDetails"
-// import axios from "@/app/API/axios"
-// import { transformBackendProfileData } from "@/utils/transformBackendProfileData"
+import type { ArtisanProfileProps } from "@/utils/profile"
+import { useAccount } from "wagmi"
+import Loading from "@/components/Loading"
+import { useEffect, useState } from "react"
+import useGetArtisanDetails from "@/hooks/useGetArtisanDetails"
+import axios from "@/app/API/axios"
+import { transformBackendProfileData } from "@/utils/transformBackendProfileData"
+// import { useRouter } from "next/router";
 
 export default function Profile() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
-  // const { address } = useAccount()
-  // const detail = useGetArtisanDetails()
-  // const [profile, setProfile] = useState<ArtisanProfileProps | null>(null)
-  // const [isLoading, setIsLoading] = useState(true)
-  // const [error, setError] = useState<string | null>(null)
+  const { address } = useAccount()
+  const detail = useGetArtisanDetails()
+  const [profile, setProfile] = useState<ArtisanProfileProps | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   // const router = useRouter()
 
-  // useEffect(() => {
-  //   const fetchArtisanProfile = async () => {
-  //     if (!address) {
-  //       setIsLoading(false)
-  //       return
-  //     }
+  useEffect(() => {
+    const fetchArtisanProfile = async () => {
+      if (!address) {
+        setIsLoading(false)
+        return
+      }
 
-  //     setIsLoading(true)
-  //     setError(null)
+      setIsLoading(true)
+      setError(null)
 
-  //     try {
-  //       const response = await axios.get(`/api/artisans/${address}`)
-  //       const artisanData = response.data.artisan
+      try {
+        const response = await axios.get(`/api/artisans/${address}`)
+        const artisanData = response.data.artisan
 
-  //       if (detail) {
-  //         const transformedProfile = transformBackendProfileData(artisanData, detail, address)
-  //         setProfile(transformedProfile)
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching artisan profile:", err)
-  //       setError("Failed to load artisan profile.")
-  //     } finally {
-  //       setIsLoading(false)
-  //     }
-  //   }
+        if (detail) {
+          const transformedProfile = transformBackendProfileData(artisanData, detail, address)
+          setProfile(transformedProfile)
+        }
+      } catch (err) {
+        console.error("Error fetching artisan profile:", err)
+        setError("Failed to load artisan profile.")
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  //   fetchArtisanProfile()
-  // }, [address, detail])
+    fetchArtisanProfile()
+  }, [address, detail])
 
-  // if (isLoading || !profile) {
-  //   return <Loading show={false} />
-  // }
+  if (isLoading || !profile) {
+    return <Loading show={false} />
+  }
 
-  // if (error) {
-  //   return <div>{error}</div>
-  // }
+  if (error) {
+    return <div>{error}</div>
+  }
 
   // const handleNext = () => {
   //   router.push("/marketplace")

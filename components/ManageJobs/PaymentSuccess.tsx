@@ -1,25 +1,17 @@
 "use client"
 
-import { IoClose, IoCheckmark } from "react-icons/io5"
+import { IoCheckmark } from "react-icons/io5"
 
 interface PaymentSuccessModalProps {
-  onClose: () => void
   onDone: () => void
   onLeaveReview: () => void
   amount: number
   walletAddress: string
 }
 
-const PaymentSuccessModal = ({ onClose, onDone, onLeaveReview, amount, walletAddress }: PaymentSuccessModalProps) => {
+const PaymentSuccessModal = ({  onDone, onLeaveReview, amount, walletAddress }: PaymentSuccessModalProps) => {
   return (
-    <div className="bg-[#2A2A2A] rounded-lg p-8 w-full max-w-md text-[#F9F1E2] font-merriweather relative text-center">
-      {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
-      >
-        <IoClose className="h-6 w-6" />
-      </button>
+    <div className=" rounded-lg p-8 w-full text-[#F9F1E2] font-merriweather relative text-center">
 
       {/* Header */}
       <div className="mb-8">
