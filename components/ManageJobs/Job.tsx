@@ -4,7 +4,7 @@ import type React from "react";
 
 import Filter from "@/components/Marketplace/Filter";
 import { useFilterState } from "@/context/filter";
-import type { Applied, CompletedProps } from "@/utils/job";
+import type { Applied} from "@/utils/job";
 import type { FilterProps } from "@/utils/filters";
 import NoJob from "./NoJob";
 import Pagination from "./JobsPagination";
@@ -17,7 +17,7 @@ interface ManageJobProps {
   imageSrc: string;
   filters: FilterProps[];
   JobStatus: React.ComponentType<{
-    job: Applied | CompletedProps;
+    job: Applied;
     key: string;
   }>;
   jobType: string;
