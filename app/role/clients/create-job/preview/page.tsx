@@ -118,6 +118,7 @@ export default function ProfilePreview() {
       noProjectSpentMoney: 0,
       rating: 0,
     },
+    applicants: [],
   };
 
   if (isLoading || !clientDetail) {

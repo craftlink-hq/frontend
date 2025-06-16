@@ -43,43 +43,16 @@ export interface Job {
   client: Client;
   status?: string;
   applicants: Artisan[] | [];
-  completedBy: Artisan;
+  completedBy?: Artisan ;
   contextLink?: string;
   additionalProjectInfo?: string;
   clientAddress?: string;
   clientDescription?: string;
 }
 
-// export interface CompletedJob {
-//   id?: string;
-//   _id?: string;
-//   createdAt: string;
-//   projectDuration: { weeks: number };
-//   title: string;
-//   preferredLocation: string;
-//   language?: string;
-//   totalJobs?: number;
-//   experienceLevel: string;
-//   price: number;
-//   rating?: number;
-//   projectDescription?: string;
-//   type?: string;
-//   payment?: string;
-//   skillCategory?: string[];
-//   paymentType?: string;
-//   notes?: string;
-//   artisans?: string;
-//   files: string[];
-//   images: string[];
-//   client: Client;
-//   status?: string;
-//   applicants: Artisan[] | [];
-//   completedBy: Artisan;
-//   contextLink?: string;
-//   additionalProjectInfo?: string;
-//   clientAddress?: string;
-//   clientDescription?: string;
-// }
+export interface CompletedJob extends Job {
+  completedBy: Artisan;
+}
 
 export interface Artisan {
   walletAddress: string;
@@ -102,7 +75,7 @@ export interface Applied {
   startDate: string;
   status: string;
   statusMsg: string;
-  job: Job;
+  job: CompletedJob;
   endDate?: string;
   rating?: number;
   feedback?: string;
