@@ -13,13 +13,27 @@ export interface AboutProps {
   jobTitle: string;
 }
 
+export interface ProfileProps {
+  avatar: string;
+  username: string;
+  category: string;
+  location: string;
+}
+export interface ClientProps {
+  avatar: string;
+  username: string;
+  language: string;
+  location: string;
+}
+
 export interface PortfolioProps {
-  id: number;
-  imgSrc: string;
+  id?: number;
+  imgSrc: string[];
   duration: string;
   title: string;
   desc: string;
 }
+
 
 export interface DetailsProps {
   language: string;
@@ -30,6 +44,7 @@ export interface DetailsProps {
   walletAddress: string;
   amountEarned?: number;
   rating?: number;
+  tagline: string;
 }
 
 export interface ReviewsProp {
@@ -63,6 +78,14 @@ const dummyAbout: AboutProps = {
   jobTitle: "Fashion Designer",
 };
 
+export const editProfile: ProfileProps = {
+  avatar: "/avatar.png",
+  category: "Fashion",
+  username: "PROTOBLACK",
+  location: "Lagos, Nigeria",
+};
+
+
 const dummyDetails: DetailsProps = {
   language: "English",
   location: "Nigeria",
@@ -72,26 +95,24 @@ const dummyDetails: DetailsProps = {
   amountEarned: 500,
   rating: 4.5,
   walletAddress: "0x1286eefgegvsbj73yop3hne",
+  tagline: "Decentralized Fashion Design for the Modern Web3 Creator.",
 };
 
 const dummyPortfolio: PortfolioProps[] = [
   {
-    id: 1,
-    imgSrc: "/elegant-dress.png",
+    imgSrc: ["/elegant-dress.png"],
     title: "Elegant Evening Dress",
     desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
     duration: "4 weeks",
   },
   {
-    id: 2,
-    imgSrc: "/elegant-dress.png",
+    imgSrc: ["/elegant-dress.png"],
     title: "Elegant Evening Dress",
     desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
     duration: "4 weeks",
   },
   {
-    id: 3,
-    imgSrc: "/elegant-dress.png",
+    imgSrc: ["/elegant-dress.png"],
     title: "Elegant Evening Dress",
     desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
     duration: "4 weeks",

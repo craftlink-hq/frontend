@@ -1,3 +1,5 @@
+import { dummyProfile, ArtisanProfileProps } from "@/utils/profile";
+
 export interface Client {
   walletAddress: string;
   verificationStatus: boolean;
@@ -14,6 +16,7 @@ export interface Client {
   posted: number;
   noProjectSpentMoney: number;
   rating: number;
+  category?: string;
 }
 
 export interface Job {
@@ -47,6 +50,37 @@ export interface Job {
   clientDescription?: string;
 }
 
+export interface CompletedJob {
+  id?: string;
+  _id?: string;
+  createdAt: string;
+  projectDuration: { weeks: number };
+  title: string;
+  preferredLocation: string;
+  language?: string;
+  totalJobs?: number;
+  experienceLevel: string;
+  price: number;
+  rating?: number;
+  projectDescription?: string;
+  type?: string;
+  payment?: string;
+  skillCategory?: string[];
+  paymentType?: string;
+  notes?: string;
+  artisans?: string;
+  files: string[];
+  images: string[];
+  client: Client;
+  status?: string;
+  applicants: Artisan[] | [];
+  completedBy: Artisan;
+  contextLink?: string;
+  additionalProjectInfo?: string;
+  clientAddress?: string;
+  clientDescription?: string;
+}
+
 export interface Artisan {
   walletAddress: string;
   verificationStatus: boolean;
@@ -58,6 +92,10 @@ export interface Artisan {
   expertise: string;
   rating: number;
   review?: string;
+  category: string;
+  avatar: string;
+  username: string;
+  profile: ArtisanProfileProps
 }
 
 export interface Applied {
@@ -70,7 +108,13 @@ export interface Applied {
   feedback?: string;
   disputeType?: string;
   issue?: string;
+  user_type?: "artisan" | "client"
 }
+
+export interface CompletedProps extends Applied {
+  job: CompletedJob;
+}
+
 
 export const Abdul: Client = {
   walletAddress: "0x1276eefgegvsbj73yop3hne",
@@ -103,6 +147,10 @@ const Tolu: Artisan = {
   expertise: "Intermediate",
   rating: 3.5,
   review: "Described as clear, collaborative, and timely",
+  avatar: "/client-avatar.png",
+  category: "Fashion",
+  username: "abdul",
+  profile: dummyProfile
 };
 
 const DummyArtisans: Artisan[] = [
@@ -118,6 +166,11 @@ const DummyArtisans: Artisan[] = [
     expertise: "Intermediate",
     rating: 3.5,
     review: "Described as clear, collaborative, and timely",
+    avatar: "/client-avatar.png",
+    category: "Fashion",
+    username: "abdul",
+    profile: dummyProfile
+
   },
   {
     walletAddress: "0x1286eefgegvsbj73yop3hne",
@@ -130,6 +183,11 @@ const DummyArtisans: Artisan[] = [
     language: "English",
     expertise: "Intermediate",
     rating: 3.5,
+    avatar: "/client-avatar.png",
+    category: "Fashion",
+    username: "abdul",
+    profile: dummyProfile
+
   },
 ];
 
@@ -252,6 +310,7 @@ export const Actives: Applied[] = [
     feedback:
       "The artisan did an excellent job with the designs. Highly recommend!",
     rating: 4.5,
+    user_type: "artisan"
   },
   {
     startDate: "16/01/25",
@@ -262,6 +321,7 @@ export const Actives: Applied[] = [
     feedback:
       "The artisan did an excellent job with the designs. Highly recommend!",
     rating: 4.8,
+    user_type: "artisan"
   },
 ];
 
@@ -298,4 +358,32 @@ export const dispute: Applied = {
     "The client has not confirmed that the artisan has completed the job on their end, preventing the release of funds.",
 };
 
+export const Completed: Applied[] = [
+  {
+    startDate: "13/01/25",
+    status: "progress",
+    statusMsg: "In progress",
+    job: fashionDesigner,
+    endDate: "24/01/25",
+    feedback:
+      "The artisan did an excellent job with the designs. Highly recommend!",
+    rating: 4.5,
+    user_type: "client"
+  },
+  {
+    startDate: "16/01/25",
+    status: "progress",
+    statusMsg: "In progress",
+    job: fashion,
+    endDate: "28/01/25",
+    feedback:
+      "The artisan did an excellent job with the designs. Highly recommend!",
+    rating: 4.8,
+    user_type: "client"
+  },
+];
+
 export const jobs: Job[] = [fashionDesigner, fashion];
+
+
+export const percentage = 5

@@ -36,7 +36,7 @@ const JobDetails = ({ job }: { job: Job }) => {
     walletAddress: job.clientAddress || "",
     verificationStatus: true,
     dateJoined: job.createdAt,
-    description: job.clientDescription
+    description: job.clientDescription,
   };
 
   const titleDetails: TitleDetails[] = [
@@ -72,7 +72,7 @@ const JobDetails = ({ job }: { job: Job }) => {
     {
       imgSrc: "/calendar.png",
       detail: "Duration",
-      detailValue:`${job.projectDuration.weeks} weeks`,
+      detailValue: `${job.projectDuration.weeks} weeks`,
     },
   ];
   return (
@@ -95,7 +95,7 @@ const JobDetails = ({ job }: { job: Job }) => {
                 index == 2 ? "border-0" : "border-r border-[#FCFBF726] "
               }`}
             >
-              <span className="font-merriweather text-center ext-[#D8D6CF]">
+              <span className="font-merriweather text-center text-[#D8D6CF]">
                 {details.name}
               </span>
             </div>

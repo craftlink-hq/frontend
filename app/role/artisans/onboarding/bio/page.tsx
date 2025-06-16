@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useGetArtisanData } from "@/utils/store";
 import { useRouter } from "next/navigation";
 
-export default function Category() {
+export default function Bio() {
   const {
     experienceLevel,
     preferredLanguage,

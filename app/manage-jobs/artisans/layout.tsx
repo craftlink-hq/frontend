@@ -4,6 +4,7 @@ import {useFilterState } from "@/context/filter";
 import { links } from "@/utils/links";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Layout({
   children,
@@ -33,8 +34,9 @@ export default function Layout({
         <div className="min-h-screen">
           <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
             <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
+            <div className="w-[90%] self-center flex justify-between">
             <div
-              className="w-[90%] self-center "
+              className=" self-center"
             >
               <h2 className="text-[#FCFBF7] md:text-2xl font-bold ">
                 <span className="border-b-2 border-yellow"> MANAGE </span>JOBS
@@ -44,6 +46,38 @@ export default function Layout({
                 in one place.
               </span>
             </div>
+                  <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 ">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Image src={"/wallet.png"} alt={"coin"} width="18" height="18" />{" "}
+                      <h2 className="text-base text-[#F9F1E2]">Earnings</h2>
+                    </div>
+                    <p className="text-sm text-[#D8D6CF] mb-2">
+                      Your earnings, in tokens. withdraw when you&apos;re ready.
+                    </p>
+            
+                    <div className="flex justify-between p-4">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-[#04DF76] rounded-full"></div>
+                          <span className="text-sm text-[#B5B4AD]">Available</span>
+                        </div>
+                        <div className="text-2xl font-bold text-[#FFCC6D] font-alata">
+                          {50} <span className="text-lg">USDT</span>
+                        </div>
+                      </div>
+            
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-[#47F9FF] rounded-full"></div>
+                          <span className="text-sm text-[#B5B4AD]">Total Earned</span>
+                        </div>
+                        <div className="text-2xl font-bold text-[#FFCC6D] font-alata">
+                          {1000} <span className="text-lg">USDT</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
             <div
               className="w-[90%] self-center bg-[#F2E8CF0A] h-[70%] rounded-lg"
             >

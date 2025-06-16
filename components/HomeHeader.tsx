@@ -93,7 +93,7 @@ const HomeHeader = ({ isActive }: Header) => {
           )}
         </div>
       </div>
-      <div className="border-b-[0.5px] border-[#FCFBF726] flex gap-x-8 text-lg text-[#B5B4AD] shadow-md w-screen py-8 md:px-16">
+      {/* <div className="border-b-[0.5px] border-[#FCFBF726] flex gap-x-8 text-lg text-[#B5B4AD] shadow-md w-screen py-8 md:px-16">
         {menuItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <p
@@ -107,7 +107,7 @@ const HomeHeader = ({ isActive }: Header) => {
             </p>
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/LandingPage/Footer";
-import About from "@/components/Profile/About";
+import About from "@/components/Profile/Bio";
 import Portfolio from "@/components/Profile/Portfolio";
 import PreviewDetails from "@/components/Profile/PreviewDetails";
 import Skills from "@/components/Profile/Skills";

@@ -82,7 +82,7 @@ const SecondDesign = () => {
             need a secure space for your craft to shine and form meaningful
             connections with clients who appreciate your work.{" "}
             <span className="p-2 text-[16px]">
-              <Link href={links.register}>
+              <Link href={links.browseJob}>
                 <Button text="Get Started" />
               </Link>
             </span>
