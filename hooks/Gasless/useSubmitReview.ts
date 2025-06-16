@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useState } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";

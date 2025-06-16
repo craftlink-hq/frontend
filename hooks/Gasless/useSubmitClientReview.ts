@@ -3,18 +3,15 @@
 import { useCallback, useState } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { isSupportedChain } from "@/constants/chain";
-
-export const useRegisterClient = () => {
+export const useSubmitClientReview = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const registerAsClient = useCallback(
-    async (ipfsHash: string) => {
+  const submitClientReview = useCallback(
+    async (databaseId: string, rating: number, commentHash: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
         return;
@@ -23,15 +20,15 @@ export const useRegisterClient = () => {
         toast.warning("Unsupported network. Please switch to the correct network.");
         return;
       }
-      if (!ipfsHash) {
-        toast.error("IPFS hash is required");
+      if (!databaseId || rating < 1 || rating > 5 || !commentHash) {
+        toast.error("Invalid review data");
         return;
       }
 
       setIsLoading(true);
       try {
-        const functionName = "registerAsClient";
-        const params = { ipfsHash };
+        const functionName = "submitClientReview";
+        const params = { databaseId, rating, commentHash };
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
@@ -48,8 +45,7 @@ export const useRegisterClient = () => {
 
         const result = await response.json();
         if (result.success) {
-          toast.success("Registered as client successfully");
-          router.push("/profile/clients");
+          toast.success("Client review submitted successfully");
         } else {
           toast.error(`Error: ${result.message}`);
         }
@@ -57,15 +53,15 @@ export const useRegisterClient = () => {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
         } else {
-          toast.error("Error during client registration");
+          toast.error("Error during client review submission");
           console.error(error);
         }
       } finally {
         setIsLoading(false);
       }
     },
-    [address, isConnected, chainId, signMessageAsync, router]
+    [address, isConnected, chainId, signMessageAsync]
   );
 
-  return { registerAsClient, isLoading };
+  return { submitClientReview, isLoading };
 };
