@@ -1,6 +1,6 @@
 "use client";
 
-import type { CompletedProps } from "@/utils/job";
+import type { Applied } from "@/utils/job";
 import { percentage } from "@/utils/job";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { useState } from "react";
@@ -11,7 +11,7 @@ import ClaimPaymentModal from "./ClaimPaymentModal";
 import PaymentSuccessModal from "./PaymentSuccess";
 
 
-const CompletedJob = ({ job }: { job: CompletedProps }) => {
+const CompletedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);

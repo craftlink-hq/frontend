@@ -29,37 +29,6 @@ export interface Job {
   language?: string;
   totalJobs?: number;
   experienceLevel: string;
-  price?: number;
-  rating?: number;
-  projectDescription?: string;
-  type?: string;
-  payment?: string;
-  skillCategory?: string[];
-  paymentType?: string;
-  notes?: string;
-  artisans?: string;
-  files: string[];
-  images: string[];
-  client: Client;
-  status?: string;
-  applicants?: Artisan[];
-  completedBy?: Artisan;
-  contextLink?: string;
-  additionalProjectInfo?: string;
-  clientAddress?: string;
-  clientDescription?: string;
-}
-
-export interface CompletedJob {
-  id?: string;
-  _id?: string;
-  createdAt: string;
-  projectDuration: { weeks: number };
-  title: string;
-  preferredLocation: string;
-  language?: string;
-  totalJobs?: number;
-  experienceLevel: string;
   price: number;
   rating?: number;
   projectDescription?: string;
@@ -80,6 +49,37 @@ export interface CompletedJob {
   clientAddress?: string;
   clientDescription?: string;
 }
+
+// export interface CompletedJob {
+//   id?: string;
+//   _id?: string;
+//   createdAt: string;
+//   projectDuration: { weeks: number };
+//   title: string;
+//   preferredLocation: string;
+//   language?: string;
+//   totalJobs?: number;
+//   experienceLevel: string;
+//   price: number;
+//   rating?: number;
+//   projectDescription?: string;
+//   type?: string;
+//   payment?: string;
+//   skillCategory?: string[];
+//   paymentType?: string;
+//   notes?: string;
+//   artisans?: string;
+//   files: string[];
+//   images: string[];
+//   client: Client;
+//   status?: string;
+//   applicants: Artisan[] | [];
+//   completedBy: Artisan;
+//   contextLink?: string;
+//   additionalProjectInfo?: string;
+//   clientAddress?: string;
+//   clientDescription?: string;
+// }
 
 export interface Artisan {
   walletAddress: string;
@@ -111,9 +111,7 @@ export interface Applied {
   user_type?: "artisan" | "client"
 }
 
-export interface CompletedProps extends Applied {
-  job: CompletedJob;
-}
+
 
 
 export const Abdul: Client = {
@@ -280,6 +278,7 @@ export const fashion = {
   images: ["/dress.png", "/dress1.png"],
   client: Pope,
   completedBy: Tolu,
+  applicants: DummyArtisans,
   clientAddress: "0x1276eefgegvsbj73yop3hne",
   clientDescription:
     "We’re a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans",
