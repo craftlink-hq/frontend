@@ -4,10 +4,8 @@ import { Applied } from "@/utils/job";
 import Image from "next/image";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { formatDate } from "@/utils/formatDate";
-import NoJob from "./NoJob";
 import ActiveJobSidebar from "./ActiveJobSidebar";
 import { FilterProps } from "@/utils/filters";
-//import Pagnation from "../Pagnation";
 
 const filters: FilterProps[] = [
   { filter: "Status", options: ["Accepted", "In Progress", "Pending Start"] },
@@ -261,3 +259,4 @@ const DisputedJob = ({ jobs }: { jobs: Applied[] }) => {
 };
 
 export default DisputedJob;
+export { DisputedJobCard };

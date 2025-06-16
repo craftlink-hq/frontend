@@ -88,7 +88,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
               style={{ objectFit: "contain" }}
             />
           </span>
-          <span>{job.job?.location || "Lagos, Nigeria"}</span>
+          <span>{job.job?.preferredLocation || "Lagos, Nigeria"}</span>
         </div>
         <div className="flex items-center gap-x-2">
           <span className="relative h-4 w-4">
@@ -110,7 +110,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
               style={{ objectFit: "contain" }}
             />
           </span>
-          <span>{job.job?.duration || "2 Weeks"}</span>
+          <span>{job.job?.projectDuration?.weeks ? `${job.job.projectDuration.weeks} Weeks` : "2 Weeks"}</span>
         </div>
         <div className="flex items-center gap-x-2">
           <span className="relative h-4 w-4">
@@ -121,7 +121,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
               style={{ objectFit: "contain" }}
             />
           </span>
-          <span>{job.job?.skillLevel || "Intermediate"}</span>
+          <span>{job.job?.experienceLevel || "Intermediate"}</span>
         </div>
       </div>
 
@@ -141,7 +141,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
             <span className="text-sm font-normal ml-1">(Fixed)</span>
           </span>
           <span className="text-[#B5B4AD] text-sm">
-            ≈ ₦{job.job?.priceInNaira || "2,250,000"}
+            ≈ ₦{job.job?.price ? (job.job.price * 1500).toLocaleString() : "2,250,000"}
           </span>
         </div>
       </div>
