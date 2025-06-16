@@ -5,8 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 import { HiMenu, HiUser } from 'react-icons/hi';
 
 const MarketplaceHeaderControls = () => {
-  console.log('MarketplaceHeaderControls rendering'); // Add debug log
-
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +28,7 @@ const MarketplaceHeaderControls = () => {
   ];
 
   return (
-    <div className="flex items-center gap-4 border border-red-500"> {/* Add debug border */}
+    <div className="flex items-center gap-4">
       {/* Filter Dropdown */}
       <div className="relative" ref={dropdownRef}>
         <button

@@ -237,15 +237,11 @@ const Filter = ({ filters: propFilters }: { filters?: FilterProps[] }) => {
         }
 
         .dropdown-menu {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          right: 0;
-          z-index: 50;
+          position: relative;
+          margin-top: 0.5rem;
           background-color: #333333;
           border: 1px solid #4a5568;
           border-radius: 0.375rem;
-          margin-top: 0.25rem;
           max-height: 200px;
           overflow-y: auto;
           box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -367,6 +363,7 @@ const Filter = ({ filters: propFilters }: { filters?: FilterProps[] }) => {
                         <div 
                           className="custom-dropdown"
                           ref={el => dropdownRefs.current[filter] = el}
+                          style={{ minHeight: openDropdowns[filter] ? '200px' : 'auto' }}
                         >
                           <button
                             type="button"
@@ -385,7 +382,7 @@ const Filter = ({ filters: propFilters }: { filters?: FilterProps[] }) => {
                             />
                           </button>
                           
-                          {openDropdowns[filter] && (
+                          {openDropdowns[filter] ? (
                             <div className="dropdown-menu">
                               {options.map((option) => (
                                 <div
@@ -397,7 +394,7 @@ const Filter = ({ filters: propFilters }: { filters?: FilterProps[] }) => {
                                 </div>
                               ))}
                             </div>
-                          )}
+                          ) : null}
                         </div>
                       </div>
                     )}

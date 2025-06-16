@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Filter from "@/components/Marketplace/Filter";
-// Remove this import since we're not using PostedJob anymore
 // import PostedJob from "@/components/Marketplace/Job";
 import JobListing from '@/components/Marketplace/JobListingCard/JobListing';
 import JobCard from '@/components/Marketplace/JobListingCard/JobCard';
