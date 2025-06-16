@@ -43,7 +43,7 @@ const ProfileHeader = ({ isActive }: Header) => {
             </span>
           </div>
         </Link>
-        <div className="flex gap-x-4 xl:gap-x-8 lg:w-[50%] justify-center  hidden lg:flex text-lg text-[#B5B4AD]">
+        <div className=" gap-x-4 xl:gap-x-8 lg:w-[50%] justify-center  hidden lg:flex text-lg text-[#B5B4AD]">
           {menuItems.map((item) => (
             <Link key={item.href} href={item.href}>
               <p

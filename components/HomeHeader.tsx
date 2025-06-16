@@ -4,28 +4,28 @@ import Image from "next/image";
 import ConnectWallet from "./ConnectWallet";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
-import { links } from "@/utils/links";
+// import { links } from "@/utils/links";
 import { AccountCard } from "@/utils/profile";
 import { toast } from "sonner";
 import useIsArtisan from '@/hooks/Registry/useIsArtisan';
 import useIsClient from '@/hooks/Registry/useIsClient';
 
-interface Header {
-  isActive: (path: string) => boolean;
-}
+// interface Header {
+//   isActive: (path: string) => boolean;
+// }
 
-const HomeHeader = ({ isActive }: Header) => {
+const HomeHeader = () => {
   const [userCard, setUserCard] = useState<AccountCard | null>(null);
   const isArtisan = useIsArtisan();
   const isClient = useIsClient();
 
   // Menu items array
-  const menuItems = [
-    { href: links.browseJob, label: "Browse Jobs" },
-    { href: links.applied, label: "Manage Jobs" },
-    { href: links.message, label: "Messages" },
-    { href: links.resources, label: "Resources" },
-  ];
+  // const menuItems = [
+  //   { href: links.browseJob, label: "Browse Jobs" },
+  //   { href: links.applied, label: "Manage Jobs" },
+  //   { href: links.message, label: "Messages" },
+  //   { href: links.resources, label: "Resources" },
+  // ];
 
   useEffect(() => {
     const determineUserRole = async () => {
@@ -93,7 +93,7 @@ const HomeHeader = ({ isActive }: Header) => {
           )}
         </div>
       </div>
-      <div className="border-b-[0.5px] border-[#FCFBF726] flex gap-x-8 text-lg text-[#B5B4AD] shadow-md w-screen py-8 md:px-16">
+      {/* <div className="border-b-[0.5px] border-[#FCFBF726] flex gap-x-8 text-lg text-[#B5B4AD] shadow-md w-screen py-8 md:px-16">
         {menuItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <p
@@ -107,7 +107,7 @@ const HomeHeader = ({ isActive }: Header) => {
             </p>
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

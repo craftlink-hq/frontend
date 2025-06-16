@@ -1,151 +1,272 @@
 "use client";
-import { Applied } from "@/utils/job";
+
+import type { Applied } from "@/utils/job";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import Image from "next/image";
-import { formatDate } from "@/utils/formatDate";
-
-const Details = ({
-  value,
-  imageSrc,
-}: {
-  value: string | number;
-  imageSrc: string;
-}) => {
-  return (
-    <div
-      className={`flex gap-x-2 px-2 ${
-        imageSrc !== "/star.png" && "border-r border-[#FCFBF726]"
-      }`}
-    >
-      <span className="relative h-[20px] w-[20px] self-center ">
-        <Image
-          src={imageSrc}
-          alt={"icon"}
-          fill
-          style={{
-            objectFit: "contain",
-            objectPosition: "center",
-          }}
-        />
-      </span>
-      <span className="font-merriweather text-[#D8D6CF]">{value}</span>
-    </div>
-  );
-};
+// import { formatDate } from "@/utils/formatDate"
+// import { IoChatbubbleEllipses } from "react-icons/io5";
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants;
+
   return (
     <AnimatedDiv
       initialX="100%"
       animateX={0}
       exitX={"-100%"}
       duration={1.0}
-      className="group hover:bg-[#F2E8CF0A] border border-[#FCFBF726] w-[85vw] md:w-full  rounded-xl flex flex-col p-4 gap-y-2"
+      className=" border border-[#FCFBF726] w-[92%] md:w-full rounded-xl flex flex-col  gap-y-2 font-merriweather"
     >
-      <span className="italic font-merriweather text-fontPrimary text-sm ">
-        Job posted: {formatDate(job.job?.createdAt)}
-      </span>
-      <h3 className="font-merriweather font-bold text-xl md:text-3xl text-fontPrimary group-hover:text-yellow border-b border-[#FFFFFF40]">
-        {job.job?.title}
-      </h3>
-      <div className="">
-        {applicants ? (
-          <div className="min-w-screen overflow-x-scroll flex gap-x-4 py-2">
-            {" "}
-            {applicants.map((applicant) => (
-              <div
-                key={applicant.walletAddress}
-                className=" font-merriweather text-fontPrimary border border-[#FCFBF726] hover:bg-[#26220826] rounded-lg flex flex-col gap-y-4 p-4 min-w-[95%] lg:min-w-[60%] text-sm md:text-base"
-              >
-                <div className="flex justify-between pt-2 ">
-                  <span className="flex gap-x-2 font-alata text-[#F9F1E2] text-xl md:text-2xl">
-                    {job.job?.client?.walletAddress.slice(0, 6)}...
-                    {job.job?.client?.walletAddress.slice(21)}
-                  </span>
-                  <span className="rounded-full text-xs md:text-sm font-merriweather text-[#FCFBF7] border border-[#FCFBF726] text-center p-2 md:px-4">
-                    View Profile
-                  </span>
-                </div>
-                <div className="flex gap-x-2 flex-wrap">
-                  <Details
-                    imageSrc={"/location.png"}
-                    value={applicant.location}
-                  />
-                  <Details
-                    imageSrc={"/language.png"}
-                    value={applicant.language}
-                  />
-                  <Details
-                    imageSrc={"/expertise.png"}
-                    value={applicant.expertise}
-                  />
-                  <Details imageSrc={"/star.png"} value={applicant.rating} />
-                </div>
-                <div className="flex justify-between font-merriweather">
-                  <button className="hidden xl:flex rounded-md bg-yellow uppercase py-2 px-4 text-sm md:text-base font-bold text-[#1A1203] ">
-                    HIRE ARTISAN
-                  </button>
-                  <button className="flex xl:hidden  rounded-md bg-yellow uppercase py-2 px-4 text-sm md:text-base font-bold text-[#1A1203] ">
-                    HIRE
-                  </button>
+      {/* Posted Date */}
+      <div className="w-full bg-[#403F3E] p-4">
+        <span className=" text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-[10px]">
+          Posted: 2 weeks ago
+        </span>
+      </div>
 
-                  <button className="hidden xl:flex  w-fit py-2 px-4 text-sm md:text-base uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold flex gap-x-2">
-                    <span className="relative h-[25px] w-[25px] self-center ">
-                      <Image
-                        src="/message-white.png"
-                        alt="Chats"
-                        fill
-                        style={{
-                          objectFit: "contain",
-                          objectPosition: "center",
-                        }}
-                      />
-                    </span>{" "}
-                    START CHAT
+      <div className="p-4 space-y-4 flex justify-between w-full">
+        {/* Job Title */}
+        <div className="space-y-[4px]">
+          <h2 className="text-[#F9F1E2] font-alata text-2xl font-bold">
+            {job.job?.title}
+          </h2>
+
+          {/* Job Details */}
+          <div className="flex items-center text-sm text-[#B5B4AD] mb-2">
+            {/* <div className="flex w-full md:w-[90%] 2xl:w-[50%] gap-x-4 py-2 "> */}
+            <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
+              <Image
+                src={"/location.png"}
+                alt={"location"}
+                width="18"
+                height="16"
+              />
+              <span className="font-merriweather text-[#D8D6CF]">
+                {job.job.preferredLocation}
+              </span>
+            </div>
+            <div className="flex justify-center items-center gap-x-2 px-2  border-r border-[#FCFBF726] ">
+              <Image
+                src={"/language.png"}
+                alt={"language"}
+                width="14"
+                height="16"
+              />
+              <span className="font-merriweather text-[#D8D6CF]">
+                {job.job.language}
+              </span>
+            </div>
+            <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
+              <Image
+                src={"/calendar.png"}
+                alt={"timeline"}
+                width="18"
+                height="16"
+              />
+              <span className="font-merriweather text-[#D8D6CF]">
+                {job.job.projectDuration.weeks} weeks
+              </span>
+            </div>
+            <div className="flex justify-center items-center gap-x-2 px-2 ">
+              <Image
+                src={"/expertise.png"}
+                alt={job.job.experienceLevel}
+                width="20"
+                height="16"
+              />
+              <span className="font-merriweather text-[#D8D6CF]">
+                {job.job.experienceLevel}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Budget */}
+        <div className="flex gap-x-2 items-center text-[#FFCC6D]">
+          <div className="flex">
+            <Image
+              src="/money-2.png"
+              alt="Amount"
+              width="18"
+              height="18"
+              className="hidden md:flex"
+            />
+          </div>
+          <span className="text-[#FFCC6D] text-2xl font-bold font-alata">
+            ${job?.job?.price}
+            <span className="text-sm font-normal text-[#FFCC6D]">(Fixed)</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Applications Section */}
+      {applicants && applicants.length > 0 ? (
+        <>
+          {/* First Applicant Featured */}
+          <div className="bg-blurBg backdrop-blur-[200px]  rounded-lg p-6">
+            <div className="flex gap-4 mb-6 w-full h-full ">
+              {/* Profile Image */}
+              <div className="relative h-32 w-32 flex-shrink-0">
+                <Image
+                  src={applicants[0].avatar}
+                  alt="Protoblack"
+                  fill
+                  className="rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Profile Info */}
+              <div className="flex-1">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-2xl font-bold text-[#F9F1E2]">
+                    Protoblack
+                  </h3>
+                  <button className="text-yellow hover:text-yellow/80 transition-colors text-sm font-medium">
+                    View Profile
                   </button>
-                  <button className="flex xl:hidden  w-fit py-2 px-4 text-sm md:text-base uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold gap-x-2">
-                    <span className="relative h-[25px] w-[25px] self-center ">
-                      <Image
-                        src="/message-white.png"
-                        alt="Chats"
-                        fill
-                        style={{
-                          objectFit: "contain",
-                          objectPosition: "center",
-                        }}
-                      />
+                </div>
+
+                <h4 className="text-lg text-[#B5B4AD] mb-4">
+                  Fashion Designer
+                </h4>
+
+                {/* Details */}
+                <div className="flex flex-wrap items-center gap-4 text-sm text-[#B5B4AD]">
+                  {/* <div className="flex items-center text-sm text-[#B5B4AD] mb-2"> */}
+                  <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
+                    <Image
+                      src={"/location.png"}
+                      alt={"location"}
+                      width="18"
+                      height="16"
+                    />
+                    <span className="font-merriweather text-[#D8D6CF]">
+                      {applicants[0].location}
                     </span>
-                    {""}CHAT
-                  </button>
+                  </div>
+                  <div className="flex justify-center items-center gap-x-2 px-2  border-r border-[#FCFBF726] ">
+                    <Image
+                      src={"/language.png"}
+                      alt={"language"}
+                      width="14"
+                      height="16"
+                    />
+                    <span className="font-merriweather text-[#D8D6CF]">
+                      {applicants[0].language}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726]">
+                    <Image
+                      src={"/expertise.png"}
+                      alt={"expertise"}
+                      width="20"
+                      height="16"
+                    />
+                    <span className="font-merriweather text-[#D8D6CF]">
+                      {applicants[0].expertise}
+                    </span>
+                  </div>
+                  <div className="flex justify-center items-center gap-x-2 px-2  ">
+                    <Image
+                      src={"/calendar.png"}
+                      alt={"timeline"}
+                      width="18"
+                      height="16"
+                    />
+                    <span className="font-merriweather text-[#D8D6CF]">
+                      <span>Available to work</span>
+                    </span>
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
-        ) : (
-          <div className="bg-[#333333] rounded-xl p-8 grid gap-y-2 xl:w-[60%] shadow-md shadow-[#33333340]">
-            <div className="py-2 border-b border-[#FCFBF726]">
-              <h1 className="border-b-2 border-yellow py-2 text-[#FCFBF7] w-fit font-bold">
+
+          {/* About Section */}
+          {/* <div className="mb-6">
+              <h4 className="text-lg font-medium text-[#F9F1E2] mb-3">About</h4>
+              <p className="text-[#B5B4AD] mb-4">{applicants[0].about}</p>
+
+              {/* Skills */}
+          {/* <div className="flex flex-wrap p-2 gap-2">
+                {applicants[0].profile.skills.slice(0, 6).map((skill) => (
+                  <span
+                    key={skill}
+                    className="flex items-center px-4 py-[4px] rounded-full border border-[#FFFFFF40] text-[#D8D6CF] text-sm font-bold bg-[#26220826]"
+                  >
+                    {skill}
+                  </span>
+                ))}
+                {applicants[0].profile.skills.length > 6 && (
+                  <span className="flex items-center px-2 py-[4px] text-[#AEFF00] text-sm italic ">
+                    +{applicants[0].profile.skills.length - 6} More
+                  </span>
+                )}
+              </div>
+            </div> }
+
+            {/* Action Buttons */}
+          {/* <div className="flex gap-3">
+              <button className="flex-1 bg-yellow text-[#1A1203] font-bold py-3 px-4 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
+                Hire Artisan
+              </button>
+              <button className="flex-1 bg-[#2A2A2A] text-[#F9F1E2] font-bold py-3 px-4 rounded uppercase text-sm hover:bg-[#3A3A3A] transition-colors flex items-center justify-center gap-2">
+                <IoChatbubbleEllipses className="h-4 w-4" />
+                Start Chat
+              </button>
+            </div>
+          </div> */}
+          {/* Applications Summary */}
+          <div className="bg-[#333333] border border-[#F2E8CF0A] rounded-lg p-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <h4 className="text-lg font-medium text-[#F9F1E2] mb-1">
+                  {applicants.length} Applications Received
+                </h4>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                  <p className="text-[#B5B4AD] text-sm">
+                    Under Review: You have applications to review
+                  </p>
+                </div>
+              </div>
+              <button className="bg-yellow text-[#1A1203] font-bold py-2 px-4 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
+                View All Applicants
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        /* No Applications State */
+        <div className="bg-[#333333] rounded-lg p-8">
+          <div className="text-center">
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-[#F9F1E2] mb-2 border-b-2 border-yellow pb-2 inline-block">
                 No Applications Yet
-              </h1>
+              </h3>
             </div>
-            <span>
-              No artisan has applied for this job yet. Closing the job will
-              remove it from the marketplace, and artisans will no longer see
-              it.
-            </span>
-            <span className="py-2">Do you want to close this job?</span>
-            <div className="flex justify-between">
-              <button className="bg-[#262208] hidden md:flex rounded-md text-[#FCF8E3] py-2 px-4">
-                KEEP JOB OPEN
+
+            <div className="space-y-4 text-[#B5B4AD] mb-6">
+              <p>
+                No artisan has applied for this job yet. Closing the job will
+                remove it from the marketplace, and artisans will no longer see
+                it.
+              </p>
+              <p className="font-medium">Do you want to close this job?</p>
+            </div>
+
+            <div className="flex gap-3 justify-center">
+              <button className="bg-[#2A2A2A] text-[#F9F1E2] font-bold py-3 px-6 rounded uppercase text-sm hover:bg-[#3A3A3A] transition-colors">
+                Keep Job Open
               </button>
-              <button className="bg-yellow rounded-md font-bold text-[#1A1203] py-2 px-4">
-                YES, CLOSE JOB
+              <button className="bg-yellow text-[#1A1203] font-bold py-3 px-6 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
+                Yes, Close Job
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </AnimatedDiv>
   );
 };

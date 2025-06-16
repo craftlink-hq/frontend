@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useGetArtisanData } from "@/utils/store";
 import {useRouter} from "next/navigation";
 
-export default function Category() {
+export default function Skills() {
   const [skills, setSkills] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const { setSelectedSkills } = useGetArtisanData();

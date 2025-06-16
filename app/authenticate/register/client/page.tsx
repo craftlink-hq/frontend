@@ -110,7 +110,7 @@ export default function Register() {
             </div>
 
             <div className="justify-self-center py-2 md:px-12 gap-y-2 grid font-merriweather md:col-span-2">
-              <Button onClick={createAccount} text={"Create Account"} />
+              <Button onClick={createAccount} text={"Proceed"} />
             </div>
           </form>
         </div>
