@@ -42,9 +42,11 @@ const SecondDesign = () => {
           >
             Empower Your <span className="text-[#FFD700]">Crafts</span>, Connect
             with Clients.{" "}
-            <Link href={links.browseJob}>
-              <Button text="Get Started" />
-            </Link>
+            <div className="text-base">
+              <Link href={links.browseJob}>
+                <Button text="Get Started" />
+              </Link>
+            </div>
           </p>
           <Image
             src="/bg-square.png"

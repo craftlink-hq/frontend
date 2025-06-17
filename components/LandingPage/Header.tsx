@@ -5,16 +5,15 @@ import { MdOutlineMenu } from "react-icons/md";
 import { useState } from "react";
 import Button from "../Button";
 import AnimatedDiv from "@/components/AnimatedDiv";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
-import ConnectWallet from "../ConnectWallet";
+// import ConnectWallet from "../ConnectWallet";
 import useIsClient from "@/hooks/Registry/useIsClient";
 import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import useHasClaimed from "@/hooks/Token/useHasClaimed";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { isConnected } = useAccount();
   const router = useRouter();
   const isClient = useIsClient();
   const isArtisan = useIsArtisan();
