@@ -1,35 +1,29 @@
-import Image from "next/image";
+// import Image from "next/image";
 
 interface StatusProps {
   title: string;
-  shortDesc?: string;
-  imageSrc: string;
+  // shortDesc?: string;
+  // imageSrc: string;
   desc: string;
-  button: string;
-  clientButton?: string;
-  onClick?: () => void;
-  clientOnClick?: () => void;
+  // button: string;
+  // clientButton?: string;
+  // onClick?: () => void;
+  // clientOnClick?: () => void;
 }
 
 const Status = ({
   title,
-  shortDesc,
-  imageSrc,
   desc,
-  button,
-  clientButton,
-  onClick,
-  clientOnClick,
+ 
 }: StatusProps) => {
   return (
-    <div className="p-4 text-[#F9F1E2] font-merriweather bg-[#F2E8CF0A] rounded-lg flex justify-between">
-      <div className=" gap-y-4 flex px-2 flex-col">
+    <div className=" text-[#F9F1E2] font-merriweather  flex justify-between">
+      <div className=" gap-y-4 flex flex-col">
         <span className="flex flex-col gap-y-2">
           <h2 className="text-xl font-bold">{title}</h2>
-          <p className="text-sm italic">{shortDesc}</p>
+          <p className="text-sm italic">{desc}</p>
         </span>
-        <span className="text-[#FCFBF7]">{desc}</span>
-        <div className="flex gap-x-4">
+        {/* <div className="flex gap-x-4">
           <button
             onClick={onClick}
             className="flex w-fit py-2 px-4 uppercase  bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base"
@@ -44,16 +38,16 @@ const Status = ({
               {clientButton}
             </button>
           )}
-        </div>
+        </div> */}
       </div>
-      <div className="hidden md:flex relative h-44 w-44 ">
+      {/* <div className="hidden md:flex relative h-44 w-44 ">
         <Image
           src={imageSrc}
           alt="Profile status"
           fill
           style={{ objectFit: "contain", objectPosition: "center" }}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

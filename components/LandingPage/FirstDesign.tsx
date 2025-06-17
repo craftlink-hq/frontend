@@ -58,7 +58,7 @@ const FirstDesign = () => {
           for securely and effortlessly.
         </p>
         <div className="animate-slideInLeft">
-        <Link  href={links.register}>
+        <Link  href={links.browseJob}>
           <Button text="Get Started" />
           </Link>
         </div>

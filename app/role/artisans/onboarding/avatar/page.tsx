@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { uploadFiles } from "@/utils/upload";
 import { toast } from "sonner";
 
-export default function Pricing() {
+export default function Avatar() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const router = useRouter();
   const { setAvatar } = useGetArtisanData();

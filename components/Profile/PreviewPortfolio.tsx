@@ -8,12 +8,12 @@ const PreviewPortfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
       <div className="min-w-screen flex overflow-x-scroll gap-x-4">
         {portfolio.map((project) => (
           <div
-            key={project.id}
+            key={project.imgSrc[0]}
             className="bg-[#F2E8CF0A] rounded-lg h-[45vh] min-w-[90%] md:min-w-[35%] md:max-w-[50%] lg:min-w-[20%] 2xl:max-w-[25%] flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
           >
             <span className="relative h-[20vh] md:h-[70%] w-full">
               <Image
-                src={project.imgSrc}
+                src={project.imgSrc[0]}
                 alt="Project image"
                 fill
                 style={{ objectFit: "cover", objectPosition: "center" }}

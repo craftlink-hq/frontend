@@ -12,7 +12,11 @@ const MarketHeader = ({ toggleFilter, isActive }: Header) => {
   return (
     <div className="relative bg-header">
       <div className="hidden md:grid">
+<<<<<<< HEAD
         <MarketplaceHeader isActive={isActive} />
+=======
+        <HomeHeader/>
+>>>>>>> main
       </div>
       <div className="grid md:hidden">
         <MobileHeader isActive={isActive} toggleFilter={toggleFilter} />

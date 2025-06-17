@@ -1,6 +1,6 @@
 "use client";
 import { appliedJobFilters } from "@/utils/filters";
-import { Actives } from "@/utils/job";
+import { Completed } from "@/utils/job";
 import CompletedJob from "@/components/ManageJobs/Completed";
 import ManageJobs from "@/components/ManageJobs/Job";
 
@@ -14,7 +14,7 @@ export default function CompletedJobs() {
         }
         imageSrc={"/completed.png"}
         filters={appliedJobFilters}
-        jobs={Actives}
+        jobs={Completed}
         JobStatus={CompletedJob}
         jobType={"completed"}
         pageDetails={

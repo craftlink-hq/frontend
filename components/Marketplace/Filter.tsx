@@ -287,166 +287,47 @@ const Filter = ({ filters: propFilters }: { filters?: FilterProps[] }) => {
               </div>
             </button>
           </div>
-          
-          {/* Filter Sections */}
-          <div className="w-full flex flex-col gap-y-4 p-4">
-            {filtersToUse.map(({ filter, options }, index) => (
-              <div className={index < filtersToUse.length - 1 ? "py-2 border-b border-gray-700" : "py-2"} key={filter}>
-                {/* Filter Header */}
-                <button
-                  className="flex w-full justify-between"
-                  onClick={() => toggleFilter(filter)}
-                >
-                  <span className="font-bold text-white">
-                    {filter}
-                  </span>
-                  {openFilters[filter] ? (
-                    <RiArrowDropUpLine size={24} className="text-white" />
-                  ) : (
-                    <RiArrowDropDownLine size={24} className="text-white" />
-                  )}
-                </button>
-                
-                {/* Filter Content */}
-                {openFilters[filter] && (
-                  <div className="px-2 mt-2">
-                    {/* Budget - Radio buttons */}
-                    {filter === "Budget" && (
-                      <div className="space-y-3 checkbox-container p-4 rounded-md border border-[#FCFBF726]">
-                        {options.map((option) => (
-                          <label key={option} className="flex items-center gap-3 cursor-pointer group">
-                            <div className="relative">
-                              <input
-                                type="radio"
-                                name="budget"
-                                value={option}
-                                checked={checked[option]}
-                                onChange={() => handleBudgetRadio(option)}
-                                className="sr-only"
-                              />
-                              <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
-                                checked[option] 
-                                  ? 'bg-green-500 border-green-500' 
-                                  : 'border-gray-500 group-hover:border-gray-400'
-                              }`}>
-                                {checked[option] && (
-                                  <FaCheck size={8} color="white" />
-                                )}
-                              </div>
-                            </div>
-                            <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
-                              {option}
-                            </span>
-                          </label>
-                        ))}
-                        
-                        {/* Custom Budget Input - Always visible to match screenshot */}
-                        <div className="mt-4">
-                          <p className="text-sm text-gray-400 mb-2">Please specify your budget</p>
-                          <div className="relative">
-                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
-                            <input
-                              type="text"
-                              value={customBudget}
-                              onChange={(e) => setCustomBudget(e.target.value)}
-                              className="input-field w-full border border-gray-600 rounded px-8 py-2 text-white focus:outline-none focus:border-gray-500"
-                              placeholder="30000"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Location and Job duration - Custom Dropdown */}
-                    {(filter === "Location" || filter === "Job duration") && (
-                      <div className="relative checkbox-container p-2 rounded-md border border-[#FCFBF726]">
-                        <div 
-                          className="custom-dropdown"
-                          ref={el => dropdownRefs.current[filter] = el}
-                          style={{ minHeight: openDropdowns[filter] ? '200px' : 'auto' }}
-                        >
-                          <button
-                            type="button"
-                            className="dropdown-button"
-                            onClick={() => toggleDropdown(filter)}
-                          >
-                            <span>
-                              {filter === "Location" 
-                                ? (selectedLocation || "Select preferred Location...")
-                                : (selectedJobDuration || "Select category")
-                              }
-                            </span>
-                            <RiArrowDropDownLine 
-                              className={`text-gray-400 transition-transform ${openDropdowns[filter] ? 'rotate-180' : ''}`} 
-                              size={16} 
-                            />
-                          </button>
-                          
-                          {openDropdowns[filter] ? (
-                            <div className="dropdown-menu">
-                              {options.map((option) => (
-                                <div
-                                  key={option}
-                                  className="dropdown-option"
-                                  onClick={() => selectOption(filter, option)}
-                                >
-                                  {option}
-                                </div>
-                              ))}
-                            </div>
-                          ) : null}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Job Category - Dropdown + Checkboxes */}
-                    {filter === "Job Category" && (
-                      <div className="space-y-4 checkbox-container p-4 rounded-md border border-[#FCFBF726]">
-                        <div className="input-field flex justify-between text-gray-300 py-2 px-4 rounded-md border border-gray-600">
-                          <span>Select category</span>
-                          <RiArrowDropDownLine size={24} className="text-gray-400" />
-                        </div>
-                        
-                        {/* Category Checkboxes with Custom Scrollbar */}
-                        <div 
-                          className="checkbox-container w-full p-4 border rounded-md shadow-md border-t-0 border-[#FCFBF726] space-y-2 category-scrollbar"
-                          style={{
-                            maxHeight: '200px',
-                            overflowY: 'scroll'
-                          }}
-                        >
-                          {options.map((option) => (
-                            <div key={option} className="flex gap-4 capitalize">
-                              <div className="relative h-[20px] w-[20px]">
-                                <input
-                                  type="checkbox"
-                                  onChange={() => handleCheck(option)}
-                                  checked={checked[option]}
-                                  className="appearance-none h-[20px] w-[20px] border-2 rounded-sm p-2 checked:border-0 checked:bg-green-500 border-gray-500"
-                                />
-                                {checked[option] && (
-                                  <FaCheck
-                                    size={12}
-                                    color={"white"}
-                                    className="absolute top-[4px] left-[4px] pointer-events-none"
-                                  />
-                                )}
-                              </div>
-                              <span className="text-gray-300">{option}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Job Title Input - Partial text visible as in screenshot */}
-                        <div>
-                          <p className="text-sm text-gray-400 mb-2">Please specify job title</p>
+        </div>
+        <div className="w-full flex flex-col gap-y-4 p-4">
+          {filters.map(({ filter, options }) => (
+            <div className="py-2" key={filter}>
+              <button
+                className="flex  w-full justify-between"
+                onClick={() => toggleFilter(filter)}
+              >
+                <span className="font-merriweather font-bold text-[#F9F1E2]">
+                  {filter}
+                </span>
+                {openFilters[filter] ? (
+                  <RiArrowDropUpLine size={32} />
+                ) : (
+                  <RiArrowDropDownLine size={32} />
+                )}
+              </button>
+              {openFilters[filter] && (
+                <div className="px-2 mt-2">
+                  <div className="flex justify-between bg-[#F2E8CF0A] text-[#B5B4AD] py-2 px-4 rounded-md border rounded-b-none border-b-0 border-[#FCFBF726]">
+                    Select category
+                    <RiArrowDropDownLine size={24} color={"#B5B4AD"} />
+                  </div>
+                  <ul className="w-full p-4 border rounded-md shadow-md bg-[#26220826] border-t-0 rounded-t-none border-[#FCFBF726] space-y-2">
+                    {options.map((option) => (
+                      <li key={option} className="flex gap-4 capitalize">
+                        <div className="relative h-[20px] w-[20px]">
                           <input
-                            type="text"
-                            value={jobTitle}
-                            onChange={(e) => setJobTitle(e.target.value)}
-                            placeholder=""
-                            className="input-field w-full border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-gray-500"
+                            type="checkbox"
+                            onChange={() => handleCheck(option)}
+                            checked={checked[option]}
+                            className=" appearance-none h-[20px] w-[20px] border-2 rounded-sm p-2 checked:border-0 checked:bg-[#04DF76] border-[#9A9992]"
                           />
+                          {checked[option] && (
+                            <FaCheck
+                              size={12}
+                              color={"#111A00"}
+                              className="absolute top-[5px] left-[5px]"
+                              onClick={() => handleCheck(option)}
+                            />
+                          )}
                         </div>
                       </div>
                     )}

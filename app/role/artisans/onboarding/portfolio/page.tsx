@@ -9,67 +9,64 @@ import { toast } from "sonner";
 
 export default function Portfolio() {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [isUploading, setIsUploading] = useState<boolean>(false); // Track upload state
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [projectTitle, setProjectTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [duration, setDuration] = useState("");
 
   const router = useRouter();
-  const { setWhProjectTitle, setWhDescription, setWhDuration, setWhMediaUrls } =
-    useGetArtisanData();
+  const addWorkHistoryItem = useGetArtisanData(
+    (state) => state.addWorkHistoryItem
+  );
 
   const handleNext = async () => {
-    setIsUploading(true); // Start uploading
+    setIsUploading(true);
 
     try {
       let uploadedUrls: string[] = [];
 
-      // Only upload files if there are image previews
       if (imagePreviews.length > 0) {
-        // Convert image previews (blob URLs) back to File objects
         const files = await Promise.all(
           imagePreviews.map(async (preview, index) => {
             const response = await fetch(preview);
             const blob = await response.blob();
             const mimeType = blob.type;
-            const fileExtension = mimeType.split("/")[1];
+            const extension = mimeType.split("/")[1];
 
             return new File(
               [blob],
-              `image-${Date.now()}-${index}.${fileExtension}`,
+              `image-${Date.now()}-${index}.${extension}`,
               {
                 type: mimeType,
               }
             );
           })
         );
-        // Upload files to Cloudinary
+
         uploadedUrls = await uploadFiles(files);
-        console.log(uploadedUrls);
       }
 
-      setWhMediaUrls(uploadedUrls);
+      // Construct work history item and save to store
+      const workItem = {
+        projectTitle,
+        description,
+        duration,
+        mediaUrls: uploadedUrls,
+      };
+
+      addWorkHistoryItem(workItem);
 
       router.push("/role/artisans/onboarding/pricing");
     } catch (error) {
       console.error("Error uploading files:", error);
       toast.error("Failed to upload files. Please try again.");
     } finally {
-      setIsUploading(false); // Stop uploading
+      setIsUploading(false);
     }
   };
 
   const handlePrevious = () => {
     router.push("/role/artisans/onboarding/bio");
-  };
-
-  const handleProjectTitle = (title: string) => {
-    setWhProjectTitle(title);
-  };
-
-  const handleDescription = (description: string) => {
-    setWhDescription(description);
-  };
-
-  const handleDuration = (duration: string) => {
-    setWhDuration(duration);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +104,7 @@ export default function Portfolio() {
             <div>
               <p className="font-bold">Project Title</p>
               <textarea
-                onChange={(e) => handleProjectTitle(e.target.value)}
+                onChange={(e) => setProjectTitle(e.target.value)}
                 placeholder="Write a short descriptive title E.g Luxury Wedding Gown Design"
                 className="h-24 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
               ></textarea>
@@ -117,7 +114,7 @@ export default function Portfolio() {
               <div className="flex items-start w-full gap-x-2">
                 <div className="w-[50%] py-4">
                   <input
-                    onChange={(e) => handleDuration(e.target.value)}
+                    onChange={(e) => setDuration(e.target.value)}
                     type="number"
                     placeholder="0"
                     min={0}
@@ -128,7 +125,9 @@ export default function Portfolio() {
                   <div
                     className="flex self-center items-center justify-between bg-[#F2E8CF29] p-[12px] w-full rounded-md border border-[#FCFBF726] relative
                     text-[#F9F1E2]"
-                  >Week(s)</div>
+                  >
+                    Week(s)
+                  </div>
                 </div>
               </div>
             </div>
@@ -137,7 +136,7 @@ export default function Portfolio() {
             <div>
               <p className="font-bold">Description</p>
               <textarea
-                onChange={(e) => handleDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Write a brief summary of the project"
                 className="h-44 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-4 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
               />

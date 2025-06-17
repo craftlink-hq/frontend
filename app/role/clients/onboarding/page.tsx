@@ -52,7 +52,7 @@ export default function Onboarding() {
       
       if (uploadedUrl) {
         setClientAvatar(uploadedUrl[0]);
-        router.push("/role/clients/create-job/title");
+        router.push("/profile/clients");
       }
     } catch (error) {
       console.error("Error during onboarding:", error);
@@ -234,7 +234,7 @@ export default function Onboarding() {
                 <span className="animate-spin">↻</span> Uploading...
               </span>
             ) : (
-              "Next, Job Title"
+              "Proceed"
             )}
           </button>
         </div>

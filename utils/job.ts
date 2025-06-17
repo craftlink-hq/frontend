@@ -1,3 +1,5 @@
+import { dummyProfile, ArtisanProfileProps } from "@/utils/profile";
+
 export interface Client {
   walletAddress: string;
   verificationStatus: boolean;
@@ -14,6 +16,7 @@ export interface Client {
   posted: number;
   noProjectSpentMoney: number;
   rating: number;
+  category?: string;
 }
 
 export interface Job {
@@ -26,7 +29,7 @@ export interface Job {
   language?: string;
   totalJobs?: number;
   experienceLevel: string;
-  price?: number;
+  price: number;
   rating?: number;
   projectDescription?: string;
   type?: string;
@@ -39,12 +42,16 @@ export interface Job {
   images: string[];
   client: Client;
   status?: string;
-  applicants?: Artisan[];
-  completedBy?: Artisan;
+  applicants: Artisan[] | [];
+  completedBy?: Artisan ;
   contextLink?: string;
   additionalProjectInfo?: string;
   clientAddress?: string;
   clientDescription?: string;
+}
+
+export interface CompletedJob extends Job {
+  completedBy: Artisan;
 }
 
 export interface Artisan {
@@ -58,22 +65,30 @@ export interface Artisan {
   expertise: string;
   rating: number;
   review?: string;
+  category: string;
+  avatar: string;
+  username: string;
+  profile: ArtisanProfileProps
+  available?: boolean
 }
 
 export interface Applied {
   startDate: string;
   status: string;
   statusMsg: string;
-  job: Job;
+  job: CompletedJob;
   endDate?: string;
   rating?: number;
   feedback?: string;
   disputeType?: string;
   issue?: string;
-
   disputeRaisedDate?: string;
   disputeStatus?: "pending" | "resolved" | "escalated";
+  user_type?: "artisan" | "client"
 }
+
+
+
 
 export const Abdul: Client = {
   walletAddress: "0x1276eefgegvsbj73yop3hne",
@@ -106,6 +121,10 @@ const Tolu: Artisan = {
   expertise: "Intermediate",
   rating: 3.5,
   review: "Described as clear, collaborative, and timely",
+  avatar: "/client-avatar.png",
+  category: "Fashion",
+  username: "abdul",
+  profile: dummyProfile
 };
 
 const DummyArtisans: Artisan[] = [
@@ -121,6 +140,11 @@ const DummyArtisans: Artisan[] = [
     expertise: "Intermediate",
     rating: 3.5,
     review: "Described as clear, collaborative, and timely",
+    avatar: "/client-avatar.png",
+    category: "Fashion",
+    username: "abdul",
+    profile: dummyProfile
+
   },
   {
     walletAddress: "0x1286eefgegvsbj73yop3hne",
@@ -133,6 +157,11 @@ const DummyArtisans: Artisan[] = [
     language: "English",
     expertise: "Intermediate",
     rating: 3.5,
+    avatar: "/client-avatar.png",
+    category: "Fashion",
+    username: "abdul",
+    profile: dummyProfile
+
   },
 ];
 
@@ -226,6 +255,7 @@ export const fashion = {
   images: ["/dress.png", "/dress1.png"],
   client: Pope,
   completedBy: Tolu,
+  applicants: DummyArtisans,
   clientAddress: "0x1276eefgegvsbj73yop3hne",
   clientDescription:
     "We’re a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans",
@@ -256,6 +286,7 @@ export const Actives: Applied[] = [
     feedback:
       "The artisan did an excellent job with the designs. Highly recommend!",
     rating: 4.5,
+    user_type: "artisan"
   },
   {
     startDate: "16/01/25",
@@ -266,6 +297,7 @@ export const Actives: Applied[] = [
     feedback:
       "The artisan did an excellent job with the designs. Highly recommend!",
     rating: 4.8,
+    user_type: "artisan"
   },
 ];
 
@@ -327,4 +359,32 @@ export const dispute: Applied = {
     "The client has not confirmed that the artisan has completed the job on their end, preventing the release of funds.",
 };
 
+export const Completed: Applied[] = [
+  {
+    startDate: "13/01/25",
+    status: "progress",
+    statusMsg: "In progress",
+    job: fashionDesigner,
+    endDate: "24/01/25",
+    feedback:
+      "The artisan did an excellent job with the designs. Highly recommend!",
+    rating: 4.5,
+    user_type: "client"
+  },
+  {
+    startDate: "16/01/25",
+    status: "progress",
+    statusMsg: "In progress",
+    job: fashion,
+    endDate: "28/01/25",
+    feedback:
+      "The artisan did an excellent job with the designs. Highly recommend!",
+    rating: 4.8,
+    user_type: "client"
+  },
+];
+
 export const jobs: Job[] = [fashionDesigner, fashion];
+
+
+export const percentage = 5
