@@ -1,12 +1,8 @@
 "use client";
-<<<<<<< HEAD
-import Filter from "./ActiveJobSidebar";
-=======
 
 import type React from "react";
 
 import Filter from "@/components/Marketplace/Filter";
->>>>>>> main
 import { useFilterState } from "@/context/filter";
 import type { Applied } from "@/utils/job";
 import type { FilterProps } from "@/utils/filters";
