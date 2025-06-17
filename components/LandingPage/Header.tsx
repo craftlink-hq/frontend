@@ -77,7 +77,7 @@ const Header = () => {
 
         <div className="hidden lg:flex">
           {/* <Link  href={links.register}> */}
-          {isConnected ? <Button onClick={handleLogin} text="Get Started" /> :  <ConnectWallet />}
+          <Button onClick={handleLogin} text="Sign In" /> 
           {/* </Link> */}
         </div>
 
