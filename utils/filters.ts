@@ -1,12 +1,13 @@
+// utils/filters.ts
 export interface FilterProps {
   filter: string;
   options: string[];
 }
 
-const Budget: string[] = ["low", "mid", "high"];
+const Budget: string[] = ["Under $50", "$50 - $200", "$200 above", "Custom"];
 
 const JobCategory: string[] = [
-  "Fashion designer",
+  "Fashion Designer",
   "Carpenter",
   "Electrician",
   "Mechanic",
@@ -14,12 +15,9 @@ const JobCategory: string[] = [
 ];
 
 const JobDuration: string[] = [
-  "a week",
-  "2 weeks",
-  "1 month",
-  "2 months",
-  "3 months+",
-  "others",
+  "Short-term (1-3 months)",
+  "Medium-term (3-6 months)",
+  "Long-term (6+ months)",
 ];
 
 const Duration: string[] = [
@@ -49,10 +47,11 @@ const JobHistory: string[] = [
 ]
 
 const Location: string[] = [
-  "Nigeria",
-  "United States",
-  "Others"
+  "Remote",
+  "On-site",
+  "Hybrid"
 ]
+
 const Language: string[] = [
   "English",
   "Yoruba",
@@ -62,7 +61,6 @@ const Language: string[] = [
   "Arabic",
   "Others"
 ]
-
 
 const JobType: string[] = [
   "Fixed Price",
@@ -100,40 +98,27 @@ export const ArtisanLocation: FilterProps = {
   options: Location
 }
 
-
+// Updated filters to match screenshot
 export const filters: FilterProps[] = [
   {
     filter: "Budget",
     options: Budget,
   },
   {
-    filter: "Job Category",
-    options: JobCategory,
-  },
-  {
-    filter: "Job Duration",
-    options: JobDuration,
-  },
-  {
-    filter: "Experience Level",
-    options: ExperienceLevel,
-  },
-  {
-    filter: "Client Rating",
-    options: Rating,
-  },
-  {
-    filter: "Client Job History",
-    options: JobHistory,
-  },
-  {
     filter: "Location",
     options: Location,
   },
+  {
+    filter: "Job duration",
+    options: JobDuration,
+  },
+  {
+    filter: "Job Category",
+    options: JobCategory,
+  },
 ];
 
-
-export const appliedJobFilters:  FilterProps[] = [
+export const appliedJobFilters: FilterProps[] = [
   {
     filter: "Status",
     options: JobDuration,
@@ -154,4 +139,23 @@ export const appliedJobFilters:  FilterProps[] = [
     filter: "Location",
     options: Location,
   },
+];
+
+export const disputedJobFilters: FilterProps[] = [
+  { 
+    filter: "Status", 
+    options: ["Pending Client Action", "Pending Artisan Response", "Under Review", "Escalated"] 
+  },
+  { 
+    filter: "Dispute Type", 
+    options: ["Payment Not Released", "Work Quality", "Scope Change", "Delivery Delay", "Communication Issue"] 
+  },
+  { 
+    filter: "Raised Date", 
+    options: ["Last 7 days", "Last 30 days", "Last 3 months", "Older"] 
+  },
+  { 
+    filter: "Sort By", 
+    options: ["Date Raised", "Priority", "Amount", "Resolution Status"] 
+  }
 ];

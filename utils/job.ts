@@ -82,6 +82,8 @@ export interface Applied {
   feedback?: string;
   disputeType?: string;
   issue?: string;
+  disputeRaisedDate?: string;
+  disputeStatus?: "pending" | "resolved" | "escalated";
   user_type?: "artisan" | "client"
 }
 
@@ -173,6 +175,7 @@ const fashionDesigner = {
   experienceLevel: "Intermediate",
   price: 1500,
   rating: 3.5,
+  contextLink: "https://pinterest.com/fashion-inspiration",
   projectDescription: `We’re seeking a highly skilled and experienced tailor to bring our upcoming fashion collection to life. The project involves creating 15 bespoke pieces, including evening gowns, tailored suits, and casual wear, designed to align with the theme of elegance and contemporary style. Detailed sketches and fabric materials will be provided for each piece.
 The tailor is expected to:
 
@@ -319,6 +322,31 @@ export const Closed: Applied[] = [
       "The artisan did an excellent job with the designs. Highly recommend!",
     rating: 4.8,
   },
+];
+
+export const Disputed: Applied[] = [
+  {
+    startDate: "13/01/25",
+    status: "dispute",
+    statusMsg: "Pending: Awaiting Client Action",
+    job: fashionDesigner,
+    endDate: "24/01/25",
+    disputeType: "Payment not released",
+    disputeRaisedDate: "13/12/24",
+    disputeStatus: "pending",
+    issue: "The client has not confirmed that the artisan has completed the job on their end, preventing the release of funds.",
+  },
+  {
+    startDate: "16/01/25", 
+    status: "dispute",
+    statusMsg: "Resolved: Payment Released to Artisan",
+    job: fashion,
+    endDate: "28/01/25",
+    disputeType: "Work Quality",
+    disputeRaisedDate: "10/12/24",
+    disputeStatus: "resolved",
+    issue: "Client questioned the quality of work delivered by artisan.",
+  }
 ];
 
 export const dispute: Applied = {

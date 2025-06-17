@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -53,8 +53,9 @@ export default {
         slideInLeft: "slideInLeft 1s ease-out forwards",
         slideInRight: "slideInRight 1s ease-out forwards",
       },
-      scrollbarWidth: ["none"],
     },
   },
   plugins: [],
-} satisfies Config;
+};
+
+export default config;
