@@ -41,7 +41,7 @@ const WelcomePage = ({ image, role }: WelcomeProps) => {
       ? "You’re Ready to Find the Perfect Artisan!  It’s time to post your job for artisans to apply."
       : "Let’s set you up for success. Setup your profile to showcase your skills and get hired.";
 
-  const buttonMsg = userRole === "client" ? "Create Job Post" : "Setup Profile";
+  const buttonMsg = userRole === "client" ? "Sign in as Client" : "Setup Profile";
 
   const redirect = () => {
     if (userRole === "client") {
