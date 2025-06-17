@@ -118,8 +118,8 @@ const OpenJob = ({ job }: { job: Applied }) => {
               {/* Profile Info */}
               <div className="flex-1">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-2xl font-bold text-[#F9F1E2]">
-                    Protoblack
+                  <h3 className="text-2xl font-bold text-[#F9F1E2] uppercase">
+                   {applicants[0].username}
                   </h3>
                   <button className="text-yellow hover:text-yellow/80 transition-colors text-sm font-medium">
                     View Profile

@@ -44,7 +44,7 @@ export default function Layout({
                   disputes in one place.
                 </span>
                 </div>
-                <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 ">
+                <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 px-8">
                   <div className="flex items-center gap-2 mb-1">
                     <Image
                       src={"/wallet.png"}

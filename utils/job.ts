@@ -69,6 +69,7 @@ export interface Artisan {
   avatar: string;
   username: string;
   profile: ArtisanProfileProps
+  available?: boolean
 }
 
 export interface Applied {
