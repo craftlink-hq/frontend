@@ -8,8 +8,8 @@ import Loading from "./Loading";
 import { useRouter } from "next/navigation";
 import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import useIsClient from "@/hooks/Registry/useIsClient";
-import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
-import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
+// import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
+// import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
 
 interface WelcomeProps {
   image: string;
@@ -21,8 +21,8 @@ const SignIn = ({ image, role }: WelcomeProps) => {
   const [userRole, setUserRole] = useState("");
   const isArtisan = useIsArtisan();
   const isClient = useIsClient();
-  const artisanDetails = useGetArtisanDetails();
-  const clientDetails = useGetClientDetails();
+  // const artisanDetails = useGetArtisanDetails();
+  // const clientDetails = useGetClientDetails();
   const router = useRouter();
 
   console.log("isArtisan:", isArtisan);
@@ -52,7 +52,8 @@ const SignIn = ({ image, role }: WelcomeProps) => {
     }
   };
 
-  const detail = role === "client" ? clientDetails : role === "artisan" ? artisanDetails : null;
+  const detail = role === "client" ? "Not a client?": "Not an artisan?";
+  const altButton = role === "client" ? "Sign in as Artisan": "Sign in as Client";
 
   return (
     <Loading show={isLoading}>
@@ -66,17 +67,18 @@ const SignIn = ({ image, role }: WelcomeProps) => {
             className="rounded-lg shadow-lg"
           />
         </div>
-        <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[60%] md:h-[90%] bg-[#F2E8CF0A] flex flex-col items-center justify-center w-[90%] md:w-[45vw]">
-          <p className="font-alata text-3xl max-sm:px-2  md:text-[3vw] text-center text-[#F9F1E2] leading-8 md:leading-[3vw]">
-            Welcome!, Great to Have You Here,
+        <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[60%] md:h-[90%] bg-[#F2E8CF0A] flex flex-col items-center justify-center w-[90%] md:w-[45vw] gap-y-2">
+          <p className="font-alata text-3xl max-sm:px-2 md:text-[2vw] text-center text-[#F9F1E2] leading-8 ">
+            Welcome!, Great to Have You Here
           </p>
-          <p className="uppercase font-alata  text-3xl md:text-[3vw] text-center text-[#F9F1E2] leading-8 md:leading-[3vw]">
-            {detail?.username ?? role}!
-          </p>
-          <span className="text-center text-[#D8D6CF] lg:w-[70%] text-balance md:p-8 p-4 font-merriweather">
+          
+          <span className="text-center text-[#D8D6CF]  font-merriweather">
             {welcomeMsg}
           </span>
           <Button onClick={redirect} text={buttonMsg} />
+          <p className="utext-center text-[#F9F1E2] gap-2  ">
+            {detail}
+          <span className="text-yellow font-bold">{altButton}</span> </p>
         </div>
       </div>
     </Loading>
