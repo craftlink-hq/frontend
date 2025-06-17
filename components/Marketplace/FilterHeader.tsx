@@ -190,7 +190,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
 
                 {/* Bottom Sign In Button */}
                 <div className="border-t border-[#555555] mt-2 pt-2 px-4">
-                  <Link href="/register">
+                  <Link href="/role/artisans/signin">
                     <button className="w-full bg-[#FFD700] hover:bg-[#E6C200] text-[#1A1203] font-semibold py-2 rounded transition-colors">
                       SIGN IN
                     </button>
@@ -203,7 +203,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
           {/* Conditional Authentication Section */}
           {!isArtisan && !isClient ? (
             // Visitors - Show Sign In Button
-            <Link href="/register">
+            <Link href="/role/artisans/signin">
               <button className="bg-[#FFD700] hover:bg-[#E6C200] text-[#1A1203] font-semibold px-4 py-2 rounded text-sm transition-colors">
                 SIGN IN
               </button>
