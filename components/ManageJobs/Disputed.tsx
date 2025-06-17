@@ -1,28 +1,21 @@
 "use client";
-import { useState } from "react";
 import { Applied } from "@/utils/job";
 import Image from "next/image";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { formatDate } from "@/utils/formatDate";
-import ActiveJobSidebar from "./ActiveJobSidebar";
-import { FilterProps } from "@/utils/filters";
-
-const filters: FilterProps[] = [
-  { filter: "Status", options: ["Accepted", "In Progress", "Pending Start"] },
-  { filter: "Location", options: ["Remote", "On-site", "Hybrid", "Local", "International"] },
-  { filter: "Sort By", options: ["Date", "Price", "Relevance"] }
-];
+import { useState } from "react";
+import RaiseDisputeModal from "./RaiseDisputeModal";
+import Modal from "../Modal";
 
 const DisputedJobCard = ({ job }: { job: Applied }) => {
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
-  const handleOpenDetailsModal = () => {
-    setIsDetailsModalOpen(true);
-  };
 
   const handleCloseDetailsModal = () => {
     setIsDetailsModalOpen(false);
   };
+
+ 
 
   return (
     <AnimatedDiv
@@ -153,7 +146,7 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
         {/* View Full Details Button - Bottom Right */}
         <div className="flex-shrink-0 ml-8">
           <button 
-            onClick={handleOpenDetailsModal}
+            onClick={() => setIsDetailsModalOpen(true)}
             className="bg-[#262208] hover:bg-[#333316] text-[#F9F1E2] px-6 py-2 rounded text-sm font-medium transition-colors uppercase"
           >
             VIEW FULL DETAILS
@@ -167,96 +160,21 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
         onClose={handleCloseDetailsModal}
         job={job}
       /> */}
+      {isDetailsModalOpen && (
+              <Modal closeFn={handleCloseDetailsModal}>
+                <AnimatedDiv
+                  initialX="200%"
+                  animateX={0}
+                  exitX={"-100%"}
+                  duration={0.5}
+                  className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] lg:w-[35vw] rounded-xl p-4 relative"
+                >
+                  <RaiseDisputeModal isOpen={isDetailsModalOpen} onClose={handleCloseDetailsModal} />
+                </AnimatedDiv>
+              </Modal>
+            )}
     </AnimatedDiv>
   );
 };
 
-const DisputedJob = ({ jobs }: { jobs: Applied[] }) => {
-  return (
-    <div className="h-screen flex flex-col">
-      {/* Header section - full width */}
-      <div className="font-merriweather text-[#F9F1E2] px-4 md:px-8 xl:px-16 py-8">
-        <h2 className="font-bold text-lg">Resolve Outstanding Disputes</h2>
-        <h4 className="text-sm text-[#F9F1E2]">
-          View and manage jobs currently under dispute. Respond to claims,
-          upload evidence, or track resolution updates.
-        </h4>
-      </div>
-
-      {/* Main content area with sidebar and content */}
-      <div className="flex flex-1">
-        {jobs && jobs.length > 0 ? (
-          <>
-            {/* Sidebar - 25% width */}
-            <div className="w-1/4 h-full">
-              <ActiveJobSidebar filters={filters} />
-            </div>
-            
-            {/* Main content - 75% width */}
-            <div className="w-3/4 h-full overflow-y-auto">
-              {/* Scrollable container for disputed jobs */}
-              <div className="h-full overflow-y-auto px-4 md:px-8 xl:px-16 py-8">
-                <div className="space-y-6">
-                  {/* Disputed Job Cards */}
-                  {jobs.map((job, index) => (
-                    <DisputedJobCard key={`disputed-job-${index}`} job={job} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          // No sidebar when no jobs - full width but centered content
-          <div className="w-full h-full overflow-y-auto flex items-center justify-center">
-            <div 
-              className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-2xl p-10 flex flex-col items-center justify-center text-center"
-              style={{ 
-                width: '600px', 
-                height: '470px',
-                gap: '24px'
-              }}
-            >
-              {/* Custom NoJob Content for Constrained Container */}
-              <div>
-                <p className="font-bold text-2xl text-[#F9F1E2] font-merriweather mb-2">
-                  You have no disputed jobs currently.
-                </p>
-                <p className="text-[#F9F1E2] font-merriweather">
-                  All your jobs are going smoothly! If an issue arises, it will appear here for resolution.
-                </p>
-              </div>
-              
-              <div className="relative w-48 h-48">
-                <Image
-                  src="/disputed.png"
-                  alt="No disputed jobs"
-                  fill
-                  style={{ objectFit: "contain", objectPosition: "center" }}
-                />
-                {/* Faint yellow line under the image */}
-                <div 
-                  className="absolute left-1/2 transform -translate-x-1/2 w-full h-px opacity-30"
-                  style={{ 
-                    backgroundColor: '#FFD700', 
-                    top: '100%', 
-                    marginTop: '1rem' 
-                  }}
-                ></div>
-              </div>
-
-              <button 
-                className="rounded-md text-[#1A1203] px-6 py-2 font-bold font-merriweather hover:opacity-90 transition-opacity duration-200"
-                style={{ backgroundColor: '#FFD700' }}
-              >
-                BROWSE JOBS
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default DisputedJob;
-export { DisputedJobCard };
+export default DisputedJobCard;

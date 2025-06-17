@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaFilePdf, FaCheck } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
-import { Applied } from "@/utils/job";
 import Image from 'next/image';
 import Modal from '../Modal'; // Import your reusable Modal component
 import DisputeConfirmation from './DisputeConfirmationModal'
@@ -27,12 +26,11 @@ interface FormData {
 }
 
 interface RaiseDisputeModalProps {
-  isOpen: boolean;
+isOpen: boolean;
   onClose: () => void;
-  job: Applied;
 }
 
-const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose, job }) => {
+const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     disputeTypes: [],
@@ -185,7 +183,7 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose, 
             {/* Body - Scrollable content */}
             <div className="px-6 pb-2 flex-grow bg-[#333333] overflow-y-auto max-h-[60vh]">
               <p className="text-[#F9F1E2] text-[16px] font-normal leading-[156%] tracking-normal mb-6" style={{ fontFamily: 'Merriweather' }}>
-                Tell us a little more about yourself to help clients get to know you better. You're just a few steps away from showcasing your skills!
+                Tell us a little more about yourself to help clients get to know you better. You&apos;re just a few steps away from showcasing your skills!
               </p>
 
               {/* Two Column Layout */}
@@ -237,7 +235,7 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose, 
                           
                           {/* Custom dispute type input */}
                           <div className="p-3 border-t border-gray-700">
-                            <p className="text-gray-400 text-xs mb-2">Couldn't find your preferred dispute type?</p>
+                            <p className="text-gray-400 text-xs mb-2">Couldn&apos;t find your preferred dispute type?</p>
                             <input
                               type="text"
                               placeholder="Enter dispute type here"

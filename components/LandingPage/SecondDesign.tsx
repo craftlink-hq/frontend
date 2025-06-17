@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Button from "../Button";
+import Button from "../OutlineButton";
 import MobileGallery from "./MobileGallery";
 import { useState, useEffect, useRef } from "react";
 import { links } from "@/utils/links";
@@ -41,7 +41,10 @@ const SecondDesign = () => {
             } `}
           >
             Empower Your <span className="text-[#FFD700]">Crafts</span>, Connect
-            with Clients
+            with Clients.{" "}
+            <Link href={links.browseJob}>
+              <Button text="Get Started" />
+            </Link>
           </p>
           <Image
             src="/bg-square.png"
@@ -81,11 +84,7 @@ const SecondDesign = () => {
             Whether you’re a seasoned artisan or exploring new horizons, and
             need a secure space for your craft to shine and form meaningful
             connections with clients who appreciate your work.{" "}
-            <span className="p-2 text-[16px]">
-              <Link href={links.browseJob}>
-                <Button text="Get Started" />
-              </Link>
-            </span>
+            <span className="p-2 text-[16px]"></span>
           </p>
         </div>
       </div>

@@ -12,7 +12,6 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ 
   children, 
   closeFn, 
-  showCloseButton = true 
 }) => {
   // Close modal on Escape key press
   useEffect(() => {

@@ -27,7 +27,7 @@ export default function MarketPlace(): JSX.Element {
     setShowFilter(!showFilter);
   };
   
-  const fetchGigs = async (): Promise<Job[]> => {
+  const fetchGigs = async (): Promise<ApiJob[]> => {
     const backendResponse = await axios.get("/api/gigs");
     return backendResponse.data?.gigs;
   };
@@ -37,9 +37,99 @@ export default function MarketPlace(): JSX.Element {
     queryFn: fetchGigs,
   });
 
+interface ApiJob {
+  id?: string;
+  _id?: string;
+  createdAt?: string;
+  posted_at?: string;
+  title?: string;
+  job_title?: string;
+  preferredLocation?: string;
+  location?: string;
+  preferred_location?: string;
+  language?: string;
+  experienceLevel?: string;
+  experience_level?: string;
+  skill_level?: string;
+
+  projectDuration?: { weeks: number };
+  project_duration?: { weeks: number };
+  duration_weeks?: number;
+  duration?: number;
+
+  price?: number;
+  budget?: number;
+  amount?: number;
+
+  paymentType?: string;
+  payment_type?: string;
+  payment?: string;
+  type?: string;
+  application_type?: string;
+
+  projectDescription?: string;
+  project_description?: string;
+  description?: string;
+
+  skillCategory?: string[] ;
+  skill_category?: string[] ;
+  tags?: string[] ;
+  skills?: string[] ;
+  required_skills?: string[] ;
+
+  files?: string[]; // or File[] depending on context
+  attachments?: string[]; // or File[]
+  images?: string[];
+  image_urls?: string[];
+
+  contextLink?: string;
+  context_link?: string;
+  reference_link?: string;
+
+  notes?: string;
+  additional_notes?: string;
+  additional_info?: string;
+  additionalProjectInfo?: string;
+
+  status?: string;
+
+  rating?: number;
+  totalJobs?: number;
+  total_jobs?: number;
+  applicants?: [];
+
+  client?: {
+    id?: string;
+    walletAddress?: string;
+    verificationStatus?: boolean;
+    verified?: boolean;
+    about?: string;
+    dateJoined?: string;
+    date_joined?: string;
+    location?: string;
+    language?: string;
+    status?: string;
+    username?: string;
+    name?: string;
+    avatar?: string;
+    moneySpent?: number;
+    completed?: number;
+    posted?: number;
+    noProjectSpentMoney?: number;
+    rating?: number;
+  };
+
+  client_address?: string;
+  clientAddress?: string;
+  client_description?: string;
+  clientDescription?: string;
+  client_name?: string;
+}
+
+
   // Transform API data to match your Job interface
-  const transformApiData = (apiJobs: any[]): Job[] => {
-    return apiJobs?.map((job: any, index: number) => ({
+  const transformApiData = (apiJobs: ApiJob[]): Job[] => {
+    return apiJobs?.map((job: ApiJob, index: number) => ({
       // Core fields - map API fields to your Job interface
       id: job.id || job._id || `api-job-${index}`,
       _id: job._id || job.id,

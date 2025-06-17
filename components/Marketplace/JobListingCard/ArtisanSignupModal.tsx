@@ -9,7 +9,6 @@ interface ArtisanSignupModalProps {
 
 const ArtisanSignupModal: React.FC<ArtisanSignupModalProps> = ({
   onCancel,
-  onSignIn
 }) => {
   return (
     <div className="bg-[#333333] w-[90vw] max-w-md rounded-xl p-6 relative">

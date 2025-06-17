@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Client, jobs } from "@/utils/job";
+import { jobs } from "@/utils/job";
 import JobCard from "./JobCard";
 
 const JobListing: React.FC = () => {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import useIsArtisan from '@/hooks/Registry/useIsArtisan';
-import useIsClient from '@/hooks/Registry/useIsClient';
+// import useIsClient from '@/hooks/Registry/useIsClient';
 
 interface NoJobProps {
   title: string;
@@ -11,7 +11,7 @@ interface NoJobProps {
 
 const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
   const isArtisan = useIsArtisan();
-  const isClient = useIsClient();
+  // const isClient = useIsClient();
 
   // Determine content based on user type
   const getContent = () => {
