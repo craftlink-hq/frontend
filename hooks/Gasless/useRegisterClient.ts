@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useStoreIPFS } from "@/utils/store";
 import { isSupportedChain } from "@/constants/chain";
 
 export const useRegisterClient = () => {
@@ -11,10 +12,11 @@ export const useRegisterClient = () => {
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
   const router = useRouter();
+  const { ipfsUrl } = useStoreIPFS();
   const [isLoading, setIsLoading] = useState(false);
 
   const registerAsClient = useCallback(
-    async (ipfsHash: string) => {
+    async () => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
         return;
@@ -23,7 +25,7 @@ export const useRegisterClient = () => {
         toast.warning("Unsupported network. Please switch to the correct network.");
         return;
       }
-      if (!ipfsHash) {
+      if (!ipfsUrl) {
         toast.error("IPFS hash is required");
         return;
       }
@@ -31,7 +33,7 @@ export const useRegisterClient = () => {
       setIsLoading(true);
       try {
         const functionName = "registerAsClient";
-        const params = { ipfsHash };
+        const params = { ipfsUrl };
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
@@ -64,7 +66,7 @@ export const useRegisterClient = () => {
         setIsLoading(false);
       }
     },
-    [address, isConnected, chainId, signMessageAsync, router]
+    [address, isConnected, chainId, signMessageAsync, router, ipfsUrl]
   );
 
   return { registerAsClient, isLoading };

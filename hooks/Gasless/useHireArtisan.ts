@@ -13,7 +13,7 @@ export const useHireArtisan = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const hireArtisan = useCallback(
-    async (databaseId: string, artisan: string) => {
+    async (databaseId: string, artisanAddress: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
         return;
@@ -22,7 +22,7 @@ export const useHireArtisan = () => {
         toast.warning("Unsupported network. Please switch to the correct network.");
         return;
       }
-      if (!databaseId || !ethers.isAddress(artisan)) {
+      if (!databaseId || !ethers.isAddress(artisanAddress)) {
         toast.error("Invalid gig ID or artisan address");
         return;
       }
@@ -30,7 +30,7 @@ export const useHireArtisan = () => {
       setIsLoading(true);
       try {
         const functionName = "hireArtisan";
-        const params = { databaseId, artisan };
+        const params = { databaseId, artisanAddress };
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
