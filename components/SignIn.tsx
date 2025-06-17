@@ -16,7 +16,7 @@ interface WelcomeProps {
   role: string;
 }
 
-const WelcomePage = ({ image, role }: WelcomeProps) => {
+const SignIn = ({ image, role }: WelcomeProps) => {
   const { isLoading } = useLoading(); // startLoading, stopLoading 
   const [userRole, setUserRole] = useState("");
   const isArtisan = useIsArtisan();
@@ -36,15 +36,15 @@ const WelcomePage = ({ image, role }: WelcomeProps) => {
   }, [isClient, isArtisan]);
 
   const welcomeMsg =
-    userRole === "client"
-      ? "You’re Ready to Find the Perfect Artisan!  It’s time to post your job for artisans to apply."
-      : "Let’s set you up for success. Setup your profile to showcase your skills and get hired.";
+    role === "client"
+      ? "Sign in, find trusted artisans, and get your projects done by skilled hands."
+      : "Sign in, showcase your skills and start earning from clients who need your craft.";
 
-  const buttonMsg = userRole === "client" ? "Sign in as Client" : "Setup Profile";
+  const buttonMsg = role === "client" ? "Sign in as Client" : "Sign in as an Artisan";
 
   const redirect = () => {
     if (userRole === "client") {
-      router.push("/role/clients/onboarding");
+      router.push("/useRole/clients/onboarding");
     } else if (userRole === "artisan") {
       router.push("/role/artisans/onboarding/category");
     } else {
@@ -52,7 +52,7 @@ const WelcomePage = ({ image, role }: WelcomeProps) => {
     }
   };
 
-  const detail = userRole === "client" ? clientDetails : userRole === "artisan" ? artisanDetails : null;
+  const detail = role === "client" ? clientDetails : role === "artisan" ? artisanDetails : null;
 
   return (
     <Loading show={isLoading}>
@@ -68,7 +68,7 @@ const WelcomePage = ({ image, role }: WelcomeProps) => {
         </div>
         <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[60%] md:h-[90%] bg-[#F2E8CF0A] flex flex-col items-center justify-center w-[90%] md:w-[45vw]">
           <p className="font-alata text-3xl max-sm:px-2  md:text-[3vw] text-center text-[#F9F1E2] leading-8 md:leading-[3vw]">
-            Great to Have You Here,
+            Welcome!, Great to Have You Here,
           </p>
           <p className="uppercase font-alata  text-3xl md:text-[3vw] text-center text-[#F9F1E2] leading-8 md:leading-[3vw]">
             {detail?.username ?? role}!
@@ -83,4 +83,4 @@ const WelcomePage = ({ image, role }: WelcomeProps) => {
   );
 };
 
-export default WelcomePage;
+export default SignIn;
