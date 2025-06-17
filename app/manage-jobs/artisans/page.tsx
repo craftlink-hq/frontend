@@ -1,23 +1,21 @@
 "use client";
-import { appliedJobFilters } from "@/utils/filters";
-import { Applications } from "@/utils/job";
-import AppliedJob from "@/components/ManageJobs/Applied";
+import { disputedJobFilters } from "@/utils/filters";
+import { Disputed as disputedJobs } from "@/utils/job";
+import { DisputedJobCard } from "@/components/ManageJobs/Disputed";
 import ManageJobs from "@/components/ManageJobs/Job";
 
-export default function AppliedJobs() {
+export default function DisputedJobs() {
   return (
     <div>
       <ManageJobs
-        title={"You haven't applied for any job yets"}
-        desc={
-          "Browse available jobs and start applying to secure your next gig."
-        }
-        imageSrc={"/applied.png"}
-        filters={appliedJobFilters}
-        jobs={Applications}
-        JobStatus={AppliedJob}
-        jobType={"applied"}
-        pageDetails={"Keep track of the jobs you’ve applied for. Monitor responses and follow up on your applications with ease."}
+        title={"You have no disputed jobs currently."}
+        desc={"All your jobs are going smoothly! If an issue arises, it will appear here for resolution."}
+        imageSrc={"/disputed.png"}
+        filters={disputedJobFilters}
+        jobs={disputedJobs}
+        JobStatus={DisputedJobCard}
+        jobType={"disputed"}
+        pageDetails={"View and manage jobs currently under dispute. Respond to claims, upload evidence, or track resolution updates."}
       />
     </div>
   );

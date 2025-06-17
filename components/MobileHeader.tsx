@@ -10,7 +10,7 @@ import { useState } from "react";
 import { userCard } from "@/utils/profile";
 import Image from "next/image";
 
-interface Header {
+interface Header { 
   toggleFilter: () => void;
   isActive: (path: string) => boolean;
 }

@@ -25,7 +25,7 @@ interface ManageJobProps {
 }
 
 const ManageJobs = ({
-  jobs,
+  jobs = [],
   title,
   desc,
   imageSrc,
