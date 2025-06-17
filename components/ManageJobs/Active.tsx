@@ -197,7 +197,6 @@ const ActiveJob = ({ job }: { job: Applied }) => {
       <RaiseDisputeModal 
         isOpen={isDisputeModalOpen}
         onClose={handleCloseDisputeModal}
-        job={job}
       />
     </AnimatedDiv>
   );
