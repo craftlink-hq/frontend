@@ -28,7 +28,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
     }
 
     startLoading();
-    
+    console.log("isArtisan:", isArtisan);
     if (isArtisan) {
       stopLoading();
       router.push("/profile/artisans");
