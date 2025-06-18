@@ -9,10 +9,12 @@ import { toast } from "sonner";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
 import { FaCheck } from "react-icons/fa";
+import useRegisterArtisan from "@/hooks/Registry/useRegisterArtisan";
 
 export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [location, setLocation] = useState<string>("");
+  const registerArtisan = useRegisterArtisan();
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
 
@@ -26,19 +28,28 @@ export default function Register() {
       return;
     }
 
+    if (!privacyChecked) {
+      toast.error("Please agree to the Privacy Policy and Terms");
+      return;
+    }
+
     startLoading();
     try {
       const data = {
         username,
         location,
       };
-      const url = await uploadToIPFS(JSON.stringify(data));
-      console.log("IPFS Url: ", url);
 
-      toast.success("Account created");
-      router.push("/role/artisans/onboarding/category");
+      await uploadToIPFS(JSON.stringify(data));
+
+      const success = await registerArtisan();
+      if (!success) {
+        // No need to show an error toast here; useRegisterArtisan already handles it
+        return;
+      }
     } catch (error) {
-      console.error(error);
+      toast.error("Failed to upload data to IPFS");
+      console.error("IPFS upload error:", error);
     } finally {
       stopLoading();
     }

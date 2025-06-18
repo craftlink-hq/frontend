@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 type ErrorWithReason = {
   reason?: string;
   message?: string;
+  code?: number;
 };
 
 const useRegisterArtisan = () => {
@@ -26,11 +27,21 @@ const useRegisterArtisan = () => {
         async () => {
             if (!isConnected) {
                 toast.warning("Please connect your wallet first.");
-                return;
+                return false;
             }
             if (!isSupportedChain(chainId)) {
                 toast.warning("Unsupported network. Please switch to the correct network.");
-                return;
+                return false;
+            }
+
+            if (!walletProvider) {
+                toast.error("Wallet provider is not available. Please try reconnecting your wallet.");
+                return false;
+            }
+
+            if (!ipfsUrl) {
+                toast.error("IPFS URL is not available. Please upload your data first.");
+                return false;
             }
 
             const readWriteProvider = getProvider(walletProvider);
@@ -48,12 +59,19 @@ const useRegisterArtisan = () => {
                     throw new Error("Transaction failed");
                 }
                 toast.success("Account created");
-                router.push("/role/artisans/welcome");
+                router.push("/role/artisans/onboarding/category");
+                return true;
             } catch (error) {
                 const err = error as ErrorWithReason;
-                const errorMessage = err.reason === "User already registered" ? "You are already registered as an artisan." : "An error occurred while registering.";
+                let errorMessage = "An error occurred while registering.";
+                if (err.code === 4001 || err.message?.includes("user denied")) {
+                errorMessage = "Transaction rejected by user.";
+                } else if (err.reason === "User already registered") {
+                errorMessage = "You are already registered as an artisan.";
+                }
                 toast.error(errorMessage);
                 console.error("Registration error:", error);
+                return false;
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
