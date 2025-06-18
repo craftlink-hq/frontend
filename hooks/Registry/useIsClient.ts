@@ -27,10 +27,12 @@ const useIsClient = () => {
     } finally {
       stopLoading();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   useEffect(() => {
     checkIsClient();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
   return { isClient, isLoading };

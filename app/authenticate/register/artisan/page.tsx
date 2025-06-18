@@ -4,7 +4,6 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useState } from "react";
 import IPFS from "@/hooks/useIPFS";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
@@ -15,7 +14,6 @@ export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const registerArtisan = useRegisterArtisan();
-  const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   const { uploadToIPFS } = IPFS();

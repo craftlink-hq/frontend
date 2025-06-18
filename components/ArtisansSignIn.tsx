@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import Link from "next/link";
 import { useAccount } from "wagmi";
-import { start } from "repl";
 
 interface WelcomeProps {
   image: string;
