@@ -57,7 +57,7 @@ export const transformBackendProfileData = (
   // Transform Portfolio section
   const portfolio: PortfolioProps[] = fetchedData.portfolio?.map((item, index) => ({
     id: index + 1,
-    imgSrc: item.simplified_files || ["/default-image.png"],
+    imgSrc: item.simplified_files || ["/client-artisan.png"],
     title: item.projectTitle,
     desc: item.description,
     duration: item.projectDuration ? `${item.projectDuration.weeks} weeks` : "Not specified",
