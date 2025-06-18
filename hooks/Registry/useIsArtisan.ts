@@ -27,10 +27,12 @@ const useIsArtisan = () => {
     } finally {
       stopLoading();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   useEffect(() => {
     checkIsArtisan();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
   return { isArtisan, isLoading };
