@@ -1,7 +1,7 @@
-import SignIn from "@/components/SignIn";
+import ClientsSignIn from "@/components/ClientsSignIn";
 
 export default function Welcome () {
     return <div className="relative">
-        <SignIn image={"/welcome-client.png"} role={"client"}/>
+        <ClientsSignIn image={"/welcome-client.png"} role={"client"}/>
     </div>
 }

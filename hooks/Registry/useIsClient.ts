@@ -9,6 +9,7 @@ import { toast } from "sonner";
 const useIsClient = () => {
     const { address } = useAccount();
     const [isClient, setIsClient] = useState<boolean | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const checkIsClient = async () => {
@@ -21,6 +22,8 @@ const useIsClient = () => {
                 toast.error("Error checking user role");
                 console.error("Error checking if user is client:", error);
                 setIsClient(null);
+            } finally {
+                setIsLoading(false);
             }
         }
 
@@ -29,7 +32,7 @@ const useIsClient = () => {
         }
     }, [address]);
 
-    return isClient;
+    return { isClient, isLoading };
 }
 
 export default useIsClient;
