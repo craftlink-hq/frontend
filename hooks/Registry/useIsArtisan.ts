@@ -1,6 +1,6 @@
 "use client";
 
-import { getRegistryContract } from "@/constants/contracts";
+import { getRegistryContract } from "@/constants/contracts"
 import { readOnlyProvider } from "@/constants/providers";
 import { useAccount } from "wagmi";
 import { useEffect, useState, useCallback } from "react";
@@ -21,9 +21,14 @@ const useIsArtisan = () => {
       const resp = await contract.isArtisan(address);
       setIsArtisan(resp);
     } catch (error) {
-      toast.error("Error checking user role");
-      console.error("Error checking if user is artisan:", error);
-      setIsArtisan(null);
+      const typedError = error as { code?: string; message?: string };
+      if (typedError.code === "BAD_DATA" || typedError.message?.includes("could not decode result data")) {
+        setIsArtisan(false);
+      } else {
+        toast.error("Error checking user role");
+        console.error("Error checking if user is artisan:", error);
+        setIsArtisan(null);
+      }
     } finally {
       stopLoading();
     }
