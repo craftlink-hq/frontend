@@ -53,13 +53,13 @@ const HowHiringWorks = () => {
       number: "#3",
       title: "Pick the Best Fit",
       description: "Review profiles and hire the artisan that suits your needs.",
-      imageSrc: "/ejl6.svg",
+      imageSrc: "/ejl7.svg",
     },
     {
       number: "#4",
       title: "Track & Pay",
       description: "Follow project progress and release payment when the job is done.",
-      imageSrc: "/ejl7.svg",
+      imageSrc: "/ejl6.svg",
     },
   ];
 
@@ -68,8 +68,8 @@ const HowHiringWorks = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6">
         <h2
-          className="text-4xl lg:text-5xl font-bold text-center lg:text-left"
-          style={{ fontFamily: "Merriweather, serif", color: "#F9F1E2" }}
+          className="text-4xl lg:text-5xl font-semi-bold text-center lg:text-left"
+          style={{ fontFamily: "Alata, serif", color: "#F9F1E2" }}
         >
           {title}
         </h2>
@@ -100,7 +100,7 @@ const HowHiringWorks = () => {
                 {step.number}
               </span>
               <h3
-                className="text-2xl lg:text-3xl font-bold text-white"
+                className="text-2xl lg:text-3xl font-bold text-[#F9F1E2]"
                 style={{ fontFamily: "Merriweather, serif" }}
               >
                 {step.title}
