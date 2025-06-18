@@ -21,9 +21,14 @@ const useIsClient = () => {
       const resp = await contract.isClient(address);
       setIsClient(resp);
     } catch (error) {
-      toast.error("Error checking user role");
-      console.error("Error checking if user is client:", error);
-      setIsClient(null);
+      const typedError = error as { code?: string; message?: string };
+      if (typedError.code === "BAD_DATA" || typedError.message?.includes("could not decode result data")) {
+        setIsClient(false);
+      } else {
+        toast.error("Error checking user role");
+        console.error("Error checking if user is client:", error);
+        setIsClient(null);
+      }
     } finally {
       stopLoading();
     }

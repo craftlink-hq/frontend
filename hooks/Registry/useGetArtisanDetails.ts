@@ -11,7 +11,7 @@ import useIsArtisan from "./useIsArtisan";
 const useGetArtisanDetails = () => {
   const isArtisan = useIsArtisan();
   const { fetchFromIPFS } = IPFS();
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const [artisanDetails, setArtisanDetails] = useState<{
     username: string;
     location: string;
@@ -39,11 +39,13 @@ const useGetArtisanDetails = () => {
       console.error("Error:", error);
       setArtisanDetails(null);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isArtisan, fetchFromIPFS]);
 
   useEffect(() => {
     fetchArtisanDetails();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   return artisanDetails;
 };

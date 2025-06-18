@@ -52,7 +52,7 @@ export const useRegisterArtisan = () => {
         const result = await response.json();
         if (result.success) {
           toast.success("Registered as artisan successfully");
-          router.push("/profile/artisans");
+          router.push("/role/artisans/onboarding/category")
           return true;
         } else {
           toast.error(`Error: ${result.message}`);
