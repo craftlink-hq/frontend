@@ -5,6 +5,7 @@ import tokenABI from "./abi/tokenABI.json";
 import reviewABI from "./abi/reviewSystemABI.json";
 import chatABI from "./abi/chatSystemABI.json";
 import craftCoinABI from "./abi/craftCoinABI.json";
+import paymentProcessorABI from "./abi/paymentProcessorABI.json";
 
 export const getGigContract = (providerOrSigner: ethers.Provider | ethers.Signer) =>
   new ethers.Contract(
@@ -45,5 +46,12 @@ export const getChatContract = (providerOrSigner: ethers.Provider | ethers.Signe
   new ethers.Contract(
     process.env.CRAFT_COIN as string,
     craftCoinABI,
+    providerOrSigner
+  );
+
+  export const getPaymentProcessorContract = (providerOrSigner: ethers.Provider | ethers.Signer) =>
+  new ethers.Contract(
+    process.env.PAYMENT_PROCESSOR as string,
+    paymentProcessorABI,
     providerOrSigner
   );

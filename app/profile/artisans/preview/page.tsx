@@ -39,7 +39,7 @@ export default function ProfilePreview() {
   const { address } = useAccount();
   const detail = useGetArtisanDetails();
   const { isLoading, startLoading, stopLoading } = useLoading();
-  const [isInitialLoading] = useState(true);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const handleNext = async () => {
     if (!profile || !address) {
@@ -75,8 +75,7 @@ export default function ProfilePreview() {
       };
 
       const backendResponse = await axios.post("/api/artisans", artisanProfileData);
-      const data = await handleApiError<ArtisanResponse>(backendResponse);
-      console.log("Processed data:", data);
+      await handleApiError<ArtisanResponse>(backendResponse);
 
       toast.success("Profile posted successfully");
       router.push("/profile/artisans");
@@ -107,6 +106,7 @@ export default function ProfilePreview() {
 
       const transformedProfile = transformProfileData(fetchedData, detail, address);
       setProfile(transformedProfile);
+      setIsInitialLoading(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, detail]);
