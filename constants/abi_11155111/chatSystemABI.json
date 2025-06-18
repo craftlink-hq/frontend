@@ -79,7 +79,7 @@
     "name": "gigMarketplace",
     "outputs": [
       {
-        "internalType": "contract IGigMarketplace",
+        "internalType": "contract GigMarketplace",
         "name": "",
         "type": "address"
       }
