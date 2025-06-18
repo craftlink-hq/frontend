@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage, useSignTypedData } from "wagmi";
 import { toast } from "sonner";
 import { ethers, Signature } from "ethers";
@@ -10,6 +10,7 @@ import { getProvider } from "@/constants/providers";
 import { isSupportedChain } from "@/constants/chain";
 import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { Address } from "viem";
+import { useLoading } from "../useLoading";
 
 const useCreateGig = () => {
   const { address, isConnected } = useAccount();
@@ -18,7 +19,7 @@ const useCreateGig = () => {
   const { signMessageAsync } = useSignMessage();
   const { walletProvider } = useAppKitProvider<Provider>("eip155");
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const createGig = useCallback(
     async (rootHash: string, databaseId: string, budget: number) => {
@@ -31,7 +32,7 @@ const useCreateGig = () => {
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const provider = getProvider(walletProvider);
         const tokenContract = getTokenContract(provider);
@@ -128,7 +129,7 @@ const useCreateGig = () => {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
     [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, router]

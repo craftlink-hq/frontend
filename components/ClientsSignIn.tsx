@@ -15,7 +15,7 @@ interface WelcomeProps {
 }
 
 const ClientsSignIn = ({ image, role }: WelcomeProps) => {
-  const { isLoading: pageLoading } = useLoading();
+  const { isLoading: pageLoading, startLoading, stopLoading } = useLoading();
   const { address, isConnected } = useAccount();
   const { isClient, isLoading: clientCheckLoading } = useIsClient();
   const router = useRouter();
@@ -25,10 +25,14 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
       toast.error("Please connect your wallet to continue.");
       return;
     }
+
+    startLoading();
     
     if (isClient) {
+        stopLoading();
         router.push("/profile/clients");
     } else {
+        stopLoading();
         router.push("/authenticate/register/client");
     }
   };

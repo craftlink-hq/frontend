@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useStoreIPFS } from "@/utils/store";
 import { isSupportedChain } from "@/constants/chain";
+import { useLoading } from "../useLoading";
+import { start } from "repl";
 
 export const useRegisterClient = () => {
   const { address, isConnected } = useAccount();
@@ -13,7 +15,7 @@ export const useRegisterClient = () => {
   const { signMessageAsync } = useSignMessage();
   const router = useRouter();
   const { ipfsUrl } = useStoreIPFS();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const registerAsClient = useCallback(
     async () => {
@@ -30,7 +32,7 @@ export const useRegisterClient = () => {
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const functionName = "registerAsClient";
         const params = { ipfsUrl };
@@ -63,7 +65,7 @@ export const useRegisterClient = () => {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
     [address, isConnected, chainId, signMessageAsync, router, ipfsUrl]

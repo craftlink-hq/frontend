@@ -1,15 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
+import { useLoading } from "../useLoading";
+import { start } from "repl";
 
 export const useMint = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const mint = useCallback(async () => {
     if (!isConnected || !address) {
@@ -21,7 +23,7 @@ export const useMint = () => {
       return;
     }
 
-    setIsLoading(true);
+    startLoading();
     try {
       const functionName = "mint";
       const params = {};
@@ -53,7 +55,7 @@ export const useMint = () => {
         console.error(error);
       }
     } finally {
-      setIsLoading(false);
+      stopLoading();
     }
   }, [address, isConnected, chainId, signMessageAsync]);
 

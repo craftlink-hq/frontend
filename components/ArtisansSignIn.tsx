@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import Link from "next/link";
 import { useAccount } from "wagmi";
+import { start } from "repl";
 
 interface WelcomeProps {
   image: string;
@@ -15,9 +16,9 @@ interface WelcomeProps {
 }
 
 const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
-  const { isLoading } = useLoading();
+  const { isLoading: pageLoading, startLoading, stopLoading } = useLoading();
   const { address, isConnected } = useAccount();
-  const isArtisan = useIsArtisan();
+  const { isArtisan, isLoading: artisanCheckLoading} = useIsArtisan();
   const router = useRouter();
 
   const handleSignIn = () => {
@@ -25,16 +26,20 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
       toast.error("Please connect your wallet to continue.");
       return;
     }
+
+    startLoading();
     
     if (isArtisan) {
-        router.push("/profile/artisans");
-      } else {
-        router.push("/authenticate/register/artisan");
-      }
+      stopLoading();
+      router.push("/profile/artisans");
+    } else {
+      stopLoading();
+      router.push("/authenticate/register/artisan");
+    }
   };
 
   return (
-    <Loading show={isLoading}>
+    <Loading show={pageLoading || artisanCheckLoading}>
       <div className="flex md:items-center justify-center w-full h-[90vh] gap-y-8 gap-x-4 py-4 md:py-1">
         <div className="hidden md:flex relative h-[90%] md:w-[45%] lg:w-[38vw]">
           <Image
