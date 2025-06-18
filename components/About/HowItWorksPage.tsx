@@ -1,64 +1,28 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import HeroSection from '@/components/About/Hero';
-import Section from '@/components/About/Section';
-import CoreValues from '@/components/About/CoreValues';
+import Cards from '@/components/About/Cards';
 import Image from 'next/image';
 import {Community, FooterLinks} from "@/components/LandingPage";
 import { socials } from "@/utils/socials";
 import Link from "next/link";
 
-const HomePage = () => {
+const HowItWorksPage = () => {
   const router = useRouter();
   
   return (
     <main>
       {/* Hero Section */}
       <HeroSection
-        headline="We connect skilled hands to paying clients."
-        description="More than a platform, we are a growing network of skilled hands, creative minds, and forward-thinkers—united by the goal to work, earn, and grow without limits."
-        imageSrc="/hand.svg"
+        headline="Get Hired or Hire Right — It’s That Simple"
+        description="Whether you’re a skilled artisan or a client in need, we’ve made it easy to connect, collaborate, and complete great work—without the stress."
+        imageSrc="/woman.svg"
         imageAlt="Skilled craftsman hands at work"
         buttonText="Visit Marketplace"
         onButtonClick={() => router.push('/marketplace')}
       />
 
-      {/* Mission Section */}
-      <Section
-        title="MISSION"
-        content={
-          <>
-            <p>To empower skilled artisans by connecting them with the right clients through a seamless, job marketplace.</p>
-            <p>We strive to make it easy for artisans to get discovered, get hired, and get paid securely and fairly.</p>
-            <p>By removing barriers and streamlining access to opportunities, we're building a trusted ecosystem where talent meets demand—from fashion designers and carpenters to tech freelancers, tailors e.t.c.</p>
-          </>
-        }
-        imageSrc="/mission.svg"
-        imageAlt="Artisans working together"
-        imageOnRight={false}
-        showAccentBorder={false}
-        isDark={true}
-      />
-
-      {/* Vision Section */}
-      <Section
-        title="VISION"
-        content={
-          <>
-            <p>We envision a borderless, trusted ecosystem where artisans thrive through visibility, opportunity, and fair pay—while clients easily hire and manage the right talent, anytime.</p>
-            <p>We're making the informal economy more powerful, one job at a time.</p>
-            <p>By removing barriers and streamlining access to opportunities, we're building a trusted ecosystem where talent meets demand—from fashion designers and carpenters to tech freelancers, tailors e.t.c.</p>
-          </>
-        }
-        imageSrc="/vision.svg"
-        imageAlt="Artisans working together"
-        imageOnRight={true}
-        showAccentBorder={false}
-        isDark={true}
-      />
-
-      {/* Core Values Section */}
-      <CoreValues />
+      <Cards />
 
       <div className="flex justify-center">
         <div className="flex flex-col relative bg-[#FFD700] items-center md:w-[90%] min-h-[45vh] h-fit w-[95vw] rounded-md py-4 my-4">
@@ -134,4 +98,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default HowItWorksPage;

@@ -1,8 +1,6 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import HeroSection from '@/components/About/Hero';
-
-import CoreValues from '@/components/About/CoreValues';
 import FeaturesSection from '@/components/About/FeatureCard';
 import Image from 'next/image';
 import {Community, FooterLinks} from "@/components/LandingPage";
@@ -24,9 +22,6 @@ const FeaturePage = () => {
         onButtonClick={() => router.push('/marketplace')}
       />
         <FeaturesSection/>
-
-      {/* Core Values Section */}
-      <CoreValues />
 
       <div className="flex justify-center">
         <div className="flex flex-col relative bg-[#FFD700] items-center md:w-[90%] min-h-[45vh] h-fit w-[95vw] rounded-md py-4 my-4">
