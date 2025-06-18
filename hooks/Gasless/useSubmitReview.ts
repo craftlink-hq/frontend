@@ -1,15 +1,16 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
+import { useLoading } from "../useLoading";
 
 export const useSubmitReview = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const submitReview = useCallback(
     async (databaseId: string, rating: number, commentHash: string) => {
@@ -26,7 +27,7 @@ export const useSubmitReview = () => {
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const functionName = "submitReview";
         const params = { databaseId, rating, commentHash };
@@ -58,7 +59,7 @@ export const useSubmitReview = () => {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
     [address, isConnected, chainId, signMessageAsync]

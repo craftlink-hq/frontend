@@ -14,7 +14,6 @@ import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
 interface WelcomeProps {
   image: string;
   role: string;
-  username: string;
 }
 
 const WelcomePage = ({ image, role }: WelcomeProps) => {

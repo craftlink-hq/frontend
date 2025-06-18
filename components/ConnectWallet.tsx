@@ -15,10 +15,10 @@ const ConnectWallet = () => {
   return (
     <div>
       <div className="hidden md:flex">
-        <appkit-button />
+        <appkit-button balance="hide" />
       </div>
       <div className="md:hidden flex">
-        <appkit-button label="Connect" />
+        <appkit-button label="Connect" balance="hide" />
       </div>
      
     </div>

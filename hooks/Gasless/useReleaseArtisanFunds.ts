@@ -1,15 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
+import { useLoading } from "../useLoading";
+import { start } from "repl";
 
 export const useReleaseArtisanFunds = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const releaseArtisanFunds = useCallback(
     async (databaseId: string) => {
@@ -26,7 +28,7 @@ export const useReleaseArtisanFunds = () => {
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const functionName = "releaseArtisanFunds";
         const params = { databaseId };
@@ -58,7 +60,7 @@ export const useReleaseArtisanFunds = () => {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
     [address, isConnected, chainId, signMessageAsync]

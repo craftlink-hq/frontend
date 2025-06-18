@@ -36,7 +36,7 @@ export default function Register() {
       console.log("IPFS Url: ", url);
 
       toast.success("Account created");
-      router.push("/role");
+      router.push("/role/artisans/onboarding/category");
     } catch (error) {
       console.error(error);
     } finally {
@@ -53,8 +53,7 @@ export default function Register() {
               Create Your Craftlink Account
             </p>
             <p className="text-fontSec px-2 text-balance font-merriweather italic">
-              Join Craftlink to showcase your skills or find talented artisans
-              for your project
+              Join Craftlink to showcase your skills to clients and start earning from projects.
             </p>
           </div>
           <form className="w-full md:w-[70%] p-4 sm:p-8 gap-2 md:gap-x-8 md:gap-y-2 ">

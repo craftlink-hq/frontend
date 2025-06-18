@@ -1,30 +1,21 @@
 "use client";
 
-import { IoClose, IoCheckmark, IoChatbubbleEllipses } from "react-icons/io5";
+import { IoCheckmark, IoChatbubbleEllipses } from "react-icons/io5";
 
 interface HireSuccessModalProps {
-  onClose: () => void;
   onManageJob: () => void;
   onStartChat: () => void;
   artisanName: string;
 }
 
 const HireSuccessModal = ({
-  onClose,
   onManageJob,
   onStartChat,
   artisanName,
 }: HireSuccessModalProps) => {
   return (
-    <div className="bg-[#2A2A2A] rounded-lg p-8 w-full max-w-md text-[#F9F1E2] font-merriweather relative text-center">
-      {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
-      >
-        <IoClose className="h-6 w-6" />
-      </button>
-
+    <div className=" rounded-lg p-8 w-full text-[#F9F1E2] font-merriweather relative text-center">
+  
       {/* Header */}
       <div className="mb-8">
         <h2 className="text-xl font-bold text-[#F9F1E2] mb-1">SUCCESSFUL</h2>

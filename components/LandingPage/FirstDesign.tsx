@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Button from "../Button";
+import Button from "../OutlineButton";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { links } from "@/utils/links";
@@ -59,7 +59,7 @@ const FirstDesign = () => {
         </p>
         <div className="animate-slideInLeft">
         <Link  href={links.browseJob}>
-          <Button text="Get Started" />
+          <Button text="Visit Marketplace" />
           </Link>
         </div>
       </div>

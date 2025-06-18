@@ -4,11 +4,11 @@ import type React from "react";
 
 import Filter from "@/components/Marketplace/Filter";
 import { useFilterState } from "@/context/filter";
-import type { Applied} from "@/utils/job";
+import type { Applied } from "@/utils/job";
 import type { FilterProps } from "@/utils/filters";
 import NoJob from "./NoJob";
 import Pagination from "./JobsPagination";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 interface ManageJobProps {
   jobs: Applied[];
@@ -25,7 +25,7 @@ interface ManageJobProps {
 }
 
 const ManageJobs = ({
-  jobs,
+  jobs = [],
   title,
   desc,
   imageSrc,
@@ -40,31 +40,39 @@ const ManageJobs = ({
 
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
 
+  const paginatedJobs = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return jobs.slice(startIndex, endIndex);
+  }, [jobs, currentPage, itemsPerPage]);
+
   return (
     <div className="grid h-full w-full">
-      {jobs.length > 1 ? (
+      {jobs.length > 0 ? (
         <div className="w-full px-4 md:px-8 2xl:px-16 py-8">
           <p className="text-[#F9F1E2] py-4 w-[90%]">{pageDetails}</p>
-          <div className="gap-x-8 md:flex w-full">
+          <div className="gap-x-8 md:flex w-full h-[500px]">
             {filterState && (
-              <div className="md:hidden min-h-[60%]">
+              <div className="md:hidden">
                 <Filter filters={filters} />
               </div>
             )}
-            <div className="hidden md:grid md:w-[25%] min-h-[60%]">
+            <div className="hidden md:grid md:w-[25%] h-full overflow-auto">
               <Filter filters={filters} />
             </div>
-            <div className="grid gap-y-4 w-[90vw] md:w-[75%] h-full">
-              {/* Jobs List */}
-              <div className="space-y-4">
-                {jobs.map((job) => (
-                  <JobStatus job={job} key={job?.job?.title} />
-                ))}
+            <div className="flex flex-col w-[90vw] md:w-[75%] max-h-full">
+              {/* Jobs List - Scrollable Container */}
+              <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FCFBF726] scrollbar-track-transparent pr-2">
+                <div className="space-y-4">
+                  {paginatedJobs.map((job) => (
+                    <JobStatus job={job} key={job?.job?.title} />
+                  ))}
+                </div>
               </div>
 
               {/* Pagination */}
               {
-                <div className="">
+                <div className="py-2">
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages} // Calculate based on total items

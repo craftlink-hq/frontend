@@ -56,7 +56,7 @@ const Pagination = ({
         <select
           value={itemsPerPage}
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-          className="bg-[#1A1A1A] border border-[#444444] rounded px-2 py-1 text-[#F9F1E2] text-sm"
+          className=" border-[0.5px] border-[#FD9C49] bg-[#1A1A1A] rounded px-2 py-1 text-[#FDFDFD] text-sm capitalize"
         >
           <option value={4}>4 {itemType}</option>
           <option value={8}>8 {itemType}</option>
@@ -71,7 +71,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="w-8 h-8 flex items-center justify-center bg-[#444444] text-[#F9F1E2] rounded hover:bg-[#555555] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-8 h-8 flex items-center justify-center bg-[#1A1203] text-[#F9F1E2] rounded hover:bg-[#555555] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <IoChevronBack className="h-4 w-4" />
         </button>
@@ -81,7 +81,7 @@ const Pagination = ({
             key={page}
             onClick={() => onPageChange(page)}
             className={`w-8 h-8 flex items-center justify-center rounded font-bold text-sm transition-colors ${
-              page === currentPage ? "bg-yellow text-[#1A1203]" : "bg-[#444444] text-[#F9F1E2] hover:bg-[#555555]"
+              page === currentPage ? "bg-yellow text-[#1A1203]" : "bg-[#1A1203] text-[#F9F1E2] hover:bg-[#555555]"
             }`}
           >
             {page}
@@ -91,7 +91,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="w-8 h-8 flex items-center justify-center bg-[#444444] text-[#F9F1E2] rounded hover:bg-[#555555] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-8 h-8 flex items-center justify-center bg-[#1A1203] text-[#F9F1E2] rounded hover:bg-[#555555] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <IoChevronForward className="h-4 w-4" />
         </button>

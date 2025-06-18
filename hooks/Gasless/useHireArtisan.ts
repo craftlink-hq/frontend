@@ -1,16 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
 import { ethers } from "ethers";
+import { useLoading } from "../useLoading";
 
 export const useHireArtisan = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const hireArtisan = useCallback(
     async (databaseId: string, artisanAddress: string) => {
@@ -27,7 +28,7 @@ export const useHireArtisan = () => {
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const functionName = "hireArtisan";
         const params = { databaseId, artisanAddress };
@@ -59,7 +60,7 @@ export const useHireArtisan = () => {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
     [address, isConnected, chainId, signMessageAsync]

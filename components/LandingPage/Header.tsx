@@ -1,32 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { MdOutlineMenu } from "react-icons/md";
 import { useState } from "react";
 import Button from "../Button";
 import AnimatedDiv from "@/components/AnimatedDiv";
-import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
-import ConnectWallet from "../ConnectWallet";
-import useIsClient from "@/hooks/Registry/useIsClient";
-import useIsArtisan from "@/hooks/Registry/useIsArtisan";
-import useHasClaimed from "@/hooks/Token/useHasClaimed";
+// import ConnectWallet from "../ConnectWallet";
+// import useIsClient from "@/hooks/Registry/useIsClient";
+// import useIsArtisan from "@/hooks/Registry/useIsArtisan";
+// import useHasClaimed from "@/hooks/Token/useHasClaimed";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { isConnected } = useAccount();
   const router = useRouter();
-  const isClient = useIsClient();
-  const isArtisan = useIsArtisan();
-  const hasClaimed = useHasClaimed();
+  // const isClient = useIsClient();
+  // const isArtisan = useIsArtisan();
+  // const hasClaimed = useHasClaimed();
 
   // Menu items array
   const menuItems = [
     { href: "#home", label: "Home" },
-    { href: "/features", label: "Features" },
-    { href: "/about", label: "About" },
-    { href: "/howItWorks", label: "How It Works" },
+    { href: "#features", label: "Features" },
+    { href: "#about", label: "About" },
+    { href: "#howItWorks", label: "How It Works" },
     { href: "#resources", label: "Resources" },
   ];
 
@@ -34,46 +31,32 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogin = async () => {
-    try {
-      if (isArtisan) {
-        router.push("/marketplace");
-      } else if (isClient) {
-        if (!hasClaimed) {
-          router.push("/role/clients/claim-token");
-        } else {
-          router.push("/marketplace");
-        }
-      } else {
-        router.push("/register");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const handleLogin = () => {
+    router.push("/role/artisans/signin");
+  }
 
-  const handleHashNavigation = (href: string) => {
-    const elementId = href.substring(1); // Remove the # from href
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleMobileMenuClick = (href: string) => {
-    setIsMenuOpen(false);
-    
-    // Handle hash navigation for same-page sections
-    if (href.startsWith("#")) {
-      setTimeout(() => {
-        handleHashNavigation(href);
-      }, 100); // Small delay to allow menu to close first
-    }
-  };
+  // const handleLogin = async () => {
+  //   try {
+  //     if (isArtisan) {
+  //       router.push("/marketplace");
+  //     } else if (isClient) {
+  //       if (!hasClaimed) {
+  //         router.push("/role/clients/claim-token");
+  //       } else {
+  //         router.push("/marketplace");
+  //       }
+  //     } else {
+  //       router.push("/register");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+      
+  //   }
+  // };
 
   return (
     <div>
-      <div className="bg-header w-screen bg-opacity-100 flex justify-between border-b-[0.5px] border-[#FCFBF726] shadow-lg px-4 md:px-8 items-center py-4 font-merriweather">
+      <div className="bg-header w-screen  bg-opacity-100 flex justify-between border-b-[0.5px] border-[#FCFBF726] shadow-lg px-4 md:px-8 items-center py-4  font-merriweather">
         <div className="flex md:px-2 gap-x-4 items-center font-mooli">
           <Image src="/logo.png" alt="CraftLink logo" width={22} height={49} />
           <span className="text-[20px] md:text-[28px]">
@@ -83,39 +66,21 @@ const Header = () => {
         </div>
 
         <div className="hidden md:flex gap-x-8 text-lg text-[#F9F1E2]">
-          {menuItems.map((item) => {
-            // Handle hash links for same-page sections
-            if (item.href.startsWith("#")) {
-              return (
-                <button
-                  key={item.href}
-                  onClick={() => handleHashNavigation(item.href)}
-                  className="hover:text-[#FFD700] cursor-pointer bg-transparent border-none text-lg text-[#F9F1E2]"
-                >
-                  {item.label}
-                </button>
-              );
-            }
-            
-            // Handle regular page navigation with Next.js Link
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="hover:text-[#FFD700]"
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+          {menuItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="hover:text-[#FFD700]"
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
 
         <div className="hidden lg:flex">
-          {isConnected ? (
-            <Button onClick={handleLogin} text="Get Started" />
-          ) : (
-            <ConnectWallet />
-          )}
+          {/* <Link  href={links.register}> */}
+          <Button onClick={handleLogin} text="Sign In" /> 
+          {/* </Link> */}
         </div>
 
         <div className="flex lg:hidden">
@@ -125,12 +90,11 @@ const Header = () => {
 
       {isMenuOpen && (
         <AnimatedDiv
-          initialX="100%"
-          animateX={0}
-          exitX={"-100%"}
-          duration={1.0}
-          className="fixed inset-0 w-screen h-screen bg-[#333333] bg-opacity-50 z-10"
-        >
+        initialX="100%"
+        animateX={0}
+        exitX={"-100%"}
+        duration={1.0}
+        className="fixed inset-0 w-screen h-screen bg-[#333333] bg-opacity-50 z-10">
           <div className="relative top-8 right-1 flex justify-end">
             <button
               onClick={toggleMenu}
@@ -141,34 +105,17 @@ const Header = () => {
             </button>
           </div>
           <div className="flex flex-col items-center justify-center space-y-4 bg-[#1A1A1A] text-[#F9F1E2] h-full p-6 text-xl rounded-md">
-            {menuItems.map((item) => {
-              // Handle hash links for same-page sections in mobile menu
-              if (item.href.startsWith("#")) {
-                return (
-                  <button
-                    key={item.href}
-                    onClick={() => handleMobileMenuClick(item.href)}
-                    className="hover:text-[#FFD700] cursor-pointer bg-transparent border-none text-xl text-[#F9F1E2]"
-                    tabIndex={0}
-                  >
-                    {item.label}
-                  </button>
-                );
-              }
-              
-              // Handle regular page navigation in mobile menu
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="hover:text-[#FFD700]"
-                  tabIndex={0}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            {menuItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={toggleMenu}
+                className="hover:text-[#FFD700]"
+                tabIndex={0}
+              >
+                {item.label}
+              </a>
+            ))}
             <Button onClick={handleLogin} text="Get Started" />
           </div>
         </AnimatedDiv>
