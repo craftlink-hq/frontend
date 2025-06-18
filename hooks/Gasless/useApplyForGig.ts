@@ -131,6 +131,7 @@ const useApplyForGig = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, router]
   );
 

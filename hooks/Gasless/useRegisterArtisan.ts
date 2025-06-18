@@ -20,15 +20,15 @@ export const useRegisterArtisan = () => {
     async () => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
       }
       if (!ipfsUrl) {
         toast.error("IPFS hash is required");
-        return;
+        return false;
       }
 
       startLoading();
@@ -53,20 +53,25 @@ export const useRegisterArtisan = () => {
         if (result.success) {
           toast.success("Registered as artisan successfully");
           router.push("/profile/artisans");
+          return true;
         } else {
           toast.error(`Error: ${result.message}`);
+          return false;
         }
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
+          return false;
         } else {
           toast.error("Error during artisan registration");
           console.error(error);
+          return false;
         }
       } finally {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signMessageAsync, router, ipfsUrl]
   );
 

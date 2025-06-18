@@ -3,14 +3,14 @@
 import { wagmiAdapter, projectId } from "@/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createAppKit } from "@reown/appkit/react";
-import { mainnet, sepolia } from "@reown/appkit/networks";
+import { liskSepolia } from "@reown/appkit/networks";
 import React, { type ReactNode } from "react";
 import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
 
 // Set up queryClient
 const queryClient = new QueryClient();
 
-export const SUPPORTED_CHAIN_ID = 11155111; // to be changed to 4202
+export const SUPPORTED_CHAIN_ID = 4202; // to be changed to 4202...11155111
 
 if (!projectId) {
   throw new Error("Project ID is not defined");
@@ -28,8 +28,8 @@ const metadata = {
 export const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [mainnet, sepolia], // [mainnet, arbitrum, avalanche, base, optimism, polygon]
-  defaultNetwork: sepolia,
+  networks: [liskSepolia], // [mainnet, arbitrum, avalanche, base, optimism, polygon]
+  defaultNetwork: liskSepolia,
   metadata: metadata,
   features: {
     email: true,

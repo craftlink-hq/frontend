@@ -8,12 +8,12 @@ import { toast } from "sonner";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
 import { FaCheck } from "react-icons/fa";
-import useRegisterArtisan from "@/hooks/Registry/useRegisterArtisan";
+import { useRegisterArtisan } from "@/hooks/Gasless/useRegisterArtisan";
 
 export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const registerArtisan = useRegisterArtisan();
+  const { registerAsArtisan } = useRegisterArtisan();
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   const { uploadToIPFS } = IPFS();
@@ -40,9 +40,9 @@ export default function Register() {
 
       await uploadToIPFS(JSON.stringify(data));
 
-      const success = await registerArtisan();
+      const success = await registerAsArtisan();
       if (!success) {
-        // No need to show an error toast here; useRegisterArtisan already handles it
+        // Errors are handled by useRegisterArtisan
         return;
       }
     } catch (error) {
