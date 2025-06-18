@@ -47,7 +47,7 @@ const useClaim = () => {
                 }
                 toast.success("Token claimed successfully");
 
-                router.push("/role/clients/welcome");
+                router.push("/authenticate/register/client");
             } catch (error) {
                 const err = error as ErrorWithReason;
                 const errorMessage = err.reason === "Already claimed" ? "You have already claimed your token." : "An error occurred while claiming the token.";

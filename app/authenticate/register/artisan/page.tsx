@@ -36,7 +36,7 @@ export default function Register() {
       console.log("IPFS Url: ", url);
 
       toast.success("Account created");
-      router.push("/role");
+      router.push("/role/artisans/onboarding/category");
     } catch (error) {
       console.error(error);
     } finally {

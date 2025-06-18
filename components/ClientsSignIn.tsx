@@ -33,7 +33,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
         router.push("/profile/clients");
     } else {
         stopLoading();
-        router.push("/authenticate/register/client");
+        router.push("/role/clients/claim-token");
     }
   };
 
