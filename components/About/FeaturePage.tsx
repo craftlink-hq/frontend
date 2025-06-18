@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import HeroSection from '@/components/About/Hero';
 import FeaturesSection from '@/components/About/FeatureCard';
 import Image from 'next/image';
-import {Community, FooterLinks} from "@/components/LandingPage";
+import {Community, FooterLinks, Header} from "@/components/LandingPage";
 import { socials } from "@/utils/socials";
 import Link from "next/link";
 
@@ -12,6 +12,7 @@ const FeaturePage = () => {
   
   return (
     <main>
+      <Header />
       {/* Hero Section */}
       <HeroSection
         headline="Discover What Makes Us Different."
