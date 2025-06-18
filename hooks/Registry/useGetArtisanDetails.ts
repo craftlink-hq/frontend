@@ -43,7 +43,7 @@ const useGetArtisanDetails = () => {
 
   useEffect(() => {
     fetchArtisanDetails();
-  }, [fetchArtisanDetails]);
+  }, []);
 
   return artisanDetails;
 };

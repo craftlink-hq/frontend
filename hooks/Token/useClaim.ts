@@ -22,6 +22,11 @@ const useClaim = () => {
 
     return useCallback(
         async () => {
+            if (!walletProvider) {
+                toast.error("Wallet provider is not available. Please try reconnecting your wallet.");
+                return;
+            }
+
             if (!isConnected) {
                 toast.warning("Please connect your wallet first.");
                 return;
@@ -56,7 +61,7 @@ const useClaim = () => {
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [chainId, isConnected]
+        [chainId, isConnected, walletProvider, router]
     );
 };
 

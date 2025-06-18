@@ -11,6 +11,7 @@ export default function ClaimToken() {
   const { isLoading } = useLoading();
 
   const handleClaim = async () => {
+    console.log("Claiming token...");
     claim();
   };
   return (
