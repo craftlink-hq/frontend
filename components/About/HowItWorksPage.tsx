@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import HeroSection from '@/components/About/Hero';
-import Cards from '@/components/About/Cards';
+import HowHiringWorks from '@/components/About/HowHiringWorks';
 import Image from 'next/image';
 import {Community, FooterLinks, Header} from "@/components/LandingPage";
 import { socials } from "@/utils/socials";
@@ -23,7 +23,7 @@ const HowItWorksPage = () => {
         onButtonClick={() => router.push('/marketplace')}
       />
 
-      <Cards />
+      <HowHiringWorks/>
 
       <div className="flex justify-center">
         <div className="flex flex-col relative bg-[#FFD700] items-center md:w-[90%] min-h-[45vh] h-fit w-[95vw] rounded-md py-4 my-4">
