@@ -7,11 +7,8 @@ interface HeroSectionProps {
   description: string;
   imageSrc: string | StaticImageData;
   imageAlt: string;
-  /** Hex color for the accent border */
   accentColor?: string;
-  /** Optional button text */
   buttonText?: string;
-  /** Optional button click handler */
   onButtonClick?: () => void;
 }
 
@@ -32,7 +29,7 @@ const HeroSection = ({
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
         {/* Text Content */}
         <div className="text-white space-y-6">
-          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
+          <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-[#F9F1E2] leading-tight">
             {headline}
           </h1>
           <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">

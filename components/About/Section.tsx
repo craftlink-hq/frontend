@@ -56,7 +56,7 @@ const SectionWithImage: FC<SectionWithImageProps> = ({
           className={`${imageOnRight ? 'lg:order-1' : 'lg:order-2'} space-y-6 p-8 rounded-lg h-[400px] lg:h-[500px] flex flex-col justify-center border`}
           style={{ backgroundColor: '#33322F', borderColor: '#F2E8CF29' }}
         >
-          <h1 className={`text-4xl lg:text-5xl xl:text-6xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`text-4xl lg:text-5xl xl:text-6xl font-bold ${isDark ? 'text-[#F9F1E2]' : 'text-gray-900'}`}>
             {title}
           </h1>
           {typeof content === 'string' ? (

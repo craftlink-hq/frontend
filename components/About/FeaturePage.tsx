@@ -1,137 +1,107 @@
+import React from 'react';
 import Image from 'next/image';
 
-const FeaturesPage: React.FC = () => {
+interface FeatureCardProps {
+  title: string;
+  description: string;
+  iconPath: string;
+  imageOnLeft: boolean;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ 
+  title, 
+  description, 
+  iconPath, 
+  imageOnLeft 
+}) => {
+  const ImageDiv = () => (
+    <div 
+      className="flex items-center justify-center p-8 rounded-lg h-full"
+      style={{ backgroundColor: '#F2E8CF0A' }}
+    >
+      <Image 
+        src={iconPath} 
+        alt={title}
+        width={120}
+        height={120}
+        className="w-20 h-20 md:w-24 md:h-24"
+      />
+    </div>
+  );
+
+  const TextDiv = () => (
+    <div 
+      className="p-8 rounded-lg flex flex-col justify-center h-full"
+      style={{ backgroundColor: '#120F0040' }}
+    >
+      <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight whitespace-pre-line">
+        {title}
+      </h3>
+      <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+        {description}
+      </p>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-gray-900 py-16 px-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[200px] md:min-h-[250px]">
+      {imageOnLeft ? (
+        <>
+          <ImageDiv />
+          <TextDiv />
+        </>
+      ) : (
+        <>
+          <TextDiv />
+          <ImageDiv />
+        </>
+      )}
+    </div>
+  );
+};
+
+const FeaturesSection: React.FC = () => {
+  const features = [
+    {
+      title: "Easy Payments\nIn & Out",
+      description: "Pay in crypto or local currency. Withdraw earnings however it suits you—securely and fast.",
+      iconPath: "/Group1.svg",
+      imageOnLeft: false // Text left, Image right
+    },
+    {
+      title: "Smart Matching",
+      description: "Our platform recommends top artisans based on your project needs, location, and timeline—so you hire with confidence.",
+      iconPath: "/Group2.svg",
+      imageOnLeft: true // Image left, Text right
+    },
+    {
+      title: "Direct\nCommunication",
+      description: "Message artisans directly to discuss job progress, share updates, and keep everything on track—all in one place.",
+      iconPath: "/Group3.svg",
+      imageOnLeft: false // Text left, Image right
+    },
+    {
+      title: "Guaranteed\nPayments",
+      description: "We hold funds securely until the job is done. No chasing, no delays—just peace of mind.",
+      iconPath: "/Group4.svg",
+      imageOnLeft: true // Image left, Text right
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-900 p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
-        
-        {/* Header Section */}
-        <div className="flex justify-between items-center mb-12">
-          <h1 className="text-white text-5xl font-medium leading-tight">
-            The process is made<br />easy
-          </h1>
-          <button className="bg-yellow-400 text-black px-8 py-3 rounded-lg font-medium hover:bg-yellow-300 transition-colors">
-            SIGN IN
-          </button>
-        </div>
-        
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          {/* Easy Payments - Text LEFT, Icon RIGHT */}
-          <div className="bg-gray-800 rounded-lg overflow-hidden">
-            <div className="flex">
-              <div className="w-3/5 p-8">
-                <h3 className="text-white text-3xl font-medium mb-4 leading-tight">
-                  Easy Payments<br />In & Out
-                </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  Pay in crypto or local currency. Withdraw earnings however it suits you—securely and fast.
-                </p>
-              </div>
-              <div 
-                className="w-2/5 flex items-center justify-center"
-                style={{ backgroundColor: '#F2E8CF0A' }}
-              >
-                <Image
-                  src="/Group1.svg"
-                  alt="Easy Payments"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20"
-                />
-              </div>
-            </div>
-          </div>
-          
-          {/* Smart Matching - Text LEFT, Icon RIGHT */}
-          <div className="bg-gray-800 rounded-lg p-8">
-            <div className="flex items-center gap-8">
-              <div className="flex-1">
-                <h3 className="text-white text-3xl font-medium mb-4 leading-tight">
-                  Smart Matching
-                </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  Our platform recommends top artisans based on your project needs, location, and timeline—so you hire with confidence.
-                </p>
-              </div>
-              <div className="flex-shrink-0">
-                <div 
-                  className="w-28 h-28 rounded-lg flex items-center justify-center"
-                  style={{ backgroundColor: '#F2E8CF0A' }}
-                >
-                  <Image
-                    src="/Group2.svg"
-                    alt="Smart Matching"
-                    width={80}
-                    height={80}
-                    className="w-20 h-20"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Direct Communication - Icon LEFT, Text RIGHT */}
-          <div className="bg-gray-800 rounded-lg p-8">
-            <div className="flex items-center gap-8">
-              <div className="flex-shrink-0">
-                <div 
-                  className="w-28 h-28 rounded-lg flex items-center justify-center"
-                  style={{ backgroundColor: '#F2E8CF0A' }}
-                >
-                  <Image
-                    src="/Group3.svg"
-                    alt="Direct Communication"
-                    width={80}
-                    height={80}
-                    className="w-20 h-20"
-                  />
-                </div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-white text-3xl font-medium mb-4 leading-tight">
-                  Direct<br />Communication
-                </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  Message artisans directly to discuss job progress, share updates, and keep everything on track—all in one place.
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Guaranteed Payments - Text LEFT, Icon RIGHT */}
-          <div className="bg-gray-800 rounded-lg p-8">
-            <div className="flex items-center gap-8">
-              <div className="flex-1">
-                <h3 className="text-white text-3xl font-medium mb-4 leading-tight">
-                  Guaranteed<br />Payments
-                </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  We hold funds securely until the job is done. No chasing, no delays—just peace of mind.
-                </p>
-              </div>
-              <div className="flex-shrink-0">
-                <div 
-                  className="w-28 h-28 rounded-lg flex items-center justify-center"
-                  style={{ backgroundColor: '#F2E8CF0A' }}
-                >
-                  <Image
-                    src="/Group4.svg"
-                    alt="Guaranteed Payments"
-                    width={80}
-                    height={80}
-                    className="w-20 h-20"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          
+        <div className="space-y-8">
+          {features.map((feature, index) => (
+            <FeatureCard 
+              key={index}
+              {...feature}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default FeaturesPage;
+export default FeaturesSection;
