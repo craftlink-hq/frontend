@@ -16,7 +16,7 @@ interface WelcomeProps {
 }
 
 const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
-  const { isLoading: pageLoading, startLoading, stopLoading } = useLoading();
+  const { isLoading: pageLoading } = useLoading();
   const { address, isConnected } = useAccount();
   const { isArtisan, isLoading: artisanCheckLoading} = useIsArtisan();
   const router = useRouter();
@@ -27,13 +27,9 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
       return;
     }
 
-    startLoading();
-    console.log("isArtisan:", isArtisan);
     if (isArtisan) {
-      stopLoading();
       router.push("/profile/artisans");
     } else {
-      stopLoading();
       router.push("/authenticate/register/artisan");
     }
   };
