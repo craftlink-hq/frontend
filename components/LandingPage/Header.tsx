@@ -5,19 +5,18 @@ import { MdOutlineMenu } from "react-icons/md";
 import { useState } from "react";
 import Button from "../Button";
 import AnimatedDiv from "@/components/AnimatedDiv";
-// import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 // import ConnectWallet from "../ConnectWallet";
-import useIsClient from "@/hooks/Registry/useIsClient";
-import useIsArtisan from "@/hooks/Registry/useIsArtisan";
-import useHasClaimed from "@/hooks/Token/useHasClaimed";
+// import useIsClient from "@/hooks/Registry/useIsClient";
+// import useIsArtisan from "@/hooks/Registry/useIsArtisan";
+// import useHasClaimed from "@/hooks/Token/useHasClaimed";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const router = useRouter();
-  const isClient = useIsClient();
-  const isArtisan = useIsArtisan();
-  const hasClaimed = useHasClaimed();
+  // const isClient = useIsClient();
+  // const isArtisan = useIsArtisan();
+  // const hasClaimed = useHasClaimed();
 
   // Menu items array
   const menuItems = [
@@ -32,24 +31,28 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogin = async () => {
-    try {
-      if (isArtisan) {
-        router.push("/marketplace");
-      } else if (isClient) {
-        if (!hasClaimed) {
-          router.push("/role/clients/claim-token");
-        } else {
-          router.push("/marketplace");
-        }
-      } else {
-        router.push("/register");
-      }
-    } catch (error) {
-      console.error(error);
+  const handleLogin = () => {
+    router.push("/role/artisans/signin");
+  }
+
+  // const handleLogin = async () => {
+  //   try {
+  //     if (isArtisan) {
+  //       router.push("/marketplace");
+  //     } else if (isClient) {
+  //       if (!hasClaimed) {
+  //         router.push("/role/clients/claim-token");
+  //       } else {
+  //         router.push("/marketplace");
+  //       }
+  //     } else {
+  //       router.push("/register");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
       
-    }
-  };
+  //   }
+  // };
 
   return (
     <div>
