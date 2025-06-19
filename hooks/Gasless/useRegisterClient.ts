@@ -4,10 +4,8 @@ import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useStoreIPFS } from "@/utils/store";
 import { isSupportedChain } from "@/constants/chain";
 import { useLoading } from "../useLoading";
-import { start } from "repl";
 
 export const useRegisterClient = () => {
   const { address, isConnected } = useAccount();
@@ -71,6 +69,7 @@ export const useRegisterClient = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signMessageAsync, router]
   );
 

@@ -5,7 +5,6 @@ import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { isSupportedChain } from "@/constants/chain";
-import { useStoreIPFS } from "@/utils/store";
 import { useLoading } from "../useLoading";
 
 export const useRegisterArtisan = () => {

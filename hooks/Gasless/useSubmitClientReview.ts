@@ -5,7 +5,6 @@ import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
 import { useLoading } from "../useLoading";
-import { stat } from "fs";
 
 export const useSubmitClientReview = () => {
   const { address, isConnected } = useAccount();
@@ -63,6 +62,7 @@ export const useSubmitClientReview = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signMessageAsync]
   );
 

@@ -6,7 +6,6 @@ import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
 import { formatUnits } from "ethers";
-import { parse } from "path";
 
 const useGetArtisanAmountMade = () => {
   const { address, isConnected } = useAccount();

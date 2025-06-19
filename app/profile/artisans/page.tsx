@@ -20,7 +20,6 @@ import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
 import useGetCraftCoinBalance from "@/hooks/CraftCoin/useGetCraftCoinBalance";
 import useGetArtisanAmountMade from "@/hooks/PaymentProcessor/useGetArtisanAmountMade";
 import { useMint } from "@/hooks/Gasless/useMint";
-import { formatEther } from "ethers";
 import useCanMintCraftCoin from "@/hooks/CraftCoin/useCanMintCraftCoin";
 
 export default function Profile() {
