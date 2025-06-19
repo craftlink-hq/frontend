@@ -38,7 +38,7 @@ const Hero = () => {
         }}
       >
         {designs.map(({key, component}) => (
-          <div key={key} className={` min-w-full max-sm:h-[75vh] md:min-h-[80vh] no-scrollbar`}>
+          <div key={key} className={` min-w-full max-sm:h-[75vh] md:min-h-[80vh] lg:max-h-[100vh] no-scrollbar`}>
             {component}
           </div>
         ))}

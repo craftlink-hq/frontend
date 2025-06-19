@@ -36,13 +36,13 @@ const SecondDesign = () => {
         <div className="flex justify-between md:p-4">
           <p
             ref={ref}
-            className={`font-alata text-balance self-center  text-[#F9F1E2] text-[37px] md:text-[95px] relative md:right-8 lg:right-[5vw]  text-center md:leading-[100px] py-8 lg:py-2 md:w-[80vw] lg:w-full px-4  ${
+            className={`font-alata text-balance self-center  text-[#F9F1E2] text-[37px] md:text-[95px] relative md:right-8 lg:right-[4vw] 2xl:right-[5vw]  text-center md:leading-[100px] py-8 lg:py-2 md:w-[80vw] lg:w-full px-4  ${
               inView ? "animate-slideInLeft" : ""
             } `}
           >
             Empower Your <span className="text-[#FFD700]">Crafts</span>, Connect
             with Clients.{" "}
-              <Link href={links.browseJob} className="text-base">
+              <Link href={links.browseJob} className="text-base relative bottom-4">
                 <Button text="Visit Marketplace" />
               </Link>
           </p>

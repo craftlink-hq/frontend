@@ -20,11 +20,10 @@ const Header = () => {
 
   // Menu items array
   const menuItems = [
-    { href: "#home", label: "Home" },
-    { href: "#features", label: "Features" },
-    { href: "#about", label: "About" },
-    { href: "#howItWorks", label: "How It Works" },
-    { href: "#resources", label: "Resources" },
+    { href: "/about", label: "About" },
+    { href: "/howItWorks", label: "How It Works" },
+    { href: "/features", label: "Features" },
+    { href: "/markteplace", label: "Visit Marketplace" },
   ];
 
   const toggleMenu = () => {
@@ -33,7 +32,7 @@ const Header = () => {
 
   const handleLogin = () => {
     router.push("/role/artisans/signin");
-  }
+  };
 
   // const handleLogin = async () => {
   //   try {
@@ -50,7 +49,7 @@ const Header = () => {
   //     }
   //   } catch (error) {
   //     console.error(error);
-      
+
   //   }
   // };
 
@@ -79,7 +78,7 @@ const Header = () => {
 
         <div className="hidden lg:flex">
           {/* <Link  href={links.register}> */}
-          <Button onClick={handleLogin} text="Sign In" /> 
+          <Button onClick={handleLogin} text="Sign In" />
           {/* </Link> */}
         </div>
 
@@ -90,11 +89,12 @@ const Header = () => {
 
       {isMenuOpen && (
         <AnimatedDiv
-        initialX="100%"
-        animateX={0}
-        exitX={"-100%"}
-        duration={1.0}
-        className="fixed inset-0 w-screen h-screen bg-[#333333] bg-opacity-50 z-10">
+          initialX="100%"
+          animateX={0}
+          exitX={"-100%"}
+          duration={1.0}
+          className="fixed inset-0 w-screen h-screen bg-[#333333] bg-opacity-50 z-10"
+        >
           <div className="relative top-8 right-1 flex justify-end">
             <button
               onClick={toggleMenu}
