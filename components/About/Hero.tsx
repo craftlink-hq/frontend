@@ -52,7 +52,7 @@ const HeroSection = ({
         {/* Image with Accent Border */}
         <div className="relative">
           <div 
-            className="absolute -bottom-4 -right-4 w-full h-full rounded-lg z-0"
+            className="absolute -top-4 -right-4 w-full h-full rounded-lg z-0"
             style={{ backgroundColor: accentColor }}
           />
           <div className="relative h-[400px] lg:h-[500px] rounded-lg overflow-hidden z-10">
