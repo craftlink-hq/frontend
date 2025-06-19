@@ -5,7 +5,6 @@ import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
 import { useLoading } from "../useLoading";
-import { start } from "repl";
 import { useRouter } from "next/navigation";
 
 export const useClaim = () => {
@@ -61,6 +60,7 @@ export const useClaim = () => {
     } finally {
       stopLoading();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isConnected, chainId, signMessageAsync]);
 
   return { claim, isLoading };

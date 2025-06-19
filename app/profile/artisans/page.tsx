@@ -3,8 +3,6 @@ import ProfileHeader from "@/components/Profile/Header";
 import Footer from "@/components/LandingPage/Footer";
 import About from "@/components/Profile/About";
 import Portfolio from "@/components/Profile/Portfolio";
-// import Details from "@/components/Profile/Details";
-// import Skills from "@/components/Profile/Skills";
 import Review from "@/components/Profile/Review";
 import Settings from "@/components/Profile/Settings";
 import ProfileCard from "@/components/Profile/ProfileCard";
@@ -36,7 +34,6 @@ export default function Profile() {
   const craftCoinBalance = useGetCraftCoinBalance();
   const checkAmountMade = useGetArtisanAmountMade();
   const { mint } = useMint();
-  // const router = useRouter()
 
   useEffect(() => {
     const fetchArtisanProfile = async () => {
@@ -89,9 +86,6 @@ export default function Profile() {
     toast.info("To be implemented soon...");
     console.log("Buying Craftcoin...");
   };
-  console.log("Profile Data:", profile);
-  console.log("Token Balance:", tokenBalance);
-  console.log("CraftCoin Balance:", craftCoinBalance?.toString());
 
   return (
     <div>

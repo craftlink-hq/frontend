@@ -62,6 +62,7 @@ export const useConfirmComplete = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signMessageAsync]
   );
 
