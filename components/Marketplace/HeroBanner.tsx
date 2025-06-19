@@ -10,18 +10,18 @@ const HeroBanner: React.FC = () => {
 
   // Content based on user role
   const getContent = () => {
-    if (isClient) {
+    if (isArtisan) {
       return {
         title: "Build, Fix, Design or Hire",
         description: "Looking for skilled hands? Sign in as a client and post your job",
         buttonText: "SIGN IN AS CLIENT",
         subText: "Creating a client account lets you post jobs and connect with the right artisans.",
-        buttonLink: "/register",
+        buttonLink: "/role/clients/signin",
         showIcon: true
       };
     }
     
-    if (isArtisan) {
+    if (isClient) {
       return {
         title: "Build, Fix, Design or Hire",
         description: "Craftlink connects you with real people who need your skills — or have the skills you need.",
@@ -38,7 +38,7 @@ const HeroBanner: React.FC = () => {
       description: "Craftlink connects you with real people who need your skills — or have the skills you need.",
       buttonText: "SIGN IN",
       subText: "",
-      buttonLink: "/register",
+      buttonLink: "/role/artisans/signin",
       showIcon: false
     };
   };

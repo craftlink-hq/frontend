@@ -1,12 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // reactStrictMode: false,
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',           // ← allow http
+        hostname: 'res.cloudinary.com',
         pathname: '/**',
       },
     ],
@@ -23,6 +29,7 @@ const nextConfig: NextConfig = {
     GIG_MARKET_PLACE: process.env.GIG_MARKET_PLACE,
     REGISTRY: process.env.REGISTRY,
     TOKEN: process.env.TOKEN,
+    CRAFT_COIN: process.env.CRAFT_COIN,
     REVIEW_SYSTEM: process.env.REVIEW_SYSTEM,
     CHAT_SYSTEM: process.env.CHAT_SYSTEM,
     PROJECT_ID: process.env.PROJECT_ID,

@@ -1,15 +1,16 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
+import { useLoading } from "../useLoading";
 
 export const useConfirmComplete = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const confirmComplete = useCallback(
     async (databaseId: string) => {
@@ -26,7 +27,7 @@ export const useConfirmComplete = () => {
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const functionName = "confirmComplete";
         const params = { databaseId };
@@ -58,7 +59,7 @@ export const useConfirmComplete = () => {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
     [address, isConnected, chainId, signMessageAsync]

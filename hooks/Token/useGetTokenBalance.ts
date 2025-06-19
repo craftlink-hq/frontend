@@ -6,30 +6,30 @@ import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
 
-const useHasClaimed = () => {
+const useGetTokenBalance = () => {
   const { address, isConnected } = useAccount();
-  const [hasClaimed, setHasClaimed] = useState<boolean | null>(null);
+  const [balance, setBalance] = useState<number | null>(null);
 
-  const checkHasClaimed = useCallback(async () => {
+  const checkTokenBalance = useCallback(async () => {
     if (!address) return;
 
     try {
       const contract = getTokenContract(readOnlyProvider);
-      const resp = await contract.hasClaimed(address);
-      setHasClaimed(resp);
+      const resp = await contract.balanceOf(address);
+      setBalance(resp);
     } catch (error) {
-      toast.error("Error checking claim status");
-      console.error("Error checking if user has claimed:", error);
-      setHasClaimed(null);
+      toast.error("Error checking token balance");
+      console.error("Error checking user balance:", error);
+      setBalance(null);
     }
   }, [address]);
 
   useEffect(() => {
-    checkHasClaimed();
+    checkTokenBalance();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
-  return hasClaimed;
+  return balance;
 };
 
-export default useHasClaimed;
+export default useGetTokenBalance;

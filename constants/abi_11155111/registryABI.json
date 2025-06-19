@@ -1,12 +1,5 @@
 [
   {
-    "inputs": [
-      { "internalType": "address", "name": "_relayer", "type": "address" }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -187,34 +180,10 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "isRegisteredAsArtisan",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "isRegisteredAsClient",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "string", "name": "_ipfsHash", "type": "string" }
     ],
     "name": "registerAsArtisan",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_user", "type": "address" },
-      { "internalType": "string", "name": "_ipfsHash", "type": "string" }
-    ],
-    "name": "registerAsArtisanFor",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -229,19 +198,11 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_user", "type": "address" },
-      { "internalType": "string", "name": "_ipfsHash", "type": "string" }
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "userTypes",
+    "outputs": [
+      { "internalType": "enum Registry.UserType", "name": "", "type": "uint8" }
     ],
-    "name": "registerAsClientFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "relayer",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   }

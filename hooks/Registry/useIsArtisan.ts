@@ -1,35 +1,46 @@
 "use client";
 
-import { getRegistryContract } from "@/constants/contracts";
+import { getRegistryContract } from "@/constants/contracts"
 import { readOnlyProvider } from "@/constants/providers";
 import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
+import { useLoading } from "../useLoading";
 
 const useIsArtisan = () => {
-    const { address } = useAccount();
-    const [isArtisan, setIsArtisan] = useState<boolean | null>(null);
+  const { address, isConnected } = useAccount();
+  const [isArtisan, setIsArtisan] = useState<boolean | null>(null);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
-    useEffect(() => {
-        const checkIsArtisan = async () => {
-            try {
-                const contract = getRegistryContract(readOnlyProvider);
-                const resp = await contract.isArtisan(address);
+  const checkIsArtisan = useCallback(async () => {
+    if (!address) return;
 
-                setIsArtisan(resp);
-            } catch (error) {
-                toast.error("Error checking user role");
-                console.error("Error checking if user is artisan:", error);
-                setIsArtisan(null);
-            }
-        }
+    startLoading();
+    try {
+      const contract = getRegistryContract(readOnlyProvider);
+      const resp = await contract.isArtisan(address);
+      setIsArtisan(resp);
+    } catch (error) {
+      const typedError = error as { code?: string; message?: string };
+      if (typedError.code === "BAD_DATA" || typedError.message?.includes("could not decode result data")) {
+        setIsArtisan(false);
+      } else {
+        toast.error("Error checking user role");
+        console.error("Error checking if user is artisan:", error);
+        setIsArtisan(null);
+      }
+    } finally {
+      stopLoading();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
-        if (address) {
-            checkIsArtisan();
-        }
-    }, [address]);
+  useEffect(() => {
+    checkIsArtisan();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
-    return isArtisan;
-}
+  return { isArtisan, isLoading };
+};
 
 export default useIsArtisan;

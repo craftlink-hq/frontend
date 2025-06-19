@@ -4,16 +4,16 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useState } from "react";
 import IPFS from "@/hooks/useIPFS";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
 import { FaCheck } from "react-icons/fa";
+import { useRegisterArtisan } from "@/hooks/Gasless/useRegisterArtisan";
 
 export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const router = useRouter();
+  const { registerAsArtisan } = useRegisterArtisan();
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   const { uploadToIPFS } = IPFS();
@@ -26,19 +26,28 @@ export default function Register() {
       return;
     }
 
+    if (!privacyChecked) {
+      toast.error("Please agree to the Privacy Policy and Terms");
+      return;
+    }
+
     startLoading();
     try {
       const data = {
         username,
         location,
       };
-      const url = await uploadToIPFS(JSON.stringify(data));
-      console.log("IPFS Url: ", url);
 
-      toast.success("Account created");
-      router.push("/role");
+      await uploadToIPFS(JSON.stringify(data));
+
+      const success = await registerAsArtisan();
+      if (!success) {
+        // Errors are handled by useRegisterArtisan
+        return;
+      }
     } catch (error) {
-      console.error(error);
+      toast.error("Failed to upload data to IPFS");
+      console.error("IPFS upload error:", error);
     } finally {
       stopLoading();
     }
@@ -53,8 +62,7 @@ export default function Register() {
               Create Your Craftlink Account
             </p>
             <p className="text-fontSec px-2 text-balance font-merriweather italic">
-              Join Craftlink to showcase your skills or find talented artisans
-              for your project
+              Join Craftlink to showcase your skills to clients and start earning from projects.
             </p>
           </div>
           <form className="w-full md:w-[70%] p-4 sm:p-8 gap-2 md:gap-x-8 md:gap-y-2 ">

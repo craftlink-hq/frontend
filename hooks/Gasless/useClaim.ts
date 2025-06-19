@@ -1,15 +1,19 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
+import { useLoading } from "../useLoading";
+import { start } from "repl";
+import { useRouter } from "next/navigation";
 
 export const useClaim = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
+  const router = useRouter();
 
   const claim = useCallback(async () => {
     if (!isConnected || !address) {
@@ -21,7 +25,7 @@ export const useClaim = () => {
       return;
     }
 
-    setIsLoading(true);
+    startLoading();
     try {
       const functionName = "claim";
       const params = {};
@@ -42,6 +46,8 @@ export const useClaim = () => {
       const result = await response.json();
       if (result.success) {
         toast.success("Tokens claimed successfully");
+
+        router.push("/authenticate/register/client");
       } else {
         toast.error(`Error: ${result.message}`);
       }
@@ -53,7 +59,7 @@ export const useClaim = () => {
         console.error(error);
       }
     } finally {
-      setIsLoading(false);
+      stopLoading();
     }
   }, [address, isConnected, chainId, signMessageAsync]);
 

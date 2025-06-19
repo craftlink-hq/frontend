@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { isSupportedChain } from "@/constants/chain";
 import { useStoreIPFS } from "@/utils/store";
+import { useLoading } from "../useLoading";
 
 export const useRegisterArtisan = () => {
   const { address, isConnected } = useAccount();
@@ -13,24 +14,24 @@ export const useRegisterArtisan = () => {
   const { signMessageAsync } = useSignMessage();
   const router = useRouter();
   const { ipfsUrl } = useStoreIPFS();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const registerAsArtisan = useCallback(
     async () => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
       }
       if (!ipfsUrl) {
         toast.error("IPFS hash is required");
-        return;
+        return false;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const functionName = "registerAsArtisan";
         const params = { ipfsUrl };
@@ -51,21 +52,26 @@ export const useRegisterArtisan = () => {
         const result = await response.json();
         if (result.success) {
           toast.success("Registered as artisan successfully");
-          router.push("/profile/artisans");
+          router.push("/role/artisans/onboarding/category")
+          return true;
         } else {
           toast.error(`Error: ${result.message}`);
+          return false;
         }
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
+          return false;
         } else {
           toast.error("Error during artisan registration");
           console.error(error);
+          return false;
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signMessageAsync, router, ipfsUrl]
   );
 

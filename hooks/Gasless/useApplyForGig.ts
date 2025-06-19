@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage, useSignTypedData } from "wagmi";
 import { toast } from "sonner";
 import { ethers } from "ethers";
@@ -10,6 +10,7 @@ import { getCraftCoinContract, getGigContract } from "@/constants/contracts";
 import { isSupportedChain } from "@/constants/chain";
 import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { Address } from "viem";
+import { useLoading } from "../useLoading";
 
 const useApplyForGig = () => {
   const { address, isConnected } = useAccount();
@@ -18,7 +19,7 @@ const useApplyForGig = () => {
   const { signMessageAsync } = useSignMessage();
   const { walletProvider } = useAppKitProvider<Provider>("eip155");
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   const applyForGig = useCallback(
     async (databaseId: string) => {
@@ -31,7 +32,7 @@ const useApplyForGig = () => {
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
       try {
         const provider = getProvider(walletProvider);
 
@@ -127,9 +128,10 @@ const useApplyForGig = () => {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, router]
   );
 

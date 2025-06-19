@@ -1,64 +1,44 @@
 "use client";
 import Image from "next/image";
 import Button from "./Button";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "./Loading";
 import { useRouter } from "next/navigation";
-import useIsArtisan from "@/hooks/Registry/useIsArtisan";
+import Link from "next/link";
+import { useAccount } from "wagmi";
 import useIsClient from "@/hooks/Registry/useIsClient";
-// import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
-// import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
 
 interface WelcomeProps {
   image: string;
   role: string;
 }
 
-const SignIn = ({ image, role }: WelcomeProps) => {
-  const { isLoading } = useLoading(); // startLoading, stopLoading
-  const [userRole, setUserRole] = useState("");
-  const isArtisan = useIsArtisan();
-  const isClient = useIsClient();
-  // const artisanDetails = useGetArtisanDetails();
-  // const clientDetails = useGetClientDetails();
+const ClientsSignIn = ({ image, role }: WelcomeProps) => {
+  const { isLoading: pageLoading, startLoading, stopLoading } = useLoading();
+  const { address, isConnected } = useAccount();
+  const { isClient, isLoading: clientCheckLoading } = useIsClient();
   const router = useRouter();
 
-  console.log("isArtisan:", isArtisan);
-  console.log("isClient:", isClient);
-  useEffect(() => {
-    if (isClient) {
-      setUserRole("client");
-    } else if (isArtisan) {
-      setUserRole("artisan");
+  const handleSignIn = () => {
+    if (!isConnected && !address) {
+      toast.error("Please connect your wallet to continue.");
+      return;
     }
-  }, [isClient, isArtisan]);
 
-  const welcomeMsg =
-    role === "client"
-      ? "Sign in, find trusted artisans, and get your projects done by skilled hands."
-      : "Sign in, showcase your skills and start earning from clients who need your craft.";
+    startLoading();
 
-  const buttonMsg =
-    role === "client" ? "Sign in as Client" : "Sign in as Artisan";
-
-  const redirect = () => {
-    if (userRole === "client") {
-      router.push("/useRole/clients/onboarding");
-    } else if (userRole === "artisan") {
-      router.push("/role/artisans/onboarding/category");
+    if (isClient) {
+      stopLoading();
+      router.push("/profile/clients");
     } else {
-      toast.error("User role not set");
+      stopLoading();
+      router.push("/role/clients/claim-token");
     }
   };
 
-  const detail = role === "client" ? "Not a client?" : "Not an artisan?";
-  const altButton =
-    role === "client" ? "Sign in as Artisan" : "Sign in as Client";
-
   return (
-    <Loading show={isLoading}>
+    <Loading show={pageLoading || clientCheckLoading}>
       <div className="flex md:items-center justify-center w-full h-[90vh] gap-y-8 gap-x-4 py-4 md:py-1">
         <div className="hidden md:flex relative h-[90%] md:w-[45%] lg:w-[40w] xl:w-[38vw]">
           <Image
@@ -77,12 +57,22 @@ const SignIn = ({ image, role }: WelcomeProps) => {
             </p>
 
             <span className="text-center text-[#D8D6CF] px-4 lg:px-2 font-merriweather">
-              {welcomeMsg}
+              Sign in, showcase your skills, and start earning from clients who
+              need your craft.
             </span>
-            <Button onClick={redirect} text={buttonMsg} style={"font-normal"} />
+            <Button
+              onClick={handleSignIn}
+              text={"Sign in as Artisan"}
+              style={"font-normal"}
+            />
             <div className="flex text-center text-[#F9F1E2] gap-2  ">
-              <span>{detail}</span>
-              <span className="text-yellow font-bold">{altButton}</span>{" "}
+              Not an client?{" "}
+              <Link
+                href="/role/clients/signin"
+                className="text-yellow font-bold"
+              >
+                Sign in as Artisan
+              </Link>
             </div>
           </div>
           <div className="flex flex-col justify-center text-center">
@@ -99,4 +89,4 @@ const SignIn = ({ image, role }: WelcomeProps) => {
   );
 };
 
-export default SignIn;
+export default ClientsSignIn;

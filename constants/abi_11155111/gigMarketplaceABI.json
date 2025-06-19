@@ -1,14 +1,12 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "_relayer", "type": "address" },
       { "internalType": "address", "name": "_registry", "type": "address" },
       {
         "internalType": "address",
         "name": "_paymentProcessor",
         "type": "address"
-      },
-      { "internalType": "address", "name": "_craftCoin", "type": "address" }
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -145,34 +143,6 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_artisan", "type": "address" },
-      { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "_deadline", "type": "uint256" },
-      { "internalType": "uint8", "name": "_v", "type": "uint8" },
-      { "internalType": "bytes32", "name": "_r", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "_s", "type": "bytes32" }
-    ],
-    "name": "applyForGigFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "artisanHiredCount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "clientGigCount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
       { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" }
     ],
     "name": "closeGig",
@@ -191,25 +161,6 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_client", "type": "address" },
-      { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" }
-    ],
-    "name": "confirmCompleteFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "craftCoin",
-    "outputs": [
-      { "internalType": "contract ICraftCoin", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
       { "internalType": "bytes32", "name": "_rootHash", "type": "bytes32" },
       { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" },
       { "internalType": "uint256", "name": "_budget", "type": "uint256" }
@@ -217,40 +168,6 @@
     "name": "createGig",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_client", "type": "address" },
-      { "internalType": "bytes32", "name": "_rootHash", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "_budget", "type": "uint256" },
-      { "internalType": "uint256", "name": "_deadline", "type": "uint256" },
-      { "internalType": "uint8", "name": "_v", "type": "uint8" },
-      { "internalType": "bytes32", "name": "_r", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "_s", "type": "bytes32" }
-    ],
-    "name": "createGigFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_artisan", "type": "address" }
-    ],
-    "name": "getArtisanHiredCount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_client", "type": "address" }
-    ],
-    "name": "getClientGigCount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -289,15 +206,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" }
-    ],
-    "name": "getRequiredCFT",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "gigCounter",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -331,17 +239,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_client", "type": "address" },
-      { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" },
-      { "internalType": "address", "name": "_artisan", "type": "address" }
-    ],
-    "name": "hireArtisanFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
     "name": "indexes",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -358,21 +255,11 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_artisan", "type": "address" },
-      { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" }
-    ],
-    "name": "markCompleteFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "paymentProcessor",
     "outputs": [
       {
-        "internalType": "contract IPaymentProcessor",
+        "internalType": "contract PaymentProcessor",
         "name": "",
         "type": "address"
       }
@@ -384,15 +271,8 @@
     "inputs": [],
     "name": "registry",
     "outputs": [
-      { "internalType": "contract IRegistry", "name": "", "type": "address" }
+      { "internalType": "contract Registry", "name": "", "type": "address" }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "relayer",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
