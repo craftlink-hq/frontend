@@ -56,29 +56,31 @@ const HomePage = () => {
       {/* Core Values Section */}
       <CoreValues />
 
-      <div className="flex justify-center">
-        <div className="flex flex-col relative bg-[#FFD700] items-center md:w-[90%] min-h-[45vh] h-fit w-[95vw] rounded-md py-4 my-4">
-          <Image
-            src="/bg-blend.png"
-            alt="background blend"
-            fill
-            className="z-20 opacity-70 mix-blend-overlay"
-            style={{ objectFit: "cover", objectPosition: "center" }}
-          />
-          <p className="text-[#0D0800] font-alata text-[24px] sm:text-[40px] md:text-[4vw] self-center text-center w-[80%] md:w-[60%] py-8 md:leading-[60px] lg:leading-[4vw]">
-            Let's Build Together
-          </p>
-          <p className="uppercase items-start font-merriweather text-center text-[#0D0800] py-8">
-            We're not just a product—We're a Movement 
-          </p>
-          <p className="uppercase items-start font-merriweather text-center text-[#0D0800] py-8">
-            Join us as a user, supporter, or collaborator to help shape the future of skilled work.
-          </p>
-          <button className="bg-[#262208] text-[#FCF8E3] self-center uppercase sm:w-[25%] md:w-[20%] lg:w-[15%] shadow-sm rounded-sm p-4">
-            PARTNER WITH US
-          </button>
+        <div className="flex justify-center">
+          <div className="flex flex-col justify-between relative bg-[#FFD700] items-center md:w-[90%] min-h-[45vh] h-fit w-[95vw] rounded-md py-8 my-4">
+            <Image
+              src="/bg-blend.png"
+              alt="background blend"
+              fill
+              className="z-20 opacity-70 mix-blend-overlay"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+            />
+            <p className="text-[#0D0800] font-alata text-[24px] sm:text-[40px] md:text-[4vw] self-center text-center w-[80%] md:w-[60%] md:leading-[60px] lg:leading-[4vw]">
+              Let's Build Together
+            </p>
+            <div className="text-center space-y-4">
+              <p className="uppercase font-bold font-merriweather text-[#0D0800]">
+                We're not just a product—We're a Movement 
+              </p>
+              <p className="uppercase font-merriweather text-[#0D0800]">
+                Join us as a user, supporter, or collaborator to help shape the future of skilled work.
+              </p>
+            </div>
+            <button className="bg-[#262208] text-[#FCF8E3] uppercase sm:w-[25%] md:w-[20%] lg:w-[15%] shadow-sm rounded-sm p-4">
+              PARTNER WITH US
+            </button>
+          </div>
         </div>
-      </div>
 
       <Community/>
 
