@@ -17,6 +17,12 @@ import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
 import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
 import axios from "@/app/API/axios";
+import { toast } from "sonner";
+import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
+import useGetCraftCoinBalance from "@/hooks/CraftCoin/useGetCraftCoinBalance";
+import useGetArtisanAmountMade from "@/hooks/PaymentProcessor/useGetArtisanAmountMade";
+import { useMint } from "@/hooks/Gasless/useMint";
+import { formatEther } from "ethers";
 
 export default function Profile() {
   const pathname = usePathname();
@@ -26,6 +32,10 @@ export default function Profile() {
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const tokenBalance = useGetTokenBalance();
+  const craftCoinBalance = useGetCraftCoinBalance();
+  const checkAmountMade = useGetArtisanAmountMade();
+  const { mint } = useMint();
   // const router = useRouter()
 
   useEffect(() => {
@@ -41,6 +51,7 @@ export default function Profile() {
       try {
         const response = await axios.get(`/api/artisans/${address}`)
         const artisanData = response.data.artisan
+        console.log("Artisan Data:", artisanData)
 
         if (detail) {
           const transformedProfile = transformBackendProfileData(artisanData, detail, address)
@@ -69,19 +80,18 @@ export default function Profile() {
   //   router.push("/marketplace")
   // }
 
-  const handleClaimCraftcoin = () => {
-    // Set the current date as the last claim date
-    // const now = new Date();
-    // setLastClaimDate(now.toISOString().split("T")[0]);
-
-    // Here you would typically call an API to process the claim
-    console.log("Claiming Craftcoin...");
+  const handleClaimCraftcoin = async () => {
+    await mint();
   };
 
   const handleBuyCraftcoin = () => {
     // Here you would typically redirect to a purchase page or open a modal
+    toast.info("To be implemented soon...");
     console.log("Buying Craftcoin...");
   };
+  console.log("Profile Data:", profile);
+  console.log("Token Balance:", tokenBalance);
+  console.log("CraftCoin Balance:", craftCoinBalance?.toString());
 
   return (
     <div>
@@ -101,9 +111,9 @@ export default function Profile() {
           </div>
           <div className="lg:col-span-1">
             <EarningsDisplay
-              availableAmount={25}
-              totalEarned={1000}
-              craftcoinBalance={500}
+              availableAmount={parseFloat(formatEther(tokenBalance ?? 50))}
+              totalEarned={parseFloat(formatEther(checkAmountMade ?? 50))}
+              craftcoinBalance={parseFloat(formatEther(craftCoinBalance ?? 0))}
               onClaimCraftcoin={handleClaimCraftcoin}
               onBuyCraftcoin={handleBuyCraftcoin}
             />

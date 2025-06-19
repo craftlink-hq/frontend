@@ -1,7 +1,6 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "_relayer", "type": "address" },
       { "internalType": "address", "name": "_tokenAddress", "type": "address" }
     ],
     "stateMutability": "nonpayable",
@@ -100,21 +99,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_client", "type": "address" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
-      { "internalType": "uint256", "name": "_budget", "type": "uint256" },
-      { "internalType": "uint256", "name": "_deadline", "type": "uint256" },
-      { "internalType": "uint8", "name": "_v", "type": "uint8" },
-      { "internalType": "bytes32", "name": "_r", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "_s", "type": "bytes32" }
-    ],
-    "name": "createPaymentFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "currentPaymentId",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -196,13 +180,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "relayer",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "address", "name": "_artisan", "type": "address" },
       { "internalType": "uint256", "name": "_paymentId", "type": "uint256" }
@@ -213,20 +190,10 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "artisan", "type": "address" },
-      { "internalType": "uint256", "name": "_paymentId", "type": "uint256" }
-    ],
-    "name": "releaseArtisanFundsFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "token",
     "outputs": [
-      { "internalType": "contract IToken", "name": "", "type": "address" }
+      { "internalType": "contract Token", "name": "", "type": "address" }
     ],
     "stateMutability": "view",
     "type": "function"
