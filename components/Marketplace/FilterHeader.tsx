@@ -86,6 +86,13 @@ const MarketplaceHeader = ({ isActive }: Header) => {
     setIsProfileDropdownOpen(false)
   }
 
+  // Get user role text for display
+  const getUserRoleText = () => {
+    if (isArtisan) return "Artisan"
+    if (isClient) return "Client"
+    return "Visitor"
+  }
+
   return (
     <div className="bg-[#333333] bg-opacity-[98%] bg-header z-10">
       <div className="flex w-full justify-between items-center px-4 lg:px-8 2xl:px-16 py-3 h-20 font-merriweather">
@@ -146,18 +153,25 @@ const MarketplaceHeader = ({ isActive }: Header) => {
               <ConnectWallet />
               {userCard ? (
                 <div className="relative" ref={profileDropdownRef}>
-                  <button
-                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                    className="rounded-full h-8 w-8 overflow-hidden hover:ring-2 hover:ring-[#FFD700] transition-all"
-                  >
-                    <Image
-                      src={userCard.image || "/placeholder.svg"}
-                      alt="Profile pic"
-                      width={32}
-                      height={32}
-                      style={{ objectFit: "cover" }}
-                    />
-                  </button>
+                  {/* Profile Section with Image and Role Text Below */}
+                  <div className="flex flex-col items-center">
+                    <button
+                      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                      className="rounded-full h-8 w-8 overflow-hidden hover:ring-2 hover:ring-[#FFD700] transition-all"
+                    >
+                      <Image
+                        src={userCard.image || "/placeholder.svg"}
+                        alt="Profile pic"
+                        width={32}
+                        height={32}
+                        style={{ objectFit: "cover" }}
+                      />
+                    </button>
+                    {/* Role Text Below Profile Image */}
+                    <span className="text-white text-xs font-medium mt-1 text-center">
+                      {getUserRoleText()}
+                    </span>
+                  </div>
 
                   {/* Profile Dropdown */}
                   {isProfileDropdownOpen && (
@@ -190,12 +204,19 @@ const MarketplaceHeader = ({ isActive }: Header) => {
                 </div>
               ) : (
                 <div className="relative" ref={profileDropdownRef}>
-                  <button
-                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                    className="p-2 border border-[#555555] rounded hover:bg-[#444444] transition-colors"
-                  >
-                    <FiUser className="w-4 h-4 text-white" />
-                  </button>
+                  {/* Fallback Profile Section for users without profile image */}
+                  <div className="flex flex-col items-center">
+                    <button
+                      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                      className="p-2 border border-[#555555] rounded hover:bg-[#444444] transition-colors"
+                    >
+                      <FiUser className="w-4 h-4 text-white" />
+                    </button>
+                    {/* Role Text Below Profile Icon */}
+                    <span className="text-white text-xs font-medium mt-1 text-center">
+                      {getUserRoleText()}
+                    </span>
+                  </div>
 
                   {/* Profile Dropdown for users without profile image */}
                   {isProfileDropdownOpen && (
