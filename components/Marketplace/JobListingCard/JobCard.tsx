@@ -10,25 +10,29 @@ import Modal from "./Modal";
 import JobDetailsModal from "./JobDetailsModal";
 import ApplyConfirmationModal from "./ApplyConfirmationModal";
 import ArtisanSignupModal from "./ArtisanSignupModal";
-import { JobCardProps } from "@/utils/types";  // Now uses the complete Job interface
-import useIsArtisan from '@/hooks/Registry/useIsArtisan';
-import useIsClient from '@/hooks/Registry/useIsClient';
+import { JobCardProps } from "@/utils/types"; // Now uses the complete Job interface
+import useIsArtisan from "@/hooks/Registry/useIsArtisan";
+import useIsClient from "@/hooks/Registry/useIsClient";
 
 const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
-  const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(new Set());
-  const [expandedTags, setExpandedTags] = useState<Set<string | number>>(new Set());
+  const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(
+    new Set()
+  );
+  const [expandedTags, setExpandedTags] = useState<Set<string | number>>(
+    new Set()
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
   // Hooks return boolean | null directly
-  const isArtisanResult = useIsArtisan();
-  const isClientResult = useIsClient();
-  
+  const { isArtisan: Artisan } = useIsArtisan();
+  const { isClient: Client } = useIsClient();
+
   // Convert to boolean (null becomes false)
-  const isArtisan = isArtisanResult === true;
-  const isClient = isClientResult === true;
-  const isVisitor = isArtisanResult === null && isClientResult === null; // Neither artisan nor client
+  const isArtisan = Artisan === true;
+  const isClient = Client === true;
+  const isVisitor = isArtisan === null && isClient === null; // Neither artisan nor client
 
   const toggleReadMore = (jobId: string | number): void => {
     const newExpandedJobs = new Set(expandedJobs);
@@ -55,15 +59,15 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   };
 
   const handleApplyClick = () => {
-    console.log("Apply button clicked!", { 
-      isArtisan, 
-      isClient, 
+    console.log("Apply button clicked!", {
+      isArtisan,
+      isClient,
       isVisitor,
-      rawResults: { isArtisanResult, isClientResult } 
+      rawResults: { isArtisan, isClient },
     });
-    
+
     setIsModalOpen(false); // Close job details modal
-    
+
     // Check user role and show appropriate modal
     setTimeout(() => {
       if (isArtisan) {
@@ -102,30 +106,27 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
         .job-card {
           border-radius: 16px;
           padding: 24px;
-          background-color: #F2E8CF0A;
+          background-color: #f2e8cf0a;
         }
       `}</style>
-      
+
       <div className="job-card">
         <JobHeader job={job} />
         <JobDetails job={job} />
         <JobPricing job={job} />
-        <JobDescription 
-          job={job} 
+        <JobDescription
+          job={job}
           jobId={jobId}
           isExpanded={expandedJobs.has(jobId)}
           onToggle={toggleReadMore}
         />
-        <JobTags 
-          job={job} 
+        <JobTags
+          job={job}
           jobId={jobId}
           isExpanded={expandedTags.has(jobId)}
           onToggle={toggleTags}
         />
-        <JobActions 
-          job={job} 
-          onViewDetails={handleViewDetails}
-        />
+        <JobActions job={job} onViewDetails={handleViewDetails} />
       </div>
 
       {/* Job Details Modal */}
@@ -144,10 +145,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-6">
-              <JobDetailsModal 
-                job={job} 
-                onApplyClick={handleApplyClick}
-              />
+              <JobDetailsModal job={job} onApplyClick={handleApplyClick} />
             </div>
           </div>
         </Modal>
