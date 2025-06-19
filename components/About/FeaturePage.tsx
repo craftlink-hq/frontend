@@ -34,11 +34,11 @@ const FeaturePage = () => {
             style={{ objectFit: "cover", objectPosition: "center" }}
            />
           <p className="text-[#0D0800] font-alata text-[24px] sm:text-[40px] md:text-[4vw] self-center text-center w-[80%] md:w-[60%] md:leading-[60px] lg:leading-[4vw]">
-            Let's Build Together
+            Let&apos;s Build Together
           </p>
             <div className="text-center space-y-4">
               <p className="uppercase font-bold font-merriweather text-[#0D0800]">
-                We're not just a product—We're a Movement 
+                We&apos;re not just a product—We&apos;re a Movement 
               </p>
               <p className="uppercase font-merriweather text-[#0D0800]">
                 Join us as a user, supporter, or collaborator to help shape the future of skilled work.

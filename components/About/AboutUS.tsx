@@ -26,7 +26,7 @@ const HomePage = () => {
           <>
             <p>To empower skilled artisans by connecting them with the right clients through a seamless, job marketplace.</p>
             <p>We strive to make it easy for artisans to get discovered, get hired, and get paid securely and fairly.</p>
-            <p>By removing barriers and streamlining access to opportunities, we're building a trusted ecosystem where talent meets demand—from fashion designers and carpenters to tech freelancers, tailors e.t.c.</p>
+            <p>By removing barriers and streamlining access to opportunities, we&apos;re building a trusted ecosystem where talent meets demand—from fashion designers and carpenters to tech freelancers, tailors e.t.c.</p>
           </>
         }
         imageSrc="/mission.svg"
@@ -42,8 +42,8 @@ const HomePage = () => {
         content={
           <>
             <p>We envision a borderless, trusted ecosystem where artisans thrive through visibility, opportunity, and fair pay—while clients easily hire and manage the right talent, anytime.</p>
-            <p>We're making the informal economy more powerful, one job at a time.</p>
-            <p>By removing barriers and streamlining access to opportunities, we're building a trusted ecosystem where talent meets demand—from fashion designers and carpenters to tech freelancers, tailors e.t.c.</p>
+            <p>We&apos;re making the informal economy more powerful, one job at a time.</p>
+            <p>By removing barriers and streamlining access to opportunities, we&apos;re building a trusted ecosystem where talent meets demand—from fashion designers and carpenters to tech freelancers, tailors e.t.c.</p>
           </>
         }
         imageSrc="/vision.svg"
@@ -66,11 +66,11 @@ const HomePage = () => {
               style={{ objectFit: "cover", objectPosition: "center" }}
             />
             <p className="text-[#0D0800] font-alata text-[24px] sm:text-[40px] md:text-[4vw] self-center text-center w-[80%] md:w-[60%] md:leading-[60px] lg:leading-[4vw]">
-              Let's Build Together
+              Let&apos;s Build Together
             </p>
             <div className="text-center space-y-4">
               <p className="uppercase font-bold font-merriweather text-[#0D0800]">
-                We're not just a product—We're a Movement 
+                We&apos;re not just a product—We&apos;re a Movement 
               </p>
               <p className="uppercase font-merriweather text-[#0D0800]">
                 Join us as a user, supporter, or collaborator to help shape the future of skilled work.
