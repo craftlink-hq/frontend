@@ -79,22 +79,31 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, option
   );
 };
 
-const Pagination: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage, setJobsPerPage] = useState(4);
-  const totalJobs = 1000;
+interface PaginationProps {
+  currentPage: number;
+  jobsPerPage: number;
+  totalJobs: number;
+  onPageChange: (page: number) => void;
+  onJobsPerPageChange: (jobsPerPage: number) => void;
+}
 
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  jobsPerPage,
+  totalJobs,
+  onPageChange,
+  onJobsPerPageChange
+}) => {
   const totalPages = Math.ceil(totalJobs / jobsPerPage);
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+      onPageChange(page);
     }
   };
 
   const handleJobsPerPageChange = (value: number) => {
-    setJobsPerPage(value);
-    setCurrentPage(1); // Reset to first page when changing items per page
+    onJobsPerPageChange(value);
   };
 
   const getVisiblePages = () => {
@@ -159,7 +168,7 @@ const Pagination: React.FC = () => {
           options={[
             { value: 4, label: '4 Jobs' },
             { value: 8, label: '8 Jobs' },
-            { value: 12, label: '12 Jobs' },
+            { value: 16, label: '16 Jobs' },
             { value: 20, label: '20 Jobs' }
           ]}
         />
