@@ -47,7 +47,7 @@ const ArtisanSignupModal: React.FC<ArtisanSignupModalProps> = ({
           CANCEL
         </button>
         <Link
-          href="/register"
+          href="/role/artisans/signin"
           className="text-[#1A1203] font-bold py-3 px-6 rounded hover:opacity-90 transition-opacity flex-1 text-center"
           style={{ backgroundColor: '#FFD700' }}
         >
