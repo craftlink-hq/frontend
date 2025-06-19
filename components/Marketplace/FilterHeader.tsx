@@ -18,12 +18,10 @@ interface Header {
 
 const MarketplaceHeader = ({ isActive }: Header) => {
   const [userCard, setUserCard] = useState<AccountCard | null>(null)
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { isConnected } = useAccount();
 
-  const filterRef = useRef<HTMLDivElement>(null)
   const profileDropdownRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
 
@@ -33,9 +31,6 @@ const MarketplaceHeader = ({ isActive }: Header) => {
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
-        setIsFilterOpen(false)
-      }
       if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
         setIsProfileDropdownOpen(false)
       }
@@ -137,72 +132,6 @@ const MarketplaceHeader = ({ isActive }: Header) => {
             <SearchBar />
           </div>
 
-          {/* Filter Button */}
-          <div className="relative" ref={filterRef}>
-            <button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="flex items-center space-x-1 bg-[#444444] hover:bg-[#555555] text-white px-3 py-2 rounded transition-colors"
-            >
-              <span>Filter</span>
-              <FiChevronDown className={`w-4 h-4 transition-transform ${isFilterOpen ? "rotate-180" : ""}`} />
-            </button>
-
-            {/* Filter Dropdown Menu */}
-            {isFilterOpen && (
-              <div className="absolute top-full right-0 mt-1 w-56 bg-[#333333] rounded-lg shadow-lg border border-[#555555] py-2 z-50">
-                <button
-                  onClick={() => {
-                    console.log("Selected: Help & FAQs")
-                    setIsFilterOpen(false)
-                  }}
-                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                >
-                  <FiHelpCircle className="w-4 h-4" />
-                  <span>Help & FAQs</span>
-                </button>
-                <button
-                  onClick={() => {
-                    console.log("Selected: Notification")
-                    setIsFilterOpen(false)
-                  }}
-                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                >
-                  <FiBell className="w-4 h-4" />
-                  <span>Notification</span>
-                </button>
-                <button
-                  onClick={() => {
-                    console.log("Selected: Settings")
-                    setIsFilterOpen(false)
-                  }}
-                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                >
-                  <FiSettings className="w-4 h-4" />
-                  <span>Settings</span>
-                </button>
-                <button
-                  onClick={() => {
-                    console.log("Selected: Terms and Policies")
-                    setIsFilterOpen(false)
-                  }}
-                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                >
-                  <FiFileText className="w-4 h-4" />
-                  <span>Terms and Policies</span>
-                </button>
-
-                {/* Bottom Sign In Button */}
-                <div className="border-t border-[#555555] mt-2 pt-2 px-4">
-                  <Link href="/role/artisans/signin">
-                    <button className="w-full bg-[#FFD700] hover:bg-[#E6C200] text-[#1A1203] font-semibold py-2 rounded transition-colors">
-                      SIGN IN
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Conditional Authentication Section */}
           {!isArtisan && !isClient ? (
             // Visitors - Show Sign In Button
@@ -292,7 +221,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
             </>
           )}
 
-          {/* Mobile Menu Button - Now always visible */}
+          {/* Mobile Menu Button - Now contains the filter options */}
           <div className="relative" ref={mobileMenuRef}>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -301,26 +230,62 @@ const MarketplaceHeader = ({ isActive }: Header) => {
               <FiMenu className="w-4 h-4 text-white" />
             </button>
 
-            {/* Mobile Menu Dropdown */}
+            {/* Mobile Menu Dropdown - Now contains filter options */}
             {isMobileMenuOpen && (
-              <div className="absolute top-full right-0 mt-2 w-56 bg-[#333333] rounded-lg shadow-lg border border-[#555555] py-2 z-50">
+              <div className="absolute top-full right-0 mt-1 w-56 bg-[#333333] rounded-lg shadow-lg border border-[#555555] py-2 z-50">
                 {/* Search Bar for mobile */}
                 <div className="px-4 py-2 md:hidden">
                   <SearchBar />
                 </div>
-                <div className="border-t border-[#555555] mt-2 pt-2">
-                  {menuItems.map((item) => (
-                    <Link key={item.href} href={item.href}>
-                      <button
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors ${
-                          isActive(item.href) ? "bg-[#444444] text-[#FFD700]" : ""
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    </Link>
-                  ))}
+                <div className="border-t border-[#555555] mt-2 pt-2 md:hidden"></div>
+                
+                {/* Filter Options (previously in Filter dropdown) */}
+                <button
+                  onClick={() => {
+                    console.log("Selected: Help & FAQs")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
+                >
+                  <FiHelpCircle className="w-4 h-4" />
+                  <span>Help & FAQs</span>
+                </button>
+                <button
+                  onClick={() => {
+                    console.log("Selected: Notification")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
+                >
+                  <FiBell className="w-4 h-4" />
+                  <span>Notification</span>
+                </button>
+                <button
+                  onClick={() => {
+                    console.log("Selected: Settings")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
+                >
+                  <FiSettings className="w-4 h-4" />
+                  <span>Settings</span>
+                </button>
+                <button
+                  onClick={() => {
+                    console.log("Selected: Terms and Policies")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
+                >
+                  <FiFileText className="w-4 h-4" />
+                  <span>Terms and Policies</span>
+                </button>
+
+                {/* Bottom Connect Wallet Button */}
+                <div className="border-t border-[#555555] mt-2 pt-2 px-4">
+                  <div onClick={() => setIsMobileMenuOpen(false)}>
+                    <ConnectWallet />
+                  </div>
                 </div>
               </div>
             )}

@@ -8,8 +8,8 @@ const FeaturesPage: React.FC = () => {
           
           {/* Easy Payments - Text LEFT, Icon RIGHT */}
           <div className="bg-gray-800 rounded-lg overflow-hidden">
-            <div className="flex">
-              <div className="w-3/5 p-8">
+            <div className="flex gap-4">
+              <div className="flex-1 p-8">
                 <h3 className="text-white text-3xl font-medium mb-4 leading-tight">
                   Easy Payments<br />In & Out
                 </h3>
@@ -18,7 +18,7 @@ const FeaturesPage: React.FC = () => {
                 </p>
               </div>
               <div 
-                className="w-2/5 flex items-center justify-center"
+                className="w-32 flex items-center justify-center"
                 style={{ backgroundColor: '#F2E8CF0A' }}
               >
                 <Image
@@ -34,7 +34,7 @@ const FeaturesPage: React.FC = () => {
           
           {/* Smart Matching - Text LEFT, Icon RIGHT */}
           <div className="bg-gray-800 rounded-lg p-8">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-12">
               <div className="flex-1">
                 <h3 className="text-white text-3xl font-medium mb-4 leading-tight">
                   Smart Matching
@@ -62,7 +62,7 @@ const FeaturesPage: React.FC = () => {
           
           {/* Direct Communication - Icon LEFT, Text RIGHT */}
           <div className="bg-gray-800 rounded-lg p-8">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-12">
               <div className="flex-shrink-0">
                 <div 
                   className="w-28 h-28 rounded-lg flex items-center justify-center"
@@ -90,7 +90,7 @@ const FeaturesPage: React.FC = () => {
           
           {/* Guaranteed Payments - Text LEFT, Icon RIGHT */}
           <div className="bg-gray-800 rounded-lg p-8">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-12">
               <div className="flex-1">
                 <h3 className="text-white text-3xl font-medium mb-4 leading-tight">
                   Guaranteed<br />Payments
