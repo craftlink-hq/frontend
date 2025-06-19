@@ -67,7 +67,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
             <div className="flex text-center text-[#F9F1E2] gap-2  ">
               Not an client?{" "}
               <Link
-                href="/role/clients/signin"
+                href="/role/artisans/signin"
                 className="text-yellow font-bold"
               >
                 Sign in as Artisan

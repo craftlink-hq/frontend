@@ -21,10 +21,11 @@ const Header = () => {
 
   // Menu items array (updated to route-based navigation)
   const menuItems = [
+    { href: "/", label: "Home" },
     { href: "/about", label: "About" },
-    { href: "/howItWorks", label: "How It Works" },
+    { href: "/how-it-works", label: "How It Works" },
     { href: "/features", label: "Features" },
-    { href: "/markteplace", label: "Visit Marketplace" },
+    { href: "/marketplace", label: "Visit Marketplace" },
   ];
 
   const toggleMenu = () => {

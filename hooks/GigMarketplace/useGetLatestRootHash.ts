@@ -24,6 +24,7 @@ const useGetLatestRootHash = () => {
 
   useEffect(() => {
     fetchLatestRootHash();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return rootHash;
