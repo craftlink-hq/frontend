@@ -17,7 +17,7 @@ interface WelcomeProps {
 const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
   const { isLoading: pageLoading } = useLoading();
   const { address, isConnected } = useAccount();
-  const { isArtisan, isLoading: artisanCheckLoading} = useIsArtisan();
+  const { isArtisan, isLoading: artisanCheckLoading } = useIsArtisan();
   const router = useRouter();
 
   const handleSignIn = () => {
@@ -49,11 +49,16 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
           <p className="font-alata text-3xl max-sm:px-2 md:text-[2vw] text-center text-[#F9F1E2] leading-8">
             Welcome! Great to Have You Here
           </p>
-          
+
           <span className="text-center text-[#D8D6CF]  font-merriweather">
-            Sign in, showcase your skills, and start earning from clients who need your craft.
+            Sign in, showcase your skills, and start earning from clients who
+            need your craft.
           </span>
-          <Button onClick={handleSignIn} text="Sign in as Artisan" />
+          <Button
+            onClick={handleSignIn}
+            text="Sign in as Artisan"
+            style={"font-normal"}
+          />
           <p className="text-center text-[#F9F1E2] gap-2  ">
             Not an artisan?{" "}
             <Link href="/role/clients/signin" className="text-yellow font-bold">

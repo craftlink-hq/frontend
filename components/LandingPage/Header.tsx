@@ -21,11 +21,10 @@ const Header = () => {
 
   // Menu items array (updated to route-based navigation)
   const menuItems = [
-    { href: "/", label: "Home" },
-    { href: "/features", label: "Features" },
     { href: "/about", label: "About" },
-    { href: "/how-it-works", label: "How It Works" },
-    { href: "#resources", label: "Resources" },
+    { href: "/howItWorks", label: "How It Works" },
+    { href: "/features", label: "Features" },
+    { href: "/markteplace", label: "Visit Marketplace" },
   ];
 
   const toggleMenu = () => {
@@ -34,7 +33,7 @@ const Header = () => {
 
   const handleLogin = () => {
     router.push("/role/artisans/signin");
-  }
+  };
 
   // const handleLogin = async () => {
   //   try {
