@@ -40,6 +40,7 @@ const useGetGigInfo = (databaseId: string) => {
 
   useEffect(() => {
     fetchGigInfo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return gigInfo;

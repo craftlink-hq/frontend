@@ -6,11 +6,9 @@ import Settings from "@/components/Profile/Settings";
 import ClientProfileCard from "@/components/Profile/ClientProfileCard";
 import ClientTokenUsage from "@/components/Profile/ClientTokenUsage";
 import { usePathname } from "next/navigation";
-import { Abdul } from "@/utils/job";
 import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
 import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
 import { useEffect, useState } from "react";
-import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/Loading";
 
 export default function Profile() {

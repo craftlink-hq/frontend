@@ -12,17 +12,6 @@ import { Client } from "@/utils/job";
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
 import useGetClientGigCount from "../GigMarketplace/useGetClientGigCount";
 import useGetClientAverageRating from "../ReviewSystem/useGetClientAverageRating";
-import { parse } from "path";
-import { m } from "framer-motion";
-
-interface ClientDetails {
-  username: string;
-  location: string;
-  clientBio: string;
-  clientAvatar: string;
-  preferredLanguage: string;
-  joined: string;
-}
 
 const useGetClientDetails = () => {
   const isClient = useIsClient();
@@ -84,10 +73,12 @@ const useGetClientDetails = () => {
     } finally {
       stopLoading();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isClient, fetchFromIPFS]);
 
   useEffect(() => {
     fetchClientDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected, moneySpent, gigCount, clientRating]);
 
   return { clientData, isLoading, error };
