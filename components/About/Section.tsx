@@ -27,10 +27,10 @@ const SectionWithImage: FC<SectionWithImageProps> = ({
 }) => {
   return (
     <section 
-      className={`min-h-[60vh] lg:min-h-[70vh] px-8 lg:px-16 py-12 flex items-center ${className}`}
+      className={`min-h-[60vh] lg:min-h-[70vh] px-8 lg:px-16 py-4 flex items-center ${className}`}
       style={{ backgroundColor: '#333333' }}
     >
-      <div className={`max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center`}>
+      <div className={`max-w-7xl mx-auto grid lg:grid-cols-2 gap-4 lg:gap-8 items-center`}>
         
         {/* Image Section */}
         <div className={`relative ${imageOnRight ? 'lg:order-2' : 'lg:order-1'}`}>
