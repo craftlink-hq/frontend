@@ -13,6 +13,7 @@ import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmount
 import useGetClientGigCount from "../GigMarketplace/useGetClientGigCount";
 import useGetClientAverageRating from "../ReviewSystem/useGetClientAverageRating";
 import { parse } from "path";
+import { m } from "framer-motion";
 
 interface ClientDetails {
   username: string;
@@ -34,12 +35,8 @@ const useGetClientDetails = () => {
   const gigCount = useGetClientGigCount();
   const clientRating = useGetClientAverageRating();
 
-  console.log("Money Spent:", moneySpent);
-
   const fetchClientDetails = useCallback(async () => {
     if (!address || isClient === null) return;
-
-    console.log("Fetching client details for address:", address);
 
     startLoading();
     setError(null);
@@ -50,40 +47,33 @@ const useGetClientDetails = () => {
         return;
       }
 
-      console.log("Fetching client details from contract...");
-
       const contract = getRegistryContract(readOnlyProvider);
       const details = await contract.getClientDetails(address);
       const ipfsHash = details[0];
 
-      console.log("IPFS hash retrieved:", ipfsHash);
-
       if (ipfsHash) {
-        const parsedDetails: ClientDetails = await fetchFromIPFS(ipfsHash);
-
-        console.log("Parsed client details:", parsedDetails);
+        const parsedDetails = await fetchFromIPFS(ipfsHash); // const {username, location, clientBio, clientAvatar, preferredLanguage, joined}
+        const { username, location, clientBio, clientAvatar, preferredLanguage, joined } = JSON.parse(parsedDetails);
         
         const client: Client = {
             walletAddress: address,
             verificationStatus: true,
-            about: parsedDetails.clientBio,
-            dateJoined: parsedDetails.joined,
-            location: parsedDetails.location,
-            language: parsedDetails.preferredLanguage,
+            about: clientBio,
+            dateJoined: joined,
+            location: location,
+            language: preferredLanguage,
             status: "Active",
-            username: parsedDetails.username,
-            avatar: parsedDetails.clientAvatar,
+            username: username,
+            avatar: clientAvatar,
             id: address,
             moneySpent: moneySpent ?? 404,
             completed: 404,
-            posted: gigCount ?? 404,
+            posted: Number(gigCount) ?? 404,
             noProjectSpentMoney: 404,
-            rating: clientRating ?? 404,
+            rating: Number(clientRating) ?? 404,
           };
 
-          console.log("Client data fetched:", client);
           setClientData(client);
-          console.log("Client data set successfully", client);
       } else {
         setError("No IPFS hash found for client");
       }
@@ -98,7 +88,7 @@ const useGetClientDetails = () => {
 
   useEffect(() => {
     fetchClientDetails();
-  }, []);
+  }, [isConnected, moneySpent, gigCount, clientRating]);
 
   return { clientData, isLoading, error };
 };
