@@ -57,12 +57,11 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
             </p>
 
             <span className="text-center text-[#D8D6CF] px-4 lg:px-2 font-merriweather">
-              Sign in, showcase your skills, and start earning from clients who
-              need your craft.
+             Sign in, find trusted artisans, and get your projects done by skilled hands.
             </span>
             <Button
               onClick={handleSignIn}
-              text={"Sign in as Artisan"}
+              text={"Sign in as Client"}
               style={"font-normal"}
             />
             <div className="flex text-center text-[#F9F1E2] gap-2  ">
