@@ -111,9 +111,9 @@ export default function Profile() {
           </div>
           <div className="lg:col-span-1">
             <EarningsDisplay
-              availableAmount={parseFloat(formatEther(tokenBalance ?? 50))}
-              totalEarned={parseFloat(formatEther(checkAmountMade ?? 50))}
-              craftcoinBalance={parseFloat(formatEther(craftCoinBalance ?? 0))}
+              availableAmount={parseFloat(formatEther(tokenBalance ?? 404))}
+              totalEarned={parseFloat(formatEther(checkAmountMade ?? 404))}
+              craftcoinBalance={parseFloat(formatEther(craftCoinBalance ?? 404))}
               onClaimCraftcoin={handleClaimCraftcoin}
               onBuyCraftcoin={handleBuyCraftcoin}
             />

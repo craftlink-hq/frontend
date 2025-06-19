@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import useIsArtisan from "@/hooks/Registry/useIsArtisan"
 import useIsClient from "@/hooks/Registry/useIsClient"
 import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText, FiChevronDown } from "react-icons/fi"
+import { useAccount } from "wagmi"
 
 interface Header {
   isActive: (path: string) => boolean
@@ -20,6 +21,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { isConnected } = useAccount();
 
   const filterRef = useRef<HTMLDivElement>(null)
   const profileDropdownRef = useRef<HTMLDivElement>(null)
@@ -81,7 +83,8 @@ const MarketplaceHeader = ({ isActive }: Header) => {
     }
 
     determineUserRole()
-  }, [isArtisan, isClient])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected])
 
   const handleProfileAction = (action: string) => {
     console.log(`Profile action: ${action}`)
