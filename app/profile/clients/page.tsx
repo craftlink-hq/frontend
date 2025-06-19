@@ -30,9 +30,7 @@ export default function Profile() {
     return <Loading show={true} />;
   }
 
-  const spent = clientData.moneySpent || 404;
-  console.log("Client Data:", clientData);
-  console.log("Money Spent:", spent);
+  const spent = clientData.moneySpent;
 
   return (
     <div>
