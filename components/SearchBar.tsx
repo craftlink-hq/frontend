@@ -9,7 +9,7 @@ const SearchBar = () => {
           <option value="artisan" className="bg-[#333333]">Artisans</option>
         </select>
         <input 
-          placeholder="Fashion Designer"
+          placeholder="Search"
           className="px-2 text-sm border-l border-[#FFFFFF73] text-[#B5B4AD] focus:outline-none flex-1 bg-inherit ml-2 pl-3"
         />
       </div>
@@ -22,7 +22,7 @@ const SearchBar = () => {
             style={{ objectFit: "contain", objectPosition: "center" }}
           />
         </div>
-        <span className="hidden lg:flex text-xs ml-1">Search</span>
+        <span className="hidden lg:flex text-xs ml-1"></span>
       </button>
     </div>
   );

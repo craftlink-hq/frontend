@@ -289,8 +289,8 @@ const MarketplaceHeader = ({ isActive }: Header) => {
             </>
           )}
 
-          {/* Mobile Menu Button */}
-          <div className="relative lg:hidden" ref={mobileMenuRef}>
+          {/* Mobile Menu Button - Now always visible */}
+          <div className="relative" ref={mobileMenuRef}>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 hover:bg-[#444444] rounded transition-colors"
