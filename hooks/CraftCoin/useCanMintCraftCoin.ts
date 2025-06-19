@@ -6,13 +6,13 @@ import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { useLoading } from "../useLoading";
 
-const useGetCraftCoinBalance = () => {
+const useCanMintCraftCoin = () => {
   const { address, isConnected } = useAccount();
   const [canMint, setCanMint] = useState(false);
   const [nextMintTime, setNextMintTime] = useState<number | null>(null);
   const { isLoading, startLoading, stopLoading } = useLoading();
 
-  const checkCraftCoinBalance = useCallback(async () => {
+  const checkMintEligibility = useCallback(async () => {
     if (!address) {
         setCanMint(false);
         setNextMintTime(null);
@@ -40,11 +40,11 @@ const useGetCraftCoinBalance = () => {
   }, [address]);
 
   useEffect(() => {
-    checkCraftCoinBalance();
+    checkMintEligibility();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
   return { canMint, nextMintTime, isLoading };
 };
 
-export default useGetCraftCoinBalance;
+export default useCanMintCraftCoin;

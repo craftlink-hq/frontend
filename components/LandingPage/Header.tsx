@@ -7,17 +7,10 @@ import { useState } from "react";
 import Button from "../Button";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { useRouter } from "next/navigation";
-// import ConnectWallet from "../ConnectWallet";
-// import useIsClient from "@/hooks/Registry/useIsClient";
-// import useIsArtisan from "@/hooks/Registry/useIsArtisan";
-// import useHasClaimed from "@/hooks/Token/useHasClaimed";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const router = useRouter();
-  // const isClient = useIsClient();
-  // const isArtisan = useIsArtisan();
-  // const hasClaimed = useHasClaimed();
 
   // Menu items array (updated to route-based navigation)
   const menuItems = [
@@ -36,34 +29,18 @@ const Header = () => {
     router.push("/role/artisans/signin");
   };
 
-  // const handleLogin = async () => {
-  //   try {
-  //     if (isArtisan) {
-  //       router.push("/marketplace");
-  //     } else if (isClient) {
-  //       if (!hasClaimed) {
-  //         router.push("/role/clients/claim-token");
-  //       } else {
-  //         router.push("/marketplace");
-  //       }
-  //     } else {
-  //       router.push("/register");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   return (
     <div>
       <div className="bg-header w-screen bg-opacity-100 flex justify-between border-b-[0.5px] border-[#FCFBF726] shadow-lg px-4 md:px-8 items-center py-4 font-merriweather">
-        <div className="flex md:px-2 gap-x-4 items-center font-mooli">
-          <Image src="/logo.png" alt="CraftLink logo" width={22} height={49} />
-          <span className="text-[20px] md:text-[28px]">
-            Craft
-            <span className="bg-[#FFD700] text-[#1A1203] rounded-sm">Link</span>
-          </span>
-        </div>
+        <Link href="/">
+          <div className="flex md:px-2 gap-x-4 items-center font-mooli">
+            <Image src="/logo.png" alt="CraftLink logo" width={22} height={49} />
+            <span className="text-[20px] md:text-[28px]">
+              Craft
+              <span className="bg-[#FFD700] text-[#1A1203] rounded-sm">Link</span>
+            </span>
+          </div>
+        </Link>
 
         {/* Desktop Navigation Menu */}
         <div className="hidden md:flex gap-x-8 text-lg text-[#F9F1E2]">

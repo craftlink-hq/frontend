@@ -38,9 +38,9 @@ export default function Register() {
         location,
       };
 
-      await uploadToIPFS(JSON.stringify(data));
+      const ipfsUrl = await uploadToIPFS(JSON.stringify(data));
 
-      const success = await registerAsArtisan();
+      const success = await registerAsArtisan(ipfsUrl);
       if (!success) {
         // Errors are handled by useRegisterArtisan
         return;

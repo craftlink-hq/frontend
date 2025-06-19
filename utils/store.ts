@@ -104,10 +104,14 @@ export const useGetArtisanData = create<artisanData>()(
 );
 
 interface clientData {
+  username: string;
+  location: string;
   clientBio: string;
   clientAvatar: string;
   preferredLanguage: string;
   joined: string;
+  setUsername: (username: string) => void;
+  setLocation: (location: string) => void;
   setClientBio: (bio: string) => void;
   setClientAvatar: (avatar: string) => void;
   setPreferredLanguage: (language: string) => void;
@@ -117,14 +121,18 @@ interface clientData {
 export const useGetClientData = create<clientData>()(
   persist(
     (set) => ({
-        clientBio: "",
-        clientAvatar: "",
-        preferredLanguage: "",
-        joined: "",
-        setClientBio: (bio) => set({ clientBio: bio }),
-        setClientAvatar: (avatar) => set({ clientAvatar: avatar }),
-        setPreferredLanguage: (language) => set({ preferredLanguage: language }),
-        setJoined: (joined) => set({ joined: joined }),
+      username: "",
+      location: "",
+      clientBio: "",
+      clientAvatar: "",
+      preferredLanguage: "",
+      joined: "",
+      setUsername: (username) => set({ username: username }),
+      setLocation: (location) => set({ location: location }),
+      setClientBio: (bio) => set({ clientBio: bio }),
+      setClientAvatar: (avatar) => set({ clientAvatar: avatar }),
+      setPreferredLanguage: (language) => set({ preferredLanguage: language }),
+      setJoined: (joined) => set({ joined: joined }),
     }),
     {
       name: "new-client-data",
