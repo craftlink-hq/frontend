@@ -4,13 +4,20 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
-import useClaim from "@/hooks/Token/useClaim";
+import useHasClaimed from "@/hooks/Token/useHasClaimed";
+import { toast } from "sonner";
+import { useClaim } from "@/hooks/Gasless/useClaim";
 
 export default function ClaimToken() {
-  const claim = useClaim();
+  const { claim } = useClaim();
+  const hasClaimed = useHasClaimed();
   const { isLoading } = useLoading();
 
   const handleClaim = async () => {
+    if (hasClaimed) {
+      toast.warning("Token already claimed.");
+      return;
+    }
     console.log("Claiming token...");
     claim();
   };

@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
+import { formatUnits } from "ethers";
 
 const useGetTokenBalance = () => {
   const { address, isConnected } = useAccount();
@@ -16,7 +17,8 @@ const useGetTokenBalance = () => {
     try {
       const contract = getTokenContract(readOnlyProvider);
       const resp = await contract.balanceOf(address);
-      setBalance(resp);
+      const formattedAmount = formatUnits(resp, 6);
+      setBalance(parseFloat(formattedAmount));
     } catch (error) {
       toast.error("Error checking token balance");
       console.error("Error checking user balance:", error);

@@ -1,5 +1,5 @@
 "use client";
-import ProfileHeader from "@/components/Profile/Header";
+import ProfileHeader from "@/components/Profile/Header"
 import Footer from "@/components/LandingPage/Footer";
 import Status from "@/components/Profile/Status";
 import Settings from "@/components/Profile/Settings";
@@ -7,10 +7,32 @@ import ClientProfileCard from "@/components/Profile/ClientProfileCard";
 import ClientTokenUsage from "@/components/Profile/ClientTokenUsage";
 import { usePathname } from "next/navigation";
 import { Abdul } from "@/utils/job";
+import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
+import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
+import { useEffect, useState } from "react";
+import { useLoading } from "@/hooks/useLoading";
+import Loading from "@/components/Loading";
 
 export default function Profile() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
+  const { clientData, isLoading: clientLoading, error: clientError } = useGetClientDetails();
+  const tokenBalance = useGetTokenBalance();
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (clientError) {
+      setError(clientError);
+    }
+  }, [clientError]);
+
+  if (clientLoading || error || !clientData) {
+    return <Loading show={true} />;
+  }
+
+  const spent = clientData.moneySpent || 404;
+  console.log("Client Data:", clientData);
+  console.log("Money Spent:", spent);
 
   return (
     <div>
@@ -30,10 +52,10 @@ export default function Profile() {
 
         <div className="grid lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 h-full">
-            <ClientProfileCard client={Abdul} />
+            <ClientProfileCard client={clientData} />
           </div>
           <div className="lg:col-span-1 h-full">
-            <ClientTokenUsage available={210} spent={290}/>
+            <ClientTokenUsage available={tokenBalance ?? 404} spent={spent}/>
           </div>
         </div>
 

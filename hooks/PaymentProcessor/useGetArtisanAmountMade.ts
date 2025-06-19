@@ -5,6 +5,8 @@ import { useAccount } from "wagmi";
 import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
+import { formatUnits } from "ethers";
+import { parse } from "path";
 
 const useGetArtisanAmountMade = () => {
   const { address, isConnected } = useAccount();
@@ -16,7 +18,8 @@ const useGetArtisanAmountMade = () => {
     try {
       const contract = getPaymentProcessorContract(readOnlyProvider);
       const resp = await contract.getArtisanAmountMade(address);
-      setAmountMade(resp);
+      const formattedAmount = formatUnits(resp, 6)
+      setAmountMade(parseFloat(formattedAmount));
     } catch (error) {
       toast.error("Error checking amount made by artisan");
       console.error("Error checking amount made:", error);
