@@ -11,6 +11,7 @@ import JobDetailsModal from "./JobDetailsModal";
 import ApplyConfirmationModal from "./ApplyConfirmationModal";
 import ArtisanSignupModal from "./ArtisanSignupModal";
 import { JobCardProps } from "@/utils/types"; // Now uses the complete Job interface
+import { formatRelativeTime } from "@/utils/timeUtils";
 import { useGetUserRole } from "@/utils/store";
 import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
 
@@ -24,6 +25,11 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  
+  // State for relative time that updates automatically
+  const [relativeTime, setRelativeTime] = useState(() => 
+    formatRelativeTime(job.createdAt)
+  );
 
   const { role } = useGetUserRole();
   const { requiredCFT } = useGetRequiredCFT(job.id as string);
@@ -32,6 +38,21 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const isArtisan = role === "artisan";
   const isClient = role === "client";
   const isVisitor = role === "";
+
+  // Update relative time every minute
+  React.useEffect(() => {
+    const updateRelativeTime = () => {
+      setRelativeTime(formatRelativeTime(job.createdAt));
+    };
+
+    // Update immediately
+    updateRelativeTime();
+
+    // Set up interval to update every minute
+    const interval = setInterval(updateRelativeTime, 60000);
+
+    return () => clearInterval(interval);
+  }, [job.createdAt]);
 
   const toggleReadMore = (jobId: string | number): void => {
     const newExpandedJobs = new Set(expandedJobs);
@@ -94,6 +115,12 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
 
   const jobId = job.id || index;
 
+  // Create a job object with updated relative time for child components
+  const jobWithRelativeTime = {
+    ...job,
+    createdAt: relativeTime
+  };
+
   return (
     <>
       <style jsx>{`
@@ -105,22 +132,22 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
       `}</style>
 
       <div className="job-card">
-        <JobHeader job={job} />
-        <JobDetails job={job} />
-        <JobPricing job={job} />
+        <JobHeader job={jobWithRelativeTime} />
+        <JobDetails job={jobWithRelativeTime} />
+        <JobPricing job={jobWithRelativeTime} />
         <JobDescription
-          job={job}
+          job={jobWithRelativeTime}
           jobId={jobId}
           isExpanded={expandedJobs.has(jobId)}
           onToggle={toggleReadMore}
         />
         <JobTags
-          job={job}
+          job={jobWithRelativeTime}
           jobId={jobId}
           isExpanded={expandedTags.has(jobId)}
           onToggle={toggleTags}
         />
-        <JobActions job={job} onViewDetails={handleViewDetails} />
+        <JobActions job={jobWithRelativeTime} onViewDetails={handleViewDetails} />
       </div>
 
       {/* Job Details Modal */}
@@ -139,7 +166,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-6">
-              <JobDetailsModal job={job} onApplyClick={handleApplyClick} />
+              <JobDetailsModal job={jobWithRelativeTime} onApplyClick={handleApplyClick} />
             </div>
           </div>
         </Modal>

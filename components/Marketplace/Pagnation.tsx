@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 interface DropdownOption {
   value: number;
   label: string;
+  disabled?: boolean;
 }
 
 interface CustomDropdownProps {
@@ -16,7 +17,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, option
 
   const selectedOption = options.find(option => option.value === value);
 
-  const handleOptionClick = (optionValue: number) => {
+  const handleOptionClick = (optionValue: number, disabled?: boolean) => {
+    if (disabled) return;
     onChange(optionValue);
     setIsOpen(false);
   };
@@ -54,18 +56,22 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, option
           {options.map((option) => (
             <div
               key={option.value}
-              onClick={() => handleOptionClick(option.value)}
-              className="px-3 py-2 text-white text-sm cursor-pointer transition-colors first:rounded-t-lg last:rounded-b-lg"
+              onClick={() => handleOptionClick(option.value, option.disabled)}
+              className={`px-3 py-2 text-sm transition-colors first:rounded-t-lg last:rounded-b-lg ${
+                option.disabled 
+                  ? 'text-gray-500 cursor-not-allowed' 
+                  : 'text-white cursor-pointer'
+              }`}
               style={{
                 backgroundColor: value === option.value ? '#F2E8CF1A' : '#F2E8CF0A'
               }}
               onMouseEnter={(e) => {
-                if (value !== option.value) {
+                if (value !== option.value && !option.disabled) {
                   e.currentTarget.style.backgroundColor = '#F2E8CF1A';
                 }
               }}
               onMouseLeave={(e) => {
-                if (value !== option.value) {
+                if (value !== option.value && !option.disabled) {
                   e.currentTarget.style.backgroundColor = '#F2E8CF0A';
                 }
               }}
@@ -104,6 +110,21 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const handleJobsPerPageChange = (value: number) => {
     onJobsPerPageChange(value);
+  };
+
+  // Generate dropdown options with disabled state based on total jobs
+  const getDropdownOptions = () => {
+    const baseOptions = [
+      { value: 4, label: '4 Jobs' },
+      { value: 8, label: '8 Jobs' },
+      { value: 16, label: '16 Jobs' },
+      { value: 20, label: '20 Jobs' }
+    ];
+
+    return baseOptions.map(option => ({
+      ...option,
+      disabled: option.value > totalJobs
+    }));
   };
 
   const getVisiblePages = () => {
@@ -165,15 +186,10 @@ const Pagination: React.FC<PaginationProps> = ({
         <CustomDropdown 
           value={jobsPerPage}
           onChange={handleJobsPerPageChange}
-          options={[
-            { value: 4, label: '4 Jobs' },
-            { value: 8, label: '8 Jobs' },
-            { value: 16, label: '16 Jobs' },
-            { value: 20, label: '20 Jobs' }
-          ]}
+          options={getDropdownOptions()}
         />
         
-        <span className="text-gray-300 text-sm">of {totalJobs.toLocaleString()}</span>
+        <span className="text-gray-300 text-sm">of {jobsPerPage}</span>
       </div>
 
       {/* Right Side - Pagination */}
