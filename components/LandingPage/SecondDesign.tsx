@@ -42,7 +42,7 @@ const SecondDesign = () => {
           >
             Empower Your <span className="text-[#FFD700]">Crafts</span>, Connect
             with Clients.{" "}
-              <Link href={links.browseJob} className="text-base relative bottom-4">
+              <Link href={links.browseJob} className="text-base relative bottom-2 lg:bottom-4">
                 <Button text="Visit Marketplace" />
               </Link>
           </p>
@@ -76,7 +76,7 @@ const SecondDesign = () => {
             </Link>
           </div>
           <p
-            className={`max-sm:hidden w-[85%] md:w-[45%] text-balance font-merriweather text-[25px] text-[#FCFBF7] relative md:right-8 ${
+            className={`max-sm:hidden w-[85%] md:w-[45%] text-balance font-merriweather text-[20px] lg:text-[25px] text-[#FCFBF7] relative md:right-8 ${
               inView ? "animate-slideInRight" : ""
             }`}
           >
