@@ -6,7 +6,7 @@ Here’s a refined and professional version of your **CraftLink README**, with c
 
 **CraftLink** is a decentralized marketplace that connects artisans and informal workers with global job opportunities and secure payments. Designed for borderless collaboration, CraftLink combines elegant UX with blockchain-based guarantees for trust, transparency, and ownership.
 
-Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Base**, CraftLink supports gasless transactions and on-chain portfolios, giving artisans full control of their digital reputation and income.
+Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Lisk**, CraftLink supports gasless transactions and on-chain portfolios, giving artisans full control of their digital reputation and income.
 
 ---
 
@@ -27,10 +27,10 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Base**, Craf
 | Layer           | Tech                                              |
 | --------------- | ------------------------------------------------- |
 | Frontend        | Next.js, React, Tailwind CSS                      |
-| Smart Contracts | Solidity, Base Mainnet (OP Stack)                 |
+| Smart Contracts | Solidity, Lisk Sepolia                            |
 | Storage         | IPFS (portfolio media), MongoDB (gigs & profiles) |
-| Auth & Wallet   | Wagmi, RainbowKit, Ethers.js                      |
-| Gasless Infra   | Biconomy / Custom Relayer (for meta-tx)           |
+| Auth & Wallet   | Reown, Be                                         |
+| Gasless Infra   | Custom Relayer                                    |
 
 ---
 
@@ -39,7 +39,7 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Base**, Craf
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/pope-h/craft-link.git
+   git clone https://github.com/craftlink-hq/frontend.git
    cd craft-link
    ```
 
@@ -61,7 +61,7 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Base**, Craf
 
 ## 🚀 Deployment
 
-* **Smart Contracts:** Deployed on **Base Mainnet**
+* **Smart Contracts:** Deployed on **Lisk Sepolia**
 * **Frontend:** Hosted on **Vercel**
 * **Storage:** IPFS (decentralized media) + MongoDB (off-chain data)
 

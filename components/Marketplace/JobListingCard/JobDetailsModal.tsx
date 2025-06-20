@@ -1,30 +1,10 @@
 "use client";
 import { Job } from "@/utils/types"; // Change to use the flexible Job type
 import Image from "next/image";
-// import React, { useState } from "react";
 import { FiMapPin } from "react-icons/fi";
 import AttachedFiles from "./AttachedFiles";
-// import AttachedLinks from "./AttachedLinks";
 
 const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => void }) => {
-  // const titleDetails = [
-  //   {
-  //     imgSrc: "/market/tabler_flag.svg",
-  //     name: job.preferredLocation,
-  //   },
-  //   {
-  //     imgSrc: "/market/tabler_flag.svg", 
-  //     name: job.language || "English",
-  //   },
-  //   {
-  //     imgSrc: "/market/calendar-tick.svg",
-  //     name: `${job.projectDuration.weeks} Weeks`,
-  //   },
-  //   {
-  //     imgSrc: "/market/medal-star.svg",
-  //     name: job.experienceLevel,
-  //   },
-  // ];
 
   const displayPrice = job.price || 0;
   
@@ -38,23 +18,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
     about: "Professional client",
     dateJoined: "Recent",
   };
-  // const jobDetailsInfo = [
-  //   {
-  //     imgSrc: "/market/money-2.svg",
-  //     detail: "Budget",
-  //     detailValue: `${displayPrice.toLocaleString()}`,
-  //   },
-  //   {
-  //     imgSrc: "/market/medal-star.svg",
-  //     detail: "Experience", 
-  //     detailValue: job.experienceLevel,
-  //   },
-  //   {
-  //     imgSrc: "/market/calendar-tick.svg",
-  //     detail: "Duration",
-  //     detailValue: `${job.projectDuration.weeks} Weeks`,
-  //   },
-  // ];
+  
 
   return (
     <div className="text-start font-merriweather w-full flex items-start gap-y-6 flex-col">
