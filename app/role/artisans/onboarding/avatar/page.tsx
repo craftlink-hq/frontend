@@ -14,13 +14,13 @@ export default function Avatar() {
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const handleNext = async () => {
-    setIsUploading(true);
-
     if (imagePreview === null) {
       toast.error("Please upload an avatar");
       setIsUploading(false);
       return;
     }
+
+    setIsUploading(true);
 
     try {
       const response = await fetch(imagePreview);
