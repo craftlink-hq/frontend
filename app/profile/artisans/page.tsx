@@ -21,7 +21,6 @@ import useGetCraftCoinBalance from "@/hooks/CraftCoin/useGetCraftCoinBalance";
 import useGetArtisanAmountMade from "@/hooks/PaymentProcessor/useGetArtisanAmountMade";
 import { useMint } from "@/hooks/Gasless/useMint";
 import useCanMintCraftCoin from "@/hooks/CraftCoin/useCanMintCraftCoin";
-// import { dummyProfile as profile } from "@/utils/profile";
 
 export default function Profile() {
   const pathname = usePathname();
@@ -80,8 +79,6 @@ export default function Profile() {
       if (nextMintTime) {
         const currentTime = Math.floor(Date.now() / 1000);
         const timeRemaining = nextMintTime - currentTime;
-        // console.log("Next mint time:", new Date(nextMintTime * 1000).toLocaleString());
-        // console.log("Current time:", new Date(currentTime * 1000).toLocaleString());
         const daysRemaining = Math.ceil(timeRemaining / (60 * 60 * 24));
         toast.info(`Please wait ${daysRemaining} day${daysRemaining > 1 ? "s" : ""} until next mint time.`);
       } else {

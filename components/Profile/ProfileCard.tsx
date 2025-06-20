@@ -14,9 +14,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
     router.push("/marketplace")
   }
 
-  const handleEdit = () => {
-    router.push("/role/artisans/onboarding/bio")
-  }
+  
 
   const setIsModalOpen = (isOpen: boolean) => {
     // Placeholder function, replace with actual modal logic
@@ -33,7 +31,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
               setIsModalOpen(true)
             }}
           >
-            Edit
+            Edit{""}
             <span className="relative h-6 w-6 rounded-full bg-[#F2E8CF0A]">
               <Image src="/edit.png" alt="edit" fill className="object-contain p-1" />
             </span>
@@ -43,7 +41,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
 
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-shrink-0">
-          <div className="relative h-56 w-56 mb-4">
+          <div className="relative h-72 w-72 bottom-8">
             <Image
               src={profile.about.avatar || "/placeholder.svg"}
               alt="Profile avatar"

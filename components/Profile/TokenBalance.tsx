@@ -23,7 +23,7 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
-    <div className="space-y-2 font-merriweather">
+    <div className="space-y-2 font-merriweather h-full">
       {/* Earnings Card */}
       <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 ">
         <div className="flex items-center gap-2 mb-1">
@@ -58,7 +58,7 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
       </div>
 
       {/* Craftcoin Balance Card */}
-      <div className="bg-[#F2E8CF0A] relative border border-[#FCFBF726] rounded-lg p-5 lg:py-2 ">
+      <div className="bg-[#F2E8CF0A] relative border border-[#FCFBF726] rounded-lg p-5 lg:py-2 h-full ">
         <div className="flex justify-between items-center mb-1">
           <div className="flex items-center gap-2">
             <Image src={"/coin.png"} alt={"coin"} width="18" height="18" />{" "}
