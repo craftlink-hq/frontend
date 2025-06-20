@@ -71,10 +71,8 @@ const AttachedFiles: React.FC<AttachedFilesProps> = ({ files }) => {
     } else {
       fileData = file;
     }
-
-    // Handle Cloudinary URLs - use a placeholder for external images that might fail
-    const isCloudinaryImage = fileData.url.includes('cloudinary.com');
-    const imageUrl = isCloudinaryImage ? '/placeholder-image.png' : fileData.url;
+    
+    const imageUrl = fileData.url;
 
     return (
       <div key={`file-${fileData.id}-${index}`} className="flex flex-col items-center gap-2">
@@ -86,26 +84,19 @@ const AttachedFiles: React.FC<AttachedFilesProps> = ({ files }) => {
         >
           {fileData.type === 'IMAGE' ? (
             <div className="w-20 h-20 border border-[#FCFBF726] rounded overflow-hidden">
-              {isCloudinaryImage ? (
-                // Fallback for Cloudinary images
-                <div className="w-full h-full bg-gray-600 flex items-center justify-center">
-                  <span className="text-white text-xs">IMG</span>
-                </div>
-              ) : (
-                <Image
-                  src={imageUrl}
-                  alt={fileData.name}
-                  width={80}
-                  height={80}
-                  className="object-cover w-full h-full"
-                  onError={(e) => {
-                    // Handle image load errors
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    target.parentElement!.innerHTML = '<div class="w-full h-full bg-gray-600 flex items-center justify-center"><span class="text-white text-xs">IMG</span></div>';
-                  }}
-                />
-              )}
+              <Image
+                src={imageUrl}
+                alt={fileData.name}
+                width={80}
+                height={80}
+                className="object-cover w-full h-full"
+                onError={(e) => {
+                  // Handle image load errors by swapping in a simple placeholder
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.innerHTML = '<div class="w-full h-full bg-gray-600 flex items-center justify-center"><span class="text-white text-xs">IMG</span></div>';
+                }}
+              />
             </div>
           ) : (
             getFileIcon(fileData.type)
