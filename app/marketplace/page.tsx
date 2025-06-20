@@ -1,7 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
 import Filter from "@/components/Marketplace/Filter";
-import JobListing from '@/components/Marketplace/JobListingCard/JobListing';
 import JobCard from '@/components/Marketplace/JobListingCard/JobCard';
 import SearchSortBar from "@/components/Marketplace/Search";
 import Pagination from "@/components/Marketplace/Pagnation";
@@ -15,6 +14,7 @@ import Loading from "@/components/Loading";
 import { Job } from "@/utils/job";
 import Footer from "@/components/LandingPage/Footer";
 import { formatRelativeTime } from "@/utils/timeUtils";
+import { formatUnits } from "ethers";
 
 export default function MarketPlace(): JSX.Element {
   const [showFilter, setShowFilter] = useState<boolean>(false);
@@ -153,6 +153,7 @@ interface ApiJob {
       // Parse and format the creation date
       const createdDate = parseJobDate(job.createdAt || job.posted_at);
       const relativeTime = formatRelativeTime(createdDate);
+      const formattedPrice = Number(formatUnits(job.price ?? 404000000, 6));
       
       // Similar date handling for client dateJoined
       const clientJoinedDate = parseJobDate(job.client?.dateJoined || job.client?.date_joined);
@@ -175,7 +176,7 @@ interface ApiJob {
                  2
         },
         
-        price: job.price || job.budget || job.amount || 0,
+        price: formattedPrice || job.budget || job.amount || 0,
         paymentType: job.paymentType || job.payment_type || "Fixed",
         payment: job.payment || "Secured Payment",
         type: job.type || job.application_type || "Open Application",
@@ -274,13 +275,13 @@ interface ApiJob {
       switch (selectedSort) {
         case 'Most Recent':
           // Use original date for accurate sorting
-          const dateA = (a as any)._originalCreatedAt || new Date(a.createdAt);
-          const dateB = (b as any)._originalCreatedAt || new Date(b.createdAt);
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
           return new Date(dateB).getTime() - new Date(dateA).getTime();
         
         case 'Oldest':
-          const oldDateA = (a as any)._originalCreatedAt || new Date(a.createdAt);
-          const oldDateB = (b as any)._originalCreatedAt || new Date(b.createdAt);
+          const oldDateA = new Date(a.createdAt);
+          const oldDateB = new Date(b.createdAt);
           return new Date(oldDateA).getTime() - new Date(oldDateB).getTime();
         
         case 'Shortest Duration':
@@ -403,7 +404,7 @@ interface ApiJob {
                   {/* Show message if no jobs after filtering */}
                   {!isLoading && currentJobs.length === 0 && searchTerm && (
                     <div className="flex flex-col items-center justify-center h-40 text-gray-400">
-                      <p>No jobs found for "{searchTerm}"</p>
+                      <p>No jobs found for &quot;{searchTerm}&quot;</p>
                       <button 
                         onClick={() => setSearchTerm('')}
                         className="mt-2 text-blue-400 hover:text-blue-300 text-sm"

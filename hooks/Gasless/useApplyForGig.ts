@@ -40,17 +40,19 @@ const useApplyForGig = () => {
         const gigContract = getGigContract(provider);
         const requiredCFT = await gigContract.getRequiredCFT(databaseId);
 
-        // Fetch user's nonce from CraftCoin contract
+        // Fetch user's info from CraftCoin contract
         const craftCoinContract = getCraftCoinContract(provider);
         const nonce = await craftCoinContract.nonces(address);
+        const name = await craftCoinContract.name();
+        const version = await craftCoinContract.version?.() ?? "1";
 
         // Set deadline (1 hour from now)
         const deadline = Math.floor(Date.now() / 1000) + 3600;
 
         // Prepare permit message for CraftCoin
         const domain = {
-          name: "CraftCoin",
-          version: "1",
+          name: name,
+          version: version,
           chainId: chainId,
           verifyingContract: process.env.CRAFT_COIN as Address,
         };
