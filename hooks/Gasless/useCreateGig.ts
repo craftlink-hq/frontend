@@ -20,6 +20,7 @@ const useCreateGig = () => {
   const { walletProvider } = useAppKitProvider<Provider>("eip155");
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
+  const RELAYER_URL = process.env.RELAYER_URL;
 
   const createGig = useCallback(
     async (rootHash: string, databaseId: string, budget: number) => {
@@ -43,10 +44,13 @@ const useCreateGig = () => {
         // Set deadline (1 hour from now)
         const deadline = Math.floor(Date.now() / 1000) + 3600;
 
+        const name = "CraftCoin"; // TO BE CORRECTED
+        const version = await tokenContract.version?.() ?? "1";
+
         // Prepare permit message for USDT approval
         const domain = {
-          name: "USD Tethers",
-          version: "1",
+          name: name,
+          version: version,
           chainId: chainId,
           verifyingContract: process.env.TOKEN as Address,
         };
@@ -61,7 +65,6 @@ const useCreateGig = () => {
           ],
         };
 
-        // Convert budget to smallest unit (USDT has 6 decimals)
         const value = ethers.parseUnits(budget.toString(), 6);
 
         const permitMessage = {
@@ -103,7 +106,10 @@ const useCreateGig = () => {
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
         // Send request to backend
-        const response = await fetch("http://localhost:3005/gasless-transaction", {
+        if (!RELAYER_URL) {
+          throw new Error("Relayer URL is not defined");
+        }
+        const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -132,6 +138,7 @@ const useCreateGig = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, router]
   );
 

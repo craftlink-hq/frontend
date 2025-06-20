@@ -149,7 +149,7 @@ const WelcomePage = ({ image, role }: WelcomeProps) => {
             Great to Have You Here,
           </p>
           <p className="uppercase font-alata  text-3xl md:text-[3vw] text-center text-[#F9F1E2] leading-8 md:leading-[3vw]">
-            {detail?.username ?? role}!
+            {detail && 'username' in detail ? detail.username : role}!
           </p>
           <span className="text-center text-[#D8D6CF] lg:w-[70%] text-balance md:p-8 p-4 font-merriweather">
             {welcomeMsg}
