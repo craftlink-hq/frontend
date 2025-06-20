@@ -1,7 +1,7 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Filter from "@/components/Marketplace/Filter";
-import JobListing from '@/components/Marketplace/JobListingCard/JobListing';
+// import JobListing from '@/components/Marketplace/JobListingCard/JobListing';
 import JobCard from '@/components/Marketplace/JobListingCard/JobCard';
 import SearchSortBar from "@/components/Marketplace/Search";
 import Pagination from "@/components/Marketplace/Pagnation";

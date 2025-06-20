@@ -9,7 +9,7 @@ import type { AccountCard } from "@/utils/profile"
 import { toast } from "sonner"
 import useIsArtisan from "@/hooks/Registry/useIsArtisan"
 import useIsClient from "@/hooks/Registry/useIsClient"
-import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText, FiChevronDown } from "react-icons/fi"
+import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText} from "react-icons/fi"
 import { useAccount } from "wagmi"
 
 interface Header {
