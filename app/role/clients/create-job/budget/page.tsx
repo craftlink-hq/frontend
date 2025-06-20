@@ -35,7 +35,6 @@ export default function Budget() {
   const { setAmount, amount } = useGetJobData();
   const { isConnected } = useAccount();
   const { walletProvider } = useAppKitProvider<Provider>('eip155');
-  const readWriteProvider = getProvider(walletProvider);
 
   const displayAmount = amount / 1000000;
 
@@ -64,10 +63,14 @@ export default function Budget() {
   const handleNext = async () => {
     try {
       setIsLoading(true);
-      const signer = await readWriteProvider.getSigner();
 
       if (!isConnected) {
         toast.error("Please connect your wallet first");
+        return;
+      }
+
+      if (!walletProvider) {
+        toast.error("Wallet provider not available. Please try reconnecting your wallet.");
         return;
       }
 
@@ -75,6 +78,9 @@ export default function Budget() {
         toast.error("Please provide a valid amount > $5");
         return;
       }
+
+      const readWriteProvider = getProvider(walletProvider);
+      const signer = await readWriteProvider.getSigner();
 
       if (!signer) {
         toast.warning("Wallet not connected");
@@ -184,7 +190,7 @@ export default function Budget() {
         <div className="flex font-merriweather w-full">
           <button
             onClick={handleNext}
-            disabled={isLoading || hasError || !amount}
+            disabled={isLoading || hasError || !amount || !isConnected}
             className="flex w-fit py-2 px-4 uppercase bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Processing..." : "Job Preview"}

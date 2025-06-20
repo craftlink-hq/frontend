@@ -43,10 +43,13 @@ const useCreateGig = () => {
         // Set deadline (1 hour from now)
         const deadline = Math.floor(Date.now() / 1000) + 3600;
 
+        const name = "CraftCoin"; // TO BE CORRECTED
+        const version = await tokenContract.version?.() ?? "1";
+
         // Prepare permit message for USDT approval
         const domain = {
-          name: "USD Tethers",
-          version: "1",
+          name: name,
+          version: version,
           chainId: chainId,
           verifyingContract: process.env.TOKEN as Address,
         };
@@ -61,7 +64,6 @@ const useCreateGig = () => {
           ],
         };
 
-        // Convert budget to smallest unit (USDT has 6 decimals)
         const value = ethers.parseUnits(budget.toString(), 6);
 
         const permitMessage = {
@@ -132,6 +134,7 @@ const useCreateGig = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, router]
   );
 

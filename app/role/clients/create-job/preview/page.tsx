@@ -3,7 +3,7 @@ import Footer from "@/components/LandingPage/Footer";
 import ClientCard from "@/components/PostJob/ClientCard";
 import ClientStatus from "@/components/PostJob/ClientStatus";
 import ProjectDetails from "@/components/PostJob/ProjectDetails";
-import { useGetJobData, useGetClientData } from "@/utils/store";
+import { useGetJobData, useGetClientData, useGetUserRole } from "@/utils/store";
 import { Job } from "@/utils/job";
 import { useAccount } from "wagmi";
 import { useLoading } from "@/hooks/useLoading";
@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 import axios from "@/app/API/axios";
 import handleApiError, { GigResponse } from "@/app/API/handleApiError";
 import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
-import useCreateGig from "@/hooks/GigMarketplace/useCreateGig";
+import useCreateGig from "@/hooks/Gasless/useCreateGig";
+import { useEffect } from "react";
 
 export default function ProfilePreview() {
   const {
@@ -30,16 +31,35 @@ export default function ProfilePreview() {
   const { clientBio, clientAvatar } = useGetClientData();
   const { address } = useAccount();
   const clientDetail = useGetClientDetails();
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { startLoading, stopLoading } = useLoading();
   const router = useRouter();
-  const createGig = useCreateGig();
+  const { createGig, isLoading: createGigLoading } = useCreateGig();
+  const { role } = useGetUserRole();
+
+  useEffect(() => {
+    if (createGigLoading) {
+      startLoading();
+    } else {
+      stopLoading();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createGigLoading]);
 
   const handlePostJobClick = async () => {
+    if (!clientDetail.clientData) {
+      toast.error("Client data not loaded. Please try again.");
+      return;
+    }
+
+    if (role != "client") {
+      toast.error("Please register as a client first.");
+      return;
+    }
+
     startLoading();
     try {
       const jobData = {
         clientAddress: address,
-        clientDescription: clientBio,
         title: jobTitle,
         skillCategory: requiredSkills,
         preferredLocation: jobLocation,
@@ -66,13 +86,15 @@ export default function ProfilePreview() {
         ? data.databaseId
         : `0x${data.databaseId}`;
 
-      createGig(formattedRoot, formattedDatabaseId, amount);
+      const budgetInBaseUnit = Number(amount) / 1000000;
+
+      createGig(formattedRoot, formattedDatabaseId, budgetInBaseUnit);
     } catch (error) {
       toast.error("Error posting job");
       console.error(error);
+    } finally {
+      stopLoading();
     }
-
-    stopLoading();
   };
 
   const handleEditJobClick = () => {
@@ -88,7 +110,7 @@ export default function ProfilePreview() {
     language: "English",
     totalJobs: 1,
     experienceLevel: experienceRequired,
-    price: amount / 1000000,
+    price: (amount / 6),
     rating: 0,
     projectDescription: jobDescription,
     type: "Open Application",
@@ -121,8 +143,12 @@ export default function ProfilePreview() {
     applicants: []
   };
 
-  if (isLoading || !clientDetail.clientData) {
-    return <div>Loading...</div>;
+  if (!clientDetail.clientData) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-[#F9F1E2]">Loading client data...</p>
+      </div>
+    );
   }
 
   return (
