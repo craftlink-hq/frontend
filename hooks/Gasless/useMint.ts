@@ -42,7 +42,7 @@ export const useMint = () => {
 
       const result = await response.json();
       if (result.success) {
-        toast.success("CraftCoin minted successfully");
+        toast.success("CraftCoin claimed successfully.");
       } else {
         toast.error(`Error: ${result.message}`);
       }

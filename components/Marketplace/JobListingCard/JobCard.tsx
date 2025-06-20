@@ -14,6 +14,7 @@ import { JobCardProps } from "@/utils/types"; // Now uses the complete Job inter
 import { formatRelativeTime } from "@/utils/timeUtils";
 import { useGetUserRole } from "@/utils/store";
 import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
+import useApplyForGig from "@/hooks/Gasless/useApplyForGig";
 
 const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(
@@ -33,6 +34,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
 
   const { role } = useGetUserRole();
   const { requiredCFT } = useGetRequiredCFT(job.id as string);
+  const { applyForGig } = useApplyForGig();
 
   // Convert to boolean (null becomes false)
   const isArtisan = role === "artisan";
@@ -97,9 +99,11 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
     }
   };
 
-  const handleApplyConfirm = () => {
+  const handleApplyConfirm = async () => {
     // Handle the actual application logic here
     console.log("Applying for job:", job.id);
+    await applyForGig(job.id as string);
+    
     setIsApplyModalOpen(false);
     // You can add your API call here
   };
