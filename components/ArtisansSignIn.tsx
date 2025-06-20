@@ -49,7 +49,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
                   className="rounded-lg shadow-lg"
                 />
               </div>
-              <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[60%] md:h-[90%] bg-[#F2E8CF0A] flex flex-col items-center justify-between w-[90%] md:w-[45vw] gap-y-4 p-4">
+              <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[80%] relative top-4 md:top-0 md:h-[90%] bg-[#F2E8CF0A] flex flex-col items-center justify-between w-[90%] md:w-[45vw] gap-y-4 p-4">
                 <div></div>
                 <div className="flex flex-col justify-end items-center gap-y-4 py-8">
                   <p className="font-alata text-3xl px-2 lg:text-[2.5vw] text-center text-[#F9F1E2] leading-8 ">
@@ -65,7 +65,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
                     text={"Sign in as Artisan"}
                     style={"font-normal"}
                   />
-                  <div className="flex text-center text-[#F9F1E2] gap-2  ">
+                  <div className="flex text-center text-[#F9F1E2] gap-2 relative bottom-[12px] ">
                     Not an artisan?{" "}
                     <Link
                       href="/role/clients/signin"
@@ -75,7 +75,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
                     </Link>
                   </div>
                 </div>
-                <div className="flex flex-col justify-center text-center">
+                <div className="flex flex-col justify-center text-center text-sm ">
                   <span className="text-[#D8D6CF]">
                     By Continuing, you agree to CraftLink’s Privacy Policy
                   </span>

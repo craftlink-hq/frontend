@@ -2,10 +2,10 @@ import { useRouter } from "next/navigation";
 import Bio from "@/components/Profile/Bio";
 import Details from "@/components/Profile/Details";
 import Skills from "@/components/Profile/Skills";
-import { dummyProfile as profile } from "@/utils/profile";
 import Image from "next/image";
+import { ArtisanProfileProps } from "@/utils/profile";
 
-const About = () => {
+const About = ({profile}: {profile: ArtisanProfileProps} ) => {
   const router = useRouter();
 
   const handleEdit = () => {
@@ -36,12 +36,12 @@ const About = () => {
         <div className="md:col-span-1  h-full ">
           <Bio about={profile.about} />
         </div>
-        <div className="md:col-span-1 flex flex-col gap-y-4 h-full ">
-          <div>
+        <div className="md:col-span-1 flex flex-col gap-y-2 h-full ">
+          <div className="h-full">
             {" "}
             <Details details={profile.details} />
           </div>
-          <div>
+          <div className="h-full">
             {" "}
             <Skills skills={profile.skills} />
           </div>

@@ -92,7 +92,7 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
           </div>
         </div>
 
-        <div className="flex w-full justify-between">
+        <div className="hidden md:flex lg:hidden xl:flex w-full justify-between">
           <button
             onClick={onClaimCraftcoin}
             className="bg-[#FFD700] text-[#1A1203]  py-2 px-4 rounded-[4px] uppercase text-sm hover:bg-[#FFD700]/90 transition-colors"
@@ -105,6 +105,22 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
             className=" text-[#FFD700] border border-[#FFD700]  py-2 px-4 rounded-[4px] uppercase text-sm   transition-colors"
           >
             Buy Craftcoin
+          </button>
+        </div>
+
+        <div className="md:hidden flex lg:flex xl:hidden w-full justify-between">
+          <button
+            onClick={onClaimCraftcoin}
+            className="bg-[#FFD700] text-[#1A1203]  py-2 px-4 rounded-[4px] uppercase text-sm hover:bg-[#FFD700]/90 transition-colors"
+          >
+            Claim
+          </button>
+
+          <button
+            onClick={onBuyCraftcoin}
+            className=" text-[#FFD700] border border-[#FFD700]  py-2 px-4 rounded-[4px] uppercase text-sm   transition-colors"
+          >
+            Buy
           </button>
         </div>
       </div>

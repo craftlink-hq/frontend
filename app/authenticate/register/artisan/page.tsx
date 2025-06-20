@@ -107,7 +107,7 @@ export default function Register() {
                     />
                   )}
                 </div>
-                <p className="font-merriweather md:py-2 self-end font-bold">
+                <p className="font-merriweather md:py-2 self-end font-bold text-sm ">
                   By Continuing, you agree to CraftLink’s{" "}
                   <span className="text-yellow">Privacy Policy and Terms</span>{" "}
                   and <span className="text-yellow">Conditions</span>
@@ -116,7 +116,7 @@ export default function Register() {
             </div>
 
             <div className="justify-self-center py-2 md:px-12 gap-y-2 grid font-merriweather md:col-span-2">
-              <Button onClick={createAccount} text={"Create My Account"} />
+              <Button onClick={createAccount} text={"Create My Account"} style={"font-normal"} />
             </div>
           </form>
         </div>

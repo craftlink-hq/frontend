@@ -21,6 +21,7 @@ import useGetCraftCoinBalance from "@/hooks/CraftCoin/useGetCraftCoinBalance";
 import useGetArtisanAmountMade from "@/hooks/PaymentProcessor/useGetArtisanAmountMade";
 import { useMint } from "@/hooks/Gasless/useMint";
 import useCanMintCraftCoin from "@/hooks/CraftCoin/useCanMintCraftCoin";
+// import { dummyProfile as profile } from "@/utils/profile";
 
 export default function Profile() {
   const pathname = usePathname();
@@ -113,7 +114,7 @@ export default function Profile() {
           <div className="lg:col-span-2 h-full">
             <ProfileCard profile={profile} />
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 h-full">
             <EarningsDisplay
               availableAmount={tokenBalance ?? 404}
               totalEarned={checkAmountMade ?? 404}
@@ -124,7 +125,7 @@ export default function Profile() {
           </div>
         </div>
 
-        <About />
+        <About profile={profile}/>
 
         <Portfolio portfolio={profile.portfolio} />
         {profile.reviews && <Review reviews={profile.reviews} />}

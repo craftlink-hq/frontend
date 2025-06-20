@@ -3,9 +3,9 @@ import Image from "next/image";
 
 const Details = ({ details }: { details: DetailsProps }) => {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="grid grid-cols-2 gap-2">
-        <div className="flex flex-col border border-[#FCFBF726] gap-y-2 px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
+    <div className="flex flex-col gap-2 h-full ">
+      <div className="grid grid-cols-2 gap-2 h-full">
+        <div className="flex flex-col h-full border border-[#FCFBF726] gap-y-2 px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
           <div className="flex  items-center justify-start gap-x-2">
             <Image
               src={"/language.png"}
@@ -35,7 +35,7 @@ const Details = ({ details }: { details: DetailsProps }) => {
         </div>
       </div>
 
-      <div className="flex flex-col  gap-2">
+      <div className="flex flex-col  gap-2 h-full">
         <div className="flex flex-col border border-[#FCFBF726] gap-y-2 px-4 pt-2 pb-8 rounded-xl bg-[#F2E8CF0A]">
           <div className="flex justify-between items-start justify-start">
             <h3 className="text-base">Service Tagline</h3>
