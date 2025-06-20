@@ -20,6 +20,7 @@ const useApplyForGig = () => {
   const { walletProvider } = useAppKitProvider<Provider>("eip155");
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
+  const RELAYER_URL = process.env.RELAYER_URL;
 
   const applyForGig = useCallback(
     async (databaseId: string) => {
@@ -107,7 +108,10 @@ const useApplyForGig = () => {
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
         // Send request to the relayer backend
-        const response = await fetch("http://localhost:3005/gasless-transaction", {
+        if (!RELAYER_URL) {
+          throw new Error("Relayer URL is not defined");
+        }
+        const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
