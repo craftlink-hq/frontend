@@ -8,8 +8,8 @@ import { useGetJobData } from "@/utils/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAccount } from "wagmi";
-// import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { wssProvider } from "@/constants/providers";
+import { useAppKitProvider, type Provider } from "@reown/appkit/react";
+import { getProvider } from "@/constants/providers";
 
 // Constants
 const MINIMUM_AMOUNT = 5;
@@ -34,7 +34,8 @@ export default function Budget() {
   const router = useRouter();
   const { setAmount, amount } = useGetJobData();
   const { isConnected } = useAccount();
-  const signer = wssProvider;
+  const { walletProvider } = useAppKitProvider<Provider>('eip155');
+  const readWriteProvider = getProvider(walletProvider);
 
   const displayAmount = amount / 1000000;
 
@@ -63,6 +64,7 @@ export default function Budget() {
   const handleNext = async () => {
     try {
       setIsLoading(true);
+      const signer = await readWriteProvider.getSigner();
 
       if (!isConnected) {
         toast.error("Please connect your wallet first");
