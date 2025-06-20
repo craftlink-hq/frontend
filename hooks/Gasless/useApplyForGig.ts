@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage, useSignTypedData } from "wagmi";
 import { toast } from "sonner";
-import { ethers } from "ethers";
+import { ethers, formatEther } from "ethers";
 import { useRouter } from "next/navigation";
 import { getProvider } from "@/constants/providers";
 import { getCraftCoinContract, getGigContract } from "@/constants/contracts";
@@ -25,11 +25,11 @@ const useApplyForGig = () => {
     async (databaseId: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
       }
 
       startLoading();
@@ -39,6 +39,9 @@ const useApplyForGig = () => {
         // Fetch required CFT for the gig
         const gigContract = getGigContract(provider);
         const requiredCFT = await gigContract.getRequiredCFT(databaseId);
+        const formattedCFT = Number(formatEther(requiredCFT));
+        console.log("Required CFT for gig:", requiredCFT);
+        console.log("formatted CFT for gig:", formattedCFT.toString());
 
         // Fetch user's info from CraftCoin contract
         const craftCoinContract = getCraftCoinContract(provider);
@@ -122,6 +125,8 @@ const useApplyForGig = () => {
         } else {
           toast.error(`Error: ${result.message}`);
         }
+
+        return true;
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
@@ -129,6 +134,8 @@ const useApplyForGig = () => {
           toast.error("Error during application");
           console.error(error);
         }
+
+        return false;
       } finally {
         stopLoading();
       }
