@@ -39,7 +39,7 @@ export const marketplaceModals: Record<string, ModalConfig> = {
     primaryButton: {
       text: "SIGN IN",
       type: "link",
-      href: "/register"
+      href: "/role/artisans/signin"
     },
     titleBorderColor: "border-yellow-400"
   },
