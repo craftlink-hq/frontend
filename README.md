@@ -1,8 +1,4 @@
-Here’s a refined and professional version of your **CraftLink README**, with clearer structure, improved grammar, added gasless feature, and some suggested enhancements for clarity and impact:
-
----
-
-# 🚀 CraftLink
+# CraftLink
 
 **CraftLink** is a decentralized marketplace that connects artisans and informal workers with global job opportunities and secure payments. Designed for borderless collaboration, CraftLink combines elegant UX with blockchain-based guarantees for trust, transparency, and ownership.
 
@@ -10,7 +6,7 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Lisk**, Craf
 
 ---
 
-## 🔧 Features
+## Features
 
 * **Job Listings** – Clients can post gigs; artisans apply based on skills and availability.
 * **Secure Escrow Payments** – Smart contracts hold funds and release upon job completion.
@@ -22,7 +18,7 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Lisk**, Craf
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Layer           | Tech                                              |
 | --------------- | ------------------------------------------------- |
@@ -60,7 +56,7 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Lisk**, Craf
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 * **Smart Contracts:** Deployed on **Lisk Sepolia**
 * **Frontend:** Hosted on **Vercel**
