@@ -9,12 +9,12 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         port: '',
         pathname: '/**',
-      },
-      {
-        protocol: 'http',           // ← allow http
-        hostname: 'res.cloudinary.com',
-        pathname: '/**',
-      },
+      }
+      // {
+      //   protocol: 'http',           // ← allow http
+      //   hostname: 'res.cloudinary.com',
+      //   pathname: '/**',
+      // },
     ],
   },
   async rewrites() {
