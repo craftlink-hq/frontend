@@ -3,7 +3,7 @@ import Image from "next/image";
 const About = () => {
   return (
     <div className="grid lg:flex p-8 gap-4 justify-center lg:h-[70vh] lg:min-h-fit font-merriweather">
-      <div className="h-[40vh] w-[90vw] md:h-[50vh] lg:h-full md:w-[90%] md:justify-self-center  lg:w-[45%] relative ">
+      <div className="h-[400px] w-[90vw] md:h-[50vh] lg:h-full md:w-[90%] md:justify-self-center  lg:w-[45%] relative ">
         <Image
           src="/about.png"
           alt="An artisan"

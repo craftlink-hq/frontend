@@ -58,7 +58,7 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
       </div>
 
       {/* Craftcoin Balance Card */}
-      <div className="bg-[#F2E8CF0A] relative border border-[#FCFBF726] rounded-lg p-5 lg:py-2 h-full ">
+      <div className="bg-[#F2E8CF0A] relative border border-[#FCFBF726] rounded-lg p-5 lg:py-2 ">
         <div className="flex justify-between items-center mb-1">
           <div className="flex items-center gap-2">
             <Image src={"/coin.png"} alt={"coin"} width="18" height="18" />{" "}
