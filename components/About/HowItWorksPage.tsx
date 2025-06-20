@@ -11,7 +11,7 @@ const HowItWorksPage = () => {
   const router = useRouter();
   
   return (
-    <main>
+    <main className="w-screen min-h-screen overflow-x-hidden bg-[#333333] text-white">
       <Header />
       {/* Hero Section */}
       <HeroSection
@@ -51,7 +51,7 @@ const HowItWorksPage = () => {
          </div>
         </div>
 
-      <Community/>
+<Community/>
 
       <footer
         id="resources"

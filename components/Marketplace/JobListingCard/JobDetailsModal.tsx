@@ -241,30 +241,26 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
         <div className="space-y-3 mb-6">
           <div className="flex gap-2">
             <span className="text-[#D8D6CF]">
-              {jobClient.walletAddress ? 
-                `${jobClient.walletAddress.slice(0, 7)}...${jobClient.walletAddress.slice(-4)}` : 
-                "0x765k...abvc"
-              }
+              {jobClient.walletAddress
+                ? `${jobClient.walletAddress.slice(0, 7)}...${jobClient.walletAddress.slice(-4)}`
+                : '0x765k...abvc'}
             </span>
-            <span className={`text-[#F0FCF6] text-xs px-2 py-1 rounded-full ${
-              jobClient.verificationStatus 
-                ? 'text-white' 
-                : 'text-white'
-            }`}
-            style={{ 
-              backgroundColor: jobClient.verificationStatus ? '#04DF76' : '#FF4444'
-            }}>
-              {jobClient.verificationStatus ? 'Verified' : 'Not Verified'}
+            <span
+              className="text-[#F0FCF6] text-xs px-2 py-1 rounded-full text-white"
+              style={{ backgroundColor: '#04DF76' }}
+            >
+              Verified
             </span>
           </div>
           <p className="text-[#D8D6CF] text-sm">
-            {jobClient.about || job.clientDescription || 
-             "We're a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans"}
+            {jobClient.about ||
+              job.clientDescription ||
+              "We're a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans"}
           </p>
           <div className="flex gap-4 items-center">
             <Image src="/market/calendar-tick.svg" alt="Calendar" width={16} height={16} />
             <span className="text-[#B5B4AD]">
-              Joined {jobClient.dateJoined || "January 2024"}
+              Joined {jobClient.dateJoined || 'January 2024'}
             </span>
             <button className="bg-[#262208] text-[#FCF8E3] py-2 px-4 rounded-full text-sm">
               View Profile
@@ -278,19 +274,19 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
           Explore other related opportunities to this project.
         </p>
         <div className="space-y-3">
-          <a 
-            href="#" 
+          <a
+            href="#"
             className="block italic hover:opacity-80 transition-opacity"
             style={{ color: '#FAB427' }}
           >
             • Tailor Needed for Wedding Gowns - $800 Budget
           </a>
-          <a 
-            href="#" 
+          <a
+            href="#"
             className="block italic hover:opacity-80 transition-opacity"
             style={{ color: '#FAB427' }}
           >
-            • Seamstress for Kids&apos; Clothing Line - $600 Budget
+            • Seamstress for Kids' Clothing Line - $600 Budget
           </a>
         </div>
       </div>
