@@ -26,11 +26,12 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Lisk**, Craf
 
 | Layer           | Tech                                              |
 | --------------- | ------------------------------------------------- |
-| Frontend        | Next.js, React, Tailwind CSS                      |
+| Frontend        | Next.js, React, Tailwind CSS, Zustand             |
 | Smart Contracts | Solidity, Lisk Sepolia                            |
-| Storage         | IPFS (portfolio media), MongoDB (gigs & profiles) |
-| Auth & Wallet   | Reown, Be                                         |
+| Storage         | IPFS (portfolio media), MongoDB (gigs & profiles), Cloudinary |
+| Auth & Wallet   | Reown, Viem, Wagmi, Ethers.js                      |
 | Gasless Infra   | Custom Relayer                                    |
+| Backend.        | Merkle Tree,  Express, Typescript                            |
 
 ---
 

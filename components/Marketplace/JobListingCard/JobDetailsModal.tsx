@@ -6,7 +6,7 @@ import AttachedFiles from "./AttachedFiles";
 
 const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => void }) => {
 
-  const displayPrice = job.price || 0;
+  const displayPrice = job.price ?? 0;
   
   // Safe access to potentially missing properties
   const jobFiles = job.files || [];
@@ -50,7 +50,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
               width={16}
               height={16}
             />
-            <span>{job.language || "English"}</span>
+            <span>{job.language ?? "English"}</span>
           </div>
           <div className="flex items-center gap-2">
             <Image
@@ -140,7 +140,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
         <div className="flex flex-wrap gap-3">
           {jobSkills.map((tag, index) => (
             <span
-              key={index}
+              key={tag + index}
               className="bg-[#26220826] text-[#D8D6CF] border rounded-full border-[#FFFFFF40] text-sm px-4 py-2"
             >
               {tag}
@@ -153,7 +153,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
       <div className="bg-[#F2E8CF0A] rounded-lg w-full p-4">
         <p className="text-[#B5B4AD] mb-3">ADDITIONAL NOTES</p>
         <p className="text-[#D8D6CF] leading-relaxed">
-          {job.additionalProjectInfo || "Artisans selected for this project will receive a bonus for exceptional work and have the opportunity to collaborate on future collections."}
+          {job.additionalProjectInfo ?? "Artisans selected for this project will receive a bonus for exceptional work and have the opportunity to collaborate on future collections."}
         </p>
       </div>
 
@@ -210,15 +210,15 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
                 : '0x765k...abvc'}
             </span>
             <span
-              className="text-[#F0FCF6] text-xs px-2 py-1 rounded-full text-white"
+              className="text-[#F0FCF6] text-xs px-2 py-1 rounded-full"
               style={{ backgroundColor: '#04DF76' }}
             >
               Verified
             </span>
           </div>
           <p className="text-[#D8D6CF] text-sm">
-            {jobClient.about ||
-              job.clientDescription ||
+            {jobClient.about ??
+              job.clientDescription ??
               "We're a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans"}
           </p>
           <div className="flex gap-4 items-center">
@@ -239,18 +239,18 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
         </p>
         <div className="space-y-3">
           <a
-            href="#"
+            href="/marketplace"
             className="block italic hover:opacity-80 transition-opacity"
             style={{ color: '#FAB427' }}
           >
             • Tailor Needed for Wedding Gowns - $800 Budget
           </a>
           <a
-            href="#"
+            href="/marketplace"
             className="block italic hover:opacity-80 transition-opacity"
             style={{ color: '#FAB427' }}
           >
-            • Seamstress for Kids' Clothing Line - $600 Budget
+            • Seamstress for Kids&apos; Clothing Line - $600 Budget
           </a>
         </div>
       </div>
