@@ -1,16 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import useIsArtisan from '@/hooks/Registry/useIsArtisan';
-import useIsClient from '@/hooks/Registry/useIsClient';
+import { useGetUserRole } from '@/utils/store';
 
 const HeroBanner: React.FC = () => {
-  const isArtisan = useIsArtisan();
-  const isClient = useIsClient();
+  const { role } = useGetUserRole();
 
   // Content based on user role
   const getContent = () => {
-    if (isArtisan) {
+    if (role === 'artisan') {
       return {
         title: "Build, Fix, Design or Hire",
         description: "Looking for skilled hands? Sign in as a client and post your job",
@@ -21,13 +19,13 @@ const HeroBanner: React.FC = () => {
       };
     }
     
-    if (isClient) {
+    if (role === 'client') {
       return {
         title: "Build, Fix, Design or Hire",
         description: "Craftlink connects you with real people who need your skills — or have the skills you need.",
         buttonText: "POST JOB",
         subText: "",
-        buttonLink: "/artisan/browse-jobs",
+        buttonLink: "/role/clients/create-job/title",
         showIcon: false
       };
     }

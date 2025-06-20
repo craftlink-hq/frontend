@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import Link from "next/link";
 import { useAccount } from "wagmi";
+import { useGetUserRole } from "@/utils/store";
 
 interface WelcomeProps {
   image: string;
@@ -19,12 +20,15 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
   const { address, isConnected } = useAccount();
   const { isArtisan, isLoading: artisanCheckLoading } = useIsArtisan();
   const router = useRouter();
+  const { setRole } = useGetUserRole();
 
   const handleSignIn = () => {
     if (!isConnected && !address) {
       toast.error("Please connect your wallet to continue.");
       return;
     }
+
+    setRole(role);
 
     if (isArtisan) {
       router.push("/profile/artisans");

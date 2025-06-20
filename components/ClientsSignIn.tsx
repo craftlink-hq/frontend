@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import useIsClient from "@/hooks/Registry/useIsClient";
+import { useGetUserRole } from "@/utils/store";
 
 interface WelcomeProps {
   image: string;
@@ -19,6 +20,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
   const { address, isConnected } = useAccount();
   const { isClient, isLoading: clientCheckLoading } = useIsClient();
   const router = useRouter();
+  const { setRole } = useGetUserRole();
 
   const handleSignIn = () => {
     if (!isConnected && !address) {
@@ -27,6 +29,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
     }
 
     startLoading();
+    setRole(role);
 
     if (isClient) {
       stopLoading();
