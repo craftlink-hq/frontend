@@ -51,7 +51,7 @@ const HowItWorksPage = () => {
          </div>
         </div>
 
-      <Community/>
+<Community/>
 
       <footer
         id="resources"
