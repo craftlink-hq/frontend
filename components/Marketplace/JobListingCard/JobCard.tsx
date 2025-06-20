@@ -12,6 +12,7 @@ import ApplyConfirmationModal from "./ApplyConfirmationModal";
 import ArtisanSignupModal from "./ArtisanSignupModal";
 import { JobCardProps } from "@/utils/types"; // Now uses the complete Job interface
 import { useGetUserRole } from "@/utils/store";
+import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
 
 const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(
@@ -25,6 +26,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
   const { role } = useGetUserRole();
+  const { requiredCFT } = useGetRequiredCFT(job.id as string);
 
   // Convert to boolean (null becomes false)
   const isArtisan = role === "artisan";
@@ -149,7 +151,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
           <ApplyConfirmationModal
             onCancel={() => setIsApplyModalOpen(false)}
             onConfirm={handleApplyConfirm}
-            craftCoinsRequired={50}
+            craftCoinsRequired={requiredCFT ?? 404}
           />
         </Modal>
       )}
