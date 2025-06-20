@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Filter from "@/components/Marketplace/Filter";
-// import PostedJob from "@/components/Marketplace/Job";
 import JobListing from '@/components/Marketplace/JobListingCard/JobListing';
 import JobCard from '@/components/Marketplace/JobListingCard/JobCard';
 import SearchSortBar from "@/components/Marketplace/Search";
@@ -18,6 +17,8 @@ import Footer from "@/components/LandingPage/Footer";
 
 export default function MarketPlace(): JSX.Element {
   const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [jobsPerPage, setJobsPerPage] = useState<number>(4);
   
   const pathname = usePathname();
   
@@ -77,8 +78,8 @@ interface ApiJob {
   skills?: string[] ;
   required_skills?: string[] ;
 
-  files?: string[]; // or File[] depending on context
-  attachments?: string[]; // or File[]
+  files?: string[];
+  attachments?: string[];
   images?: string[];
   image_urls?: string[];
 
@@ -126,11 +127,9 @@ interface ApiJob {
   client_name?: string;
 }
 
-
   // Transform API data to match your Job interface
   const transformApiData = (apiJobs: ApiJob[]): Job[] => {
     return apiJobs?.map((job: ApiJob, index: number) => ({
-      // Core fields - map API fields to your Job interface
       id: job.id || job._id || `api-job-${index}`,
       _id: job._id || job.id,
       createdAt: job.createdAt || job.posted_at || "Just Now",
@@ -139,7 +138,6 @@ interface ApiJob {
       language: job.language || "English",
       experienceLevel: job.experienceLevel || job.experience_level || job.skill_level || "Intermediate",
       
-      // Duration - handle different possible formats
       projectDuration: {
         weeks: job.projectDuration?.weeks || 
                job.project_duration?.weeks || 
@@ -148,19 +146,16 @@ interface ApiJob {
                2
       },
       
-      // Price and payment
       price: job.price || job.budget || job.amount || 0,
       paymentType: job.paymentType || job.payment_type || "Fixed",
       payment: job.payment || "Secured Payment",
       type: job.type || job.application_type || "Open Application",
       
-      // Description and details
       projectDescription: job.projectDescription || 
                          job.project_description || 
                          job.description || 
                          "No description provided",
       
-      // Skills/Tags - handle different possible field names
       skillCategory: job.skillCategory || 
                     job.skill_category || 
                     job.tags || 
@@ -168,16 +163,13 @@ interface ApiJob {
                     job.required_skills || 
                     [],
       
-      // Files and attachments
       files: job.files || job.attachments || [],
       images: job.images || job.image_urls || [],
       contextLink: job.contextLink || job.context_link || job.reference_link,
       
-      // Additional fields
       notes: job.notes || job.additional_notes || job.additional_info,
       status: job.status || "Open",
       
-      // Client information - create a basic client object
       client: {
         walletAddress: job.client?.walletAddress || 
                       job.client_address || 
@@ -213,7 +205,6 @@ interface ApiJob {
         rating: job.client?.rating || 4.0,
       },
       
-      // Optional fields that might not exist in API
       rating: job.rating || 4.0,
       totalJobs: job.totalJobs || job.total_jobs || 1,
       applicants: job.applicants || [],
@@ -223,6 +214,35 @@ interface ApiJob {
 
   // Transform the API data when it's available
   const transformedApiJobs = data ? transformApiData(data) : [];
+  
+  // Get hardcoded jobs from JobListing component (you'll need to extract these)
+  // For now, I'll assume you have a way to get the hardcoded jobs
+  // You might need to modify JobListing to export its jobs array
+  const hardcodedJobs: Job[] = []; // Replace with actual hardcoded jobs
+  
+  // Combine all jobs
+  const allJobs = [...hardcodedJobs, ...transformedApiJobs];
+  
+  // Calculate pagination
+  const totalJobs = allJobs.length;
+  const startIndex = (currentPage - 1) * jobsPerPage;
+  const endIndex = startIndex + jobsPerPage;
+  const currentJobs = allJobs.slice(startIndex, endIndex);
+  
+  // Handle pagination changes
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Optionally scroll to top of job container
+    const jobContainer = document.querySelector('.job-container');
+    if (jobContainer) {
+      jobContainer.scrollTop = 0;
+    }
+  };
+  
+  const handleJobsPerPageChange = (newJobsPerPage: number) => {
+    setJobsPerPage(newJobsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
+  };
   
   return (
     <div className="w-screen">
@@ -273,24 +293,34 @@ interface ApiJob {
                   }
                 `}</style>
                 
-                {/* Hardcoded jobs from JobListing component */}
-                <JobListing />
-                
-                {/* API jobs using the SAME JobCard component */}
                 <Loading show={isLoading} size="lg" fullScreen={false}>
-                  {transformedApiJobs.map((job: Job, index: number) => (
+                  {/* Display paginated jobs */}
+                  {currentJobs.map((job: Job, index: number) => (
                     <JobCard 
-                      key={job.id || job._id || `api-job-${index}`} 
+                      key={job.id || job._id || `job-${startIndex + index}`} 
                       job={job} 
-                      index={index + 1000} // Offset index to avoid conflicts
+                      index={startIndex + index}
                     />
                   ))}
+                  
+                  {/* Show message if no jobs */}
+                  {!isLoading && allJobs.length === 0 && (
+                    <div className="flex items-center justify-center h-40 text-gray-400">
+                      No jobs available
+                    </div>
+                  )}
                 </Loading>
               </div>
             </div>
           </div>
           <div className="w-full">
-            <Pagination />
+            <Pagination 
+              currentPage={currentPage}
+              jobsPerPage={jobsPerPage}
+              totalJobs={totalJobs}
+              onPageChange={handlePageChange}
+              onJobsPerPageChange={handleJobsPerPageChange}
+            />
           </div>
         </div>
       </div>
