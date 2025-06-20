@@ -11,8 +11,7 @@ import JobDetailsModal from "./JobDetailsModal";
 import ApplyConfirmationModal from "./ApplyConfirmationModal";
 import ArtisanSignupModal from "./ArtisanSignupModal";
 import { JobCardProps } from "@/utils/types"; // Now uses the complete Job interface
-import useIsArtisan from "@/hooks/Registry/useIsArtisan";
-import useIsClient from "@/hooks/Registry/useIsClient";
+import { useGetUserRole } from "@/utils/store";
 
 const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(
@@ -25,14 +24,12 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
-  // Hooks return boolean | null directly
-  const { isArtisan: Artisan } = useIsArtisan();
-  const { isClient: Client } = useIsClient();
+  const { role } = useGetUserRole();
 
   // Convert to boolean (null becomes false)
-  const isArtisan = Artisan === true;
-  const isClient = Client === true;
-  const isVisitor = isArtisan === null && isClient === null; // Neither artisan nor client
+  const isArtisan = role === "artisan";
+  const isClient = role === "client";
+  const isVisitor = role === "";
 
   const toggleReadMore = (jobId: string | number): void => {
     const newExpandedJobs = new Set(expandedJobs);
@@ -68,18 +65,13 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
 
     setIsModalOpen(false); // Close job details modal
 
-    // Check user role and show appropriate modal
-    setTimeout(() => {
-      if (isArtisan) {
-        // User is an artisan - show apply confirmation modal
-        console.log("Showing apply confirmation modal for artisan");
+    if (role === "artisan") {
+      console.log("Showing apply confirmation modal for artisan");
         setIsApplyModalOpen(true);
-      } else {
-        // User is a client, visitor, or wallet not connected - show signup modal
-        console.log("Showing signup modal for non-artisan user");
+    } else {
+      console.log("Showing signup modal for non-artisan user");
         setIsSignupModalOpen(true);
-      }
-    }, 100);
+    }
   };
 
   const handleApplyConfirm = () => {

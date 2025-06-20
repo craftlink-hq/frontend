@@ -106,11 +106,11 @@ export default function ProfilePreview() {
       dateJoined: new Date().toLocaleDateString(),
       id: "1",
       // Use IPFS location if available, otherwise use job location
-      location: clientDetail?.location ?? jobLocation,
+      location: clientDetail.clientData?.location ?? jobLocation,
       language: "English",
       status: "First Time Client",
       // Use IPFS username if available, otherwise use "Anonymous"
-      username: clientDetail?.username ?? "Anonymous",
+      username: clientDetail.clientData?.username ?? "Anonymous",
       avatar: clientAvatar,
       moneySpent: 0,
       completed: 0,
@@ -118,10 +118,10 @@ export default function ProfilePreview() {
       noProjectSpentMoney: 0,
       rating: 0,
     },
-    applicants: [],
+    applicants: []
   };
 
-  if (isLoading || !clientDetail) {
+  if (isLoading || !clientDetail.clientData) {
     return <div>Loading...</div>;
   }
 

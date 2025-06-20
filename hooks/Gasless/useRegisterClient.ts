@@ -4,32 +4,30 @@ import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useStoreIPFS } from "@/utils/store";
 import { isSupportedChain } from "@/constants/chain";
 import { useLoading } from "../useLoading";
-import { start } from "repl";
 
 export const useRegisterClient = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
   const router = useRouter();
-  const { ipfsUrl } = useStoreIPFS();
+  // const { ipfsUrl } = useStoreIPFS();
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   const registerAsClient = useCallback(
-    async () => {
+    async (ipfsUrl: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
       }
       if (!ipfsUrl) {
         toast.error("IPFS hash is required");
-        return;
+        return false;
       }
 
       startLoading();
@@ -57,6 +55,8 @@ export const useRegisterClient = () => {
         } else {
           toast.error(`Error: ${result.message}`);
         }
+
+        return true;
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
@@ -64,11 +64,13 @@ export const useRegisterClient = () => {
           toast.error("Error during client registration");
           console.error(error);
         }
+        return false;
       } finally {
         stopLoading();
       }
     },
-    [address, isConnected, chainId, signMessageAsync, router, ipfsUrl]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [address, isConnected, chainId, signMessageAsync, router]
   );
 
   return { registerAsClient, isLoading };

@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
+import { formatEther } from "ethers";
 
 const useGetCraftCoinBalance = () => {
   const { address, isConnected } = useAccount();
@@ -16,7 +17,7 @@ const useGetCraftCoinBalance = () => {
     try {
       const contract = getCraftCoinContract(readOnlyProvider);
       const resp = await contract.balanceOf(address);
-      setBalance(resp);
+      setBalance(parseFloat(formatEther(resp)));
     } catch (error) {
       toast.error("Error checking craftcoin balance");
       console.error("Error checking user balance:", error);
