@@ -25,6 +25,23 @@ interface WorkHistoryItem {
   mediaUrls: string[]; // Array of URLs pointing to uploaded media files
 }
 
+interface userRole {
+  role: string;
+  setRole: (role: string) => void;
+}
+
+export const useGetUserRole = create<userRole>()(
+    persist(
+        (set) => ({
+            role: "",
+            setRole: (role) => set({ role: role }),
+        }),
+        {
+            name: "user-role",
+        }
+    )
+);
+
 interface artisanData {
   category: string;
   skills: string[];

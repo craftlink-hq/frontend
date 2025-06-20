@@ -20,7 +20,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
   const router = useRouter();
 
   const handlePostJobs = () => {
-    router.push("/role/clients/create-job");
+    router.push("/role/clients/create-job/title");
   };
 
   return (
