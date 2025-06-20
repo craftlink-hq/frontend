@@ -247,11 +247,8 @@ interface ApiJob {
   // Transform the API data when it's available
   const transformedApiJobs = data ? transformApiData(data) : [];
   
-  // Get hardcoded jobs from JobListing component (you'll need to extract these)
-  const hardcodedJobs: Job[] = []; // Replace with actual hardcoded jobs
-  
   // Combine all jobs
-  const allJobs = [...hardcodedJobs, ...transformedApiJobs];
+  const allJobs = transformedApiJobs;
   
   // Filter and sort jobs based on search and sort criteria
   const filteredAndSortedJobs = useMemo(() => {

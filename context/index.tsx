@@ -17,10 +17,14 @@ if (!projectId) {
 }
 
 // Set up metadata
+const origin =
+  typeof window !== "undefined"
+    ? window.location.origin
+    : "https://craftlink-frontend.vercel.app";
 const metadata = {
   name: "craftLink",
   description: "The Future of Decentralized Commerce",
-  url: "https://craftlink-frontend.vercel.app/", // origin must match your domain & subdomain
+  url: origin, // origin must match current site to avoid WalletConnect warning
   icons: ["https://assets.reown.com/reown-profile-pic.png"],
 };
 
