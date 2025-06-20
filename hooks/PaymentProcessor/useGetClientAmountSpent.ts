@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
+import { formatUnits } from "ethers";
 
 const useGetClientAmountSpent = () => {
   const { address, isConnected } = useAccount();
@@ -16,7 +17,8 @@ const useGetClientAmountSpent = () => {
     try {
       const contract = getPaymentProcessorContract(readOnlyProvider);
       const resp = await contract.getClientAmountSpent(address);
-      setAmountSpent(resp);
+      const formattedAmount = formatUnits(resp, 6);
+      setAmountSpent(parseFloat(formattedAmount));
     } catch (error) {
       toast.error("Error checking amount spent by client");
       console.error("Error checking amount spent:", error);

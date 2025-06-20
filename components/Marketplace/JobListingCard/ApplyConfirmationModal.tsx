@@ -30,19 +30,19 @@ const ApplyConfirmationModal: React.FC<ApplyConfirmationModalProps> = ({
       {/* Content */}
       <div className="space-y-4 mb-8">
         <p className="text-[#D8D6CF] leading-relaxed">
-          You&apos;re about to apply for this job. It requires{" "}
-          <span 
-            className="font-semibold"
-            style={{ color: '#FAB427' }}
-          >
-            [{craftCoinsRequired} CraftCoins]
-          </span>{" "}
-          to submit your application.
+          Application requires{" "}
+          <span className="font-semibold" style={{ color: "#FAB427" }}>
+            {craftCoinsRequired} CraftCoins
+          </span>
+          .
         </p>
-        
         <p className="text-[#D8D6CF] leading-relaxed">
-          Make sure youve reviewed the job details and are confident in your skills. 
-          Once you apply, the client will review your profile to decide if you&apos;re the right fit.
+          You are about to apply for this job. Make sure you have reviewed the job
+          details and are confident in your skills.
+        </p>
+        <p className="text-[#D8D6CF] leading-relaxed">
+          Once you apply, the client will review your profile to decide if you are
+          the right fit.
         </p>
       </div>
 

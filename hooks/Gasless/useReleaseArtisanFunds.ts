@@ -5,7 +5,6 @@ import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
 import { useLoading } from "../useLoading";
-import { start } from "repl";
 
 export const useReleaseArtisanFunds = () => {
   const { address, isConnected } = useAccount();
@@ -63,6 +62,7 @@ export const useReleaseArtisanFunds = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, isConnected, chainId, signMessageAsync]
   );
 

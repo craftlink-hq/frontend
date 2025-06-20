@@ -11,9 +11,9 @@ import JobDetailsModal from "./JobDetailsModal";
 import ApplyConfirmationModal from "./ApplyConfirmationModal";
 import ArtisanSignupModal from "./ArtisanSignupModal";
 import { JobCardProps } from "@/utils/types"; // Now uses the complete Job interface
-import useIsArtisan from "@/hooks/Registry/useIsArtisan";
-import useIsClient from "@/hooks/Registry/useIsClient";
 import { formatRelativeTime } from "@/utils/timeUtils";
+import { useGetUserRole } from "@/utils/store";
+import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
 
 const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(
@@ -31,14 +31,13 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
     formatRelativeTime(job.createdAt)
   );
 
-  // Hooks return boolean | null directly
-  const { isArtisan: Artisan } = useIsArtisan();
-  const { isClient: Client } = useIsClient();
+  const { role } = useGetUserRole();
+  const { requiredCFT } = useGetRequiredCFT(job.id as string);
 
   // Convert to boolean (null becomes false)
-  const isArtisan = Artisan === true;
-  const isClient = Client === true;
-  const isVisitor = isArtisan === null && isClient === null; // Neither artisan nor client
+  const isArtisan = role === "artisan";
+  const isClient = role === "client";
+  const isVisitor = role === "";
 
   // Update relative time every minute
   React.useEffect(() => {
@@ -89,18 +88,13 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
 
     setIsModalOpen(false); // Close job details modal
 
-    // Check user role and show appropriate modal
-    setTimeout(() => {
-      if (isArtisan) {
-        // User is an artisan - show apply confirmation modal
-        console.log("Showing apply confirmation modal for artisan");
+    if (role === "artisan") {
+      console.log("Showing apply confirmation modal for artisan");
         setIsApplyModalOpen(true);
-      } else {
-        // User is a client, visitor, or wallet not connected - show signup modal
-        console.log("Showing signup modal for non-artisan user");
+    } else {
+      console.log("Showing signup modal for non-artisan user");
         setIsSignupModalOpen(true);
-      }
-    }, 100);
+    }
   };
 
   const handleApplyConfirm = () => {
@@ -184,7 +178,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
           <ApplyConfirmationModal
             onCancel={() => setIsApplyModalOpen(false)}
             onConfirm={handleApplyConfirm}
-            craftCoinsRequired={50}
+            craftCoinsRequired={requiredCFT ?? 404}
           />
         </Modal>
       )}

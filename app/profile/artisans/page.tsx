@@ -20,7 +20,7 @@ import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
 import useGetCraftCoinBalance from "@/hooks/CraftCoin/useGetCraftCoinBalance";
 import useGetArtisanAmountMade from "@/hooks/PaymentProcessor/useGetArtisanAmountMade";
 import { useMint } from "@/hooks/Gasless/useMint";
-import { formatEther } from "ethers";
+import useCanMintCraftCoin from "@/hooks/CraftCoin/useCanMintCraftCoin";
 
 export default function Profile() {
   const pathname = usePathname();
@@ -34,6 +34,7 @@ export default function Profile() {
   const craftCoinBalance = useGetCraftCoinBalance();
   const checkAmountMade = useGetArtisanAmountMade();
   const { mint } = useMint();
+  const { canMint, nextMintTime, isLoading: mintLoading } = useCanMintCraftCoin();
 
   useEffect(() => {
     const fetchArtisanProfile = async () => {
@@ -51,8 +52,8 @@ export default function Profile() {
         console.log("Artisan Data:", artisanData)
 
         if (detail) {
-          const transformedProfile = transformBackendProfileData(artisanData, detail, address)
-          setProfile(transformedProfile)
+          const transformedProfile = transformBackendProfileData(artisanData, detail, address);
+          setProfile(transformedProfile);
         }
       } catch (err) {
         console.error("Error fetching artisan profile:", err)
@@ -65,7 +66,7 @@ export default function Profile() {
     fetchArtisanProfile()
   }, [address, detail])
 
-  if (isLoading || !profile) {
+  if (isLoading || mintLoading || !profile) {
     return <Loading show={false} />
   }
 
@@ -73,11 +74,20 @@ export default function Profile() {
     return <div>{error}</div>
   }
 
-  // const handleNext = () => {
-  //   router.push("/marketplace")
-  // }
-
   const handleClaimCraftcoin = async () => {
+    if (!canMint) {
+      if (nextMintTime) {
+        const currentTime = Math.floor(Date.now() / 1000);
+        const timeRemaining = nextMintTime - currentTime;
+        // console.log("Next mint time:", new Date(nextMintTime * 1000).toLocaleString());
+        // console.log("Current time:", new Date(currentTime * 1000).toLocaleString());
+        const daysRemaining = Math.ceil(timeRemaining / (60 * 60 * 24));
+        toast.info(`Please wait ${daysRemaining} day${daysRemaining > 1 ? "s" : ""} until next mint time.`);
+      } else {
+        toast.error("Unable to determine next mint time. Please try again later.");
+      }
+      return;
+    }
     await mint();
   };
 
@@ -105,9 +115,9 @@ export default function Profile() {
           </div>
           <div className="lg:col-span-1">
             <EarningsDisplay
-              availableAmount={parseFloat(formatEther(tokenBalance ?? 404))}
-              totalEarned={parseFloat(formatEther(checkAmountMade ?? 404))}
-              craftcoinBalance={parseFloat(formatEther(craftCoinBalance ?? 404))}
+              availableAmount={tokenBalance ?? 404}
+              totalEarned={checkAmountMade ?? 404}
+              craftcoinBalance={craftCoinBalance ?? 404}
               onClaimCraftcoin={handleClaimCraftcoin}
               onBuyCraftcoin={handleBuyCraftcoin}
             />

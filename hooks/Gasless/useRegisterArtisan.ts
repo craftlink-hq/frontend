@@ -5,7 +5,6 @@ import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { isSupportedChain } from "@/constants/chain";
-import { useStoreIPFS } from "@/utils/store";
 import { useLoading } from "../useLoading";
 
 export const useRegisterArtisan = () => {
@@ -13,11 +12,10 @@ export const useRegisterArtisan = () => {
   const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
   const router = useRouter();
-  const { ipfsUrl } = useStoreIPFS();
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   const registerAsArtisan = useCallback(
-    async () => {
+    async (ipfsUrl: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
         return false;
@@ -72,7 +70,7 @@ export const useRegisterArtisan = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [address, isConnected, chainId, signMessageAsync, router, ipfsUrl]
+    [address, isConnected, chainId, signMessageAsync, router]
   );
 
   return { registerAsArtisan, isLoading };

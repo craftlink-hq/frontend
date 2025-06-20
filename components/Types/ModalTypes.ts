@@ -20,8 +20,9 @@ export const marketplaceModals: Record<string, ModalConfig> = {
   applyConfirmation: {
     title: "READY TO APPLY?",
     content: [
-      "You're about to apply for this job. It requires {craftCoins} to submit your application.",
-      "Make sure you've reviewed the job details and are confident in your skills. Once you apply, the client will review your profile to decide if you're the right fit."
+      "Application requires {craftCoins} CraftCoins.",
+      "You're about to apply for this job. Make sure you've reviewed the job details and are confident in your skills.",
+      "Once you apply, the client will review your profile to decide if you're the right fit.",
     ],
     primaryButton: {
       text: "YES, APPLY FOR JOB",
