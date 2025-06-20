@@ -28,7 +28,7 @@ export default function ProfilePreview() {
     additionalInfo,
     requiredSkills,
   } = useGetJobData();
-  const { clientBio, clientAvatar } = useGetClientData();
+  const { clientBio, clientAvatar, joined } = useGetClientData();
   const { address } = useAccount();
   const clientDetail = useGetClientDetails();
   const { startLoading, stopLoading } = useLoading();
@@ -103,14 +103,14 @@ export default function ProfilePreview() {
 
   // Transform job data into the Job interface
   const jobData: Job = {
-    createdAt: "Now",
+    createdAt: new Date().toLocaleDateString(),
     projectDuration: { weeks: duration },
     title: jobTitle,
     preferredLocation: jobLocation,
     language: "English",
     totalJobs: 1,
     experienceLevel: experienceRequired,
-    price: (amount / 6),
+    price: (amount / 1000000),
     rating: 0,
     projectDescription: jobDescription,
     type: "Open Application",
@@ -125,7 +125,7 @@ export default function ProfilePreview() {
       walletAddress: address ?? "",
       verificationStatus: false,
       about: clientBio,
-      dateJoined: new Date().toLocaleDateString(),
+      dateJoined: joined,
       id: "1",
       // Use IPFS location if available, otherwise use job location
       location: clientDetail.clientData?.location ?? jobLocation,

@@ -189,7 +189,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
       <div className="bg-[#F2E8CF0A] rounded-lg w-full p-4">
         <p className="text-[#B5B4AD] mb-3">ADDITIONAL NOTES</p>
         <p className="text-[#D8D6CF] leading-relaxed">
-          {job.notes || "Artisans selected for this project will receive a bonus for exceptional work and have the opportunity to collaborate on future collections."}
+          {job.additionalProjectInfo || "Artisans selected for this project will receive a bonus for exceptional work and have the opportunity to collaborate on future collections."}
         </p>
       </div>
 
