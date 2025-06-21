@@ -2,8 +2,8 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <div className="grid lg:flex p-8 gap-4 justify-center lg:h-[70vh] lg:min-h-fit font-merriweather">
-      <div className="h-[400px] w-[90vw] md:h-[50vh] lg:h-full md:w-[90%] md:justify-self-center  lg:w-[45%] relative ">
+    <div className="grid lg:grid-cols-2 p-4 gap-4 place-self-center self-center place-content-center md:h-full w-[90vw]  font-merriweather">
+      <div className="h-[400px] md:h-[50vh] lg:h-full lg:col-span-1 md:w-full  relative ">
         <Image
           src="/about.png"
           alt="An artisan"
@@ -14,7 +14,7 @@ const About = () => {
         />
       </div>
       <div
-        className="bg-about border-2  md:border-1 border-[#FCFBF726] flex flex-col justify-between lg:w-[45%] lg:h-full md:w-[90%] px-8 md:py-4 md:justify-self-center rounded-xl backdrop-blur-[100px] z-10"
+        className="bg-about border-2 lg:col-span-1  md:border-1 border-[#FCFBF726] flex flex-col justify-between md:h-fit md:w-full px-8 md:py-4 md:justify-self-center rounded-xl backdrop-blur-[100px] z-10"
       >
         <p className="py-8 uppercase text-[#FCFBF7]">About</p>
         <div className="flex flex-col text-balance md:gap-y-4">
