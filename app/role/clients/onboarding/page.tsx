@@ -42,7 +42,7 @@ export default function Onboarding() {
   const [fileError, setFileError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   // Hooks
-  const { username, location, clientBio, clientAvatar, preferredLanguage, joined, setClientBio, setClientAvatar, setPreferredLanguage, setJoined } = useGetClientData();
+  const { username, location, clientBio, preferredLanguage, joined, setClientBio, setClientAvatar, setPreferredLanguage, setJoined } = useGetClientData();
   const { uploadToIPFS } = IPFS();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const { registerAsClient, isLoading: registerClientLoading, error } = useRegisterClient();
