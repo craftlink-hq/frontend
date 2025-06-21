@@ -84,7 +84,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={12}
                     height={14}
                   />
-                  <span className="text-[10px] xl:text-base">Location</span>
+                  <span className="text-[10px] xl:text-xs">Location</span>
                 </div>
                 <p className="text-[#F9F1E2]  text-xs xl:text-sm">{client.location}</p>
               </div>
@@ -97,7 +97,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={12}
                     height={14}
                   />
-                  <span className="text-[10px] xl:text-base">Language</span>
+                  <span className="text-[10px] xl:text-xs">Language</span>
                 </div>
                 <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.language}</p>
               </div>
@@ -110,7 +110,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={14}
                     height={14}
                   />
-                  <span className="text-[10px] xl:text-base">Hiring History</span>
+                  <span className="text-[10px] xl:text-xs">Hiring History</span>
                 </div>
                 <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.posted} Jobs posted</p>
               </div>
@@ -127,7 +127,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           </div>
         </div>
       </div>
-      <div className="hidden w-[15%] xl:flex justify-end w-full">
+      <div className="hidden w-[15%] xl:flex justify-end">
         <div><button
           onClick={() => {
             setIsModalOpen(true);
