@@ -25,8 +25,8 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
   };
 
   return (
-    <div className="bg-[#F2E8CF0A] lg:flex rounded-lg p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
-      <div className="lg:hidden flex justify-end">
+    <div className="bg-[#F2E8CF0A] xl:flex rounded-lg p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
+      <div className="xl:hidden flex justify-end">
         <div className="flex items-start">
           <button
             className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
@@ -59,9 +59,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between space-y-4 w-[125%] md:w-full ">
+        <div className="flex flex-col justify-between space-y-4 w-full ">
           <div className="flex flex-col justify-between space-y-4 py-4">
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between w-full px-2">
               <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-2xl font-bold text-[rgb(252,248,240)] uppercase">
                   #{client.username}
@@ -71,11 +71,11 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                 </span>
               </div>
             </div>
-            <p className="text-[#D8D6CF] mb-4 pr-4 md:text-balance">
+            <p className="text-[#D8D6CF] text-sm xl:text-base xl:mb-4 text-balance w-full">
               {client.about}
             </p>
 
-            <div className="grid w-full grid-cols-3 xl:grid-cols-4 gap-2  text-sm">
+            <div className="grid w-full grid-cols-3  gap-2  text-sm">
               <div className="border-r border-[#FCFBF726]">
                 <div className="flex items-center gap-2 text-[#B5B4AD] mb-1">
                   <Image
@@ -84,9 +84,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={12}
                     height={14}
                   />
-                  <span>Location</span>
+                  <span className="text-[10px] xl:text-base">Location</span>
                 </div>
-                <p className="text-[#F9F1E2]">{client.location}</p>
+                <p className="text-[#F9F1E2]  text-xs xl:text-sm">{client.location}</p>
               </div>
 
               <div className="border-r border-[#FCFBF726]">
@@ -97,9 +97,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={12}
                     height={14}
                   />
-                  <span>Language</span>
+                  <span className="text-[10px] xl:text-base">Language</span>
                 </div>
-                <p className="text-[#F9F1E2]">{client.language}</p>
+                <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.language}</p>
               </div>
 
               <div>
@@ -110,9 +110,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={14}
                     height={14}
                   />
-                  <span>Hiring History</span>
+                  <span className="text-[10px] xl:text-base">Hiring History</span>
                 </div>
-                <p className="text-[#F9F1E2]">{client.posted} Jobs posted</p>
+                <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.posted} Jobs posted</p>
               </div>
             </div>
           </div>
@@ -127,8 +127,8 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           </div>
         </div>
       </div>
-      <div className="hidden w-[25%] lg:flex justify-end w-full">
-        <button
+      <div className="hidden w-[15%] xl:flex justify-end w-full">
+        <div><button
           onClick={() => {
             setIsModalOpen(true);
           }}
@@ -144,6 +144,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
             />
           </span>
         </button>
+        </div>
       </div>
       {isModalOpen && (
         <Modal closeFn={() => setIsModalOpen(false)}>
