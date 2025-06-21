@@ -69,7 +69,7 @@ const NotificationSettings = () => {
   return (
     <div className="space-y-4">
       <h4 className="font-bold">Email Notifications</h4>
-      <div className="flex gap-x-2">
+      <div className="flex gap-x-2 text-sm">
       <div className="relative h-[20px] w-[20px]">
         <input
           type="checkbox"
@@ -81,7 +81,7 @@ const NotificationSettings = () => {
           <FaCheck
             size={12}
             color={"#111A00"}
-            className="absolute top-[5px] left-[5px]"
+            className="absolute top-[5px] left-[4px]"
             onClick={() => setEmailChecked(!emailChecked)}
           />
         )}
@@ -89,7 +89,7 @@ const NotificationSettings = () => {
       <span>Receive email notifications for new job postings, messages, etc</span>
       </div>
       <h4 className="font-bold">Push Notifications</h4>
-      <div className="flex gap-x-2">
+      <div className="flex gap-x-2 text-sm">
       <div className="relative h-[20px] w-[20px]">
         <input
           type="checkbox"
@@ -101,7 +101,7 @@ const NotificationSettings = () => {
           <FaCheck
             size={12}
             color={"#111A00"}
-            className="absolute top-[5px] left-[5px]"
+            className="absolute top-[5px] left-[4px]"
             onClick={() => setPushChecked(!pushChecked)}
           />
         )}
