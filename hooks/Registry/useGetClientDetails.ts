@@ -12,7 +12,8 @@ import { Client } from "@/utils/job";
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
 import useGetClientGigCount from "../GigMarketplace/useGetClientGigCount";
 import useGetClientAverageRating from "../ReviewSystem/useGetClientAverageRating";
-import { useGetClientData } from "@/utils/store";
+import useGetClientCreatedPaidJobs from "../GigMarketplace/useGetClientCreatedPaidJob";
+import useGetClientGigsCompleted from "../GigMarketplace/useGetClientGigsCompleted";
 
 const useGetClientDetails = () => {
   const isClient = useIsClient();
@@ -21,9 +22,8 @@ const useGetClientDetails = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [error, setError] = useState<string | null>(null);
   const [clientData, setClientData] = useState<Client | null>(null);
-
-  const { clientAvatar } = useGetClientData();
-  console.log("Client Avatar in useGetClientDetails:", clientAvatar);
+  const { createdPaidJobs } = useGetClientCreatedPaidJobs();
+  const { clientGigsCompleted } = useGetClientGigsCompleted();
 
   const moneySpent = useGetClientAmountSpent();
   const gigCount = useGetClientGigCount();
@@ -44,6 +44,8 @@ const useGetClientDetails = () => {
       const contract = getRegistryContract(readOnlyProvider);
       const details = await contract.getClientDetails(address);
       const ipfsHash = details[0];
+      const createdPaidJobsCount = createdPaidJobs?.length;
+      const completedJobsCount = clientGigsCompleted?.length;
 
       if (ipfsHash) {
         const parsedDetails = await fetchFromIPFS(ipfsHash);
@@ -55,8 +57,6 @@ const useGetClientDetails = () => {
           preferredLanguage,
           joined,
         } = JSON.parse(parsedDetails);
-        console.log("Parsed Client Details:", parsedDetails);
-        console.log("clientAvatar:", clientAvatar);
 
         const client: Client = {
           walletAddress: address,
@@ -70,9 +70,9 @@ const useGetClientDetails = () => {
           avatar: clientAvatar,
           id: address,
           moneySpent: Number(moneySpent),
-          completed: 404,
+          completed: Number(completedJobsCount),
           posted: Number(gigCount),
-          noProjectSpentMoney: 404, // Placeholder for completed jobs and active jobs
+          noProjectSpentMoney: Number(createdPaidJobsCount),
           rating: Number(clientRating),
         };
 
@@ -95,7 +95,6 @@ const useGetClientDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
-  console.log("Client Data in useGet:", clientData);
   return { clientData, isLoading, error };
 };
 
