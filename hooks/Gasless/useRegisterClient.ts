@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ export const useRegisterClient = () => {
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const RELAYER_URL = process.env.RELAYER_URL;
+  const [error, setError] = useState<string | null>(null);
 
   const registerAsClient = useCallback(
     async (ipfsUrl: string) => {
@@ -52,13 +53,10 @@ export const useRegisterClient = () => {
         });
 
         const result = await response.json();
-        if (result.success) {
-          toast.success("Registered as client successfully");
-          router.push("/profile/clients");
-        } else {
-          toast.error(`Error: ${result.message}`);
+        if (!result.success) {
+          setError(result.message);
+          return false;
         }
-
         return true;
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
@@ -76,5 +74,5 @@ export const useRegisterClient = () => {
     [address, isConnected, chainId, signMessageAsync, router]
   );
 
-  return { registerAsClient, isLoading };
+  return { registerAsClient, isLoading, error };
 };

@@ -46,7 +46,7 @@ export default function Register() {
         return;
       }
       toast.success("Registered successfully as artisan");
-      router.push("/role/artisans/onboarding/category")
+      router.push("/role/artisans/onboarding/category");
     } catch (error) {
       toast.error("Failed to upload data to IPFS");
       console.error("IPFS upload error:", error);

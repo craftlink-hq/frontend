@@ -2,13 +2,13 @@
 import Image from "next/image";
 import Button from "./Button";
 import { toast } from "sonner";
-import { useLoading } from "@/hooks/useLoading";
 import Loading from "./Loading";
 import { useRouter } from "next/navigation";
 import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { useGetUserRole } from "@/utils/store";
+import useFetchArtisanProfile from "@/hooks/BackendDB/useFetchArtisanProfile";
 
 interface WelcomeProps {
   image: string;
@@ -16,11 +16,11 @@ interface WelcomeProps {
 }
 
 const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
-  const { isLoading: pageLoading } = useLoading();
   const { address, isConnected } = useAccount();
   const { isArtisan, isLoading: artisanCheckLoading } = useIsArtisan();
   const router = useRouter();
   const { setRole } = useGetUserRole();
+  const { profile, isLoading: profileLoading } = useFetchArtisanProfile();
 
   const handleSignIn = () => {
     if (!isConnected && !address) {
@@ -31,14 +31,20 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
     setRole(role);
 
     if (isArtisan) {
-      router.push("/profile/artisans");
+      if (!profile) {
+        toast.info("Please complete your artisan profile.");
+        router.push("/role/artisans/onboarding/category");
+      } else {
+        toast.success("Welcome back, artisan!");
+        router.push("/profile/artisans");
+      }
     } else {
       router.push("/authenticate/register/artisan");
     }
   };
 
   return (
-    <Loading show={pageLoading || artisanCheckLoading}>
+    <Loading show={profileLoading || artisanCheckLoading}>
        <div className="flex md:items-center justify-center w-full h-[90vh] gap-y-8 gap-x-4 py-4 md:py-1">
               <div className="hidden md:flex relative h-[90%] md:w-[45%] lg:w-[40w] xl:w-[38vw]">
                 <Image

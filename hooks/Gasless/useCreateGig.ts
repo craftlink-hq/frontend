@@ -44,7 +44,7 @@ const useCreateGig = () => {
         // Set deadline (1 hour from now)
         const deadline = Math.floor(Date.now() / 1000) + 3600;
 
-        const name = "CraftCoin"; // TO BE CORRECTED
+        const name = await tokenContract.name?.() ?? "USD Tethers";
         const version = await tokenContract.version?.() ?? "1";
 
         // Prepare permit message for USDT approval
