@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ export const useRegisterArtisan = () => {
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const RELAYER_URL = process.env.RELAYER_URL;
+  const [error, setError] = useState<string | null>(null);
 
   const registerAsArtisan = useCallback(
     async (ipfsUrl: string) => {
@@ -52,14 +53,11 @@ export const useRegisterArtisan = () => {
         });
 
         const result = await response.json();
-        if (result.success) {
-          toast.success("Registered as artisan successfully");
-          router.push("/role/artisans/onboarding/category")
-          return true;
-        } else {
-          toast.error(`Error: ${result.message}`);
+        if (!result.success) {
+          setError(result.message);
           return false;
         }
+        return true;
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
@@ -77,5 +75,5 @@ export const useRegisterArtisan = () => {
     [address, isConnected, chainId, signMessageAsync, router]
   );
 
-  return { registerAsArtisan, isLoading };
+  return { registerAsArtisan, isLoading, error };
 };
