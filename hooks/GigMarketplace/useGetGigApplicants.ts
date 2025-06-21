@@ -4,30 +4,41 @@ import { getGigContract } from "@/constants/contracts";
 import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
+import { useAccount } from "wagmi";
+import { useLoading } from "../useLoading";
 
-const useGetGigApplicants = (databaseId: string) => {
-  const [applicants, setApplicants] = useState<string[] | null>(null);
+const useGetGigApplicants = () => {
+    const { address, isConnected } = useAccount();
+    const [gigApplicants, setGigApplicants] = useState<string[] | null>(null);
+    const { isLoading, startLoading, stopLoading } = useLoading();
 
   const fetchGigApplicants = useCallback(async () => {
-    if (!databaseId || applicants) return;
+    if (!address) {
+        toast.error("Wallet not connected");
+        return;
+    }
+
+    startLoading();
 
     try {
       const contract = getGigContract(readOnlyProvider);
-      const applicantsData = await contract.getGigApplicants(databaseId);
-      setApplicants(applicantsData);
+      const response = await contract.getGigApplicants(address);
+      setGigApplicants(response);
     } catch (error) {
       toast.error("Error fetching gig applicants");
       console.error("Error fetching gig applicants:", error);
-      setApplicants(null);
+      setGigApplicants(null);
+    } finally {
+      stopLoading();
     }
-  }, [databaseId, applicants]);
+  }, [address, gigApplicants]);
 
   useEffect(() => {
     fetchGigApplicants();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isConnected]);
 
-  return applicants;
+  return { gigApplicants, isLoading };
 };
 
 export default useGetGigApplicants;
