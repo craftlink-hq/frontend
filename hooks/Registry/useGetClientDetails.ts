@@ -12,6 +12,7 @@ import { Client } from "@/utils/job";
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
 import useGetClientGigCount from "../GigMarketplace/useGetClientGigCount";
 import useGetClientAverageRating from "../ReviewSystem/useGetClientAverageRating";
+import { useGetClientData } from "@/utils/store";
 
 const useGetClientDetails = () => {
   const isClient = useIsClient();
@@ -20,6 +21,9 @@ const useGetClientDetails = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [error, setError] = useState<string | null>(null);
   const [clientData, setClientData] = useState<Client | null>(null);
+
+  const { clientAvatar } = useGetClientData();
+  console.log("Client Avatar in useGetClientDetails:", clientAvatar);
 
   const moneySpent = useGetClientAmountSpent();
   const gigCount = useGetClientGigCount();
@@ -51,6 +55,8 @@ const useGetClientDetails = () => {
           preferredLanguage,
           joined,
         } = JSON.parse(parsedDetails);
+        console.log("Parsed Client Details:", parsedDetails);
+        console.log("clientAvatar:", clientAvatar);
 
         const client: Client = {
           walletAddress: address,
@@ -89,6 +95,7 @@ const useGetClientDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
+  console.log("Client Data in useGet:", clientData);
   return { clientData, isLoading, error };
 };
 

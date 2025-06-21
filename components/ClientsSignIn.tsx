@@ -2,13 +2,13 @@
 import Image from "next/image";
 import Button from "./Button";
 import { toast } from "sonner";
-import { useLoading } from "@/hooks/useLoading";
 import Loading from "./Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import useIsClient from "@/hooks/Registry/useIsClient";
 import { useGetUserRole } from "@/utils/store";
+import useHasClaimed from "@/hooks/Token/useHasClaimed";
 
 interface WelcomeProps {
   image: string;
@@ -16,32 +16,35 @@ interface WelcomeProps {
 }
 
 const ClientsSignIn = ({ image, role }: WelcomeProps) => {
-  const { isLoading: pageLoading, startLoading, stopLoading } = useLoading();
   const { address, isConnected } = useAccount();
   const { isClient, isLoading: clientCheckLoading } = useIsClient();
   const router = useRouter();
   const { setRole } = useGetUserRole();
+  const hasClaimed = useHasClaimed();
 
   const handleSignIn = () => {
-    if (!isConnected && !address) {
+    if (!isConnected || !address) {
       toast.error("Please connect your wallet to continue.");
       return;
     }
 
-    startLoading();
     setRole(role);
 
-    if (isClient) {
-      stopLoading();
-      router.push("/profile/clients");
+    if (hasClaimed) {
+      if (isClient) {
+        toast.success("Welcome back, client!");
+        router.push("/profile/clients");
+      } else {
+        router.push("/authenticate/register/client");
+      }
     } else {
-      stopLoading();
+      toast.info("Please claim your test USDT.");
       router.push("/role/clients/claim-token");
     }
   };
 
   return (
-    <Loading show={pageLoading || clientCheckLoading}>
+    <Loading show={clientCheckLoading}>
       <div className="flex md:items-center justify-center w-full h-[90vh] gap-y-8 gap-x-4 py-4 md:py-1">
         <div className="hidden md:flex relative h-[90%] md:w-[45%] lg:w-[40w] xl:w-[38vw]">
           <Image

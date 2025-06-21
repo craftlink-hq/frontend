@@ -9,12 +9,13 @@ import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
 import { FaCheck } from "react-icons/fa";
 import { useRegisterArtisan } from "@/hooks/Gasless/useRegisterArtisan";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const { registerAsArtisan } = useRegisterArtisan();
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { registerAsArtisan, isLoading, error } = useRegisterArtisan();
+  const router = useRouter();
 
   const { uploadToIPFS } = IPFS();
   const [privacyChecked, setPrivacyChecked] = useState<boolean>(false);
@@ -31,7 +32,6 @@ export default function Register() {
       return;
     }
 
-    startLoading();
     try {
       const data = {
         username,
@@ -42,14 +42,14 @@ export default function Register() {
 
       const success = await registerAsArtisan(ipfsUrl);
       if (!success) {
-        // Errors are handled by useRegisterArtisan
+        toast.error(`Error: ${error}`);
         return;
       }
+      toast.success("Registered successfully as artisan");
+      router.push("/role/artisans/onboarding/category");
     } catch (error) {
       toast.error("Failed to upload data to IPFS");
       console.error("IPFS upload error:", error);
-    } finally {
-      stopLoading();
     }
   };
 
