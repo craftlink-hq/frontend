@@ -6,7 +6,6 @@ import { useState } from "react";
 import IPFS from "@/hooks/useIPFS";
 import { toast } from "sonner";
 import Loading from "@/components/Loading";
-import { useLoading } from "@/hooks/useLoading";
 import { FaCheck } from "react-icons/fa";
 import { useRegisterArtisan } from "@/hooks/Gasless/useRegisterArtisan";
 import { useRouter } from "next/navigation";
