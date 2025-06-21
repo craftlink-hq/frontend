@@ -25,15 +25,38 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
   };
 
   return (
-    <div className="flex justify-between h-full w-full bg-[#F2E8CF0A] rounded-lg p-4 border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
-      <div className="flex max-md:flex-col gap-8 ">
-        <div className="relative h-[25vh] md:h-full w-[55vw] md:w-[35vw]  xl:w-[20vw]">
-          <Image
-            src={client.avatar || "/placeholder.svg"}
-            alt="Profile avatar"
-            fill
-            className="object-cover rounded-xl h-full"
-          />
+    <div className="bg-[#F2E8CF0A] lg:flex rounded-lg p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
+      <div className="lg:hidden flex justify-end">
+        <div className="flex items-start">
+          <button
+            className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            Edit{""}
+            <span className="relative h-6 w-6 rounded-full bg-[#F2E8CF0A]">
+              <Image
+                src="/edit.png"
+                alt="edit"
+                fill
+                className="object-contain p-1"
+              />
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-4 w-full relative">
+        <div className="flex-shrink-0">
+          <div className="relative h-72 w-72">
+            <Image
+              src={client.avatar || "/placeholder.svg"}
+              alt="Profile avatar"
+              fill
+              className="object-cover rounded-xl"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col justify-between space-y-4 w-[125%] md:w-full ">
@@ -104,7 +127,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           </div>
         </div>
       </div>
-      <div className="">
+      <div className="hidden w-[25%] lg:flex justify-end w-full">
         <button
           onClick={() => {
             setIsModalOpen(true);
