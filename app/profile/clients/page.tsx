@@ -1,5 +1,5 @@
 "use client";
-import ProfileHeader from "@/components/Profile/Header"
+import ProfileHeader from "@/components/Profile/Header";
 import Footer from "@/components/LandingPage/Footer";
 import Status from "@/components/Profile/Status";
 import Settings from "@/components/Profile/Settings";
