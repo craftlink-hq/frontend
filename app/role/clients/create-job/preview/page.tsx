@@ -1,6 +1,6 @@
 "use client";
 import Footer from "@/components/LandingPage/Footer";
-import ClientCard from "@/components/PostJob/ClientCard";
+// import ClientCard from "@/components/PostJob/ClientCard";
 import ClientStatus from "@/components/PostJob/ClientStatus";
 import ProjectDetails from "@/components/PostJob/ProjectDetails";
 import { useGetJobData, useGetClientData, useGetUserRole } from "@/utils/store";
@@ -184,7 +184,7 @@ export default function ProfilePreview() {
         />
       </div>
       <ProjectDetails project={jobData} />
-      <ClientCard client={jobData.client} />
+      {/* <ClientCard client={jobData.client} /> */}
       <Footer />
     </div>
   );

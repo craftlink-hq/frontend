@@ -171,7 +171,6 @@ const JobDetails = ({ job }: { job: Job }) => {
         <p className="text-[#B5B4AD] mb-4">ATTACHED FILES</p>
         <div className="flex flex-wrap gap-4">
           <AttachedFiles files={job.files} />
-          <AttachedFiles files={job.images} />
         </div>
       </div>
 
