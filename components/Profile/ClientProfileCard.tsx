@@ -84,7 +84,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={12}
                     height={14}
                   />
-                  <span className="text-[10px] xl:text-base">Location</span>
+                  <span className="text-[10px] xl:text-xs">Location</span>
                 </div>
                 <p className="text-[#F9F1E2]  text-xs xl:text-sm">{client.location}</p>
               </div>
@@ -97,7 +97,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={12}
                     height={14}
                   />
-                  <span className="text-[10px] xl:text-base">Language</span>
+                  <span className="text-[10px] xl:text-xs">Language</span>
                 </div>
                 <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.language}</p>
               </div>
@@ -110,7 +110,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                     width={14}
                     height={14}
                   />
-                  <span className="text-[10px] xl:text-base">Hiring History</span>
+                  <span className="text-[10px] xl:text-xs">Hiring History</span>
                 </div>
                 <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.posted} Jobs posted</p>
               </div>
@@ -132,7 +132,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           onClick={() => {
             setIsModalOpen(true);
           }}
-          className="bg-[#262208] wrounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
+          className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
         >
           Edit{""}
           <span className="relative h-6 w-6 rounded-full bg-[#F2E8CF0A]">
