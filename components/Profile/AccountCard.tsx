@@ -6,7 +6,7 @@ interface Details {
   imgSrc: string;
 }
 
-const = ({ artisan }: { artisan: ArtisanProfileProps }) => {
+const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
   const details: Details[] = [
     {
       imgSrc: "/language.png",
