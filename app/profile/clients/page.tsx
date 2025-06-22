@@ -17,7 +17,6 @@ export default function Profile() {
   const { clientData, isLoading: clientLoading, error: clientError } = useGetClientDetails();
   const tokenBalance = useGetTokenBalance();
   const [error, setError] = useState<string | null>(null);
-  console.log("Client Data:", clientData);
 
   useEffect(() => {
     if (clientError) {
