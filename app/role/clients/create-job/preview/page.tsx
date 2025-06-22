@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from "@/app/API/axios";
 import handleApiError, { GigResponse } from "@/app/API/handleApiError";
-import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
 import useCreateGig from "@/hooks/Gasless/useCreateGig";
 import { useEffect } from "react";
 
@@ -28,9 +27,8 @@ export default function ProfilePreview() {
     additionalInfo,
     requiredSkills,
   } = useGetJobData();
-  const { clientBio, clientAvatar, joined } = useGetClientData();
+  const { username, location, clientBio, clientAvatar, preferredLanguage, joined } = useGetClientData();
   const { address } = useAccount();
-  const clientDetail = useGetClientDetails();
   const { startLoading, stopLoading } = useLoading();
   const router = useRouter();
   const { createGig, isLoading: createGigLoading } = useCreateGig();
@@ -46,11 +44,6 @@ export default function ProfilePreview() {
   }, [createGigLoading]);
 
   const handlePostJobClick = async () => {
-    if (!clientDetail.clientData) {
-      toast.error("Client data not loaded. Please try again.");
-      return;
-    }
-
     if (role != "client") {
       toast.error("Please register as a client first.");
       return;
@@ -126,13 +119,13 @@ export default function ProfilePreview() {
       verificationStatus: false,
       about: clientBio,
       dateJoined: joined,
-      id: "1",
+      id: address ?? "1",
       // Use IPFS location if available, otherwise use job location
-      location: clientDetail.clientData?.location ?? jobLocation,
-      language: "English",
+      location: location,
+      language: preferredLanguage,
       status: "First Time Client",
       // Use IPFS username if available, otherwise use "Anonymous"
-      username: clientDetail.clientData?.username ?? "Anonymous",
+      username: username,
       avatar: clientAvatar,
       moneySpent: 0,
       completed: 0,
@@ -142,14 +135,6 @@ export default function ProfilePreview() {
     },
     applicants: []
   };
-
-  if (!clientDetail.clientData) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-[#F9F1E2]">Loading client data...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
