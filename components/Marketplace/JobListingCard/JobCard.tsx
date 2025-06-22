@@ -24,7 +24,7 @@ interface JobStatus {
 }
 
 // Function to determine job status based on smart contract state
-const getJobStatus = (gigInfo: any): JobStatus => {
+const getJobStatus = (gigInfo: ReturnType<typeof useGetGigInfo>): JobStatus => {
   if (!gigInfo) {
     return {
       text: "Loading...",
