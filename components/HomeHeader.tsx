@@ -5,7 +5,7 @@ import ConnectWallet from "./ConnectWallet";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
 // import { links } from "@/utils/links";
-import { AccountCard } from "@/utils/profile";
+import type { AccountCard } from "@/utils/profile";
 import { toast } from "sonner";
 import useIsArtisan from '@/hooks/Registry/useIsArtisan';
 import useIsClient from '@/hooks/Registry/useIsClient';

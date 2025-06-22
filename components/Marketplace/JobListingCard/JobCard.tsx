@@ -17,8 +17,14 @@ import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
 import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
 import useApplyForGig from "@/hooks/Gasless/useApplyForGig";
 
+// Define the return type for job status
+interface JobStatus {
+  text: string;
+  color: string;
+}
+
 // Function to determine job status based on smart contract state
-const getJobStatus = (gigInfo: any) => {
+const getJobStatus = (gigInfo: any): JobStatus => {
   if (!gigInfo) {
     return {
       text: "Loading...",

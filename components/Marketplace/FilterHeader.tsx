@@ -6,11 +6,11 @@ import SearchBar from "../SearchBar"
 import Link from "next/link"
 import { links } from "@/utils/links"
 import type { AccountCard } from "@/utils/profile"
-import { toast } from "sonner"
+
 // import useIsArtisan from "@/hooks/Registry/useIsArtisan"
 // import useIsClient from "@/hooks/Registry/useIsClient"
 import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText} from "react-icons/fi"
-import { useAccount } from "wagmi"
+
 import { useGetUserRole } from "@/utils/store";
 
 interface Header {
@@ -20,7 +20,7 @@ interface Header {
 const MarketplaceHeader = ({ isActive }: Header) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { isConnected } = useAccount();
+
 
   const profileDropdownRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
