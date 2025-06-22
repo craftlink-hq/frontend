@@ -28,7 +28,7 @@ const useGetCraftCoinBalance = () => {
   useEffect(() => {
     checkCraftCoinBalance();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected]);
+  }, [isConnected, balance, checkCraftCoinBalance]);
 
   return balance;
 };
