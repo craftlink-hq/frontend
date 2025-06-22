@@ -10,7 +10,7 @@ import useGetArtisanDetails from "../Registry/useGetArtisanDetails";
 import { transformBackendProfileData } from "@/utils/transformBackendProfileData";
 import { AxiosError } from "axios";
 
-const useFetchArtisanProfile = () => {
+const useFetchArtisanProfile = () => { // DO NOT USE UNTIL BUG IS FIXED
   const { fetchFromIPFS } = IPFS();
   const { address, isConnected } = useAccount();
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -37,7 +37,7 @@ const useFetchArtisanProfile = () => {
         if ((err as AxiosError).response?.status === 404) {
             setProfile(null);
         } else {
-            console.error("Error fetching artisan profile:", err);
+            console.error("Error fetching artisan profile:", err); // THIS RETURNS BUG THAT NEEDS TO BE FIXED
             setError("Failed to load artisan profile.");
         }
       } finally {

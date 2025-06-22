@@ -41,11 +41,21 @@ const useApplyForGig = () => {
         const gigContract = getGigContract(provider);
         const requiredCFT = await gigContract.getRequiredCFT(databaseId);
         const formattedCFT = Number(formatEther(requiredCFT));
+
+        // Fetch user's CFT balance
+        const craftCoinContract = getCraftCoinContract(provider);
+        const cftResp = await craftCoinContract.balanceOf(address);
+        const cftBalance = Number(formatEther(cftResp));
+
         console.log("Required CFT for gig:", requiredCFT);
         console.log("formatted CFT for gig:", formattedCFT.toString());
+        console.log("User CFT balance:", cftBalance);
+        if (cftBalance < formattedCFT) {
+          toast.error("Insufficient CFT balance to apply for this gig.");
+          return;
+        }
 
         // Fetch user's info from CraftCoin contract
-        const craftCoinContract = getCraftCoinContract(provider);
         const nonce = await craftCoinContract.nonces(address);
         const name = await craftCoinContract.name();
         const version = await craftCoinContract.version?.() ?? "1";

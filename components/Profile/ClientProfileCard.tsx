@@ -17,7 +17,6 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileData, setProfileData] = useState(editProfile);
 
-  console.log("Client Profile Data:", client);
   const router = useRouter();
 
   const handlePostJobs = () => {

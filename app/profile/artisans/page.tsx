@@ -7,33 +7,70 @@ import Review from "@/components/Profile/Review";
 import Settings from "@/components/Profile/Settings";
 import ProfileCard from "@/components/Profile/ProfileCard";
 import EarningsDisplay from "@/components/Profile/TokenBalance";
+import type { ArtisanProfileProps } from "@/utils/profile"
+import { transformBackendProfileData } from "@/utils/transformBackendProfileData"
 import { usePathname } from "next/navigation";
+import { useAccount } from "wagmi";
 import Loading from "@/components/Loading";
+import { useEffect, useState } from "react";
+import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
+import axios from "@/app/API/axios";
 import { toast } from "sonner";
 import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
 import useGetCraftCoinBalance from "@/hooks/CraftCoin/useGetCraftCoinBalance";
 import useGetArtisanAmountMade from "@/hooks/PaymentProcessor/useGetArtisanAmountMade";
 import { useMint } from "@/hooks/Gasless/useMint";
 import useCanMintCraftCoin from "@/hooks/CraftCoin/useCanMintCraftCoin";
-import useFetchArtisanProfile from "@/hooks/BackendDB/useFetchArtisanProfile";
 
 export default function Profile() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
-
+  const { address } = useAccount()
+  const detail = useGetArtisanDetails()
+  const [profile, setProfile] = useState<ArtisanProfileProps | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const tokenBalance = useGetTokenBalance();
   const craftCoinBalance = useGetCraftCoinBalance();
   const checkAmountMade = useGetArtisanAmountMade();
   const { mint } = useMint();
   const { canMint, nextMintTime, isLoading: mintLoading } = useCanMintCraftCoin();
-  const { profile, isLoading, error } = useFetchArtisanProfile();
+
+  useEffect(() => {
+    const fetchArtisanProfile = async () => {
+      if (!address) {
+        setIsLoading(false)
+        return
+      }
+
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const response = await axios.get(`/api/artisans/${address}`);
+        const artisanData = response.data.artisan;
+
+        if (detail) {
+          const transformedProfile = transformBackendProfileData(artisanData, detail, address);
+          setProfile(transformedProfile);
+        }
+      } catch (err) {
+        console.error("Error fetching artisan profile:", err)
+        setError("Failed to load artisan profile.")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchArtisanProfile()
+  }, [address, detail])
 
   if (isLoading || mintLoading || !profile) {
     return <Loading show={false} />
   }
 
   if (error) {
-    toast.error(`Error fetching profile: ${error}`);
+    return <div>{error}</div>
   }
 
   const handleClaimCraftcoin = async () => {
