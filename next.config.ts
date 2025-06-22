@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
-        pathname: '/**',
+        pathname: '/**'
       },
       {
         protocol: 'http',           // ← allow http
@@ -43,6 +43,7 @@ const nextConfig: NextConfig = {
     CLOUDINARY_URL: process.env.CLOUDINARY_URL,
     CLOUDINARY_PRESET: process.env.CLOUDINARY_PRESET,
     SERVER_URL: process.env.SERVER_URL,
+    RELAYER_URL: process.env.RELAYER_URL,
   },
 };
 

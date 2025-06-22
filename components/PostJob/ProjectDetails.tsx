@@ -1,7 +1,5 @@
 import { Job } from "@/utils/job";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 interface Details {
   detailValue: string;
@@ -9,7 +7,6 @@ interface Details {
 }
 
 const ProjectDetails = ({ project }: { project: Job }) => {
-  const router = useRouter();
   const details: Details[] = [
     {
       imgSrc: "/money.png",
@@ -26,15 +23,6 @@ const ProjectDetails = ({ project }: { project: Job }) => {
   ];
 
   const hasAttachments = project.files.length > 0 || project.images.length > 0;
-
-  const handlePostJobClick = () => {
-    toast.message("Please use the Post Job button at the top of the page");
-    // router.push("/manage-jobs/clients");
-  };
-
-  const handleEditJobClick = () => {
-    router.push("/role/clients/create-job/title");
-  };
   return (
     <div className="text-[#F9F1E2] font-merriweather bg-[#F2E8CF0A] p-4 md:p-8 rounded-xl flex  flex-col justify-between">
       <div className="flex w-full justify-between">
@@ -180,14 +168,7 @@ const ProjectDetails = ({ project }: { project: Job }) => {
             </div>
           </div>
         </div>
-        <div className="flex gap-x-4 py-4 max-sm:justify-between">
-          <button onClick={handlePostJobClick} className="flex w-fit py-2 px-4 uppercase gap-x-[3px]  bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base">
-            Post<span className="hidden md:flex">Job</span>
-          </button>
-          <button onClick={handleEditJobClick} className="flex w-fit py-2 px-4 gap-x-2 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold text-sm md:text-base">
-            Edit<span className="hidden md:flex">Job Post</span>
-          </button>
-        </div>
+
       </div>
     </div>
   );

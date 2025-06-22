@@ -13,6 +13,7 @@ export const useClaim = () => {
   const { signMessageAsync } = useSignMessage();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const router = useRouter();
+  const RELAYER_URL = process.env.RELAYER_URL;
 
   const claim = useCallback(async () => {
     if (!isConnected || !address) {
@@ -31,7 +32,10 @@ export const useClaim = () => {
       const gaslessMessage = JSON.stringify({ functionName, user: address, params });
       const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
-      const response = await fetch("http://localhost:3005/gasless-transaction", {
+      if (!RELAYER_URL) {
+        throw new Error("Relayer URL is not defined");
+      }
+      const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

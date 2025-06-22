@@ -10,6 +10,7 @@ import IPFS from "@/hooks/useIPFS";
 import { useLoading } from "@/hooks/useLoading";
 import { useRegisterClient } from "@/hooks/Gasless/useRegisterClient";
 import Loading from "@/components/Loading";
+import { useRouter } from "next/navigation";
 
 // Types and constants
 interface FileValidation {
@@ -41,10 +42,11 @@ export default function Onboarding() {
   const [fileError, setFileError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   // Hooks
-  const { username, location, clientBio, clientAvatar, preferredLanguage, joined, setClientBio, setClientAvatar, setPreferredLanguage, setJoined } = useGetClientData();
+  const { username, location, clientBio, preferredLanguage, joined, setClientBio, setClientAvatar, setPreferredLanguage, setJoined } = useGetClientData();
   const { uploadToIPFS } = IPFS();
   const { isLoading, startLoading, stopLoading } = useLoading();
-  const { registerAsClient } = useRegisterClient();
+  const { registerAsClient, isLoading: registerClientLoading, error } = useRegisterClient();
+  const router = useRouter();
 
   // Handlers
   const handleNext = async () => {
@@ -63,13 +65,14 @@ export default function Onboarding() {
       if (!uploadedUrl || uploadedUrl.length === 0) {
         throw new Error("Avatar upload failed");
       }
-      setClientAvatar(uploadedUrl[0]);
+      const clientAvatarUrl = uploadedUrl[0];
+      setClientAvatar(clientAvatarUrl);
 
       const data = {
         username,
         location,
         clientBio,
-        clientAvatar,
+        clientAvatar: clientAvatarUrl,
         preferredLanguage,
         joined,
       };
@@ -79,11 +82,13 @@ export default function Onboarding() {
         throw new Error("IPFS upload failed");
       }
 
-      const success = await registerAsClient(ipfsUrl);
+      const success = await registerAsClient(ipfsUrl)
       if (!success) {
-        // Errors are handled by useRegisterClient
+        toast.error(`Error: ${error}`);
         return;
       }
+      toast.success("Registered as client successfully");
+      router.push("/profile/clients");
     } catch (error) {
       console.error("Error during onboarding:", error);
       toast.error("Something went wrong. Please try again.");
@@ -166,7 +171,7 @@ export default function Onboarding() {
   }, []);
 
   return (
-    <Loading show={isLoading}>
+    <Loading show={ isLoading || registerClientLoading }>
       <div className="flex min-h-screen md:min-h-[80vh] md:max-h-screen w-screen items-start md:items-center justify-center overflow-y-scroll">
         <div className="flex flex-col text-[#F9F1E2] max-w-[95%] md:min-w-[40%] p-8 rounded-lg bg-opacity-80 shadow-lg shadow-second relative bg-[#F2E8CF0A] items-start md:min-h-[80%] gap-y-4">
           <h2 className="font-alata text-2xl md:text-3xl">

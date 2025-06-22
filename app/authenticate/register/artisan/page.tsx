@@ -6,15 +6,15 @@ import { useState } from "react";
 import IPFS from "@/hooks/useIPFS";
 import { toast } from "sonner";
 import Loading from "@/components/Loading";
-import { useLoading } from "@/hooks/useLoading";
 import { FaCheck } from "react-icons/fa";
 import { useRegisterArtisan } from "@/hooks/Gasless/useRegisterArtisan";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const { registerAsArtisan } = useRegisterArtisan();
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { registerAsArtisan, isLoading, error } = useRegisterArtisan();
+  const router = useRouter();
 
   const { uploadToIPFS } = IPFS();
   const [privacyChecked, setPrivacyChecked] = useState<boolean>(false);
@@ -31,7 +31,6 @@ export default function Register() {
       return;
     }
 
-    startLoading();
     try {
       const data = {
         username,
@@ -42,14 +41,14 @@ export default function Register() {
 
       const success = await registerAsArtisan(ipfsUrl);
       if (!success) {
-        // Errors are handled by useRegisterArtisan
+        toast.error(`Error: ${error}`);
         return;
       }
+      toast.success("Registered successfully as artisan");
+      router.push("/role/artisans/onboarding/category");
     } catch (error) {
       toast.error("Failed to upload data to IPFS");
       console.error("IPFS upload error:", error);
-    } finally {
-      stopLoading();
     }
   };
 
@@ -107,7 +106,7 @@ export default function Register() {
                     />
                   )}
                 </div>
-                <p className="font-merriweather md:py-2 self-end font-bold">
+                <p className="font-merriweather md:py-2 self-end font-bold text-sm ">
                   By Continuing, you agree to CraftLink’s{" "}
                   <span className="text-yellow">Privacy Policy and Terms</span>{" "}
                   and <span className="text-yellow">Conditions</span>
@@ -116,7 +115,7 @@ export default function Register() {
             </div>
 
             <div className="justify-self-center py-2 md:px-12 gap-y-2 grid font-merriweather md:col-span-2">
-              <Button onClick={createAccount} text={"Create My Account"} />
+              <Button onClick={createAccount} text={"Create My Account"} style={"font-normal"} />
             </div>
           </form>
         </div>

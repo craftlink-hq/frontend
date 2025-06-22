@@ -20,6 +20,23 @@ export default function Portfolio() {
   );
 
   const handleNext = async () => {
+    if (!projectTitle) {
+      toast.error("Please enter a project title.");
+      return;
+    }
+    if (!description) {
+      toast.error("Please enter a project description.");
+      return;
+    }
+    if (!duration || isNaN(Number(duration)) || Number(duration) < 0) {
+      toast.error("Please enter a valid project duration.");
+      return;
+    }
+    if (imagePreviews.length === 0) {
+      toast.error("Please upload at least one image.");
+      return;
+    }
+    
     setIsUploading(true);
 
     try {

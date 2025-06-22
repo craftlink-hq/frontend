@@ -20,11 +20,11 @@ if (!projectId) {
 const origin =
   typeof window !== "undefined"
     ? window.location.origin
-    : "https://craftlink-frontend.vercel.app";
+    : "https://craftlink-hq.vercel.app";
 const metadata = {
   name: "craftLink",
   description: "The Future of Decentralized Commerce",
-  url: origin, // origin must match current site to avoid WalletConnect warning
+  url: origin,
   icons: ["https://assets.reown.com/reown-profile-pic.png"],
 };
 

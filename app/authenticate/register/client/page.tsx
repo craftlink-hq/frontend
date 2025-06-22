@@ -82,7 +82,7 @@ export default function Register() {
                   />
                 )}
               </div>
-              <p className="font-merriweather md:py-2 self-end font-bold">
+              <p className="font-merriweather md:py-2 self-end font-bold text-sm">
                 By Continuing, you agree to CraftLink’s{" "}
                 <span className="text-yellow">Privacy Policy and Terms</span>{" "}
                 and <span className="text-yellow">Conditions</span>

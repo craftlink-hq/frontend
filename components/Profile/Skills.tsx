@@ -1,6 +1,6 @@
 const Skills = ({ skills }: { skills: string[] }) => {
   return (
-    <div className="flex  font-merriweather text-[#F9F1E2] p-4  bg-[#F2E8CF0A] gap-4 rounded-md  flex-col border border-[#FCFBF726]">
+    <div className="flex  font-merriweather h-full text-[#F9F1E2] p-4  bg-[#F2E8CF0A] gap-4 rounded-md  flex-col border border-[#FCFBF726]">
       <div className="flex justify-between">
         <h3 className="text-base">Skills</h3>
       </div>

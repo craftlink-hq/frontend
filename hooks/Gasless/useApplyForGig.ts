@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { useAccount, useChainId, useSignMessage, useSignTypedData } from "wagmi";
 import { toast } from "sonner";
-import { ethers } from "ethers";
+import { ethers, formatEther } from "ethers";
 import { useRouter } from "next/navigation";
 import { getProvider } from "@/constants/providers";
 import { getCraftCoinContract, getGigContract } from "@/constants/contracts";
@@ -20,16 +20,17 @@ const useApplyForGig = () => {
   const { walletProvider } = useAppKitProvider<Provider>("eip155");
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
+  const RELAYER_URL = process.env.RELAYER_URL;
 
   const applyForGig = useCallback(
     async (databaseId: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
       }
 
       startLoading();
@@ -39,9 +40,22 @@ const useApplyForGig = () => {
         // Fetch required CFT for the gig
         const gigContract = getGigContract(provider);
         const requiredCFT = await gigContract.getRequiredCFT(databaseId);
+        const formattedCFT = Number(formatEther(requiredCFT));
+
+        // Fetch user's CFT balance
+        const craftCoinContract = getCraftCoinContract(provider);
+        const cftResp = await craftCoinContract.balanceOf(address);
+        const cftBalance = Number(formatEther(cftResp));
+
+        console.log("Required CFT for gig:", requiredCFT);
+        console.log("formatted CFT for gig:", formattedCFT.toString());
+        console.log("User CFT balance:", cftBalance);
+        if (cftBalance < formattedCFT) {
+          toast.error("Insufficient CFT balance to apply for this gig.");
+          return;
+        }
 
         // Fetch user's info from CraftCoin contract
-        const craftCoinContract = getCraftCoinContract(provider);
         const nonce = await craftCoinContract.nonces(address);
         const name = await craftCoinContract.name();
         const version = await craftCoinContract.version?.() ?? "1";
@@ -104,7 +118,10 @@ const useApplyForGig = () => {
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
         // Send request to the relayer backend
-        const response = await fetch("http://localhost:3005/gasless-transaction", {
+        if (!RELAYER_URL) {
+          throw new Error("Relayer URL is not defined");
+        }
+        const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -122,6 +139,8 @@ const useApplyForGig = () => {
         } else {
           toast.error(`Error: ${result.message}`);
         }
+
+        return true;
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
@@ -129,6 +148,8 @@ const useApplyForGig = () => {
           toast.error("Error during application");
           console.error(error);
         }
+
+        return false;
       } finally {
         stopLoading();
       }

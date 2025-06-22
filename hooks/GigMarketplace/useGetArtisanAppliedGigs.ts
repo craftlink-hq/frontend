@@ -7,12 +7,12 @@ import { toast } from "sonner";
 import { useAccount } from "wagmi";
 import { useLoading } from "../useLoading";
 
-const useGetGigApplicants = () => {
+const useGetArtisanAppliedGigs = () => {
     const { address, isConnected } = useAccount();
-    const [gigApplicants, setGigApplicants] = useState<string[] | null>(null);
+    const [appliedGigs, setAppliedGigs] = useState<string[] | null>(null);
     const { isLoading, startLoading, stopLoading } = useLoading();
 
-  const fetchGigApplicants = useCallback(async () => {
+  const fetchClientCreatedGigs = useCallback(async () => {
     if (!address) {
         toast.error("Wallet not connected");
         return;
@@ -22,23 +22,23 @@ const useGetGigApplicants = () => {
 
     try {
       const contract = getGigContract(readOnlyProvider);
-      const response = await contract.getGigApplicants(address);
-      setGigApplicants(response);
+      const response = await contract.getArtisanAppliedGigs(address);
+      setAppliedGigs(response);
     } catch (error) {
-      toast.error("Error fetching gig applicants");
-      console.error("Error fetching gig applicants:", error);
-      setGigApplicants(null);
+      toast.error("Error fetching artisan applied gigs");
+      console.error("Error fetching applied gigs:", error);
+      setAppliedGigs(null);
     } finally {
       stopLoading();
     }
-  }, [address, gigApplicants]);
+  }, [address, appliedGigs]);
 
   useEffect(() => {
-    fetchGigApplicants();
+    fetchClientCreatedGigs();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
-  return { gigApplicants, isLoading };
+  return { appliedGigs, isLoading };
 };
 
-export default useGetGigApplicants;
+export default useGetArtisanAppliedGigs;

@@ -7,7 +7,9 @@ import Link from "next/link"
 import { links } from "@/utils/links"
 import type { AccountCard } from "@/utils/profile"
 import { toast } from "sonner"
-import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText } from "react-icons/fi"
+// import useIsArtisan from "@/hooks/Registry/useIsArtisan"
+// import useIsClient from "@/hooks/Registry/useIsClient"
+import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText} from "react-icons/fi"
 import { useAccount } from "wagmi"
 import { useGetUserRole } from "@/utils/store";
 

@@ -1,14 +1,14 @@
 export const formatDate = (dateString: string | null | undefined): string => {
   // Return a fallback string if dateString is null/undefined
   if (!dateString) {
-    return `Date not available: ${dateString}`;
+    return `${dateString}`;
   }
 
   const date = new Date(dateString);
 
   if (isNaN(date.getTime())) {
     console.warn(`Invalid date string provided: ${dateString}`);
-    return `Date not available: ${dateString}`;
+    return `${dateString}`;
   }
 
   try {
@@ -29,7 +29,7 @@ export const formatDate = (dateString: string | null | undefined): string => {
     return `${formattedDate} at ${formattedTime}`;
   } catch (error) {
     console.error("Error formatting date:", error);
-    return `Date not available: ${dateString}`;
+    return `${dateString}`;
   }
 };
 
@@ -49,7 +49,7 @@ export const getCurrentISODate = (): string => {
 // Helper function to format relative time (e.g., "2 hours ago")
 export const getRelativeTime = (dateString: string): string => {
   if (!isValidDateString(dateString)) {
-    return "Date not available";
+    return `${dateString}`;
   }
 
   const date = new Date(dateString);

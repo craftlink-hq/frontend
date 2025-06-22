@@ -47,9 +47,8 @@ export default function Profile() {
       setError(null)
 
       try {
-        const response = await axios.get(`/api/artisans/${address}`)
-        const artisanData = response.data.artisan
-        console.log("Artisan Data:", artisanData)
+        const response = await axios.get(`/api/artisans/${address}`);
+        const artisanData = response.data.artisan;
 
         if (detail) {
           const transformedProfile = transformBackendProfileData(artisanData, detail, address);
@@ -79,8 +78,6 @@ export default function Profile() {
       if (nextMintTime) {
         const currentTime = Math.floor(Date.now() / 1000);
         const timeRemaining = nextMintTime - currentTime;
-        // console.log("Next mint time:", new Date(nextMintTime * 1000).toLocaleString());
-        // console.log("Current time:", new Date(currentTime * 1000).toLocaleString());
         const daysRemaining = Math.ceil(timeRemaining / (60 * 60 * 24));
         toast.info(`Please wait ${daysRemaining} day${daysRemaining > 1 ? "s" : ""} until next mint time.`);
       } else {
@@ -113,7 +110,7 @@ export default function Profile() {
           <div className="lg:col-span-2 h-full">
             <ProfileCard profile={profile} />
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 h-full">
             <EarningsDisplay
               availableAmount={tokenBalance ?? 404}
               totalEarned={checkAmountMade ?? 404}
@@ -124,7 +121,7 @@ export default function Profile() {
           </div>
         </div>
 
-        <About />
+        <About profile={profile}/>
 
         <Portfolio portfolio={profile.portfolio} />
         {profile.reviews && <Review reviews={profile.reviews} />}

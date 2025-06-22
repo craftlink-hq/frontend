@@ -2,13 +2,13 @@
 import Image from "next/image";
 import Button from "./Button";
 import { toast } from "sonner";
-import { useLoading } from "@/hooks/useLoading";
 import Loading from "./Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import useIsClient from "@/hooks/Registry/useIsClient";
 import { useGetUserRole } from "@/utils/store";
+import useHasClaimed from "@/hooks/Token/useHasClaimed";
 
 interface WelcomeProps {
   image: string;
@@ -16,43 +16,46 @@ interface WelcomeProps {
 }
 
 const ClientsSignIn = ({ image, role }: WelcomeProps) => {
-  const { isLoading: pageLoading, startLoading, stopLoading } = useLoading();
   const { address, isConnected } = useAccount();
   const { isClient, isLoading: clientCheckLoading } = useIsClient();
   const router = useRouter();
   const { setRole } = useGetUserRole();
+  const hasClaimed = useHasClaimed();
 
   const handleSignIn = () => {
-    if (!isConnected && !address) {
+    if (!isConnected || !address) {
       toast.error("Please connect your wallet to continue.");
       return;
     }
 
-    startLoading();
     setRole(role);
 
-    if (isClient) {
-      stopLoading();
-      router.push("/profile/clients");
+    if (hasClaimed) {
+      if (isClient) {
+        toast.success("Welcome back, client!");
+        router.push("/profile/clients");
+      } else {
+        router.push("/authenticate/register/client");
+      }
     } else {
-      stopLoading();
+      toast.info("Please claim your test USDT.");
       router.push("/role/clients/claim-token");
     }
   };
 
   return (
-    <Loading show={pageLoading || clientCheckLoading}>
+    <Loading show={clientCheckLoading}>
       <div className="flex md:items-center justify-center w-full h-[90vh] gap-y-8 gap-x-4 py-4 md:py-1">
         <div className="hidden md:flex relative h-[90%] md:w-[45%] lg:w-[40w] xl:w-[38vw]">
           <Image
             src={image}
             alt={role}
             fill
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
             className="rounded-lg shadow-lg"
           />
         </div>
-        <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[60%] md:h-[90%] bg-[#F2E8CF0A] flex flex-col items-center justify-between w-[90%] md:w-[45vw] gap-y-4 p-4">
+        <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[80%] md:h-[90%] bg-[#F2E8CF0A] flex flex-col items-center justify-between w-[90%] md:w-[45vw] gap-y-4 p-4">
           <div></div>
           <div className="flex flex-col justify-end items-center gap-y-4 py-8">
             <p className="font-alata text-3xl px-2 lg:text-[2.5vw] text-center text-[#F9F1E2] leading-8 ">
@@ -67,7 +70,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
               text={"Sign in as Client"}
               style={"font-normal"}
             />
-            <div className="flex text-center text-[#F9F1E2] gap-2  ">
+            <div className="flex text-center text-[#F9F1E2] gap-2 relative bottom-[12px] ">
               Not an client?{" "}
               <Link
                 href="/role/artisans/signin"
@@ -77,7 +80,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
               </Link>
             </div>
           </div>
-          <div className="flex flex-col justify-center text-center">
+          <div className="flex flex-col justify-center text-center text-sm">
             <span className="text-[#D8D6CF]">
               By Continuing, you agree to CraftLink’s Privacy Policy
             </span>

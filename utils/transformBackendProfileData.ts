@@ -21,7 +21,6 @@ export const transformBackendProfileData = (
       description: string;
       projectDuration: { weeks: number } | undefined;
       files?: Array<{ url: string }>;
-      simplified_files?: Array<string>;
 
       id: string;
     }> | undefined;
@@ -57,7 +56,7 @@ export const transformBackendProfileData = (
   // Transform Portfolio section
   const portfolio: PortfolioProps[] = fetchedData.portfolio?.map((item, index) => ({
     id: index + 1,
-    imgSrc: item.simplified_files || ["/client-artisan.png"],
+    imgSrc: item.files ? item.files.map(f => f.url) : ["/client-artisan.png"], // Use files, not simplified_files
     title: item.projectTitle,
     desc: item.description,
     duration: item.projectDuration ? `${item.projectDuration.weeks} weeks` : "Not specified",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,8 @@ export const useRegisterArtisan = () => {
   const { signMessageAsync } = useSignMessage();
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
+  const RELAYER_URL = process.env.RELAYER_URL;
+  const [error, setError] = useState<string | null>(null);
 
   const registerAsArtisan = useCallback(
     async (ipfsUrl: string) => {
@@ -36,7 +38,10 @@ export const useRegisterArtisan = () => {
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
-        const response = await fetch("http://localhost:3005/gasless-transaction", {
+        if (!RELAYER_URL) {
+          throw new Error("Relayer URL is not defined");
+        }
+        const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -48,14 +53,11 @@ export const useRegisterArtisan = () => {
         });
 
         const result = await response.json();
-        if (result.success) {
-          toast.success("Registered as artisan successfully");
-          router.push("/role/artisans/onboarding/category")
-          return true;
-        } else {
-          toast.error(`Error: ${result.message}`);
+        if (!result.success) {
+          setError(result.message);
           return false;
         }
+        return true;
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
@@ -73,5 +75,5 @@ export const useRegisterArtisan = () => {
     [address, isConnected, chainId, signMessageAsync, router]
   );
 
-  return { registerAsArtisan, isLoading };
+  return { registerAsArtisan, isLoading, error };
 };
