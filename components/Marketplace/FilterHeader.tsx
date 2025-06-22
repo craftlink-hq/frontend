@@ -16,7 +16,6 @@ interface Header {
 }
 
 const MarketplaceHeader = ({ isActive }: Header) => {
-  const [userCard, setUserCard] = useState<AccountCard | null>(null)
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { isConnected } = useAccount();
@@ -24,8 +23,6 @@ const MarketplaceHeader = ({ isActive }: Header) => {
   const profileDropdownRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
 
-  // const isArtisan = useIsArtisan()
-  // const isClient = useIsClient()
   const { role } = useGetUserRole();
   const isArtisan = role === "artisan";
   const isClient = role === "client";
@@ -53,36 +50,6 @@ const MarketplaceHeader = ({ isActive }: Header) => {
     { href: links.resources, label: "Resources" },
   ]
 
-  useEffect(() => {
-    const determineUserRole = async () => {
-      try {
-        // Set the user card based on role
-        if (isArtisan) {
-          setUserCard({
-            type: "artisan",
-            image: "/profile.png",
-            profilePage: "/profile/artisans",
-          })
-        } else if (isClient) {
-          setUserCard({
-            type: "client",
-            image: "/profile.png",
-            profilePage: "/profile/clients",
-          })
-        } else {
-          setUserCard(null)
-        }
-      } catch (error) {
-        console.error("Error determining user role:", error)
-        toast.error("Error loading profile")
-        setUserCard(null)
-      }
-    }
-
-    determineUserRole()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected])
-
   const handleProfileAction = (action: string) => {
     console.log(`Profile action: ${action}`)
     setIsProfileDropdownOpen(false)
@@ -94,6 +61,23 @@ const MarketplaceHeader = ({ isActive }: Header) => {
     if (isClient) return "Client"
     return "Visitor"
   }
+
+  // Get user image based on role - using same logic as getUserRoleText
+  const getUserImage = () => {
+    if (isArtisan) return "/profile.png" // or "/artisan-profile.png" if you have different images
+    if (isClient) return "/profile.png"  // or "/client-profile.png" if you have different images
+    return "/placeholder.svg" // default image for visitors
+  }
+
+  // Get profile page based on role - using same logic as getUserRoleText
+  const getProfilePage = () => {
+    if (isArtisan) return "/profile/artisans"
+    if (isClient) return "/profile/clients"
+    return "/"
+  }
+
+  // Check if user has a valid role (replaces the userCard state)
+  const hasValidRole = isArtisan || isClient
 
   return (
     <div className="bg-[#333333] bg-opacity-[98%] bg-header z-10">
@@ -145,7 +129,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
           <div className="bg-[#26220840] rounded-lg px-3 py-2">
             <div className="flex gap-x-3 items-center">
               {/* Conditional Authentication Section */}
-            {!isArtisan && !isClient ? (
+            {!hasValidRole ? (
               // Visitors - Show Sign In Button
               <Link href="/role/artisans/signin">
                 <button className="bg-[#FFD700] hover:bg-[#E6C200] text-[#1A1203] font-semibold px-4 py-2 rounded text-sm transition-colors">
@@ -156,94 +140,56 @@ const MarketplaceHeader = ({ isActive }: Header) => {
               // Artisans & Clients - Show Connect Wallet and Profile
               <>
                 <ConnectWallet />
-                {userCard ? (
-                  <div className="relative" ref={profileDropdownRef}>
-                    {/* Profile Section with Image and Role Text Below */}
-                    <div className="flex flex-col items-center">
-                      <button
-                        onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                        className="rounded-full h-8 w-8 overflow-hidden hover:ring-2 hover:ring-[#FFD700] transition-all"
-                      >
-                        <Image
-                          src={userCard.image || "/placeholder.svg"}
-                          alt="Profile pic"
-                          width={32}
-                          height={32}
-                          style={{ objectFit: "cover" }}
-                        />
-                      </button>
-                      {/* Role Text Below Profile Image */}
-                      <span className="text-white text-xs font-medium mt-1 text-center">
-                        {getUserRoleText()}
-                      </span>
-                    </div>
-
-                    {/* Profile Dropdown */}
-                    {isProfileDropdownOpen && (
-                      <div className="absolute top-full right-0 mt-2 w-48 bg-[#333333] rounded-lg shadow-lg border border-[#555555] py-2 z-50">
-                        <Link href={userCard.profilePage}>
-                          <button
-                            onClick={() => handleProfileAction("view-profile")}
-                            className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                          >
-                            <FiUser className="w-4 h-4" />
-                            <span>View Profile</span>
-                          </button>
-                        </Link>
-                        <button
-                          onClick={() => handleProfileAction("settings")}
-                          className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                        >
-                          <FiSettings className="w-4 h-4" />
-                          <span>Settings</span>
-                        </button>
-                        <button
-                          onClick={() => handleProfileAction("help")}
-                          className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                        >
-                          <FiHelpCircle className="w-4 h-4" />
-                          <span>Help</span>
-                        </button>
-                      </div>
-                    )}
+                <div className="relative" ref={profileDropdownRef}>
+                  {/* Profile Section with Image and Role Text Below */}
+                  <div className="flex flex-col items-center">
+                    <button
+                      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                      className="rounded-full h-8 w-8 overflow-hidden hover:ring-2 hover:ring-[#FFD700] transition-all"
+                    >
+                      <Image
+                        src={getUserImage()}
+                        alt="Profile pic"
+                        width={32}
+                        height={32}
+                        style={{ objectFit: "cover" }}
+                      />
+                    </button>
+                    {/* Role Text Below Profile Image */}
+                    <span className="text-white text-xs font-medium mt-1 text-center">
+                      {getUserRoleText()}
+                    </span>
                   </div>
-                ) : (
-                  <div className="relative" ref={profileDropdownRef}>
-                    {/* Fallback Profile Section for users without profile image */}
-                    <div className="flex flex-col items-center">
-                      <button
-                        onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                        className="p-2 border border-[#555555] rounded hover:bg-[#444444] transition-colors"
-                      >
-                        <FiUser className="w-4 h-4 text-white" />
-                      </button>
-                      {/* Role Text Below Profile Icon */}
-                      <span className="text-white text-xs font-medium mt-1 text-center">
-                        {getUserRoleText()}
-                      </span>
-                    </div>
 
-                    {/* Profile Dropdown for users without profile image */}
-                    {isProfileDropdownOpen && (
-                      <div className="absolute top-full right-0 mt-2 w-48 bg-[#333333] rounded-lg shadow-lg border border-[#555555] py-2 z-50">
+                  {/* Profile Dropdown */}
+                  {isProfileDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-2 w-48 bg-[#333333] rounded-lg shadow-lg border border-[#555555] py-2 z-50">
+                      <Link href={getProfilePage()}>
                         <button
-                          onClick={() => handleProfileAction("create-profile")}
+                          onClick={() => handleProfileAction("view-profile")}
                           className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
                         >
                           <FiUser className="w-4 h-4" />
-                          <span>Create Profile</span>
+                          <span>View Profile</span>
                         </button>
-                        <button
-                          onClick={() => handleProfileAction("settings")}
-                          className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
-                        >
-                          <FiSettings className="w-4 h-4" />
-                          <span>Settings</span>
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      </Link>
+                      <button
+                        onClick={() => handleProfileAction("settings")}
+                        className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
+                      >
+                        <FiSettings className="w-4 h-4" />
+                        <span>Settings</span>
+                      </button>
+                      <button
+                        onClick={() => handleProfileAction("help")}
+                        className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
+                      >
+                        <FiHelpCircle className="w-4 h-4" />
+                        <span>Help</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             )}
 
