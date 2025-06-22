@@ -127,12 +127,12 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           </div>
         </div>
       </div>
-      <div className="hidden w-[15%] xl:flex justify-end w-full">
+      <div className="hidden w-[15%] xl:flex justify-end">
         <div><button
           onClick={() => {
             setIsModalOpen(true);
           }}
-          className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
+          className="bg-[#262208] wrounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
         >
           Edit{""}
           <span className="relative h-6 w-6 rounded-full bg-[#F2E8CF0A]">
