@@ -47,8 +47,8 @@ export default function Profile() {
       setError(null)
 
       try {
-        const response = await axios.get(`/api/artisans/${address}`)
-        const artisanData = response.data.artisan
+        const response = await axios.get(`/api/artisans/${address}`);
+        const artisanData = response.data.artisan;
 
         if (detail) {
           const transformedProfile = transformBackendProfileData(artisanData, detail, address);

@@ -8,7 +8,7 @@ import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { useGetUserRole } from "@/utils/store";
-import useFetchArtisanProfile from "@/hooks/BackendDB/useFetchArtisanProfile";
+import axios from "@/app/API/axios";
 
 interface WelcomeProps {
   image: string;
@@ -20,15 +20,16 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
   const { isArtisan, isLoading: artisanCheckLoading } = useIsArtisan();
   const router = useRouter();
   const { setRole } = useGetUserRole();
-  const { profile, isLoading: profileLoading } = useFetchArtisanProfile();
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (!isConnected && !address) {
       toast.error("Please connect your wallet to continue.");
       return;
     }
 
     setRole(role);
+    const response = await axios.get(`/api/artisans/${address}`);
+    const profile = response.data.artisan;
 
     if (isArtisan) {
       if (!profile) {
@@ -44,7 +45,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
   };
 
   return (
-    <Loading show={profileLoading || artisanCheckLoading}>
+    <Loading show={artisanCheckLoading}>
        <div className="flex md:items-center justify-center w-full h-[90vh] gap-y-8 gap-x-4 py-4 md:py-1">
               <div className="hidden md:flex relative h-[90%] md:w-[45%] lg:w-[40w] xl:w-[38vw]">
                 <Image
