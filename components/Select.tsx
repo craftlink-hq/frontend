@@ -58,7 +58,7 @@ const Select = ({
         onClick={() => toggleFilter()}
       >
         <div
-          className={`flex items-center justify-between bg-[#F2E8CF29] py-2 px-4 w-full rounded-md border border-[#FCFBF726] relative ${
+          className={`flex items-center justify-between bg-[#F2E8CF29] py-2 px-4 text-start w-full rounded-md border border-[#FCFBF726] relative ${
             checkedOption ? "text-[#F9F1E2]" : " text-[#B5B4AD]"
           }`}
         >
