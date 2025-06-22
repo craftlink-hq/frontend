@@ -189,7 +189,8 @@ const Pagination: React.FC<PaginationProps> = ({
           options={getDropdownOptions()}
         />
         
-        <span className="text-gray-300 text-sm">of {jobsPerPage}</span>
+        {/* FIXED: Show total jobs instead of jobsPerPage */}
+        <span className="text-gray-300 text-sm">of {totalJobs}</span>
       </div>
 
       {/* Right Side - Pagination */}

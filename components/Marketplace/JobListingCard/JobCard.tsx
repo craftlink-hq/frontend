@@ -154,9 +154,6 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
     // Handle what happens after user clicks sign in
     console.log("User clicked sign in - redirect to artisan signup/login");
     setIsSignupModalOpen(false);
-    // You can add redirect logic here, like:
-    // router.push('/artisan/signup');
-    // or open another modal for artisan registration
   };
 
   const jobId = job.id || index;
