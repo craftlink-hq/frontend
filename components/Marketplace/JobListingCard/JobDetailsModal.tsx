@@ -32,7 +32,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
             className="text-sm font-medium italic"
             style={{ color: '#47F9FF' }}
           >
-            Posted: Just Now
+            Posted: {job.createdAt}
           </span>
         </div>
         <h2 className="font-alata text-3xl text-white leading-tight">
@@ -224,7 +224,11 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
           <div className="flex gap-4 items-center">
             <Image src="/market/calendar-tick.svg" alt="Calendar" width={16} height={16} />
             <span className="text-[#B5B4AD]">
-              Joined {jobClient.dateJoined || 'January 2024'}
+              Joined {jobClient.dateJoined ? new Date(jobClient.dateJoined).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              }) : 'recently'}
             </span>
             <button className="bg-[#262208] text-[#FCF8E3] py-2 px-4 rounded-full text-sm">
               View Profile
