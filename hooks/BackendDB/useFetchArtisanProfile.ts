@@ -17,6 +17,9 @@ const useFetchArtisanProfile = () => {
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
 
+  const detail = useGetArtisanDetails();
+
+
   const fetchArtisanProfile = useCallback(async () => {
     if (!address) return;
 
@@ -25,7 +28,6 @@ const useFetchArtisanProfile = () => {
     try {
         const response = await axios.get(`/api/artisans/${address}`)
         const artisanData = response.data.artisan
-        const detail = useGetArtisanDetails();
 
         if (detail) {
           const transformedProfile = transformBackendProfileData(artisanData, detail, address);

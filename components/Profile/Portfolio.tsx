@@ -49,9 +49,9 @@ const Portfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
         {portfolio.map((project) => (
           <div
             key={project.imgSrc[0]}
-            className="bg-[#F2E8CF0A] rounded-lg h-[45vh] min-w-[90%] md:min-w-[35%] md:max-w-[50%] lg:min-w-[20%] 2xl:max-w-[25%] flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
+            className="bg-[#F2E8CF0A] rounded-lg h-[45vh] lg:h-fit min-w-[90%] md:min-w-[35%] md:max-w-[50%] lg:min-w-[20%] lg:max-w-[42%] 2xl:max-w-[25%] flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
           >
-            <span className="relative h-[20vh] md:h-[70%] w-full">
+            <span className="relative h-[20vh] md:h-[40vh] w-full ">
               <Image
                 src={project.imgSrc[0]}
                 alt="Project image"
@@ -59,14 +59,14 @@ const Portfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
                 style={{ objectFit: "cover", objectPosition: "center" }}
               />
             </span>
-            <h3 className="font-bold text-lg md:text-2xl px-2 text-[#F9F1E2]">
+            <h3 className="font-bold text-lg md:text-xl px-2 text-[#F9F1E2]">
               {project.title}
             </h3>
-            <p className="text-[#B5B4AD] px-2">{project.desc}</p>
+            <p className="text-[#B5B4AD] px-2 text-sm">{project.desc}</p>
             <div className="flex justify-between w-full  ">
               <div>
                 Duration:{" "}
-                <span className="font-bold">{project.duration} week(s)</span>
+                <span className="font-bold">{project.duration}</span>
               </div>
               <div className="flex gap-x-2">
                 <span className="relative h-[32px] w-[32px] rounded-full bg-[#F2E8CF0A]">

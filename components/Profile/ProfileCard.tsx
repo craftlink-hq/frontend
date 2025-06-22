@@ -54,7 +54,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-4  justify-center w-full">
+        <div className="flex flex-col space-y-4  justify-center w-full items-start relative lg:left-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <h2 className="text-2xl font-bold text-[#FCF8F0] uppercase">
@@ -95,7 +95,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
           </div>
         </div>
       </div>
-      <div className="hidden w-[25%] lg:flex justify-end w-full">
+      <div className="hidden w-[25%] lg:flex justify-end">
         <div className="flex items-start">
           <button
             className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
