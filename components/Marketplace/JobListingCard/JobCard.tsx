@@ -10,10 +10,50 @@ import Modal from "./Modal";
 import JobDetailsModal from "./JobDetailsModal";
 import ApplyConfirmationModal from "./ApplyConfirmationModal";
 import ArtisanSignupModal from "./ArtisanSignupModal";
-import { JobCardProps } from "@/utils/types"; // Now uses the complete Job interface
+import { JobCardProps } from "@/utils/types";
 import { formatRelativeTime } from "@/utils/timeUtils";
 import { useGetUserRole } from "@/utils/store";
 import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
+import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo"; // Add this import
+
+// Function to determine job status based on smart contract state
+const getJobStatus = (gigInfo: any) => {
+  if (!gigInfo) {
+    return { 
+      text: "Loading...", 
+      color: "#6b7280" // gray
+    };
+  }
+  
+  // Priority order: completed > closed > artisan hired > open
+  if (gigInfo.isCompleted) {
+    return { 
+      text: "Completed", 
+      color: "#6b7280" // gray
+    };
+  }
+  
+  if (gigInfo.isClosed) {
+    return { 
+      text: "Application Closed", 
+      color: "#dc2626" // red
+    };
+  }
+  
+  // Check if artisan is hired (not zero address)
+  if (gigInfo.hiredArtisan && gigInfo.hiredArtisan !== "0x0000000000000000000000000000000000000000") {
+    return { 
+      text: "Artisan Assigned", 
+      color: "#f59e0b" // orange/amber
+    };
+  }
+  
+  // Default: open application
+  return { 
+    text: "Open Application", 
+    color: "#10b981" // green
+  };
+};
 
 const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(
@@ -33,6 +73,12 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
 
   const { role } = useGetUserRole();
   const { requiredCFT } = useGetRequiredCFT(job.id as string);
+  
+  // Add this hook to get smart contract gig info
+  const gigInfo = useGetGigInfo(job.id as string);
+  
+  // Get dynamic status based on smart contract state
+  const jobStatus = getJobStatus(gigInfo);
 
   // Convert to boolean (null becomes false)
   const isArtisan = role === "artisan";
@@ -147,7 +193,11 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
           isExpanded={expandedTags.has(jobId)}
           onToggle={toggleTags}
         />
-        <JobActions job={jobWithRelativeTime} onViewDetails={handleViewDetails} />
+        <JobActions 
+          job={jobWithRelativeTime} 
+          onViewDetails={handleViewDetails}
+          jobStatus={jobStatus} // Pass dynamic status
+        />
       </div>
 
       {/* Job Details Modal */}

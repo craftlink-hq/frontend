@@ -3,11 +3,16 @@ import React from "react";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { JobActionsProps } from "@/utils/types";
 
+// Extend existing JobActionsProps with new properties
 interface UpdatedJobActionsProps extends JobActionsProps {
   onViewDetails: () => void;
+  jobStatus: {
+    text: string;
+    color: string;
+  };
 }
 
-const JobActions: React.FC<UpdatedJobActionsProps> = ({ job, onViewDetails }) => {
+const JobActions: React.FC<UpdatedJobActionsProps> = ({ job, onViewDetails, jobStatus }) => {
   return (
     <>
       <style jsx>{`
@@ -40,14 +45,13 @@ const JobActions: React.FC<UpdatedJobActionsProps> = ({ job, onViewDetails }) =>
             <span className="status-text">{job.payment}</span>
           </div>
           
-          {/* Open Application */}
+          {/* Dynamic Application Status */}
           <div className="flex items-center gap-1">
-            <FaCircle className="w-3 h-3" style={{ color: '#10b981' }} />
-            <span className="status-text">{job.type}</span>
+            <FaCircle className="w-3 h-3" style={{ color: jobStatus.color }} />
+            <span className="status-text">{jobStatus.text}</span>
           </div>
         </div>
 
-        {/* CHANGE: Add onClick handler */}
         <button 
           className="view-details-btn text-xs font-medium text-white hover:opacity-90 transition-opacity"
           onClick={onViewDetails}
