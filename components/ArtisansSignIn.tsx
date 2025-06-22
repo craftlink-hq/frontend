@@ -28,11 +28,11 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
     }
 
     setRole(role);
-    const response = await axios.get(`/api/artisans/${address}`);
-    const profile = response.data.artisan;
 
     if (isArtisan) {
-      if (!profile) {
+      const response = await axios.get(`/api/artisans/${address}`);
+
+      if (!response) {
         toast.info("Please complete your artisan profile.");
         router.push("/role/artisans/onboarding/category");
       } else {
