@@ -13,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/Loading";
 import { Job } from "@/utils/job";
 import Footer from "@/components/LandingPage/Footer";
-import { formatRelativeTime } from "@/utils/timeUtils";
 import { formatUnits } from "ethers";
 
 export default function MarketPlace(): JSX.Element {
@@ -150,19 +149,17 @@ interface ApiJob {
   // Transform API data to match your Job interface
   const transformApiData = (apiJobs: ApiJob[]): Job[] => {
     return apiJobs?.map((job: ApiJob, index: number) => {
-      // Parse and format the creation date
+      // Parse the creation date
       const createdDate = parseJobDate(job.createdAt || job.posted_at);
-      const relativeTime = formatRelativeTime(createdDate);
       const formattedPrice = Number(formatUnits(job.price ?? 404000000, 6));
       
       // Similar date handling for client dateJoined
       const clientJoinedDate = parseJobDate(job.client?.dateJoined || job.client?.date_joined);
-      const clientJoinedRelative = formatRelativeTime(clientJoinedDate);
       
       return {
         id: job.id || job._id || `api-job-${index}`,
         _id: job._id || job.id,
-        createdAt: relativeTime, // Now using relative time
+        createdAt: createdDate.toISOString(), // Pass actual timestamp, not relative time
         title: job.title || job.job_title || "Untitled Job",
         preferredLocation: job.preferredLocation || job.location || job.preferred_location || "Remote",
         language: job.language || "English",
@@ -212,7 +209,7 @@ interface ApiJob {
                  job.client_description || 
                  job.clientDescription || 
                  "Professional client",
-          dateJoined: clientJoinedRelative, // Using relative time for client join date too
+          dateJoined: clientJoinedDate.toISOString(), // Pass actual timestamp
           location: job.client?.location || 
                    job.preferredLocation || 
                    "Remote",
@@ -271,15 +268,11 @@ interface ApiJob {
     const sorted = [...filtered].sort((a, b) => {
       switch (selectedSort) {
         case 'Most Recent':
-          // Use original date for accurate sorting
-          const dateA = new Date(a.createdAt);
-          const dateB = new Date(b.createdAt);
-          return new Date(dateB).getTime() - new Date(dateA).getTime();
+          // Use the actual ISO timestamp for accurate sorting
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         
         case 'Oldest':
-          const oldDateA = new Date(a.createdAt);
-          const oldDateB = new Date(b.createdAt);
-          return new Date(oldDateA).getTime() - new Date(oldDateB).getTime();
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
         
         case 'Shortest Duration':
           return a.projectDuration.weeks - b.projectDuration.weeks;

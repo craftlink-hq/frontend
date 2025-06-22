@@ -3,10 +3,13 @@ import { Job } from "@/utils/types"; // Change to use the flexible Job type
 import Image from "next/image";
 import { FiMapPin } from "react-icons/fi";
 import AttachedFiles from "./AttachedFiles";
+import { useGetUserRole } from "@/utils/store";
 
 const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => void }) => {
+  const { role } = useGetUserRole();
 
   const displayPrice = job.price ?? 0;
+  const isArtisan = role === "artisan";
   
   // Safe access to potentially missing properties
   const jobFiles = job.files || [];
@@ -17,6 +20,14 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
     verificationStatus: false,
     about: "Professional client",
     dateJoined: "Recent",
+  };
+  const handleViewProfile = () => {
+    if (isArtisan) {
+      // Navigate to client profile page or trigger profile view
+      console.log("Viewing client profile:", jobClient.walletAddress);
+      // You can add navigation logic here, like:
+      // router.push(`/client-profile/${jobClient.id}`) or similar
+    }
   };
   
 
@@ -32,7 +43,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
             className="text-sm font-medium italic"
             style={{ color: '#47F9FF' }}
           >
-            Posted: Just Now
+            Posted: {job.createdAt}
           </span>
         </div>
         <h2 className="font-alata text-3xl text-white leading-tight">
@@ -224,11 +235,24 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
           <div className="flex gap-4 items-center">
             <Image src="/market/calendar-tick.svg" alt="Calendar" width={16} height={16} />
             <span className="text-[#B5B4AD]">
-              Joined {jobClient.dateJoined || 'January 2024'}
+              Joined {jobClient.dateJoined ? new Date(jobClient.dateJoined).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              }) : 'January 2024'}
             </span>
-            <button className="bg-[#262208] text-[#FCF8E3] py-2 px-4 rounded-full text-sm">
-              View Profile
-            </button>
+            {isArtisan ? (
+              <button 
+                onClick={handleViewProfile}
+                className="bg-[#262208] text-[#FCF8E3] py-2 px-4 rounded-full text-sm hover:bg-[#3a3012] transition-colors cursor-pointer"
+              >
+                View Profile
+              </button>
+            ) : (
+              <span className="bg-[#1a1a1a] text-[#666] py-2 px-4 rounded-full text-sm cursor-not-allowed">
+                View Profile
+              </span>
+            )}
           </div>
         </div>
 

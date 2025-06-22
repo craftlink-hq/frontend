@@ -10,11 +10,61 @@ import Modal from "./Modal";
 import JobDetailsModal from "./JobDetailsModal";
 import ApplyConfirmationModal from "./ApplyConfirmationModal";
 import ArtisanSignupModal from "./ArtisanSignupModal";
-import { JobCardProps } from "@/utils/types"; // Now uses the complete Job interface
+import { JobCardProps } from "@/utils/types";
 import { formatRelativeTime } from "@/utils/timeUtils";
 import { useGetUserRole } from "@/utils/store";
 import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
+import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
 import useApplyForGig from "@/hooks/Gasless/useApplyForGig";
+
+// Define the return type for job status
+interface JobStatus {
+  text: string;
+  color: string;
+}
+
+// Function to determine job status based on smart contract state
+const getJobStatus = (gigInfo: ReturnType<typeof useGetGigInfo>): JobStatus => {
+  if (!gigInfo) {
+    return {
+      text: "Loading...",
+      color: "#6b7280", // gray
+    };
+  }
+
+  // Priority order: completed > closed > artisan hired > open
+  if (gigInfo.isCompleted) {
+    return {
+      text: "Completed",
+      color: "#6b7280", // gray
+    };
+  }
+
+  if (gigInfo.isClosed) {
+    return {
+      text: "Application Closed",
+      color: "#dc2626", // red
+    };
+  }
+
+  // Check if artisan is hired (not zero address)
+  if (
+    gigInfo.hiredArtisan &&
+    gigInfo.hiredArtisan !==
+      "0x0000000000000000000000000000000000000000"
+  ) {
+    return {
+      text: "Artisan Assigned",
+      color: "#f59e0b", // orange/amber
+    };
+  }
+
+  // Default: open application
+  return {
+    text: "Open Application",
+    color: "#10b981", // green
+  };
+};
 
 const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [expandedJobs, setExpandedJobs] = useState<Set<string | number>>(
@@ -26,20 +76,26 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-  
-  // State for relative time that updates automatically
-  const [relativeTime, setRelativeTime] = useState(() => 
-    formatRelativeTime(job.createdAt)
-  );
 
   const { role } = useGetUserRole();
   const { requiredCFT } = useGetRequiredCFT(job.id as string);
+  const gigInfo = useGetGigInfo(job.id as string);
+
   const { applyForGig } = useApplyForGig();
+
+  // Get dynamic status based on smart contract state
+  const jobStatus = getJobStatus(gigInfo);
 
   // Convert to boolean (null becomes false)
   const isArtisan = role === "artisan";
   const isClient = role === "client";
   const isVisitor = role === "";
+
+  // State for relative time that updates automatically
+  // Now job.createdAt is a real ISO timestamp from the backend
+  const [relativeTime, setRelativeTime] = useState(() =>
+    formatRelativeTime(job.createdAt)
+  );
 
   // Update relative time every minute
   React.useEffect(() => {
@@ -112,9 +168,6 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
     // Handle what happens after user clicks sign in
     console.log("User clicked sign in - redirect to artisan signup/login");
     setIsSignupModalOpen(false);
-    // You can add redirect logic here, like:
-    // router.push('/artisan/signup');
-    // or open another modal for artisan registration
   };
 
   const jobId = job.id || index;
@@ -151,7 +204,11 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
           isExpanded={expandedTags.has(jobId)}
           onToggle={toggleTags}
         />
-        <JobActions job={jobWithRelativeTime} onViewDetails={handleViewDetails} />
+        <JobActions 
+          job={jobWithRelativeTime} 
+          onViewDetails={handleViewDetails}
+          jobStatus={jobStatus} // Pass dynamic status
+        />
       </div>
 
       {/* Job Details Modal */}
