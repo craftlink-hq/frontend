@@ -11,7 +11,6 @@ import { isSupportedChain } from "@/constants/chain";
 import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { Address } from "viem";
 import { useLoading } from "../useLoading";
-import useGetCraftCoinBalance from "../CraftCoin/useGetCraftCoinBalance";
 
 const useApplyForGig = () => {
   const { address, isConnected } = useAccount();
@@ -22,7 +21,6 @@ const useApplyForGig = () => {
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const RELAYER_URL = process.env.RELAYER_URL;
-  const cftBalance = useGetCraftCoinBalance();
 
   const applyForGig = useCallback(
     async (databaseId: string) => {
@@ -43,16 +41,21 @@ const useApplyForGig = () => {
         const gigContract = getGigContract(provider);
         const requiredCFT = await gigContract.getRequiredCFT(databaseId);
         const formattedCFT = Number(formatEther(requiredCFT));
+
+        // Fetch user's CFT balance
+        const craftCoinContract = getCraftCoinContract(provider);
+        const cftResp = await craftCoinContract.balanceOf(address);
+        const cftBalance = Number(formatEther(cftResp));
+
         console.log("Required CFT for gig:", requiredCFT);
         console.log("formatted CFT for gig:", formattedCFT.toString());
         console.log("User CFT balance:", cftBalance);
-        if (!cftBalance || cftBalance < formattedCFT) {
+        if (cftBalance < formattedCFT) {
           toast.error("Insufficient CFT balance to apply for this gig.");
-          return false;
+          return;
         }
 
         // Fetch user's info from CraftCoin contract
-        const craftCoinContract = getCraftCoinContract(provider);
         const nonce = await craftCoinContract.nonces(address);
         const name = await craftCoinContract.name();
         const version = await craftCoinContract.version?.() ?? "1";
