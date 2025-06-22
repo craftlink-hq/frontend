@@ -14,7 +14,7 @@ import { JobCardProps } from "@/utils/types";
 import { formatRelativeTime } from "@/utils/timeUtils";
 import { useGetUserRole } from "@/utils/store";
 import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
-import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo"; // Add this import
+import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
 
 // Function to determine job status based on smart contract state
 const getJobStatus = (gigInfo: any) => {
@@ -65,18 +65,17 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+
+  const { role } = useGetUserRole();
+  const { requiredCFT } = useGetRequiredCFT(job.id as string);
+  const gigInfo = useGetGigInfo(job.id as string);
   
   // State for relative time that updates automatically
+  // Now job.createdAt is a real ISO timestamp from the backend
   const [relativeTime, setRelativeTime] = useState(() => 
     formatRelativeTime(job.createdAt)
   );
 
-  const { role } = useGetUserRole();
-  const { requiredCFT } = useGetRequiredCFT(job.id as string);
-  
-  // Add this hook to get smart contract gig info
-  const gigInfo = useGetGigInfo(job.id as string);
-  
   // Get dynamic status based on smart contract state
   const jobStatus = getJobStatus(gigInfo);
 
