@@ -37,7 +37,7 @@ const useGetClientCreatedGigs = () => {
     } finally {
       stopLoading();
     }
-  }, [address, createdGigs]);
+  }, [address, startLoading, stopLoading]);
 
   useEffect(() => {
     fetchClientCreatedGigs();

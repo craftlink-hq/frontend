@@ -56,7 +56,7 @@ const Portfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
                 src={project.imgSrc[0]}
                 alt="Project image"
                 fill
-                style={{ objectFit: "cover", objectPosition: "center" }}
+                style={{ objectFit: "contain", objectPosition: "center" }}
               />
             </span>
             <h3 className="font-bold text-lg md:text-xl px-2 text-[#F9F1E2]">

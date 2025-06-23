@@ -53,10 +53,13 @@ const useGetClientCreatedPaidJobs = () => {
       }
 
       setCreatedPaidJobs(createdPaidJobsList);
-    } catch (err: any) {
-      const errorMessage = err.message.includes("Invalid gig ID")
-        ? "Invalid gig ID provided"
-        : "Failed to fetch client paid jobs";
+    } catch (err: unknown) {
+      let errorMessage;
+      if ((err as Error).message.includes("User rejected")) {
+           errorMessage = "Invalid gig ID provided";
+        } else {
+          errorMessage = "Failed to fetch client open jobs";
+        }
       setError(errorMessage);
       toast.error(errorMessage);
       console.error("Error fetching paid jobs:", err);
@@ -64,7 +67,7 @@ const useGetClientCreatedPaidJobs = () => {
     } finally {
       stopLoading();
     }
-  }, [address, createdGigs, gigsError]);
+  }, [address, createdGigs, gigsError, startLoading, stopLoading]);
 
   useEffect(() => {
     if (isConnected && !gigsLoading) {
@@ -73,7 +76,7 @@ const useGetClientCreatedPaidJobs = () => {
       setCreatedPaidJobs(null);
       setError(null);
     }
-  }, [isConnected, gigsLoading]);
+  }, [isConnected, gigsLoading, fetchClientCreatedPaidJobs]);
 
   return { createdPaidJobs, isLoading: isLoading || gigsLoading, error: error || gigsError };
 };

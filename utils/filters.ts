@@ -32,19 +32,19 @@ const ExperienceLevel: string[] = [
   "EXPERT"
 ]
 
-const Rating: string[] = [
-  "1 star",
-  "2 stars",
-  "3 stars",
-  "4 stars",
-  "5 stars"
-]
+// const Rating: string[] = [
+//   "1 star",
+//   "2 stars",
+//   "3 stars",
+//   "4 stars",
+//   "5 stars"
+// ]
 
-const JobHistory: string[] = [
-  "No Employment",
-  "1-9 Employments",
-  "10+ Employments"
-]
+// const JobHistory: string[] = [
+//   "No Employment",
+//   "1-9 Employments",
+//   "10+ Employments"
+// ]
 
 const Location: string[] = [
   "Remote",

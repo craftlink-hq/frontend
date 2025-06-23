@@ -31,7 +31,7 @@ const useGetGigApplicants = () => {
     } finally {
       stopLoading();
     }
-  }, [address, gigApplicants]);
+  }, [address, startLoading, stopLoading]);
 
   useEffect(() => {
     fetchGigApplicants();

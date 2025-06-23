@@ -27,7 +27,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
       animateX={0}
       exitX={"-100%"}
       duration={1.0}
-      className="group hover:bg-[#F2E8CF0A] border border-[#FCFBF726] w-[92%] md:w-full rounded-xl flex flex-col  gap-y-2 font-merriweather"
+      className="group hover:bg-[#F2E8CF0A] border border-[#FCFBF726] w-[92%] md:w-full rounded-xl flex flex-col  gap-y-4 font-merriweather"
     >
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-4">
@@ -122,9 +122,13 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             ${job?.job?.price}
             <span className="text-sm font-normal text-[#FFCC6D]">(Fixed)</span>
           </span>
+          
         </div>
+         <span className="text-[#B5B4AD] text-sm">
+            ≈ ₦{job.job?.price ? (job.job.price * 1500).toLocaleString() : "2,250,000"}
+          </span>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           {/* Dates */}
           <div className="flex gap-x-2 flex-wrap">
             <span className="relative h-[20px] w-[20px] self-center ">
@@ -136,7 +140,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain", objectPosition: "center" }}
               />
             </span>
-            <p className="font-merriweather self-center text-sm md:text-base  lg:text-lg text-[#B5B4AD] pr-2 ">
+            <p className="font-merriweather self-center text-sm text-[#B5B4AD] pr-2 ">
               Start Date: {job?.startDate}
             </p>
             <p className="self-center border-b w-4 border-[#FCFBF726]"></p>
@@ -149,7 +153,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain", objectPosition: "center" }}
               />
             </span>
-            <p className="font-merriweather text-sm md:text-base  lg:text-lg self-center text-[#B5B4AD]">
+            <p className="font-merriweather text-sm self-center text-[#B5B4AD]">
               End Date: {job?.endDate}
             </p>
           </div>
@@ -157,7 +161,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
           {/* Status */}
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-[#F9F1E2] font-medium">
+            <span className="text-[#F9F1E2] font-medium text-sm">
               Completed:{" "}
               <span className="text-[#B5B4AD] ">Payment Released</span>
             </span>

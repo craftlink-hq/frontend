@@ -22,23 +22,36 @@ body {
 }
 html, body {
   overflow: auto;
-  scrollbar-width: none;
+  /* scrollbar-width: none; */
 }
 
 html::-webkit-scrollbar {
-  display: none;
+  /* display: none; */
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  width: 8px; /* Width of the scrollbar */
+  height: 8px; /* Height of the scrollbar */
+  background-color: transparent; /* Transparent scrollbar background */
+  border-radius: 10px; /* Rounded corners for the scrollbar */
+  margin: 2px; /* Space around the scrollbar */
+  border: 2px solid transparent; /* Space around the scrollbar */
+  background-clip: content-box; /* Ensures the border doesn't cover the scrollbar */
  }
  
  ::-webkit-scrollbar-track {
-  display: none;
+  background: transparent; /* Transparent scrollbar track */
+  border-radius: 10px; /* Rounded corners for the track */
+  margin: 2px; /* Space around the track */
+  border: 2px solid transparent; /* Space around the track */
+  background-clip: content-box; /* Ensures the border doesn't cover the track */
  }
  
  ::-webkit-scrollbar-thumb {
-  display: none;
+  background-color: #262208; /* Semi-transparent scrollbar thumb */
+  border-radius: 10px;
+  border: 2px solid transparent; /* Space around the thumb */
+  background-clip: content-box; /* Ensures the border doesn't cover the thumb */
  }
 
  .connect {

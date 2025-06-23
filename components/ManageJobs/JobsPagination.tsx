@@ -48,22 +48,35 @@ const Pagination = ({
     return pages
   }
 
+  // Generate dropdown options that are less than or equal to total items
+  const getDropdownOptions = () => {
+    const options = [1, 2, 4, 8, 12, 20]
+    return options.filter((option) => option <= totalItems)
+  }
+
+  // Calculate current view range
+  const startItem = (currentPage - 1) * itemsPerPage + 1
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems)
+
   return (
-    <div className="flex bg-[#F2E8CF0A] border border-[#F2E8CF0A] rounded-md justify-between items-center  p-4 text-[#F9F1E2]">
+    <div className="flex bg-[#F2E8CF0A] border border-[#F2E8CF0A] rounded-md justify-between items-center p-4 text-[#F9F1E2]">
       {/* Items per page info */}
       <div className="flex items-center gap-2 text-[#B5B4AD] text-sm">
         <span>Showing per page:</span>
         <select
           value={itemsPerPage}
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-          className=" border-[0.5px] border-[#FD9C49] bg-[#1A1A1A] rounded px-2 py-1 text-[#FDFDFD] text-sm capitalize"
+          className="border-[0.5px] border-[#FD9C49] bg-[#1A1A1A] rounded px-2 py-1 text-[#FDFDFD] text-sm capitalize"
         >
-          <option value={4}>4 {itemType}</option>
-          <option value={8}>8 {itemType}</option>
-          <option value={12}>12 {itemType}</option>
-          <option value={20}>20 {itemType}</option>
+          {getDropdownOptions().map((option) => (
+            <option key={option} value={option}>
+              {option} {itemType}
+            </option>
+          ))}
         </select>
-        <span>of {totalItems.toLocaleString()}</span>
+        <span>
+          ({startItem}-{endItem} of {totalItems.toLocaleString()})
+        </span>
       </div>
 
       {/* Page navigation */}

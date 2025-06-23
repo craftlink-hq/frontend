@@ -31,7 +31,7 @@ const useGetArtisanAppliedGigs = () => {
     } finally {
       stopLoading();
     }
-  }, [address, appliedGigs]);
+  }, [address, startLoading, stopLoading]);
 
   useEffect(() => {
     fetchClientCreatedGigs();

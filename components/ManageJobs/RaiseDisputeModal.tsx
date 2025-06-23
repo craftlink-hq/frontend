@@ -333,10 +333,12 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                         {formData.files.filter(f => f.type === 'image').map((file) => (
                           <div key={file.id} className="relative group">
                             <div className="rounded-lg overflow-hidden aspect-square bg-gray-700">
-                              <img 
-                                src={file.url} 
+                              <Image
+                                src={file.url}
                                 alt={file.name}
+                                fill
                                 className="w-full h-full object-cover"
+                                style={{ objectFit: 'cover' }}
                               />
                             </div>
                             <button

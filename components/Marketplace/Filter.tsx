@@ -35,17 +35,17 @@ const Filter = ({ filters }: { filters: FilterProps[] }) => {
   return (
     <div className="max-sm:py-4">
       <div
-        className="bg-[#F2E8CF0A]  grid rounded-md border shadow-md border-[#FCFBF726] px-2 w-[92%] md:w-full"
+        className="bg-[#F2E8CF0A]  grid rounded-md border h-full shadow-md border-[#FCFBF726] px-2 w-[92%] md:w-full"
       >
         <div className="flex justify-between px-2 py-4">
           <span className="font-merriweather text-[#F9F1E2] font-bold">
             Filter
           </span>
-          <div className="gap-x-2 flex self-center">
+          <div className="gap-x-2 flex items-start ">
             <span className="font-merriweather text-[#FAEED4] font-bold">
               RESET
             </span>
-            <div className="relative h-[20px] w-[20px] self-center">
+            <div className="relative h-[20px] w-[20px] ">
               <Image
                 src="/reset.png"
                 alt="reset"
@@ -56,7 +56,7 @@ const Filter = ({ filters }: { filters: FilterProps[] }) => {
             </div>
           </div>
         </div>
-        <div className="w-full flex flex-col gap-y-4 p-4">
+        <div className="w-full flex flex-col gap-y-4 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FCFBF726] ">
           {filters.map(({ filter, options }) => (
             <div className="py-2" key={filter}>
               <button

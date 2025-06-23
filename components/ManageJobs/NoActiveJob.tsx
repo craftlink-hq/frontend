@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import Image from "next/image";
 
 interface NoJobsPageProps {
   onBrowseJobs?: () => void;
@@ -10,11 +11,16 @@ const NoJobsPage: React.FC<NoJobsPageProps> = ({ onBrowseJobs }) => {
       <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full text-center shadow-xl">
         {/* Illustration */}
         <div className="mb-6">
-          <img 
-            src="/market/image 110.svg" 
-            alt="No active jobs illustration" 
-            className="w-32 h-32 mx-auto"
-          />
+          {/* Using a fixed size for the illustration container */}
+          <div className="w-32 h-32 mx-auto relative">
+            <Image
+              src="/market/image 110.svg"
+              alt="No active jobs illustration"
+              layout="fill"
+              objectFit="contain"
+              priority
+            />
+          </div>
         </div>
 
         {/* Content */}
@@ -23,7 +29,8 @@ const NoJobsPage: React.FC<NoJobsPageProps> = ({ onBrowseJobs }) => {
             You have no active jobs at the moment
           </h2>
           <p className="text-gray-300 text-sm leading-relaxed">
-            Once a client hires you, your jobs will appear here.<br />
+            Once a client hires you, your jobs will appear here.
+            <br />
             Keep an eye on your applications!
           </p>
         </div>
@@ -46,11 +53,15 @@ export const NoJobsCard: React.FC<NoJobsPageProps> = ({ onBrowseJobs }) => {
     <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full text-center shadow-xl mx-auto">
       {/* Illustration */}
       <div className="mb-6">
-        <img 
-          src="/market/image 110.svg" 
-          alt="No active jobs illustration" 
-          className="w-32 h-32 mx-auto"
-        />
+        <div className="w-32 h-32 mx-auto relative mb-6">
+          <Image
+            src="/market/image 110.svg"
+            alt="No active jobs illustration"
+            layout="fill"
+            objectFit="contain"
+            priority
+          />
+        </div>
       </div>
 
       {/* Content */}
@@ -59,7 +70,8 @@ export const NoJobsCard: React.FC<NoJobsPageProps> = ({ onBrowseJobs }) => {
           You have no active jobs at the moment
         </h2>
         <p className="text-gray-300 text-sm leading-relaxed">
-          Once a client hires you, your jobs will appear here.<br />
+          Once a client hires you, your jobs will appear here.
+          <br />
           Keep an eye on your applications!
         </p>
       </div>
@@ -78,13 +90,11 @@ export const NoJobsCard: React.FC<NoJobsPageProps> = ({ onBrowseJobs }) => {
 // Example usage as a page
 const App: React.FC = () => {
   const handleBrowseJobs = () => {
-    console.log('Navigate to browse jobs page');
+    console.log("Navigate to browse jobs page");
     // Add your navigation logic here
   };
 
-  return (
-    <NoJobsPage onBrowseJobs={handleBrowseJobs} />
-  );
+  return <NoJobsPage onBrowseJobs={handleBrowseJobs} />;
 };
 
 export default App;

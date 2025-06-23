@@ -64,7 +64,7 @@ const PaymentSuccessModal = ({  onDone, onLeaveReview, amount, walletAddress }: 
       <div className="flex gap-3">
         <button
           onClick={onDone}
-          className="flex-1 bg-[#1A1A1A] text-[#F9F1E2] font-bold py-3 px-4 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"
+          className="flex-1 bg-[#262208] text-[#F9F1E2] font-bold py-3 px-4 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"
         >
           Done
         </button>
