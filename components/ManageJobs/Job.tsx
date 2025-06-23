@@ -36,7 +36,7 @@ const ManageJobs = ({
 }: Readonly<ManageJobProps>) => {
   const { filterState } = useFilterState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
 
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
 

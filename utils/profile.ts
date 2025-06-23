@@ -45,6 +45,7 @@ export interface DetailsProps {
   amountEarned?: number;
   rating?: number;
   tagline: string;
+  yearOfExperience?: number;
 }
 
 export interface ReviewsProp {

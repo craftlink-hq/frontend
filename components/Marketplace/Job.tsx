@@ -151,7 +151,7 @@ const PostedJob = ({ job }: { job: Job }) => {
             duration={0.5}
             className="bg-[#333333] border border-[#FCFBF726] md:w-[60vw] h-[90vh] rounded-xl p-4 relative  "
           >
-            <div className="h-[90%] overflow-y-scroll">
+            <div className="h-[90%]  overflow-y-scroll">
             <JobDetails job={job} />
             </div>
           </AnimatedDiv>

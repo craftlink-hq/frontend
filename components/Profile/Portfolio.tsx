@@ -99,7 +99,7 @@ const Portfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
             duration={0.5}
             className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] h-[90vh] rounded-xl p-4 relative  "
           >
-            <div className="h-[90%] overflow-y-scroll">
+            <div className="h-[90%]  overflow-y-scroll">
               <EditPortfolio
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

@@ -76,7 +76,7 @@ const JobDetails = ({ job }: { job: Job }) => {
     },
   ];
   return (
-    <div className="text-start font-merriweather w-full flex items-start gap-y-4 flex-col px-4 py-8">
+    <div className="text-start h-full  overflow-y-scroll font-merriweather w-full flex items-start gap-y-4 flex-col px-4 py-8">
       <h1 className="text-[#FCFBF7] font-bold border-b-2 border-yellow ">
         JOB DETAILS
       </h1>

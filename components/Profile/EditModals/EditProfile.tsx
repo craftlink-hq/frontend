@@ -105,54 +105,56 @@ const EditProfile: React.FC<ProfileEditModalProps> = ({
 
   return (
     <div>
-      <div className="rounded-lg p-6 relative  max-h-[90vh] overflow-y-auto text-[#F9F1E2] font-merriweather">
+      <div className="rounded-lg p-6 relative h-full   text-[#F9F1E2] font-merriweather">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-yellow">EDIT ABOUT</h2>
+          <div>
+          <h2 className="text-xl font-bold text-[#F9F1E2]">EDIT PROFILE</h2>
+          <div className="w-16 h-1 bg-yellow mt-1"></div>
+          </div>
         </div>
 
         <div className="space-y-4 px-4 ">
-                  <div className="space-y-4 p-4  border rounded-md border-[#FCFBF726]">
+          <div className="space-y-4 p-4  border rounded-md border-[#FCFBF726]">
+            {/* Username */}
+            <div>
+              <p className="font-bold mb-2">Username</p>
+              <input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                className="w-full font-merriweather bg-[#F2E8CF29] p-3 border rounded-md border-[#FCFBF726] placeholder:text-[#D8D6CF] focus:outline-[#333333] text-[#F9F1E2]"
+              />
+            </div>
 
-          {/* Username */}
-          <div>
-            <p className="font-bold mb-2">Username</p>
-            <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your username"
-              className="w-full font-merriweather bg-[#F2E8CF29] p-3 border rounded-md border-[#FCFBF726] placeholder:text-[#D8D6CF] focus:outline-[#333333] text-[#F9F1E2]"
-            />
-          </div>
+            {/* Location */}
+            <div>
+              <p className="font-bold mb-2">Location</p>
+              <input
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Select your location"
+                className="w-full font-merriweather bg-[#F2E8CF29] p-3 border rounded-md border-[#FCFBF726] placeholder:text-[#D8D6CF] focus:outline-[#333333] text-[#F9F1E2]"
+              />
+            </div>
 
-          {/* Location */}
-          <div>
-            <p className="font-bold mb-2">Location</p>
-            <input
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Select your location"
-              className="w-full font-merriweather bg-[#F2E8CF29] p-3 border rounded-md border-[#FCFBF726] placeholder:text-[#D8D6CF] focus:outline-[#333333] text-[#F9F1E2]"
-            />
-          </div>
-
-          {/* Artisan Category */}
-          <div>
-            <Select
-              onSelect={setCategory}
-              filters={ArtisanCategory}
-              placeholder="Select category"
-            />
-          </div>
+            {/* Artisan Category */}
+            <div>
+              <Select
+                onSelect={setCategory}
+                filters={ArtisanCategory}
+                placeholder="Select category"
+              />
+            </div>
           </div>
 
           {/* Profile Picture */}
           <div className=" border border-[#FCFBF726] p-4 rounded-md">
             <p className="font-bold mb-2">Profile Picture</p>
             <div className="flex flex-col items-center">
-              {imagePreview  ? (
+              {imagePreview ? (
                 <div className="relative h-32 w-32 mb-4">
                   <Image
-                    src={imagePreview }
+                    src={imagePreview}
                     alt="Profile avatar"
                     fill
                     className="rounded-lg object-cover"

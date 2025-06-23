@@ -51,7 +51,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
             src={image}
             alt={role}
             fill
-            style={{ objectFit: "contain" }}
+            style={{ objectFit: "cover" }}
             className="rounded-lg shadow-lg"
           />
         </div>
