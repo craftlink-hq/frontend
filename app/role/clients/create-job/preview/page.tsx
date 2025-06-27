@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 import axios from "@/app/API/axios";
 import handleApiError, { GigResponse } from "@/app/API/handleApiError";
 import useCreateGig from "@/hooks/Gasless/useCreateGig";
-import { useEffect } from "react";
 import Loading from "@/components/Loading";
 
 export default function ProfilePreview() {
