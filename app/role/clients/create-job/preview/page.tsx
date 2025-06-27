@@ -13,6 +13,7 @@ import axios from "@/app/API/axios";
 import handleApiError, { GigResponse } from "@/app/API/handleApiError";
 import useCreateGig from "@/hooks/Gasless/useCreateGig";
 import { useEffect } from "react";
+import Loading from "@/components/Loading";
 
 export default function ProfilePreview() {
   const {
@@ -34,22 +35,19 @@ export default function ProfilePreview() {
   const { createGig, isLoading: createGigLoading } = useCreateGig();
   const { role } = useGetUserRole();
 
-  useEffect(() => {
-    if (createGigLoading) {
-      startLoading();
-    } else {
-      stopLoading();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createGigLoading]);
-
   const handlePostJobClick = async () => {
     if (role != "client") {
       toast.error("Please register as a client first.");
       return;
     }
 
+    if (!address) {
+      toast.error("Wallet not connected.");
+      return;
+    }
+
     startLoading();
+    console.log("Posting job with data");
     try {
       const jobData = {
         clientAddress: address,
@@ -68,20 +66,39 @@ export default function ProfilePreview() {
         price: amount,
       };
 
-      const backendResponse = await axios.post("/api/gigs", jobData);
-      const data = await handleApiError<GigResponse>(backendResponse);
+      console.log("Job data to be staged:", jobData);
+      const stageResponse = await axios.post("/api/gigs/stage", jobData);
+      console.log("Stage response:", stageResponse.data);
+      const stageData = await handleApiError<GigResponse>(stageResponse);
 
-      const formattedRoot = data.merkleRoot.startsWith("0x")
-        ? data.merkleRoot
-        : `0x${data.merkleRoot}`;
-
-      const formattedDatabaseId = data.databaseId.startsWith("0x")
-        ? data.databaseId
-        : `0x${data.databaseId}`;
-
+      const formattedRoot = stageData.merkleRoot.startsWith("0x")
+        ? stageData.merkleRoot
+        : `0x${stageData.merkleRoot}`;
+      const formattedDatabaseId = stageData.databaseId.startsWith("0x")
+        ? stageData.databaseId
+        : `0x${stageData.databaseId}`;
+      const merkleProof = stageData.merkleProof;
       const budgetInBaseUnit = Number(amount) / 1000000;
 
-      createGig(formattedRoot, formattedDatabaseId, budgetInBaseUnit);
+      console.log("Formatted Merkle Root:", formattedRoot);
+      const createGigResult = await createGig(formattedRoot, formattedDatabaseId, budgetInBaseUnit);
+      if (!createGigResult) {
+        throw new Error("Blockchain transaction failed");
+      }
+
+      console.log("Gig created successfully on blockchain");
+      const confirmResponse = await axios.post("/api/gigs/confirm", {
+        ...jobData,
+        databaseId: formattedDatabaseId,
+        merkleRoot: formattedRoot,
+        merkleProof,
+        status: 'CREATED',
+        createdAt: new Date(),
+      });
+      await handleApiError(confirmResponse);
+
+      toast.success("Gig successfully posted!");
+      router.push("/manage-jobs/clients");
     } catch (error) {
       toast.error("Error posting job");
       console.error(error);
@@ -137,40 +154,42 @@ export default function ProfilePreview() {
   };
 
   return (
-    <div className="px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
-      <div className="w-fit pt-8">
-        <h1 className="font-bold text-xl">JOB POST PREVIEW</h1>
-        <p className="border-b-2 border-yellow w-[60%]"></p>
+    <Loading show={createGigLoading}>
+      <div className="px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
+        <div className="w-fit pt-8">
+          <h1 className="font-bold text-xl">JOB POST PREVIEW</h1>
+          <p className="border-b-2 border-yellow w-[60%]"></p>
+        </div>
+        <div className="hidden md:grid w-full">
+          <ClientStatus
+            title={"Here's What Artisans Will See!"}
+            desc={
+              "You're one step away from finding the perfect artisan! Double-check your details before posting."
+            }
+            button={"POST JOB NOW"}
+            onClick={handlePostJobClick}
+            imageSrc={"/client-preview.png"}
+            clientButton={"EDIT JOB POST"}
+            clientOnClick={handleEditJobClick}
+          />
+        </div>
+        <div className="md:hidden w-full">
+          <ClientStatus
+            title={"Here's What Artisans Will See!"}
+            desc={
+              "You're one step away from finding the perfect artisan! Double-check your details before posting."
+            }
+            button={"POST"}
+            onClick={handlePostJobClick}
+            imageSrc={"/client-preview.png"}
+            clientButton={"EDIT JOB"}
+            clientOnClick={handleEditJobClick}
+          />
+        </div>
+        <ProjectDetails project={jobData} />
+        {/* <ClientCard client={jobData.client} /> */}
+        <Footer />
       </div>
-      <div className="hidden md:grid w-full">
-        <ClientStatus
-          title={"Here's What Artisans Will See!"}
-          desc={
-            "You're one step away from finding the perfect artisan! Double-check your details before posting."
-          }
-          button={"POST JOB NOW"}
-          onClick={handlePostJobClick}
-          imageSrc={"/client-preview.png"}
-          clientButton={"EDIT JOB POST"}
-          clientOnClick={handleEditJobClick}
-        />
-      </div>
-      <div className="md:hidden w-full">
-        <ClientStatus
-          title={"Here's What Artisans Will See!"}
-          desc={
-            "You're one step away from finding the perfect artisan! Double-check your details before posting."
-          }
-          button={"POST"}
-          onClick={handlePostJobClick}
-          imageSrc={"/client-preview.png"}
-          clientButton={"EDIT JOB"}
-          clientOnClick={handleEditJobClick}
-        />
-      </div>
-      <ProjectDetails project={jobData} />
-      {/* <ClientCard client={jobData.client} /> */}
-      <Footer />
-    </div>
+    </Loading>
   );
 }

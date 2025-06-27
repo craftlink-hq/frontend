@@ -26,15 +26,22 @@ const useCreateGig = () => {
     async (rootHash: string, databaseId: string, budget: number) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
+      }
+      if (!rootHash || !databaseId || !budget) {
+        toast.error("Invalid gig parameters");
+        return false;
       }
 
       startLoading();
       try {
+        console.log("Creating gig");
+        console.log("Creating gig with parameters:", rootHash, databaseId, budget || 0);
+        console.log("Using address:", address);
         const provider = getProvider(walletProvider);
         const tokenContract = getTokenContract(provider);
 
@@ -109,6 +116,7 @@ const useCreateGig = () => {
         if (!RELAYER_URL) {
           throw new Error("Relayer URL is not defined");
         }
+        console.log("Sending gasless transaction to relayer:");
         const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -120,12 +128,14 @@ const useCreateGig = () => {
           }),
         });
 
+        console.log("Response from relayer:", response);
         const result = await response.json();
         if (result.success) {
           toast.success("Gig created successfully");
-          router.push("/manage-jobs/clients");
+          return true;
         } else {
           toast.error(`Error: ${result.message}`);
+          return false;
         }
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
@@ -134,6 +144,7 @@ const useCreateGig = () => {
           toast.error("Error during gig creation");
           console.error(error);
         }
+        return false;
       } finally {
         stopLoading();
       }
