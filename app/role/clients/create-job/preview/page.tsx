@@ -46,7 +46,6 @@ export default function ProfilePreview() {
     }
 
     startLoading();
-    console.log("Posting job with data");
     try {
       const jobData = {
         clientAddress: address,
@@ -65,9 +64,7 @@ export default function ProfilePreview() {
         price: amount,
       };
 
-      console.log("Job data to be staged:", jobData);
       const stageResponse = await axios.post("/api/gigs/stage", jobData);
-      console.log("Stage response:", stageResponse.data);
       const stageData = await handleApiError<GigResponse>(stageResponse);
 
       const formattedRoot = stageData.merkleRoot.startsWith("0x")
@@ -79,13 +76,11 @@ export default function ProfilePreview() {
       const merkleProof = stageData.merkleProof;
       const budgetInBaseUnit = Number(amount) / 1000000;
 
-      console.log("Formatted Merkle Root:", formattedRoot);
       const createGigResult = await createGig(formattedRoot, formattedDatabaseId, budgetInBaseUnit);
       if (!createGigResult) {
         throw new Error("Blockchain transaction failed");
       }
 
-      console.log("Gig created successfully on blockchain");
       const confirmResponse = await axios.post("/api/gigs/confirm", {
         ...jobData,
         databaseId: formattedDatabaseId,
