@@ -37,7 +37,7 @@ Built using **Next.js**, **Tailwind CSS**, and **smart contracts on Lisk**, Craf
 
    ```bash
    git clone https://github.com/craftlink-hq/frontend.git
-   cd craft-link
+   cd craftlink-hq/frontend
    ```
 
 2. **Install dependencies**

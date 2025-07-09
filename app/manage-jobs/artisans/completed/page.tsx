@@ -1,10 +1,12 @@
 "use client";
 import { appliedJobFilters } from "@/utils/filters";
-import { Actives } from "@/utils/job";
 import CompletedJob from "@/components/ManageJobs/Completed";
 import ManageJobs from "@/components/ManageJobs/Job";
+import { useFetchArtisanCompletedGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanCompletedGigs";
 
 export default function CompletedJobs() {
+  const { completedGigs: Completed } = useFetchArtisanCompletedGigs();
+
   return (
     <div>
       <ManageJobs
@@ -14,7 +16,7 @@ export default function CompletedJobs() {
         }
         imageSrc={"/completed.png"}
         filters={appliedJobFilters}
-        jobs={Actives}
+        jobs={Completed}
         JobStatus={CompletedJob}
         jobType={"completed"}
         pageDetails={

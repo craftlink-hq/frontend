@@ -20,7 +20,7 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
         title: "No Active Jobs Yet",
         desc: "",
         imageSrc: "/man.svg",
-        buttonText: "POST JOB",
+        buttonText: "BROWSE JOB",
         showDesc: false
       };
     } else {

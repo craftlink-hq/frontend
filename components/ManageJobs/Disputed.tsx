@@ -6,16 +6,16 @@ import { formatDate } from "@/utils/formatDate";
 import { useState } from "react";
 import RaiseDisputeModal from "./RaiseDisputeModal";
 import Modal from "../Modal";
+import { useFetchArtisanDisputedGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanDisputedGigs";
 
 const DisputedJobCard = ({ job }: { job: Applied }) => {
-    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const { disputedGigs } = useFetchArtisanDisputedGigs();
+  console.log("Disputed Gigs:", disputedGigs);
 
   const handleCloseDetailsModal = () => {
     setIsDetailsModalOpen(false);
   };
-
- 
 
   return (
     <AnimatedDiv

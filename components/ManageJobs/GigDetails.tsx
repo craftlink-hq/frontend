@@ -1,13 +1,8 @@
 "use client";
 import { Job } from "@/utils/job";
 import Image from "next/image";
-import Modal from "../Modal";
-import AnimatedDiv from "@/components/AnimatedDiv";
-import React, { useState } from "react";
-import AttachedFiles from "./AttachedFiles";
-import Apply from "./Apply";
-import ClientDetails from "./ClientDetails";
-import { MdOutlineReport } from "react-icons/md";
+import React from "react";
+import AttachedFiles from "../Marketplace/AttachedFiles";
 import { formatDate } from "@/utils/formatDate";
 
 interface TitleDetails {
@@ -15,7 +10,7 @@ interface TitleDetails {
   imgSrc: string;
 }
 
-interface JobDetails {
+interface GigDetails {
   detail: string;
   detailValue?: string;
   imgSrc: string;
@@ -28,15 +23,7 @@ export interface Client {
   description?: string;
 }
 
-const JobDetails = ({ job }: { job: Job }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const client: Client = {
-    walletAddress: job.clientAddress || "",
-    verificationStatus: true,
-    dateJoined: job.createdAt,
-    description: job.clientDescription,
-  };
+const GigDetails = ({ job }: { job: Job }) => {
 
   const titleDetails: TitleDetails[] = [
     {
@@ -56,8 +43,8 @@ const JobDetails = ({ job }: { job: Job }) => {
     },
   ];
 
-  const displayPrice = job.price ? job.price / 1000000 : 0;
-  const jobDetails: JobDetails[] = [
+  const displayPrice = job.price ? job.price : 404;
+  const gigDetails: GigDetails[] = [
     {
       imgSrc: "/money.png",
       detail: "Budget",
@@ -108,7 +95,7 @@ const JobDetails = ({ job }: { job: Job }) => {
         </p>
       </div>
       <div className="py-8 font-merriweather w-full self-start p-4 bg-[#F2E8CF0A] rounded-lg text-fontPrimary flex flex-wrap gap-4">
-        {jobDetails.map((details) => (
+        {gigDetails.map((details) => (
           <div
             key={details.detail}
             className="rounded-xl xl:w-[25%] grid gap-y-4 p-4 border border-[#FCFBF726]"
@@ -124,11 +111,6 @@ const JobDetails = ({ job }: { job: Job }) => {
             </div>
             <span className="capitalize text-start text-[#F9F1E2] text-lg">
               {details.detailValue}
-              {/* {details.detail == "Budget" && (
-                <span className="text-[#B5B4AD] font-normal text-base">
-                  ({job.price})
-                </span>
-              )} */}
             </span>
           </div>
         ))}
@@ -148,44 +130,15 @@ const JobDetails = ({ job }: { job: Job }) => {
       </div>
       <div className="bg-[#F2E8CF0A] text-start rounded-lg w-full p-4">
         <p className="text-[#B5B4AD]">ADDITIONAL NOTES</p>
-        <p className="text-[#D8D6CF] w-[70%]">{job.additionalProjectInfo}</p>
+        <p className="text-[#D8D6CF] w-[70%]">{job.additionalProjectInfo ? job.additionalProjectInfo : "NONE PROVIDED"}</p>
       </div>
       <div className="bg-[#F2E8CF0A] text-start rounded-lg w-full p-4 h-fit m">
         <p className="text-[#B5B4AD]">ATTACHED FILES</p>
         <div className="flex flex-wrap justify-start gap-x-4 w-full h-[10vh] py-2">
           <AttachedFiles files={job.files} />
-ß        </div>
+        </div>
       </div>
-      <div className="flex gap-x-4">
-        <button
-          className="bg-yellow text-[#1A1203] font-merriweather font-bold rounded-md text-[#1A1203 py-2 px-4"
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-        >
-          Apply For Job
-        </button>
-        <button className="flex gap-x-2 items-center">
-          <MdOutlineReport color={"#E5D1D1"} size={22} /> <p>Report this Job</p>
-        </button>
-      </div>
-      <div className="w-full">
-        <ClientDetails client={client} />
-      </div>
-      {isModalOpen && (
-        <Modal closeFn={() => setIsModalOpen(false)}>
-          <AnimatedDiv
-            initialX="200%"
-            animateX={0}
-            exitX={"-100%"}
-            duration={0.5}
-            className="bg-[#333333] border border-[#FCFBF726] md:w-[50vw] rounded-xl p-4  relative  "
-          >
-            <Apply onCancel={() => setIsModalOpen(false)} databaseId={job.id} />
-          </AnimatedDiv>
-        </Modal>
-      )}
     </div>
   );
 };
-export default JobDetails;
+export default GigDetails;
