@@ -7,7 +7,6 @@ import { Applied } from '@/utils/job';
 import { mapToApplied } from '@/utils/mapToApplied';
 import { useLoading } from '@/hooks/useLoading';
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
-import { ethers } from 'ethers';
 
 interface BackendGigData {
   _id: string;
