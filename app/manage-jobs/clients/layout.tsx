@@ -5,6 +5,8 @@ import { links } from "@/utils/links";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
+import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
 
 export default function Layout({
   children,
@@ -13,6 +15,8 @@ export default function Layout({
 }>) {
   const { filterState, setFilterState } = useFilterState();
   const pathname = usePathname();
+  const tokenBalance = useGetTokenBalance();
+  const checkAmountSpent = useGetClientAmountSpent();
 
   const isActive = (path: string) => pathname === path;
 
@@ -67,7 +71,7 @@ export default function Layout({
                         </span>
                       </div>
                       <div className="text-2xl font-bold text-[#FFCC6D] font-alata">
-                        {50} <span className="text-lg">USDT</span>
+                        {tokenBalance} <span className="text-lg">USDT</span>
                       </div>
                     </div>
 
@@ -79,7 +83,7 @@ export default function Layout({
                         </span>
                       </div>
                       <div className="text-2xl font-bold text-[#FFCC6D] font-alata">
-                        {1000} <span className="text-lg">USDT</span>
+                        {checkAmountSpent} <span className="text-lg">USDT</span>
                       </div>
                     </div>
                   </div>

@@ -1,10 +1,12 @@
 "use client";
 import { filters } from "@/utils/filters";
-import { Applications } from "@/utils/job";
 import OpenJob from "@/components/ManageJobs/Open";
 import ManageJobs from "@/components/ManageJobs/Job";
+import { useFetchClientPostedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientPostedGigs";
 
 export default function AppliedJobs() {
+  const { postedGigs: Applications } = useFetchClientPostedGigs();
+
   return (
     <div>
       <ManageJobs
