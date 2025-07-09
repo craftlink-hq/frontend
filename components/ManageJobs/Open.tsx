@@ -3,11 +3,24 @@
 import type { Applied } from "@/utils/job";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import Image from "next/image";
+import { formatDate } from "@/utils/formatDate";
+import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
+import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
 // import { formatDate } from "@/utils/formatDate"
 // import { IoChatbubbleEllipses } from "react-icons/io5";
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants;
+  const { clientData } = useGetClientInfo(job.job.client?.walletAddress);
+  const closeGig = useCloseGig();
+
+  const handleCloseJob = () => {
+    if (job.job.id) {
+      closeGig(job.job.id);
+    } else {
+      console.error("Job ID is not available for closing the job.");
+    }
+  };
 
   return (
     <AnimatedDiv
@@ -20,7 +33,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-4">
         <span className=" text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-[10px]">
-          Posted: 2 weeks ago
+          Posted: {formatDate(job.job?.createdAt) || "Two weeks ago"}
         </span>
       </div>
 
@@ -42,7 +55,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
                 height="16"
               />
               <span className="font-merriweather text-[#D8D6CF]">
-                {job.job.preferredLocation}
+                {clientData?.location}
               </span>
             </div>
             <div className="flex justify-center items-center gap-x-2 px-2  border-r border-[#FCFBF726] ">
@@ -53,7 +66,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
                 height="16"
               />
               <span className="font-merriweather text-[#D8D6CF]">
-                {job.job.language}
+                {clientData?.language || "English"}
               </span>
             </div>
             <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
@@ -257,10 +270,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
             </div>
 
             <div className="flex gap-3 justify-center">
-              <button className="bg-[#2A2A2A] text-[#F9F1E2] font-bold py-3 px-6 rounded uppercase text-sm hover:bg-[#3A3A3A] transition-colors">
-                Keep Job Open
-              </button>
-              <button className="bg-yellow text-[#1A1203] font-bold py-3 px-6 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
+              <button onClick={handleCloseJob} className="bg-yellow text-[#1A1203] font-bold py-3 px-6 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
                 Yes, Close Job
               </button>
             </div>
