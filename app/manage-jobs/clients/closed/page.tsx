@@ -6,7 +6,16 @@ import { useFetchClientClosedGigs } from "@/hooks/ManageJob/ClientHooks/useFetch
 import Loading from "@/components/Loading";
 
 export default function ClosedJobs() {
-  const { closedGigs: Closed, isLoading } = useFetchClientClosedGigs();
+  const { closedGigs: Closed, isLoading, error } = useFetchClientClosedGigs();
+
+  if (error) {
+    console.error("Error fetching closed gigs:", error);
+    return (
+      <div className="text-red-500">
+        Error fetching closed jobs. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <Loading show={isLoading}>

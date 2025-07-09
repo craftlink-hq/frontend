@@ -6,7 +6,16 @@ import { useFetchClientActiveGigs } from "@/hooks/ManageJob/ClientHooks/useFetch
 import Loading from "@/components/Loading";
 
 export default function ActiveJobs() {
-  const { activeGigs: Actives, isLoading } = useFetchClientActiveGigs();
+  const { activeGigs: Actives, isLoading, error } = useFetchClientActiveGigs();
+
+  if (error) {
+    console.error("Error fetching active gigs:", error);
+    return (
+      <div className="text-red-500">
+        Error fetching active jobs. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <Loading show={isLoading}>

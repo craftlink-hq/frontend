@@ -6,7 +6,16 @@ import { useFetchClientCompletedGigs } from "@/hooks/ManageJob/ClientHooks/useFe
 import Loading from "@/components/Loading";
 
 export default function CompletedJobs() {
-  const { completedGigs: Completed, isLoading } = useFetchClientCompletedGigs();
+  const { completedGigs: Completed, isLoading, error } = useFetchClientCompletedGigs();
+
+  if (error) {
+    console.error("Error fetching completed gigs:", error);
+    return (
+      <div className="text-red-500">
+        Error fetching completed jobs. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <Loading show={isLoading}>

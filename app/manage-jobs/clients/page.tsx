@@ -6,7 +6,16 @@ import { useFetchClientPostedGigs } from "@/hooks/ManageJob/ClientHooks/useFetch
 import Loading from "@/components/Loading";
 
 export default function AppliedJobs() {
-  const { postedGigs: Applications, isLoading } = useFetchClientPostedGigs();
+  const { postedGigs: Applications, isLoading, error } = useFetchClientPostedGigs();
+
+  if (error) {
+    console.error("Error fetching posted gigs:", error);
+    return (
+      <div className="text-red-500">
+        Error fetching posted jobs. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <Loading show={isLoading}>
