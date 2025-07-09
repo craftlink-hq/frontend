@@ -1,10 +1,12 @@
 "use client";
 import { appliedJobFilters } from "@/utils/filters";
-import { Actives } from "@/utils/job";
 import ActiveJob from "@/components/ManageJobs/Active";
 import ManageJobs from "@/components/ManageJobs/Job";
+import { useFetchArtisanActiveGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanActiveGigs";
 
 export default function ActiveJobs() {
+  const { activeGigs: Actives } = useFetchArtisanActiveGigs();
+
   return (
     <div>
       <ManageJobs
