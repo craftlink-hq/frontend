@@ -1,10 +1,12 @@
 "use client";
 import { appliedJobFilters } from "@/utils/filters";
-import { Completed } from "@/utils/job";
 import CompletedJob from "@/components/ManageJobs/Completed";
 import ManageJobs from "@/components/ManageJobs/Job";
+import { useFetchClientCompletedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientCompletedGigs";
 
 export default function CompletedJobs() {
+  const { completedGigs: Completed } = useFetchClientCompletedGigs();
+
   return (
     <div>
       <ManageJobs

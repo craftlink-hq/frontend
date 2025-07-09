@@ -2,13 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAccount } from 'wagmi';
 import { getGigContract } from '@/constants/contracts';
 import { readOnlyProvider } from '@/constants/providers';
-import axios from 'axios';
+import axios from "@/app/API/axios";
 import { Applied } from '@/utils/job';
 import { mapToApplied } from '@/utils/mapToApplied';
 import { useLoading } from '@/hooks/useLoading';
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
-import { ethers } from 'ethers';
-import { start } from 'repl';
 
 interface BackendGigData {
   _id: string;
