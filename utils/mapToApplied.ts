@@ -3,16 +3,16 @@ import { Applied, Job, Client, CompletedJob, Artisan } from '@/utils/job';
 
 interface BackendGigData {
   _id: string;
-  id: string; // databaseId
+  id: string;
   title: string;
   projectDuration: { weeks: number };
   preferredLocation: string;
   experienceLevel: string;
   projectDescription: string;
-  price: number;
+  price: number | null | undefined;
   skillCategory: string[];
   clientAddress: string;
-  createdAt: string;
+  createdAt?: string;
   status: string;
   contextLink?: string;
   additionalProjectInfo?: string;
@@ -60,7 +60,11 @@ export const mapToApplied = (
   let disputeRaisedDate: string | undefined;
   let disputeStatus: 'pending' | 'resolved' | 'escalated' | undefined;
 
-  // Determine status based on user type and gig state
+  const createdAt = backend.createdAt || new Date().toISOString();
+  if (!backend.createdAt) {
+    console.warn(`createdAt is undefined for gig ${backend.id}, using current date as fallback`);
+  }
+
   if (userType === 'artisan') {
     if (
       contract.hiredArtisan === '0x0000000000000000000000000000000000000000' &&
@@ -77,7 +81,7 @@ export const mapToApplied = (
       status = 'progress';
       statusMsg = 'Awaiting client confirmation';
       endDate = new Date(
-        new Date(backend.createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
+        new Date(createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
       )
         .toISOString()
         .split('T')[0];
@@ -89,22 +93,21 @@ export const mapToApplied = (
       status = 'progress';
       statusMsg = 'In progress';
       endDate = new Date(
-        new Date(backend.createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
+        new Date(createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
       )
         .toISOString()
         .split('T')[0];
     } else if (contract.hiredArtisan === userAddress && contract.isCompleted) {
       status = 'completed';
       statusMsg = 'Completed';
-      endDate = new Date().toISOString().split('T')[0]; // Approximation
-      feedback = 'Work completed successfully'; // Replace with backend data
-      rating = 4.5; // Replace with backend data
+      endDate = new Date().toISOString().split('T')[0];
+      feedback = 'Work completed successfully';
+      rating = 4.5;
     } else if (contract.isClosed) {
       status = 'closed';
       statusMsg = 'Closed: Client closed the gig';
     }
   } else {
-    // Client
     if (
       contract.hiredArtisan === '0x0000000000000000000000000000000000000000' &&
       !contract.isClosed &&
@@ -119,7 +122,7 @@ export const mapToApplied = (
       status = 'progress';
       statusMsg = 'In Progress: Artisan hired';
       endDate = new Date(
-        new Date(backend.createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
+        new Date(createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
       )
         .toISOString()
         .split('T')[0];
@@ -135,7 +138,6 @@ export const mapToApplied = (
     }
   }
 
-  // Handle disputes
   if (dispute) {
     status = 'dispute';
     statusMsg = dispute.disputeStatus === 'pending' ? 'Pending: Awaiting Action' : `Resolved: ${dispute.disputeType}`;
@@ -147,8 +149,8 @@ export const mapToApplied = (
 
   const client: Client = {
     walletAddress: contract.client,
-    verificationStatus: false, // Fetch from backend or registry
-    about: '', // Fetch from /api/artisans/:walletAddress
+    verificationStatus: false,
+    about: '',
     dateJoined: '',
     location: '',
     language: '',
@@ -157,21 +159,33 @@ export const mapToApplied = (
     avatar: '',
     id: contract.client,
     moneySpent: clientAmountSpent || 0,
-    completed: 0, // Fetch from contract or backend
+    completed: 0,
     posted: 0,
     noProjectSpentMoney: 0,
     rating: 0,
   };
 
+  let formattedPrice = 0;
+  if (backend.price != null) {
+    try {
+      formattedPrice = parseFloat(ethers.formatUnits(backend.price, 6));
+    } catch (err) {
+      console.error(`Error formatting price for gig ${backend.id}:`, err);
+      formattedPrice = 0;
+    }
+  } else {
+    console.warn(`Price is null or undefined for gig ${backend.id}`);
+  }
+
   const job: Job = {
     id: backend.id,
     _id: backend._id,
-    createdAt: backend.createdAt,
+    createdAt: createdAt,
     projectDuration: backend.projectDuration,
     title: backend.title,
     preferredLocation: backend.preferredLocation,
     experienceLevel: backend.experienceLevel,
-    price: parseFloat(ethers.formatUnits(backend.price, 6)), // Assuming USDC with 6 decimals
+    price: formattedPrice,
     projectDescription: backend.projectDescription,
     skillCategory: backend.skillCategory,
     contextLink: backend.contextLink,
@@ -179,13 +193,13 @@ export const mapToApplied = (
     files: backend.files?.map((file) => file.url) || [],
     images: backend.files?.filter((file) => file.url.match(/\.(jpg|jpeg|png|gif)$/i))?.map((file) => file.url) || [],
     client,
-    applicants: [], // Fetch via getGigApplicants if needed
+    applicants: [],
     status: backend.status,
     completedBy: contract.hiredArtisan !== '0x0000000000000000000000000000000000000000' ? { walletAddress: contract.hiredArtisan } as Artisan : undefined,
   };
 
   return {
-    startDate: backend.createdAt.split('T')[0],
+    startDate: createdAt.split('T')[0],
     status,
     statusMsg,
     job: job as CompletedJob,
