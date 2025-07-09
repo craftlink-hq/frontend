@@ -1,10 +1,12 @@
 "use client";
 import { appliedJobFilters } from "@/utils/filters";
-import {  Closed } from "@/utils/job";
 import ClosedJob from "@/components/ManageJobs/Closed";
 import ManageJobs from "@/components/ManageJobs/Job";
+import { useFetchClientClosedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientClosedGigs";
 
 export default function ClosedJobs() {
+  const { closedGigs: Closed } = useFetchClientClosedGigs();
+
   return (
     <div>
       <ManageJobs
