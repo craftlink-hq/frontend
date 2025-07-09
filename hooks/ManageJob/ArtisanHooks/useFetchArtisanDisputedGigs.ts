@@ -1,4 +1,3 @@
-// hooks/useFetchArtisanDisputedGigs.ts
 import { useState, useEffect, useCallback } from 'react';
 import { useAccount } from 'wagmi';
 import { getGigContract } from '@/constants/contracts';
