@@ -3,7 +3,7 @@ import { useAccount } from 'wagmi';
 import { getGigContract } from '@/constants/contracts';
 import { readOnlyProvider } from '@/constants/providers';
 import axios from "@/app/API/axios";
-import { Applied } from '@/utils/job';
+import { Applied } from '@/utils/types';
 import { mapToApplied } from '@/utils/mapToApplied';
 import { useLoading } from '@/hooks/useLoading';
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";

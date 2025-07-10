@@ -1,5 +1,5 @@
 "use client";
-import { Applied } from "@/utils/job";
+import { Applied } from "@/utils/types";
 import Image from "next/image";
 import React, { useState } from "react";
 import Modal from "../Modal";
@@ -10,7 +10,7 @@ import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 
 const AppliedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { clientData } = useGetClientInfo(job.job.client?.walletAddress);
+  const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
 
   return (
     <AnimatedDiv

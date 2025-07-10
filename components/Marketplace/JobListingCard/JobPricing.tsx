@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { JobPricingProps } from "@/utils/types";
+import Image from "next/image";
 
 const JobPricing: React.FC<JobPricingProps> = ({ job }) => {
   const formatPrice = (price: number) => {
@@ -35,7 +36,7 @@ const JobPricing: React.FC<JobPricingProps> = ({ job }) => {
       <div className="mb-4">
         <div className="flex items-end gap-2 mb-1">
           <div className="flex items-center gap-2">
-            <img src="/market/money-2.svg" alt="Price" className="w-4 h-4" style={{ filter: 'brightness(0) saturate(100%) invert(74%) sepia(85%) saturate(353%) hue-rotate(358deg) brightness(101%) contrast(97%)' }} />
+            <Image src="/market/money-2.svg" alt="Price" width={"4"} height={"4"} style={{ filter: 'brightness(0) saturate(100%) invert(74%) sepia(85%) saturate(353%) hue-rotate(358deg) brightness(101%) contrast(97%)' }} />
             <span className="job-price">
               ${job.price?.toLocaleString()}
             </span>

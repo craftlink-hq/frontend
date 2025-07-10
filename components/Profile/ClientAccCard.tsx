@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Client } from "@/utils/job";
+import { Client } from "@/utils/types";
 
 interface Details {
   detailValue: string | number;

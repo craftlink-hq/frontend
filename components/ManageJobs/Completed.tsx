@@ -1,6 +1,6 @@
 "use client";
 
-import type { Applied } from "@/utils/job";
+import type { Applied } from "@/utils/types";
 import { percentage } from "@/utils/job";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { useState } from "react";
@@ -223,9 +223,9 @@ const CompletedJob = ({ job }: { job: Applied }) => {
               onClaim={onClaim}
               onCancel={() => setIsModalOpen(false)}
               jobTitle={job.job.title}
-              totalAmount={job.job.price}
+              totalAmount={job.job.price ?? 404}
               feePercentage={percentage}
-              walletAddress={job.job.completedBy.walletAddress}
+              walletAddress={job.job.completedBy?.walletAddress || ""}
             />
           </AnimatedDiv>
         </Modal>
@@ -242,8 +242,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             <PaymentSuccessModal
               onDone={() => setIsModalOpen(false)}
               onLeaveReview={() => ""}
-             amount={job.job.price}
-              walletAddress={job.job.completedBy.walletAddress}
+             amount={job.job.price || 404}
+              walletAddress={job.job.completedBy?.walletAddress || ""}
             />
           </AnimatedDiv>
         </Modal>

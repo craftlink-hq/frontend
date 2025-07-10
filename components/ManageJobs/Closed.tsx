@@ -1,6 +1,6 @@
 "use client";
 
-import type { Applied } from "@/utils/job";
+import type { Applied } from "@/utils/types";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { useState } from "react";
 import Modal from "../Modal";

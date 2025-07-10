@@ -14,7 +14,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
   // Safe access to potentially missing properties
   const jobFiles = job.files || [];
   const jobImages = job.images || [];
-  const jobSkills = job.skillCategory || job.tags || [];
+  const jobSkills = job.skillCategory || [];
   const jobClient = job.client || {
     walletAddress: "0x1234...5678",
     verificationStatus: false,

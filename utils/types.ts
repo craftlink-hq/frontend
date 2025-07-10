@@ -1,34 +1,28 @@
-// Extended Job interface that includes all properties from both files
+import { ArtisanProfileProps } from '@/utils/profile';
 export interface Job {
-  // From @/utils/types (original)
   id?: string | number;
   title: string;
-  createdAt: string;
+  createdAt: string; // ISO date string or relative time (e.g., "2 days ago")
   preferredLocation: string;
-  language?: string; // Made optional to match job.ts
-  projectDuration: {
-    weeks: number;
-  };
+  language?: string;
+  projectDuration: { weeks: number };
   experienceLevel: string;
   price?: number;
-  paymentType?: string; // Made optional to match job.ts
-  projectDescription?: string; // Made optional to match job.ts
-  tags?: string[];
-  skillCategory?: string[];
-  payment?: string; // Made optional to match job.ts
-  type?: string; // Made optional to match job.ts
-
-  // From @/utils/job (additional properties)
+  paymentType?: string;
+  projectDescription?: string;
+  skillCategory?: string[]; // Unified with job.ts
+  payment?: string;
+  type?: string;
   _id?: string;
   totalJobs?: number;
   rating?: number;
   notes?: string;
   artisans?: string;
-  files?: string[]; // Made optional to handle cases where API doesn't provide
-  images?: string[]; // Made optional to handle cases where API doesn't provide
-  client?: Client; // Made optional to handle cases where API doesn't provide
+  files?: string[];
+  images?: string[];
+  client?: Client;
   status?: string;
-  applicants?: Artisan[];
+  applicants?: Artisan[] | [];
   completedBy?: Artisan;
   contextLink?: string;
   additionalProjectInfo?: string;
@@ -36,7 +30,6 @@ export interface Job {
   clientDescription?: string;
 }
 
-// Import Client and Artisan from job.ts, or define them here
 export interface Client {
   walletAddress: string;
   verificationStatus: boolean;
@@ -53,6 +46,7 @@ export interface Client {
   posted: number;
   noProjectSpentMoney: number;
   rating: number;
+  category?: string;
 }
 
 export interface Artisan {
@@ -63,24 +57,39 @@ export interface Artisan {
   id: string;
   location: string;
   language: string;
-  expertise: string;
+  experienceLevel: string;
   rating: number;
   review?: string;
+  category?: string;
+  avatar?: string;
+  username?: string;
+  profile?: ArtisanProfileProps;
+  available?: boolean;
+  preferredLanguages?: string[];
+  artisanCategory?: string;
+  bio?: string;
+  skills?: string[];
+  yearsOfPractice?: number;
+  minimumProjectAmount?: number;
+  merkleRoot?: string;
+  merkleProof?: string[];
 }
 
 export interface Applied {
   startDate: string;
   status: string;
   statusMsg: string;
-  job: Job;
+  job: Job; // Use unified Job type
   endDate?: string;
   rating?: number;
   feedback?: string;
   disputeType?: string;
   issue?: string;
+  disputeRaisedDate?: string;
+  disputeStatus?: "pending" | "resolved" | "escalated";
+  user_type?: "artisan" | "client";
 }
 
-// Component prop interfaces
 export interface JobCardProps {
   job: Job;
   index: number;

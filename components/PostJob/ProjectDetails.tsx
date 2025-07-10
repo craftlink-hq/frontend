@@ -1,4 +1,4 @@
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Image from "next/image";
 
 interface Details {
@@ -22,7 +22,7 @@ const ProjectDetails = ({ project }: { project: Job }) => {
     },
   ];
 
-  const hasAttachments = project.files.length > 0 || project.images.length > 0;
+  const hasAttachments = Number(project.files?.length) > 0 || Number(project.images?.length) > 0;
   return (
     <div className="text-[#F9F1E2] font-merriweather bg-[#F2E8CF0A] p-4 md:p-8 rounded-xl flex  flex-col justify-between">
       <div className="flex w-full justify-between">
@@ -130,7 +130,7 @@ const ProjectDetails = ({ project }: { project: Job }) => {
                 <p className="text-[#FCFBF7]">ATTACHED FILES</p>
                 {hasAttachments ? (
                   <div className="flex flex-wrap min-w-[25vw] max-w-[35vw] gap-x-2 h-[15vh] py-2">
-                    {project.files.map((file) => (
+                    {project.files?.map((file) => (
                       <div key={file} className="relative h-[80%] w-[20%]">
                         <Image
                           src={file}
@@ -144,7 +144,7 @@ const ProjectDetails = ({ project }: { project: Job }) => {
                         />
                       </div>
                     ))}
-                    {project.images.map((file) => (
+                    {project.images?.map((file) => (
                       <div key={file} className="relative h-[80%] w-[20%]">
                         <Image
                           src={file}

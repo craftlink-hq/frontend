@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import axios from "@/app/API/axios";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/Loading";
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Footer from "@/components/LandingPage/Footer";
 import { formatUnits } from "ethers";
 

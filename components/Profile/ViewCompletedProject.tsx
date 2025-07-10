@@ -1,5 +1,5 @@
 import { formatDate } from "@/utils/formatDate";
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Image from "next/image";
 
 const CompletedProjects = ({ projects }: { projects: Job[] }) => {
@@ -52,8 +52,8 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                 <div className=" flex flex-wrap gap-2">
                   <span>Completed by:</span>
                   <span className="text-[#D8D6CF]">
-                    {project.client.walletAddress.slice(0, 6)}...
-                    {project.client.walletAddress.slice(21)}
+                    {project.client?.walletAddress.slice(0, 6)}...
+                    {project.client?.walletAddress.slice(21)}
                   </span>{" "}
                   <button className="bg-[#262208] space-x-2 rounded-md md:rounded-full text-[#FCF8E3] py-2 px-4">
                     View Profile

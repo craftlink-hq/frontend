@@ -1,6 +1,6 @@
 "use client";
 
-import type { Applied } from "@/utils/job";
+import type { Applied } from "@/utils/types";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import Image from "next/image";
 import { formatDate } from "@/utils/formatDate";
@@ -11,12 +11,12 @@ import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants;
-  const { clientData } = useGetClientInfo(job.job.client?.walletAddress);
+  const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
   const closeGig = useCloseGig();
 
   const handleCloseJob = () => {
     if (job.job.id) {
-      closeGig(job.job.id);
+      closeGig(String(job.job.id));
     } else {
       console.error("Job ID is not available for closing the job.");
     }
@@ -121,7 +121,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
               {/* Profile Image */}
               <div className="relative h-32 w-32 flex-shrink-0">
                 <Image
-                  src={applicants[0].avatar}
+                  src={applicants[0].avatar || "/about.png"}
                   alt="Protoblack"
                   fill
                   className="rounded-lg object-cover"
@@ -165,7 +165,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
                       height="16"
                     />
                     <span className="font-merriweather text-[#D8D6CF]">
-                      {applicants[0].language}
+                      {applicants[0].preferredLanguages || "English"}
                     </span>
                   </div>
 
@@ -177,7 +177,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
                       height="16"
                     />
                     <span className="font-merriweather text-[#D8D6CF]">
-                      {applicants[0].expertise}
+                      {applicants[0].experienceLevel}
                     </span>
                   </div>
                   <div className="flex justify-center items-center gap-x-2 px-2  ">

@@ -4,7 +4,7 @@ import type React from "react";
 
 import Filter from "@/components/Marketplace/Filter";
 import { useFilterState } from "@/context/filter";
-import type { Applied } from "@/utils/job";
+import type { Applied } from "@/utils/types";
 import type { FilterProps } from "@/utils/filters";
 import NoJob from "./NoJob";
 import Pagination from "./JobsPagination";

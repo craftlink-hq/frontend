@@ -1,5 +1,5 @@
 "use client";
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Image from "next/image";
 import Modal from "./Modal";
 import AnimatedDiv from "@/components/AnimatedDiv";
@@ -202,7 +202,7 @@ const JobDetails = ({ job }: { job: Job }) => {
 
       {/* Similar Jobs */}
       <SimilarJobs 
-        currentJobId={job.id || job._id} 
+        currentJobId={String(job.id) || job._id} 
         allJobs={jobs} 
       />
 
@@ -218,7 +218,7 @@ const JobDetails = ({ job }: { job: Job }) => {
           >
             <Apply 
               onCancel={() => setIsModalOpen(false)} 
-              databaseId={job.id || job._id} 
+              databaseId={String(job.id) || job._id} 
             />
           </AnimatedDiv>
         </Modal>
