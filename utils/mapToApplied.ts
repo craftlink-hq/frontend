@@ -40,6 +40,7 @@ interface GigData {
   backend: BackendGigData;
   contract: ContractGigData;
   dispute?: DisputeData;
+  applicants?: Artisan[];
 }
 
 export const mapToApplied = (
@@ -48,7 +49,7 @@ export const mapToApplied = (
   userType: 'artisan' | 'client',
   clientAmountSpent?: number
 ): Applied => {
-  const { backend, contract, dispute } = gigData;
+  const { backend, contract, dispute, applicants } = gigData;
   let status = '';
   let statusMsg = '';
   const user_type = userType;
@@ -193,7 +194,7 @@ export const mapToApplied = (
     files: backend.files?.map((file) => file.url) || [],
     images: backend.files?.filter((file) => file.url.match(/\.(jpg|jpeg|png|gif)$/i))?.map((file) => file.url) || [],
     client,
-    applicants: [],
+    applicants: applicants || [],
     status: backend.status,
     completedBy: contract.hiredArtisan !== '0x0000000000000000000000000000000000000000' ? { walletAddress: contract.hiredArtisan } as Artisan : undefined,
   };

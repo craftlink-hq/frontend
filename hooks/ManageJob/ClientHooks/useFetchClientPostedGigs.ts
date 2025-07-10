@@ -1,13 +1,13 @@
 // hooks/useFetchClientPostedGigs.ts
 import { useState, useEffect, useCallback } from 'react';
 import { useAccount } from 'wagmi';
-import { getGigContract } from '@/constants/contracts';
+import { getGigContract, getRegistryContract } from '@/constants/contracts';
 import { readOnlyProvider } from '@/constants/providers';
 import axios from "@/app/API/axios";
-import { Applied } from '@/utils/job';
-import { mapToApplied } from '@/utils/mapToApplied';
+import { Applied, Artisan } from '@/utils/job';import { mapToApplied } from '@/utils/mapToApplied';
 import { useLoading } from '@/hooks/useLoading';
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
+import IPFS from "@/hooks/useIPFS";
 
 interface BackendGigData {
   _id: string;
@@ -40,6 +40,7 @@ interface ContractGigData {
 interface GigData {
   backend: BackendGigData;
   contract: ContractGigData;
+  applicants: Artisan[];
 }
 
 export const useFetchClientPostedGigs = () => {
@@ -48,6 +49,11 @@ export const useFetchClientPostedGigs = () => {
   const [postedGigs, setPostedGigs] = useState<Applied[]>([]);
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [error, setError] = useState<string | null>(null);
+  const { fetchFromIPFS } = IPFS();
+
+  const [artisanDetailsMap, setArtisanDetailsMap] = useState<
+    Record<string, { username: string; location: string }>
+  >({});
 
   const fetchGigs = useCallback(async () => {
     if (!address) {
@@ -69,6 +75,27 @@ export const useFetchClientPostedGigs = () => {
 
         const contractData = await contract.getGigInfo(databaseId);
 
+        const applicantAddresses: string[] = await contract.getGigApplicants(databaseId);
+        const applicants = await Promise.all(
+            applicantAddresses.map(async (addr: string) => {
+                try {
+                    const response = await axios.get(`/api/artisans/${addr}`);
+                    const backendArtisan = response.data.artisan as Artisan;
+
+                    const artisanDetails = await fetchArtisanDetailsForAddress(addr);
+                    if (artisanDetails) {
+                        backendArtisan.username = artisanDetails.username;
+                        backendArtisan.location = artisanDetails.location;
+                    }
+
+                    return backendArtisan;
+                } catch (error) {
+                    console.error(`Failed to fetch artisan data for address ${addr}:`, error);
+                    return null; // Error to be handled gracefully
+                }
+            })
+        );
+
         const gigData: GigData = {
           backend: backendData,
           contract: {
@@ -80,6 +107,7 @@ export const useFetchClientPostedGigs = () => {
             isCompleted: contractData.isCompleted,
             isClosed: contractData.isClosed,
           },
+          applicants: applicants.filter((applicant): applicant is Artisan => applicant !== null),
         };
 
         return mapToApplied(gigData, address, 'client', clientAmountSpent);
@@ -102,6 +130,25 @@ export const useFetchClientPostedGigs = () => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, clientAmountSpent]);
+
+  // Helper function to fetch artisan details from IPFS
+  const fetchArtisanDetailsForAddress = async (addr: string) => {
+    try {
+      const contract = getRegistryContract(readOnlyProvider);
+      const details = await contract.getArtisanDetails(addr);
+      const ipfsHash = details[0];
+
+      if (ipfsHash) {
+        // const response = await fetch(`https://ipfs.io/ipfs/${ipfsHash}`); // Adjust IPFS fetch method as per your IPFS hook
+        const fetchedDetail = await fetchFromIPFS(ipfsHash);
+        return JSON.parse(fetchedDetail) as { username: string; location: string };
+      }
+      return null;
+    } catch (error) {
+      console.error(`Failed to fetch IPFS details for ${addr}:`, error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     fetchGigs();

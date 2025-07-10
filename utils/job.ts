@@ -62,7 +62,7 @@ export interface Artisan {
   id: string;
   location: string;
   language: string;
-  expertise: string;
+  experienceLevel: string;
   rating: number;
   review?: string;
   category: string;
@@ -70,6 +70,14 @@ export interface Artisan {
   username: string;
   profile: ArtisanProfileProps
   available?: boolean
+  preferredLanguages?: string[];
+  artisanCategory?: string;
+  bio?: string;
+  skills?: string[];
+  yearsOfPractice?: number;
+  minimumProjectAmount?: number;
+  merkleRoot?: string;
+  merkleProof?: string[];
 }
 
 export interface Applied {
@@ -118,7 +126,7 @@ const Tolu: Artisan = {
   id: "3",
   location: "Abuja, Nigeria",
   language: "English",
-  expertise: "Intermediate",
+  experienceLevel: "Intermediate",
   rating: 3.5,
   review: "Described as clear, collaborative, and timely",
   avatar: "/client-avatar.png",
@@ -137,14 +145,13 @@ const DummyArtisans: Artisan[] = [
     id: "3",
     location: "Abuja, Nigeria",
     language: "English",
-    expertise: "Intermediate",
+    experienceLevel: "Intermediate",
     rating: 3.5,
     review: "Described as clear, collaborative, and timely",
     avatar: "/client-avatar.png",
     category: "Fashion",
     username: "abdul",
     profile: dummyProfile
-
   },
   {
     walletAddress: "0x1286eefgegvsbj73yop3hne",
@@ -155,13 +162,12 @@ const DummyArtisans: Artisan[] = [
     id: "4",
     location: "Lagos, Nigeria",
     language: "English",
-    expertise: "Intermediate",
+    experienceLevel: "Intermediate",
     rating: 3.5,
     avatar: "/client-avatar.png",
     category: "Fashion",
     username: "abdul",
     profile: dummyProfile
-
   },
 ];
 

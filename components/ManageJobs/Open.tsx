@@ -11,6 +11,7 @@ import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants;
+  console.log("Applicants:", applicants);
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress);
   const closeGig = useCloseGig();
 
@@ -113,7 +114,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
       </div>
 
       {/* Applications Section */}
-      {applicants && applicants.length > 0 ? (
+      {applicants.length > 0 ? (
         <>
           {/* First Applicant Featured */}
           <div className="bg-blurBg backdrop-blur-[200px]  rounded-lg p-6">
@@ -121,7 +122,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
               {/* Profile Image */}
               <div className="relative h-32 w-32 flex-shrink-0">
                 <Image
-                  src={applicants[0].avatar}
+                  src={applicants[0].avatar || "/about.png"}
                   alt="Protoblack"
                   fill
                   className="rounded-lg object-cover"
@@ -165,7 +166,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
                       height="16"
                     />
                     <span className="font-merriweather text-[#D8D6CF]">
-                      {applicants[0].language}
+                      {applicants[0].preferredLanguages || "English"}
                     </span>
                   </div>
 
@@ -177,7 +178,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
                       height="16"
                     />
                     <span className="font-merriweather text-[#D8D6CF]">
-                      {applicants[0].expertise}
+                      {applicants[0].experienceLevel}
                     </span>
                   </div>
                   <div className="flex justify-center items-center gap-x-2 px-2  ">
