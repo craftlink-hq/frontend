@@ -15,7 +15,7 @@ const JobTags: React.FC<JobTagsProps> = ({
     return { visible, remaining };
   };
 
-  const tags = job.tags || job.skillCategory || [];
+  const tags = job.skillCategory || [];
   const { visible, remaining } = getVisibleTags(
     tags, 
     isExpanded ? tags.length : 5
