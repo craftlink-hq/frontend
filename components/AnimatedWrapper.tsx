@@ -17,7 +17,7 @@ export default function AnimatedWrapper({
         key={pathname}
         initialX={"0"}
         animateX={0}
-        duration={0.1}
+        duration={0.5}
       >
         {children}
       </AnimatedDiv>
