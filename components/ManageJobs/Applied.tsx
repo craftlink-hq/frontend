@@ -10,14 +10,7 @@ import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 
 const AppliedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  if (!job.job.client?.walletAddress) {
-    return (
-      <div className="text-red-500">
-        Client wallet address not available.
-      </div>
-    );
-  }
-  const { clientData } = useGetClientInfo(job.job.client?.walletAddress);
+  const { clientData } = useGetClientInfo(job.job.client?.walletAddress!);
 
   return (
     <AnimatedDiv
