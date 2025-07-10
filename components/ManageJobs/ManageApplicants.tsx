@@ -12,21 +12,22 @@ import ApplicantCard from "./ApplicantCard";
 import Image from "next/image";
 
 interface ManageJobProps {
-  job: Applied;
   filters: FilterProps[];
+  job: Applied;
   jobType: string;
 }
 
 const ManageApplicants = ({
-  job,
   filters,
+  job,
   jobType,
 }: Readonly<ManageJobProps>) => {
   const { filterState } = useFilterState();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
+  console.log("Job Applicants:", job.job.applicants);
 
-  const totalPages = Math.ceil(job.job.applicants?.length ? job.job.applicants?.length : 404 / itemsPerPage);
+  const totalPages = Math.ceil(job.job.applicants?.length ?? 404 / itemsPerPage);
 
   return (
     <div className="grid h-full w-full space-y-4">

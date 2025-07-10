@@ -52,10 +52,6 @@ export const useFetchClientPostedGigs = () => {
   const [error, setError] = useState<string | null>(null);
   const { fetchFromIPFS } = IPFS();
 
-  const [artisanDetailsMap, setArtisanDetailsMap] = useState<
-    Record<string, { username: string; location: string }>
-  >({});
-
   const fetchGigs = useCallback(async () => {
     if (!address) {
       setPostedGigs([]);

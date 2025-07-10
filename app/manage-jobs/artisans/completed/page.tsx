@@ -21,7 +21,7 @@ export default function CompletedJobs() {
     <Loading show={isLoading}>
       <div>
         <ManageJobs
-          title={"You have no completed jobs at the moment"}
+          title={"You have no completed jobs yet."}
           desc={
             "Complete your first job to see it listed here and start building your reputation."
           }
