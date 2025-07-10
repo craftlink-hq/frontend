@@ -43,13 +43,13 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
     >
       <div className="grid font-merriweather text-[#F9F1E2] text-center py-8 lg:py-16 gap-y-8 justify-self-center w-[80%] md:w-[70%] lg:w-[40%] items-center">
         <span>
-          <p className="font-bold text-2xl">{content.title}</p>
-          {content.showDesc && <p>{content.desc}</p>}
+          <p className="font-bold text-2xl">{title}</p>
+          {content.showDesc && <p>{desc}</p>}
         </span>
         
         <div className="place-self-center relative h-[50vh] w-[70%]">
           <Image
-            src={content.imageSrc}
+            src={imageSrc}
             alt="No job"
             fill
             style={{ objectFit: "contain", objectPosition: "center" }}

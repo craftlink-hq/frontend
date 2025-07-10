@@ -6,6 +6,7 @@ import Image from "next/image";
 import { formatDate } from "@/utils/formatDate";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
+import Link from "next/link";
 // import { formatDate } from "@/utils/formatDate"
 // import { IoChatbubbleEllipses } from "react-icons/io5";
 
@@ -244,9 +245,11 @@ const OpenJob = ({ job }: { job: Applied }) => {
                   </p>
                 </div>
               </div>
+              <Link href="/manage-jobs/applicants">
               <button className="bg-yellow text-[#1A1203] font-bold py-2 px-4 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
                 View All Applicants
               </button>
+              </Link>
             </div>
           </div>
         </>
