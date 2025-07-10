@@ -20,7 +20,7 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
         title: "No Active Jobs Yet",
         desc: "",
         imageSrc: "/man.svg",
-        buttonText: "POST JOB",
+        buttonText: "BROWSE JOBS",
         showDesc: false
       };
     } else {
@@ -28,7 +28,7 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
         title: title,
         desc: desc,
         imageSrc: imageSrc,
-        buttonText: "BROWSE JOBS",
+        buttonText: "POST JOB",
         showDesc: true
       };
     }
@@ -42,11 +42,6 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
       style={{ backgroundColor: '#F2E8CF0A' }}
     >
       <div className="grid font-merriweather text-[#F9F1E2] text-center py-8 lg:py-16 gap-y-8 justify-self-center w-[80%] md:w-[70%] lg:w-[40%] items-center">
-        <span>
-          <p className="font-bold text-2xl">{title}</p>
-          {content.showDesc && <p>{desc}</p>}
-        </span>
-        
         <div className="place-self-center relative h-[50vh] w-[70%]">
           <Image
             src={imageSrc}
@@ -60,6 +55,12 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
             style={{ backgroundColor: '#FFD700', top: '100%', marginTop: '1rem' }}
           ></div>
         </div>
+        <span>
+          <p className="font-bold text-2xl">{title}</p>
+          {content.showDesc && <p>{desc}</p>}
+        </span>
+        
+        
 
         {jobType !== "disputed" && (
           <button 
