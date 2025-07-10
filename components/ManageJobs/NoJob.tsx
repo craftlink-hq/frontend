@@ -57,7 +57,7 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
         </div>
         <span>
           <p className="font-bold text-2xl">{title}</p>
-          {content.showDesc && <p>{desc}</p>}
+           <p>{desc}</p>
         </span>
         
         
