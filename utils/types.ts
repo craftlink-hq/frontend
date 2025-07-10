@@ -1,31 +1,28 @@
 import { ArtisanProfileProps } from '@/utils/profile';
 export interface Job {
-  // Core properties (originally from utils/types.ts)
   id?: string | number;
   title: string;
-  createdAt: string;
+  createdAt: string; // ISO date string or relative time (e.g., "2 days ago")
   preferredLocation: string;
   language?: string;
   projectDuration: { weeks: number };
   experienceLevel: string;
-  price?: number; // Optional in types.ts, required in job.ts—adjust based on needs
+  price?: number;
   paymentType?: string;
   projectDescription?: string;
-  skillCategory?: string[]; // Renamed from 'tags' to match job.ts
+  skillCategory?: string[]; // Unified with job.ts
   payment?: string;
   type?: string;
-
-  // Additional properties from utils/job.ts
   _id?: string;
   totalJobs?: number;
   rating?: number;
   notes?: string;
   artisans?: string;
-  files?: string[]; // Optional to match real-world API flexibility
-  images?: string[]; // Optional to match real-world API flexibility
-  client?: Client; // Optional to handle cases where client data is unavailable
+  files?: string[];
+  images?: string[];
+  client?: Client;
   status?: string;
-  applicants?: Artisan[] | []; // Allow empty array or undefined
+  applicants?: Artisan[] | [];
   completedBy?: Artisan;
   contextLink?: string;
   additionalProjectInfo?: string;
@@ -33,7 +30,6 @@ export interface Job {
   clientDescription?: string;
 }
 
-// Client interface (aligned with utils/job.ts)
 export interface Client {
   walletAddress: string;
   verificationStatus: boolean;
@@ -50,10 +46,9 @@ export interface Client {
   posted: number;
   noProjectSpentMoney: number;
   rating: number;
-  category?: string; // Optional in job.ts
+  category?: string;
 }
 
-// Artisan interface (aligned with utils/job.ts)
 export interface Artisan {
   walletAddress: string;
   verificationStatus: boolean;
@@ -62,13 +57,13 @@ export interface Artisan {
   id: string;
   location: string;
   language: string;
-  experienceLevel: string; // Renamed from 'expertise' to match job.ts
+  experienceLevel: string;
   rating: number;
   review?: string;
-  category?: string; // Added to align with job.ts
-  avatar?: string; // Added to align with job.ts
-  username?: string; // Added to align with job.ts
-  profile?: ArtisanProfileProps; // Optional to match job.ts
+  category?: string;
+  avatar?: string;
+  username?: string;
+  profile?: ArtisanProfileProps;
   available?: boolean;
   preferredLanguages?: string[];
   artisanCategory?: string;
@@ -80,12 +75,11 @@ export interface Artisan {
   merkleProof?: string[];
 }
 
-// Applied interface (updated to use unified Job)
 export interface Applied {
   startDate: string;
   status: string;
   statusMsg: string;
-  job: Job; // Use the unified Job type
+  job: Job; // Use unified Job type
   endDate?: string;
   rating?: number;
   feedback?: string;
@@ -96,7 +90,6 @@ export interface Applied {
   user_type?: "artisan" | "client";
 }
 
-// Component prop interfaces (unchanged, now use unified Job)
 export interface JobCardProps {
   job: Job;
   index: number;

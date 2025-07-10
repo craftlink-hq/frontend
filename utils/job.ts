@@ -1,108 +1,14 @@
-import { dummyProfile, ArtisanProfileProps } from "@/utils/profile";
-
-export interface Client {
-  walletAddress: string;
-  verificationStatus: boolean;
-  about: string;
-  dateJoined: string;
-  location: string;
-  language: string;
-  status: string;
-  username: string;
-  avatar: string;
-  id: string;
-  moneySpent: number;
-  completed: number;
-  posted: number;
-  noProjectSpentMoney: number;
-  rating: number;
-  category?: string;
-}
-
-export interface Job {
-  id?: string;
-  _id?: string;
-  createdAt: string;
-  projectDuration: { weeks: number };
-  title: string;
-  preferredLocation: string;
-  language?: string;
-  totalJobs?: number;
-  experienceLevel: string;
-  price: number;
-  rating?: number;
-  projectDescription?: string;
-  type?: string;
-  payment?: string;
-  skillCategory?: string[];
-  paymentType?: string;
-  notes?: string;
-  artisans?: string;
-  files: string[];
-  images: string[];
-  client: Client;
-  status?: string;
-  applicants: Artisan[] | [];
-  completedBy?: Artisan ;
-  contextLink?: string;
-  additionalProjectInfo?: string;
-  clientAddress?: string;
-  clientDescription?: string;
-}
+import { Job, Client, Artisan, Applied } from './types';
+import { dummyProfile, ArtisanProfileProps } from '@/utils/profile';
 
 export interface CompletedJob extends Job {
   completedBy: Artisan;
 }
 
-export interface Artisan {
-  walletAddress: string;
-  verificationStatus: boolean;
-  about: string;
-  dateJoined: string;
-  id: string;
-  location: string;
-  language: string;
-  experienceLevel: string;
-  rating: number;
-  review?: string;
-  category: string;
-  avatar: string;
-  username: string;
-  profile: ArtisanProfileProps
-  available?: boolean
-  preferredLanguages?: string[];
-  artisanCategory?: string;
-  bio?: string;
-  skills?: string[];
-  yearsOfPractice?: number;
-  minimumProjectAmount?: number;
-  merkleRoot?: string;
-  merkleProof?: string[];
-}
-
-export interface Applied {
-  startDate: string;
-  status: string;
-  statusMsg: string;
-  job: CompletedJob;
-  endDate?: string;
-  rating?: number;
-  feedback?: string;
-  disputeType?: string;
-  issue?: string;
-  disputeRaisedDate?: string;
-  disputeStatus?: "pending" | "resolved" | "escalated";
-  user_type?: "artisan" | "client"
-}
-
-
-
-
 export const Abdul: Client = {
   walletAddress: "0x1276eefgegvsbj73yop3hne",
   verificationStatus: true,
-  about:
-    "We’re a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans",
+  about: "We’re a boutique clothing line based in Lagos...",
   dateJoined: "January 2024",
   id: "3",
   location: "Nigeria",
@@ -117,11 +23,10 @@ export const Abdul: Client = {
   rating: 4.3,
 };
 
-const Tolu: Artisan = {
+export const Tolu: Artisan = {
   walletAddress: "0x1276eefgegvsbj73yop3hne",
   verificationStatus: true,
-  about:
-    "We’re a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans",
+  about: "We’re a boutique clothing line based in Lagos...",
   dateJoined: "January 2024",
   id: "3",
   location: "Abuja, Nigeria",
@@ -132,15 +37,14 @@ const Tolu: Artisan = {
   avatar: "/client-avatar.png",
   category: "Fashion",
   username: "abdul",
-  profile: dummyProfile
+  profile: dummyProfile,
 };
 
-const DummyArtisans: Artisan[] = [
+export const DummyArtisans: Artisan[] = [
   {
     walletAddress: "0x1276eefgegvsbj73yop3hne",
     verificationStatus: true,
-    about:
-      "We’re a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans",
+    about: "We’re a boutique clothing line based in Lagos...",
     dateJoined: "January 2024",
     id: "3",
     location: "Abuja, Nigeria",
@@ -151,13 +55,12 @@ const DummyArtisans: Artisan[] = [
     avatar: "/client-avatar.png",
     category: "Fashion",
     username: "abdul",
-    profile: dummyProfile
+    profile: dummyProfile,
   },
   {
     walletAddress: "0x1286eefgegvsbj73yop3hne",
     verificationStatus: true,
-    about:
-      "We’re a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans",
+    about: "We’re a boutique clothing line based in Lagos...",
     dateJoined: "January 2024",
     id: "4",
     location: "Lagos, Nigeria",
@@ -167,11 +70,12 @@ const DummyArtisans: Artisan[] = [
     avatar: "/client-avatar.png",
     category: "Fashion",
     username: "abdul",
-    profile: dummyProfile
+    profile: dummyProfile,
   },
 ];
 
-const fashionDesigner = {
+export const fashionDesigner: Job = {
+  id: "1",
   createdAt: "Yesterday",
   projectDuration: { weeks: 2 },
   title: "Seeking a Fashion Designer for a New Clothing Line",
@@ -182,27 +86,18 @@ const fashionDesigner = {
   price: 1500,
   rating: 3.5,
   contextLink: "https://pinterest.com/fashion-inspiration",
-  projectDescription: `We’re seeking a highly skilled and experienced tailor to bring our upcoming fashion collection to life. The project involves creating 15 bespoke pieces, including evening gowns, tailored suits, and casual wear, designed to align with the theme of elegance and contemporary style. Detailed sketches and fabric materials will be provided for each piece.
-The tailor is expected to:
-
-Follow the design specifications with precision.
-Ensure high-quality stitching and finishing.
-Adhere to strict measurements for a flawless fit.
-Provide regular updates and allow for up to two rounds of fitting adjustments per piece.
-This collection will be showcased at an exclusive launch event in Lagos next month, with opportunities for media coverage and designer recognition. Timeliness is crucial, as all pieces must be completed and ready for a final review by the specified deadline.
-`,
+  projectDescription: "We’re seeking a highly skilled and experienced tailor...",
   type: "open Application",
   payment: "Secured Payment",
   paymentType: "Fixed",
-  tags: [
+  skillCategory: [
     "Pattern-making",
     "garment construction",
     "fabric selection",
     "eco-conscious fashion",
     "Digital illustration",
   ],
-  notes:
-    "Artisans selected for this project will receive a bonus for exceptional work and have the opportunity to collaborate on future collections.",
+  notes: "Artisans selected for this project will receive a bonus...",
   artisans: "three",
   files: ["/file.png", "/file1.png"],
   images: ["/dress.png", "/dress1.png"],
@@ -210,8 +105,7 @@ This collection will be showcased at an exclusive launch event in Lagos next mon
   applicants: DummyArtisans,
   completedBy: Tolu,
   clientAddress: "0x1276eefgegvsbj73yop3hne",
-  clientDescription:
-    "We’re a boutique clothing line based in Lagos, passionate about contemporary designs and collaborations with creative artisans",
+  clientDescription: "We’re a boutique clothing line based in Lagos...",
 };
 
 const Pope: Client = {

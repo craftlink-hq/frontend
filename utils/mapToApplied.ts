@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
-import { Applied, Job, Client, CompletedJob, Artisan } from '@/utils/job';
+import { CompletedJob } from '@/utils/job';
+import { Job, Client, Artisan, Applied } from '@/utils/types';
 
 interface BackendGigData {
   _id: string;

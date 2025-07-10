@@ -1,5 +1,5 @@
 "use client";
-import { Job } from "@/utils/job"; // Change to use the flexible Job type
+import { Job } from "@/utils/types"; // Change to use the flexible Job type
 import Image from "next/image";
 import { FiMapPin } from "react-icons/fi";
 import AttachedFiles from "./AttachedFiles";

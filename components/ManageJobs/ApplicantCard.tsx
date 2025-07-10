@@ -1,6 +1,6 @@
 "use client";
 
-import { Artisan, Job } from "@/utils/job";
+import { Artisan, Job } from "@/utils/types";
 import Image from "next/image";
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import AnimatedDiv from "@/components/AnimatedDiv";
@@ -26,7 +26,7 @@ const ApplicantCard = ({
           <div className="relative h-32 w-32 lg:h-48 lg:w-48 flex-shrink-0">
             <Image
               src={applicant.avatar || "/placeholder.svg"}
-              alt={applicant.username}
+              alt={applicant.username || "User Avatar"}
               fill
               className="rounded-lg object-cover"
             />
@@ -108,7 +108,7 @@ const ApplicantCard = ({
 
           {/* Skills */}
           <div className="flex flex-wrap p-2 gap-2">
-            {applicant.profile.skills.slice(0, 6).map((skill) => (
+            {applicant.profile?.skills.slice(0, 6).map((skill) => (
               <span
                 key={skill}
                 className="flex items-center px-4 py-[4px] rounded-full border border-[#FFFFFF40] text-[#D8D6CF] text-sm  bg-[#26220826]"
@@ -116,7 +116,7 @@ const ApplicantCard = ({
                 {skill}
               </span>
             ))}
-            {applicant.profile.skills.length > 6 && (
+            {applicant.profile?.skills && applicant.profile.skills.length > 6 && (
               <span className="flex items-center px-2 py-[4px] text-[#AEFF00] text-sm italic">
                 +{applicant.profile.skills.length - 6} More
               </span>
@@ -149,9 +149,9 @@ const ApplicantCard = ({
           >
             <HireConfirmationModal
               onCancel={() => setIsModalOpen(false)}
-              artisanName={applicant.username}
+              artisanName={applicant.username || "Unknown Artisan"}
               projectTitle={job.title}
-              budget={job.price}
+              budget={job.price ?? 404}
               duration={job.projectDuration.weeks}
             />
           </AnimatedDiv>

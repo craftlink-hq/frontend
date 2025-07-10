@@ -1,6 +1,6 @@
 "use client";
 
-import type { Applied } from "@/utils/job";
+import type { Applied } from "@/utils/types";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import Image from "next/image";
 import { formatDate } from "@/utils/formatDate";
@@ -11,13 +11,16 @@ import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants;
-  console.log("Applicants:", applicants);
+  if (!job.job.client?.walletAddress) {
+    console.error("Client wallet address is not available for this job.");
+    return null;
+  }
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress);
   const closeGig = useCloseGig();
 
   const handleCloseJob = () => {
     if (job.job.id) {
-      closeGig(job.job.id);
+      closeGig(String(job.job.id));
     } else {
       console.error("Job ID is not available for closing the job.");
     }
@@ -114,7 +117,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
       </div>
 
       {/* Applications Section */}
-      {applicants.length > 0 ? (
+      {applicants && applicants.length > 0 ? (
         <>
           {/* First Applicant Featured */}
           <div className="bg-blurBg backdrop-blur-[200px]  rounded-lg p-6">
