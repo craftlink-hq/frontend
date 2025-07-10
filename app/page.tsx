@@ -31,7 +31,7 @@ export default function Home() {
         <section id="about">
           <About />
         </section>
-        <section id="howItWorks" className="pb-8">
+        <section id="howItWorks" className="mt-4 md:mt-0">
           <HowItWorks />
         </section>
         <div className="relative bottom-16 lg:bottom-0 py-8 md:mb-16 flex flex-col bg-[#F2E8CF0A] lg:w-[90vw] w-screen  items-center justify-self-center self-center h-[80vh] lg:rounded-lg   ">

@@ -4,7 +4,7 @@ import Link from "next/link";
 const HowItWorks = () => {
   return (
     <div className="flex flex-col-reverse lg:flex-row relative bottom-[50px] lg:bottom-0  p-8 gap-4 justify-center  max-lg:items-center lg:h-[700px]  font-merriweather">
-      <div className="bg-about border-2 md:border-1 border-[#FCFBF726] flex flex-col justify-between lg:w-[45%] md:w-[90%] w-[90vw] md:justify-self-center p-8 rounded-xl backdrop-blur-md">
+      <div className="bg-about border-2 md:border-1 border-[#FCFBF726] flex flex-col justify-between lg:w-[45%]  w-[90vw] md:w-full md:justify-self-center p-8 rounded-xl backdrop-blur-md">
         <p className="py-8 uppercase text-[#FCFBF7]">How It Works</p>
         <div className="flex flex-col  lg:gap-y-4  gap-y-2 py-2">
           <div className="grid md:text-[25px] md:leading-6 xl:leading-7 p-4 gap-4 bg-[#F2E8CF0A] border-[0.5px] border-[#FFFFFF40] rounded-md ">

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import useIsArtisan from '@/hooks/Registry/useIsArtisan';
-// import useIsClient from '@/hooks/Registry/useIsClient';
+import { useGetUserRole } from "@/utils/store";
+import Link from "next/link";
 
 interface NoJobProps {
   title: string;
@@ -10,26 +10,19 @@ interface NoJobProps {
 }
 
 const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
-  const isArtisan = useIsArtisan();
-  // const isClient = useIsClient();
+  const { role } = useGetUserRole();
 
   // Determine content based on user type
   const getContent = () => {
-    if (isArtisan) {
+    if (role === "artisan") {
       return {
-        title: "No Active Jobs Yet",
-        desc: "",
-        imageSrc: "/man.svg",
         buttonText: "BROWSE JOBS",
-        showDesc: false
+        href: "/marketplaace"
       };
     } else {
-      return {
-        title: title,
-        desc: desc,
-        imageSrc: imageSrc,
+       return {
         buttonText: "POST JOB",
-        showDesc: true
+        href: "/role/clients/create-job/title"
       };
     }
   };
@@ -63,12 +56,14 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
         
 
         {jobType !== "disputed" && (
+          <Link href={content.href}>
           <button 
             className="justify-self-center md:w-[40%] rounded-md text-[#1A1203] px-4 py-2 font-bold font-merriweather hover:opacity-90 transition-opacity duration-200"
             style={{ backgroundColor: '#FFD700' }}
           >
             {content.buttonText}
           </button>
+          </Link>
         )}
       </div>
     </div>

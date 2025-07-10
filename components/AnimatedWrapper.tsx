@@ -11,14 +11,13 @@ export default function AnimatedWrapper({
 
   return (
     <AnimatePresence
-      mode="wait"
       onExitComplete={() => window.scrollTo(0, 0)}
     >
       <AnimatedDiv
         key={pathname}
         initialX={"0"}
         animateX={0}
-        duration={0.5}
+        duration={0.1}
       >
         {children}
       </AnimatedDiv>

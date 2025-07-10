@@ -2,8 +2,8 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <div className="grid lg:grid-cols-2 p-4 gap-4 place-self-center self-center place-content-center md:h-full w-[90vw]  font-merriweather">
-      <div className="h-[400px] md:h-[50vh] lg:h-full lg:col-span-1 md:w-full  relative ">
+    <div className="grid lg:grid-cols-2 p-4 gap-4 place-self-center self-center place-content-center md:h-full w-full md:w-[90vw]  font-merriweather">
+      <div className="h-[400px] md:h-[50vh] lg:h-full lg:col-span-1 w-full  relative ">
         <Image
           src="/about.png"
           alt="An artisan"
