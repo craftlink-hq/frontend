@@ -1,5 +1,5 @@
 "use client";
-import { Job } from "@/utils/types"; // Change to use the flexible Job type
+import { Job } from "@/utils/job"; // Change to use the flexible Job type
 import Image from "next/image";
 import { FiMapPin } from "react-icons/fi";
 import AttachedFiles from "./AttachedFiles";
@@ -14,7 +14,7 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
   // Safe access to potentially missing properties
   const jobFiles = job.files || [];
   const jobImages = job.images || [];
-  const jobSkills = job.skillCategory || job.tags || [];
+  const jobSkills = job.skillCategory || [];
   const jobClient = job.client || {
     walletAddress: "0x1234...5678",
     verificationStatus: false,
