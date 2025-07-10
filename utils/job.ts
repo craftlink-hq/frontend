@@ -1,5 +1,5 @@
 import { Job, Client, Artisan, Applied } from './types';
-import { dummyProfile, ArtisanProfileProps } from '@/utils/profile';
+import { dummyProfile } from '@/utils/profile';
 
 export interface CompletedJob extends Job {
   completedBy: Artisan;
@@ -249,7 +249,7 @@ export const Disputed: Applied[] = [
   }
 ];
 
-export const dispute: Applied = {
+export const dispute: Applied[] = [{
   startDate: "13/01/25",
   status: "dispute",
   statusMsg: "Awaiting Client Action",
@@ -257,7 +257,7 @@ export const dispute: Applied = {
   disputeType: "Payment not released",
   issue:
     "The client has not confirmed that the artisan has completed the job on their end, preventing the release of funds.",
-};
+}];
 
 export const Completed: Applied[] = [
   {

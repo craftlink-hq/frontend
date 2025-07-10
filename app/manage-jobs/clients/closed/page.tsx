@@ -22,7 +22,7 @@ export default function ClosedJobs() {
       <div>
         <ManageJobs
           title={"No closed jobs at the moment."}
-          desc={"Jobs that were closed without proceeding will show up here. Keep applying for more opportunities!"}
+          desc={"Jobs you ended or didn’t continue will show up here. Posting job and connect with skilled artisans."}
           imageSrc={"/closed.png"}
           filters={appliedJobFilters}
           jobs={Closed}

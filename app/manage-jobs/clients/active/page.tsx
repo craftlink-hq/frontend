@@ -22,7 +22,7 @@ export default function ActiveJobs() {
       <div>
         <ManageJobs
           title={"You have no active jobs at the moment"}
-          desc={"Once a client hires you, your jobs will appear here. Keep an eye on your applications!"}
+          desc={""}
           imageSrc={"/active.png"}
           filters={appliedJobFilters}
           jobs={Actives}

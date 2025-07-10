@@ -23,7 +23,7 @@ export default function CompletedJobs() {
         <ManageJobs
           title={"You have no completed jobs at the moment"}
           desc={
-            "Complete your first job to see it listed here and start building your reputation."
+            "Post your first job to find the right artisan and kickstart your project."
           }
           imageSrc={"/completed.png"}
           filters={appliedJobFilters}

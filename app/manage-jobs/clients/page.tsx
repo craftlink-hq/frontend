@@ -23,7 +23,7 @@ export default function AppliedJobs() {
         <ManageJobs
           title={"You haven't applied for any job yets"}
           desc={
-            "Browse available jobs and start applying to secure your next gig."
+            "Create a job post to find the right talent for your project."
           }
           imageSrc={"/applied.png"}
           filters={filters}
