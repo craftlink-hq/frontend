@@ -2,6 +2,7 @@
 import React from "react";
 import { FiMapPin } from "react-icons/fi";
 import { JobDetailsProps } from "@/utils/types";
+import Image from "next/image";
 
 const JobDetails: React.FC<JobDetailsProps> = ({ job }) => {
   const formatDuration = (weeks: number): string => {
@@ -29,15 +30,15 @@ const JobDetails: React.FC<JobDetailsProps> = ({ job }) => {
           <span className="job-details">{job.preferredLocation}</span>
         </div>
         <div className="flex items-center gap-1">
-          <img src="/market/tabler_flag.svg" alt="Language" className="w-3 h-3" />
+          <Image src="/market/tabler_flag.svg" alt="Language" className="w-3 h-3" />
           <span className="job-details">{job.language}</span>
         </div>
         <div className="flex items-center gap-1">
-          <img src="/market/calendar-tick.svg" alt="Duration" className="w-3 h-3" />
+          <Image src="/market/calendar-tick.svg" alt="Duration" className="w-3 h-3" />
           <span className="job-details">{formatDuration(job.projectDuration.weeks)}</span>
         </div>
         <div className="flex items-center gap-1">
-          <img src="/market/medal-star.svg" alt="Experience" className="w-3 h-3" />
+          <Image src="/market/medal-star.svg" alt="Experience" className="w-3 h-3" />
           <span className="job-details">{job.experienceLevel}</span>
         </div>
       </div>

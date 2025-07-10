@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Modal from "../Modal";
+import Image from "next/image";
 
 interface SuccessModalProps {
   onClose: () => void;
@@ -38,7 +39,7 @@ const Success: React.FC<SuccessModalProps> = ({
 
           {/* Success Icon - Larger */}
           <div className="flex justify-center mb-8">
-            <img 
+            <Image 
               src="/market/GreenMark.svg" 
               alt="Success" 
               className="w-64 h-64"

@@ -11,7 +11,7 @@ import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants;
-  const { clientData } = useGetClientInfo(job.job.client?.walletAddress!);
+  const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
   const closeGig = useCloseGig();
 
   const handleCloseJob = () => {

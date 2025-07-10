@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useState } from 'react';
 
 interface SearchSortBarProps {
@@ -38,7 +39,7 @@ const SearchSortBar: React.FC<SearchSortBarProps> = ({
       {/* Search Bar */}
       <div className="relative flex-1 max-w-lg">
         <div className="relative">
-          <img 
+          <Image 
             src="market/search-normal.svg" 
             alt="Search" 
             className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" 
