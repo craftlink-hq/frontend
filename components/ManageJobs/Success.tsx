@@ -41,8 +41,9 @@ const Success: React.FC<SuccessModalProps> = ({
           <div className="flex justify-center mb-8">
             <Image 
               src="/market/GreenMark.svg" 
-              alt="Success" 
-              className="w-64 h-64"
+              alt="Success"
+              width={"64"}
+              height={"64"}
             />
           </div>
 

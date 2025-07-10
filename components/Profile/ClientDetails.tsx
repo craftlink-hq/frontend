@@ -1,4 +1,4 @@
-import { Client } from "@/utils/job";
+import { Client } from "@/utils/types";
 import Image from "next/image";
 
 const ClientDetails = ({ client }: { client: Client }) => {

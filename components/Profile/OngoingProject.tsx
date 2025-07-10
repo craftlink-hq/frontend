@@ -1,4 +1,4 @@
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Image from "next/image";
 
 interface Details {
@@ -87,7 +87,7 @@ const OngoingProjects = ({ project }: { project: Job }) => {
             <div className="opacity-100 px-2">
               <p className="text-[#FCFBF7]">ATTACHED FILES</p>
               <div className="flex flex-wrap  min-w-full md:min-w-[25vw] max-w-fit gap-x-2 h-[15vh] py-2">
-                {project.files.map((file) => (
+                {project.files?.map((file) => (
                   <div key={file} className="relative h-[80%] w-[20%]">
                     <Image
                       src={file}
@@ -100,7 +100,7 @@ const OngoingProjects = ({ project }: { project: Job }) => {
                     />
                   </div>
                 ))}
-                {project.images.map((file) => (
+                {project.images?.map((file) => (
                   <div key={file} className="relative h-[80%] w-[20%]">
                     <Image
                       src={file}

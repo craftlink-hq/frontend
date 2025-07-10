@@ -1,5 +1,5 @@
 "use client";
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Image from "next/image";
 import Modal from "../Modal";
 import AnimatedDiv from "@/components/AnimatedDiv";
@@ -181,7 +181,7 @@ const JobDetails = ({ job }: { job: Job }) => {
             duration={0.5}
             className="bg-[#333333] border border-[#FCFBF726] md:w-[50vw] rounded-xl p-4  relative  "
           >
-            <Apply onCancel={() => setIsModalOpen(false)} databaseId={job.id} />
+            <Apply onCancel={() => setIsModalOpen(false)} databaseId={String(job.id)} />
           </AnimatedDiv>
         </Modal>
       )}

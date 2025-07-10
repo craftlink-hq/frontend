@@ -1,5 +1,5 @@
 "use client";
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Image from "next/image";
 import React from "react";
 import AttachedFiles from "../Marketplace/AttachedFiles";

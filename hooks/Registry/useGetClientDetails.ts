@@ -8,7 +8,7 @@ import IPFS from "@/hooks/useIPFS";
 import { toast } from "sonner";
 import useIsClient from "./useIsClient";
 import { useLoading } from "../useLoading";
-import { Client } from "@/utils/job";
+import { Client } from "@/utils/types";
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
 import useGetClientGigCount from "../GigMarketplace/useGetClientGigCount";
 import useGetClientAverageRating from "../ReviewSystem/useGetClientAverageRating";

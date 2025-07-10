@@ -1,5 +1,5 @@
 import React from 'react';
-import { Job } from '@/utils/job';
+import { Job } from '@/utils/types';
 
 interface SimilarJobsProps {
   currentJobId?: string;

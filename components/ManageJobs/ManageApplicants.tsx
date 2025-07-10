@@ -4,7 +4,7 @@ import type React from "react";
 
 import Filter from "@/components/Marketplace/Filter";
 import { useFilterState } from "@/context/filter";
-import type { Applied } from "@/utils/job";
+import type { Applied } from "@/utils/types";
 import type { FilterProps } from "@/utils/filters";
 import Pagination from "./JobsPagination";
 import { useState } from "react";
@@ -26,7 +26,7 @@ const ManageApplicants = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
 
-  const totalPages = Math.ceil(job.job.applicants.length / itemsPerPage);
+  const totalPages = Math.ceil(job.job.applicants?.length ? job.job.applicants?.length : 404 / itemsPerPage);
 
   return (
     <div className="grid h-full w-full space-y-4">
@@ -116,7 +116,7 @@ const ManageApplicants = ({
         <div className="grid gap-y-4 w-[90vw] md:w-[75%] h-full">
           {/* Jobs List */}
           <div className="space-y-4">
-            {job.job.applicants.map((applicant) => (
+            {job.job.applicants && job.job.applicants.map((applicant) => (
               <ApplicantCard applicant={applicant} job={job.job} key={applicant?.about} />
             ))}
           </div>
@@ -128,7 +128,7 @@ const ManageApplicants = ({
                 currentPage={currentPage}
                 totalPages={totalPages} // Calculate based on total items
                 itemsPerPage={itemsPerPage}
-                totalItems={job.job.applicants.length} // This should come from your actual data
+                totalItems={job.job.applicants?.length || 404} // This should come from your actual data
                 onPageChange={setCurrentPage}
                 onItemsPerPageChange={(items) => {
                   setItemsPerPage(items);

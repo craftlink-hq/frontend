@@ -1,7 +1,7 @@
 // ActiveJob.tsx - FULL UPDATED CODE
 "use client";
 import { useState, useEffect } from "react";
-import { Applied } from "@/utils/job";
+import { Applied } from "@/utils/types";
 import Image from "next/image";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { formatDate } from "@/utils/formatDate";

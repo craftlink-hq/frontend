@@ -1,5 +1,5 @@
 import { formatDate } from "@/utils/formatDate";
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import Image from "next/image";
 
 const CompletedProjects = ({ projects }: { projects: Job[] }) => {
@@ -55,8 +55,8 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                 <div className="flex flex-wrap gap-2">
                   <span>Completed by:</span>
                   <span className="text-[#D8D6CF]">
-                    {project.client.walletAddress.slice(0, 6)}...
-                    {project.client.walletAddress.slice(21)}
+                    {project.client?.walletAddress.slice(0, 6)}...
+                    {project.client?.walletAddress.slice(21)}
                   </span>{" "}
                   <button className="bg-[#262208] space-x-2 rounded-md md:rounded-full text-[#FCF8E3] py-2 px-4">
                     View Profile
@@ -85,7 +85,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
               <div className="opacity-100 px-2">
                 <p className="text-[#FCFBF7]">ATTACHED FILES</p>
                 <div className="flex flex-wrap  min-w-full md:min-w-[25vw] max-w-fit gap-x-2 h-[15vh] py-2">
-                  {project.files.map((file) => (
+                  {project.files?.map((file) => (
                     <div key={file} className="relative h-[80%] w-[20%]">
                       <Image
                         src={file}
@@ -98,7 +98,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                       />
                     </div>
                   ))}
-                  {project.images.map((file) => (
+                  {project.images?.map((file) => (
                     <div key={file} className="relative h-[80%] w-[20%]">
                       <Image
                         src={file}

@@ -1,4 +1,4 @@
-import { Job } from "@/utils/job";
+import { Job } from "@/utils/types";
 import { AxiosResponse } from "axios";
 
 // Define the response interfaces for different entity types

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { Client } from "@/utils/job";
+import type { Client } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Modal from "../Modal";
