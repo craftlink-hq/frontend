@@ -21,7 +21,7 @@ export default function AppliedJobs() {
     <Loading show={isLoading}>
       <div>
         <ManageJobs
-          title={"You haven't applied for any job yets"}
+          title={"You haven’t posted any jobs yet."}
           desc={
             "Create a job post to find the right talent for your project."
           }

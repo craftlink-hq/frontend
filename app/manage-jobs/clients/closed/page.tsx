@@ -21,7 +21,7 @@ export default function ClosedJobs() {
     <Loading show={isLoading}>
       <div>
         <ManageJobs
-          title={"No closed jobs at the moment."}
+          title={"No closed jobs yet"}
           desc={"Jobs you ended or didn’t continue will show up here. Posting job and connect with skilled artisans."}
           imageSrc={"/closed.png"}
           filters={appliedJobFilters}
