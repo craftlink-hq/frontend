@@ -79,7 +79,7 @@ const ApplicantCard = ({
                   height="16"
                 />
                 <span className="font-merriweather text-[#D8D6CF]">
-                  {applicant.expertise}
+                  {applicant.experienceLevel}
                 </span>
               </div>
               <div className="flex justify-center items-center gap-x-2 px-2">
