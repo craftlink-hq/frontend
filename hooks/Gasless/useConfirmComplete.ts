@@ -17,15 +17,15 @@ export const useConfirmComplete = () => {
     async (databaseId: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
       }
       if (!databaseId) {
         toast.error("Invalid gig ID");
-        return;
+        return false;
       }
 
       startLoading();
@@ -52,15 +52,19 @@ export const useConfirmComplete = () => {
         const result = await response.json();
         if (result.success) {
           toast.success("Gig completion confirmed successfully");
+          return true;
         } else {
           toast.error(`Error: ${result.message}`);
+          return false;
         }
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
+          return false;
         } else {
           toast.error("Error during confirming completion");
           console.error(error);
+          return false;
         }
       } finally {
         stopLoading();

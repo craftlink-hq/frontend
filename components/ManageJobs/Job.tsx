@@ -85,7 +85,7 @@ const ManageJobs = ({
                 {" "}
                 <div className="space-y-4">
                   {paginatedJobs.map((job) => (
-                    <JobStatus job={job} key={job?.job?.title} />
+                    <JobStatus job={job} key={String(job?.job?.id)} />
                   ))}
                 </div>
               </div>

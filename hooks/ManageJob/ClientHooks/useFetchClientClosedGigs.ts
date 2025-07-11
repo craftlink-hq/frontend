@@ -64,7 +64,7 @@ export const useFetchClientClosedGigs = () => {
 
       const gigPromises = databaseIds.map(async (databaseId: string) => {
         const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
-        const backendData: BackendGigData = backendResponse.data;
+        const backendData: BackendGigData = backendResponse.data.gig;
 
         const contractData = await contract.getGigInfo(databaseId);
 
@@ -99,6 +99,7 @@ export const useFetchClientClosedGigs = () => {
     } finally {
       stopLoading();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, clientAmountSpent]);
 
   useEffect(() => {

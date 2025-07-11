@@ -7,6 +7,7 @@ import { useFilterState } from "@/context/filter";
 import { usePathname, useRouter } from "next/navigation";
 import { useFetchClientPostedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientPostedGigs";
 import { useState, use } from "react";
+import Loading from "@/components/Loading";
 // import { Applications } from "@/utils/job";
 
 export default function JobApplicants({
@@ -78,50 +79,52 @@ export default function JobApplicants({
   }
 
   return (
-    <div className="flex flex-col bg-[url('/bg.png')] min-h-screen bg-opacity-[25%]">
-      <div className="flex flex-col bg-[#333333] bg-opacity-[95%] min-h-screen">
-        <div className="min-h-screen">
-          <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
-            <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
+    <Loading show={isLoading}>
+      <div className="flex flex-col bg-[url('/bg.png')] min-h-screen bg-opacity-[25%]">
+        <div className="flex flex-col bg-[#333333] bg-opacity-[95%] min-h-screen">
+          <div className="min-h-screen">
+            <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
+              <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
 
-            <div className="w-[90%] self-center flex justify-between">
-              <div className="self-center">
-                <button
-                  onClick={handleBackToJobs}
-                  className="px-3 py-2 text-[#FCF8E3] font-merriweather bg-[#262208] hover:bg-[#262208]/80 transition-colors rounded"
-                >
-                  BACK TO OPEN JOBS
-                </button>
+              <div className="w-[90%] self-center flex justify-between">
+                <div className="self-center">
+                  <button
+                    onClick={handleBackToJobs}
+                    className="px-3 py-2 text-[#FCF8E3] font-merriweather bg-[#262208] hover:bg-[#262208]/80 transition-colors rounded"
+                  >
+                    BACK TO OPEN JOBS
+                  </button>
+                </div>
+                <div className="self-center">
+                  <h1 className="text-[#F9F1E2] font-bold text-lg">
+                    Applicants for: {currentJob.job.title}
+                  </h1>
+                </div>
               </div>
-              <div className="self-center">
-                <h1 className="text-[#F9F1E2] font-bold text-lg">
-                  Applicants for: {currentJob.job.title}
-                </h1>
-              </div>
-            </div>
 
-            <div className="w-[90%] self-center bg-[#F2E8CF0A] h-[70%] rounded-lg">
-              <ManageApplicants
-                job={currentJob.job}
-                filters={appliedJobFilters}
-                jobType="applicants"
-                pageDetails={`Review and manage applications for "${currentJob.job.title}". You can hire artisans directly or start a conversation to learn more about their experience.`}
-                currentPage={currentPage}
-                totalPages={Math.ceil(
-                  (currentJob.job?.applicants?.length || 0) / itemsPerPage
-                )}
-                itemsPerPage={itemsPerPage}
-                totalItems={currentJob.job?.applicants?.length || 0}
-                onPageChange={setCurrentPage}
-                onItemsPerPageChange={(items) => {
-                  setItemsPerPage(items);
-                  setCurrentPage(1);
-                }}
-              />
+              <div className="w-[90%] self-center bg-[#F2E8CF0A] h-[70%] rounded-lg">
+                <ManageApplicants
+                  job={currentJob.job}
+                  filters={appliedJobFilters}
+                  jobType="applicants"
+                  pageDetails={`Review and manage applications for "${currentJob.job.title}". You can hire artisans directly or start a conversation to learn more about their experience.`}
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(
+                    (currentJob.job?.applicants?.length || 0) / itemsPerPage
+                  )}
+                  itemsPerPage={itemsPerPage}
+                  totalItems={currentJob.job?.applicants?.length || 0}
+                  onPageChange={setCurrentPage}
+                  onItemsPerPageChange={(items) => {
+                    setItemsPerPage(items);
+                    setCurrentPage(1);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Loading>
   );
 }

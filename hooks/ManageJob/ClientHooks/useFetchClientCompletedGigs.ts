@@ -63,42 +63,55 @@ export const useFetchClientCompletedGigs = () => {
       const databaseIds: string[] = await contract.getClientCreatedGigs(address);
 
       const gigPromises = databaseIds.map(async (databaseId: string) => {
-        const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
-        const backendData: BackendGigData = backendResponse.data;
+        try {
+          if (!databaseId) {
+            throw new Error(`Invalid database ID: ${databaseId}`);
+          }
 
-        const contractData = await contract.getGigInfo(databaseId);
+          const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
+          const backendData: BackendGigData = backendResponse.data.gig;
 
-        const gigData: GigData = {
-          backend: backendData,
-          contract: {
-            client: contractData.client,
-            hiredArtisan: contractData.hiredArtisan,
-            paymentId: contractData.paymentId,
-            rootHash: contractData.rootHash,
-            artisanComplete: contractData.artisanComplete,
-            isCompleted: contractData.isCompleted,
-            isClosed: contractData.isClosed,
-          },
-        };
+          const contractData = await contract.getGigInfo(databaseId);
 
-        return mapToApplied(gigData, address, 'client', clientAmountSpent);
+          const isCompleted =
+            contractData.hiredArtisan !== '0x0000000000000000000000000000000000000000' &&
+            contractData.artisanComplete &&
+            contractData.isCompleted &&
+            !contractData.isClosed
+
+          if (!isCompleted) {
+            return null;
+          }
+
+          const gigData: GigData = {
+            backend: backendData,
+            contract: {
+              client: contractData.client,
+              hiredArtisan: contractData.hiredArtisan,
+              paymentId: contractData.paymentId,
+              rootHash: contractData.rootHash,
+              artisanComplete: contractData.artisanComplete,
+              isCompleted: contractData.isCompleted,
+              isClosed: contractData.isClosed,
+            },
+          };
+
+          return mapToApplied(gigData, address, 'client', clientAmountSpent);
+        } catch (error) {
+          console.error(`Error processing database ID ${databaseId}:`, error);
+          return null;
+        }
       });
 
-      const fetchedGigs = await Promise.all(gigPromises);
-      setCompletedGigs(
-        fetchedGigs.filter(
-          (gig) =>
-            gig.status === 'completed' &&
-            gig.job.id === gig.job.id &&
-            gig.job.completedBy?.walletAddress !== '0x0000000000000000000000000000000000000000'
-        )
-      );
+      const fetchedGigs = (await Promise.all(gigPromises)).filter((gig): gig is Applied => gig !== null);
+      setCompletedGigs(fetchedGigs);
     } catch (err) {
       setError('Failed to fetch completed gigs');
       console.error(err);
     } finally {
       stopLoading();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, clientAmountSpent]);
 
   useEffect(() => {
