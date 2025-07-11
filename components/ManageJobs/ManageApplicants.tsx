@@ -1,29 +1,29 @@
-"use client"
-import Filter from "@/components/Marketplace/Filter"
-import { useFilterState } from "@/context/filter"
-import type { FilterProps } from "@/utils/filters"
-import ApplicantCard from "./ApplicantCard"
-import NoJob from "./NoJob"
-import Pagination from "./JobsPagination"
-import { useMemo } from "react"
-import type { Artisan, Job } from "@/utils/types"
+"use client";
+import Filter from "@/components/Marketplace/Filter";
+import { useFilterState } from "@/context/filter";
+import type { FilterProps } from "@/utils/filters";
+import ApplicantCard from "./ApplicantCard";
+import NoJob from "./NoJob";
+import Pagination from "./JobsPagination";
+import { useMemo } from "react";
+import type { Artisan, Job } from "@/utils/types";
 
 interface ManageApplicantsProps {
-  applicants?: Artisan[]
-  job: Job
-  title?: string
-  desc?: string
-  imageSrc?: string
-  filters: FilterProps[]
-  jobType: string
-  pageDetails?: string
+  applicants?: Artisan[];
+  job: Job;
+  title?: string;
+  desc?: string;
+  imageSrc?: string;
+  filters: FilterProps[];
+  jobType: string;
+  pageDetails?: string;
   // Pagination props
-  currentPage?: number
-  totalPages?: number
-  itemsPerPage?: number
-  totalItems?: number
-  onPageChange?: (page: number) => void
-  onItemsPerPageChange?: (items: number) => void
+  currentPage?: number;
+  totalPages?: number;
+  itemsPerPage?: number;
+  totalItems?: number;
+  onPageChange?: (page: number) => void;
+  onItemsPerPageChange?: (items: number) => void;
 }
 
 const ManageApplicants = ({
@@ -42,50 +42,62 @@ const ManageApplicants = ({
   onPageChange,
   onItemsPerPageChange,
 }: Readonly<ManageApplicantsProps>) => {
-  const { filterState } = useFilterState()
+  const { filterState } = useFilterState();
 
   // Use applicants from job if not provided directly
   const jobApplicants = useMemo(() => {
-    return applicants.length > 0 ? applicants : job?.applicants || []
-  }, [applicants, job?.applicants])
+    return applicants.length > 0 ? applicants : job?.applicants || [];
+  }, [applicants, job?.applicants]);
 
   const paginatedApplicants = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage
-    const endIndex = startIndex + itemsPerPage
-    return jobApplicants.slice(startIndex, endIndex)
-  }, [jobApplicants, currentPage, itemsPerPage])
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return jobApplicants.slice(startIndex, endIndex);
+  }, [jobApplicants, currentPage, itemsPerPage]);
 
   const handlePageChange = (page: number) => {
     if (onPageChange) {
-      onPageChange(page)
+      onPageChange(page);
       // Scroll to top of applicants list when page changes
-      const applicantsContainer = document.querySelector(".applicants-container")
+      const applicantsContainer = document.querySelector(
+        ".applicants-container"
+      );
       if (applicantsContainer) {
-        applicantsContainer.scrollTop = 0
+        applicantsContainer.scrollTop = 0;
       }
     }
-  }
+  };
 
   const handleItemsPerPageChange = (items: number) => {
     if (onItemsPerPageChange) {
-      onItemsPerPageChange(items)
+      onItemsPerPageChange(items);
       if (onPageChange) {
-        onPageChange(1) // Reset to first page when changing items per page
+        onPageChange(1); // Reset to first page when changing items per page
       }
       // Scroll to top when items per page changes
-      const applicantsContainer = document.querySelector(".applicants-container")
+      const applicantsContainer = document.querySelector(
+        ".applicants-container"
+      );
       if (applicantsContainer) {
-        applicantsContainer.scrollTop = 0
+        applicantsContainer.scrollTop = 0;
       }
     }
-  }
+  };
 
   return (
     <div className="grid h-full w-full">
       {jobApplicants.length > 0 ? (
         <div className="w-full px-4 md:px-8 2xl:px-16 py-8">
-          <p className="text-[#F9F1E2] py-4 w-[90%]">{pageDetails}</p>
-
+          <div className="flex justify-between md:gap-x-8 lg:gap-x-16">
+            <p className="text-[#F9F1E2] py-4 w-[90%] text-balance">
+              {pageDetails}
+            </p>
+            <div className="flex items-center justify-end  w-[40%] ">
+              <button className="bg-yellow text-[#1A1203] font-bold py-2 px-8 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
+                Close Job
+              </button>
+            </div>
+          </div>
           <div className="flex gap-x-8 w-full h-[calc(100vh-250px)]">
             {/* Mobile Filter */}
             {filterState && (
@@ -107,7 +119,11 @@ const ManageApplicants = ({
               <div className="applicants-container flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FCFBF726] scrollbar-track-transparent pr-2">
                 <div className="space-y-4">
                   {paginatedApplicants.map((applicant) => (
-                    <ApplicantCard key={applicant.id || applicant.walletAddress} applicant={applicant} job={job} />
+                    <ApplicantCard
+                      key={applicant.id || applicant.walletAddress}
+                      applicant={applicant}
+                      job={job}
+                    />
                   ))}
                 </div>
               </div>
@@ -116,7 +132,9 @@ const ManageApplicants = ({
               <div className="flex-shrink-0 pt-4 border-t border-[#FCFBF726]/20 mt-4">
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages || Math.ceil(jobApplicants.length / itemsPerPage)}
+                  totalPages={
+                    totalPages || Math.ceil(jobApplicants.length / itemsPerPage)
+                  }
                   itemsPerPage={itemsPerPage}
                   totalItems={totalItems || jobApplicants.length}
                   onPageChange={handlePageChange}
@@ -128,10 +146,15 @@ const ManageApplicants = ({
           </div>
         </div>
       ) : (
-        <NoJob title={title} desc={desc} imageSrc={imageSrc} jobType={jobType} />
+        <NoJob
+          title={title}
+          desc={desc}
+          imageSrc={imageSrc}
+          jobType={jobType}
+        />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ManageApplicants
+export default ManageApplicants;
