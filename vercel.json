@@ -1,6 +1,10 @@
 {
     "rewrites": [
         {
+            "source": "/manage-jobs/applicants/:jobId",
+            "destination": "/manage-jobs/applicants/:jobId"
+        },
+        {
             "source": "/(.*)",
             "destination": "/"
         }
