@@ -32,16 +32,6 @@ const OpenJob = ({ job }: { job: Applied }) => {
     router.push(`/profile/${applicantId}`)
   }
 
-  const handleHireApplicant = (applicantId: string) => {
-    // Handle hiring logic
-    console.log("Hiring applicant:", applicantId)
-  }
-
-  const handleStartChat = (applicantId: string) => {
-    // Handle chat logic
-    console.log("Starting chat with:", applicantId)
-  }
-
   return (
     <AnimatedDiv
       initialX="100%"
@@ -151,7 +141,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
             </div>
 
             {/* Quick Actions for Featured Applicant */}
-            <div className="flex gap-3 mt-4">
+            {/* <div className="flex gap-3 mt-4">
               <button
                 onClick={() => handleHireApplicant(applicants[0].id || applicants[0].walletAddress)}
                 className="flex-1 bg-yellow text-[#1A1203] font-bold py-3 px-4 rounded uppercase text-sm hover:bg-yellow/90 transition-colors"
@@ -164,7 +154,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
               >
                 Start Chat
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* Applications Summary */}

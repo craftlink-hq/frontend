@@ -4,16 +4,21 @@ import { appliedJobFilters } from "@/utils/filters"
 import ManageApplicants from "@/components/ManageJobs/ManageApplicants"
 import MarketHeader from "@/components/Marketplace/MarketHeader"
 import { useFilterState } from "@/context/filter"
-import { usePathname, useParams, useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useFetchClientPostedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientPostedGigs"
-import { useState } from "react"
+import { useState} from "react"
 
-export default function JobApplicants() {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function JobApplicants({ params }: PageProps) {
   const { filterState, setFilterState } = useFilterState()
   const pathname = usePathname()
-  const params = useParams()
   const router = useRouter()
-  const jobId = params.jobId as string
+  const { id:jobId } = params;
 
   const { postedGigs: Applications, isLoading, error } = useFetchClientPostedGigs()
   const [currentPage, setCurrentPage] = useState(1)
@@ -26,7 +31,7 @@ export default function JobApplicants() {
   }
 
   const handleBackToJobs = () => {
-    router.push("/manage-jobs/open")
+    router.push("/manage-jobs")
   }
 
   // Handle loading state

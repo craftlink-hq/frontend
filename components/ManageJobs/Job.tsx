@@ -76,7 +76,7 @@ const ManageJobs = ({
                 <Filter filters={filters} />
               </div>
             )}
-            <div className="hidden md:grid md:w-[25%] h-full overflow-auto">
+            <div className="hidden md:grid md:w-[25%] h-full md:max-h-[600px] overflow-auto">
               <Filter filters={filters} />
             </div>
             <div className="flex flex-col w-[90vw] md:w-[75%] h-full">
