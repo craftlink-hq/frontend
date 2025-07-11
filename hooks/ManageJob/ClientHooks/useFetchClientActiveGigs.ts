@@ -79,11 +79,9 @@ export const useFetchClientActiveGigs = () => {
           const isActive =
             contractData.hiredArtisan !== '0x0000000000000000000000000000000000000000' &&
             !contractData.isClosed &&
-            !contractData.isCompleted &&
-            !contractData.artisanComplete;
+            !contractData.isCompleted
 
           if (!isActive) {
-            console.log(`Gig ${databaseId} is not active, skipping`);
             return null;
           }
 

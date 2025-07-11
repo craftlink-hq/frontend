@@ -65,9 +65,6 @@ export const mapToApplied = (
 
   // Use hireTimestamp for startDate, fallback to current date
   const startDate = hireTimestamp || new Date().toISOString();
-  if (!hireTimestamp) {
-    console.warn(`No hire timestamp for gig ${backend.id || 'unknown'}, using current date as fallback`);
-  }
 
   // Use backend.createdAt for job.createdAt, fallback to current date
   const createdAt = backend.createdAt || new Date().toISOString();
