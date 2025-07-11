@@ -42,6 +42,7 @@ interface GigData {
   contract: ContractGigData;
   dispute?: DisputeData;
   applicants?: Artisan[];
+  hireTimestamp?: string;
 }
 
 export const mapToApplied = (
@@ -50,7 +51,7 @@ export const mapToApplied = (
   userType: 'artisan' | 'client',
   clientAmountSpent?: number
 ): Applied => {
-  const { backend, contract, dispute, applicants } = gigData;
+  const { backend, contract, dispute, applicants, hireTimestamp } = gigData;
   let status = '';
   let statusMsg = '';
   const user_type = userType;
@@ -62,9 +63,42 @@ export const mapToApplied = (
   let disputeRaisedDate: string | undefined;
   let disputeStatus: 'pending' | 'resolved' | 'escalated' | undefined;
 
+  // Use hireTimestamp for startDate, fallback to current date
+  const startDate = hireTimestamp || new Date().toISOString();
+  if (!hireTimestamp) {
+    console.warn(`No hire timestamp for gig ${backend.id || 'unknown'}, using current date as fallback`);
+  }
+
+  // Use backend.createdAt for job.createdAt, fallback to current date
   const createdAt = backend.createdAt || new Date().toISOString();
   if (!backend.createdAt) {
-    console.warn(`createdAt is undefined for gig ${backend.id}, using current date as fallback`);
+    console.warn(`createdAt is undefined for gig ${backend.id || 'unknown'}, using current date as fallback`);
+  }
+
+  // Safely calculate endDate using startDate (hire date)
+  const projectDurationWeeks = backend.projectDuration?.weeks;
+  if (projectDurationWeeks != null) {
+    endDate = new Date(
+      new Date(startDate).getTime() + projectDurationWeeks * 7 * 24 * 60 * 60 * 1000
+    )
+      .toISOString()
+      .split('T')[0];
+  } else {
+    console.warn(`projectDuration is undefined or missing weeks for gig ${backend.id || 'unknown'}`);
+    endDate = undefined;
+  }
+
+  // Handle price safely
+  let formattedPrice = 0;
+  if (backend.price != null) {
+    try {
+      formattedPrice = parseFloat(ethers.formatUnits(backend.price, 6));
+    } catch (err) {
+      console.error(`Error formatting price for gig ${backend.id || 'unknown'}:`, err);
+      formattedPrice = 0;
+    }
+  } else {
+    console.warn(`Price is null or undefined for gig ${backend.id || 'unknown'}`);
   }
 
   if (userType === 'artisan') {
@@ -82,11 +116,6 @@ export const mapToApplied = (
     ) {
       status = 'progress';
       statusMsg = 'Awaiting client confirmation';
-      endDate = new Date(
-        new Date(createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
-      )
-        .toISOString()
-        .split('T')[0];
     } else if (
       contract.hiredArtisan === userAddress &&
       !contract.isCompleted &&
@@ -94,11 +123,6 @@ export const mapToApplied = (
     ) {
       status = 'progress';
       statusMsg = 'In progress';
-      endDate = new Date(
-        new Date(createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
-      )
-        .toISOString()
-        .split('T')[0];
     } else if (contract.hiredArtisan === userAddress && contract.isCompleted) {
       status = 'completed';
       statusMsg = 'Completed';
@@ -123,11 +147,6 @@ export const mapToApplied = (
     ) {
       status = 'progress';
       statusMsg = 'In Progress: Artisan hired';
-      endDate = new Date(
-        new Date(createdAt).getTime() + backend.projectDuration.weeks * 7 * 24 * 60 * 60 * 1000
-      )
-        .toISOString()
-        .split('T')[0];
     } else if (contract.isCompleted) {
       status = 'completed';
       statusMsg = 'Completed';
@@ -167,22 +186,10 @@ export const mapToApplied = (
     rating: 0,
   };
 
-  let formattedPrice = 0;
-  if (backend.price != null) {
-    try {
-      formattedPrice = parseFloat(ethers.formatUnits(backend.price, 6));
-    } catch (err) {
-      console.error(`Error formatting price for gig ${backend.id}:`, err);
-      formattedPrice = 0;
-    }
-  } else {
-    console.warn(`Price is null or undefined for gig ${backend.id}`);
-  }
-
   const job: Job = {
     id: backend.id,
     _id: backend._id,
-    createdAt: createdAt,
+    createdAt: createdAt, // Use backend.createdAt for job posting date
     projectDuration: backend.projectDuration,
     title: backend.title,
     preferredLocation: backend.preferredLocation,
@@ -201,7 +208,7 @@ export const mapToApplied = (
   };
 
   return {
-    startDate: createdAt.split('T')[0],
+    startDate: startDate.split('T')[0],
     status,
     statusMsg,
     job: job as CompletedJob,

@@ -27,7 +27,6 @@ export default function JobApplicants({
   } = useFetchClientPostedGigs();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
-  console.log("Applications", Applications);
 
   const isActive = (path: string) => pathname === path;
 

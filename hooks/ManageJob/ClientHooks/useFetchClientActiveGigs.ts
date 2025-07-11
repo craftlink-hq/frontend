@@ -2,11 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAccount } from 'wagmi';
 import { getGigContract } from '@/constants/contracts';
 import { readOnlyProvider } from '@/constants/providers';
-import axios from "@/app/API/axios";
+import axios from '@/app/API/axios';
 import { Applied } from '@/utils/types';
 import { mapToApplied } from '@/utils/mapToApplied';
 import { useLoading } from '@/hooks/useLoading';
-import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
+import useGetClientAmountSpent from '@/hooks/PaymentProcessor/useGetClientAmountSpent';
+
 interface BackendGigData {
   _id: string;
   id: string;
@@ -38,6 +39,7 @@ interface ContractGigData {
 interface GigData {
   backend: BackendGigData;
   contract: ContractGigData;
+  hireTimestamp?: string;
 }
 
 export const useFetchClientActiveGigs = () => {
@@ -62,39 +64,73 @@ export const useFetchClientActiveGigs = () => {
       const databaseIds: string[] = await contract.getClientCreatedGigs(address);
 
       const gigPromises = databaseIds.map(async (databaseId: string) => {
-        const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
-        const backendData: BackendGigData = backendResponse.data;
+        try {
+          const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
+          const backendData: BackendGigData = backendResponse.data.gig;
 
-        const contractData = await contract.getGigInfo(databaseId);
+          // Validate backend data
+          if (!backendData?.id) {
+            console.warn(`Invalid gig data for ID ${databaseId}, skipping`);
+            return null;
+          }
 
-        const gigData: GigData = {
-          backend: backendData,
-          contract: {
-            client: contractData.client,
-            hiredArtisan: contractData.hiredArtisan,
-            paymentId: contractData.paymentId,
-            rootHash: contractData.rootHash,
-            artisanComplete: contractData.artisanComplete,
-            isCompleted: contractData.isCompleted,
-            isClosed: contractData.isClosed,
-          },
-        };
+          const contractData = await contract.getGigInfo(databaseId);
 
-        return mapToApplied(gigData, address, 'client', clientAmountSpent);
+          const isActive =
+            contractData.hiredArtisan !== '0x0000000000000000000000000000000000000000' &&
+            !contractData.isClosed &&
+            !contractData.isCompleted &&
+            !contractData.artisanComplete;
+
+          if (!isActive) {
+            console.log(`Gig ${databaseId} is not active, skipping`);
+            return null;
+          }
+
+          // Fetch ArtisanHired event to get hire timestamp
+          let hireTimestamp: string | undefined;
+          try {
+            const gigId = await contract.indexes(databaseId);
+            const filter = contract.filters.ArtisanHired(gigId);
+            const events = await contract.queryFilter(filter, 0, 'latest');
+
+            if (events.length > 0) {
+              const latestEvent = events[events.length - 1]; // Get the most recent hire event
+              const block = await readOnlyProvider.getBlock(latestEvent.blockNumber);
+              hireTimestamp = block ? new Date(block.timestamp * 1000).toISOString() : undefined;
+            } else {
+              console.warn(`No ArtisanHired event found for gigId ${gigId}`);
+            }
+          } catch (eventErr) {
+            console.warn(`Failed to fetch ArtisanHired event for ${databaseId}:`, eventErr);
+          }
+
+          const gigData: GigData = {
+            backend: backendData,
+            contract: {
+              client: contractData.client,
+              hiredArtisan: contractData.hiredArtisan,
+              paymentId: contractData.paymentId,
+              rootHash: contractData.rootHash,
+              artisanComplete: contractData.artisanComplete,
+              isCompleted: contractData.isCompleted,
+              isClosed: contractData.isClosed,
+            },
+            hireTimestamp,
+          };
+
+          return mapToApplied(gigData, address, 'client', clientAmountSpent);
+        } catch (err) {
+          console.warn(`Failed to fetch gig with ID ${databaseId}:`, err);
+          return null;
+        }
       });
 
-      const fetchedGigs = await Promise.all(gigPromises);
-      setActiveGigs(
-        fetchedGigs.filter(
-          (gig) =>
-            gig.status === 'progress' &&
-            gig.job.id === gig.job.id &&
-            gig.job.completedBy?.walletAddress !== '0x0000000000000000000000000000000000000000'
-        )
-      );
+      const fetchedGigs = (await Promise.all(gigPromises)).filter((gig): gig is Applied => gig !== null);
+      setActiveGigs(fetchedGigs);
     } catch (err) {
       setError('Failed to fetch active gigs');
-      console.error(err);
+      console.error('Error fetching active gigs:', err);
     } finally {
       stopLoading();
     }
