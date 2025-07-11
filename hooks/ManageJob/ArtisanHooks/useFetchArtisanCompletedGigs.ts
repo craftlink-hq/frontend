@@ -62,7 +62,7 @@ export const useFetchArtisanCompletedGigs = () => {
 
       const gigPromises = databaseIds.map(async (databaseId: string) => {
         const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
-        const backendData: BackendGigData = backendResponse.data;
+        const backendData: BackendGigData = backendResponse.data.gig;
 
         const contractData = await contract.getGigInfo(databaseId);
 

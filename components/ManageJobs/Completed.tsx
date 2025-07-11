@@ -9,16 +9,32 @@ import Modal from "../Modal";
 import Image from "next/image";
 import ClaimPaymentModal from "./ClaimPaymentModal";
 import PaymentSuccessModal from "./PaymentSuccess";
-
+import { formatDate } from "@/utils/formatDate";
+import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
+import { useReleaseArtisanFunds } from "@/hooks/Gasless/useReleaseArtisanFunds";
 
 const CompletedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
+  const { releaseArtisanFunds } = useReleaseArtisanFunds();
 
-  const onClaim = () => {
-    setIsClaimModalOpen(false)
-    setIsSuccessOpen(true)
+  const onClaim = async () => {
+    const databaseId = job.job.id;
+    if (!databaseId) {
+      console.error("Gig ID is not available");
+      return;
+    }
+
+    const success = await releaseArtisanFunds(String(databaseId));
+    if (success) {
+      setIsClaimModalOpen(false)
+      setIsSuccessOpen(true)
+    } else {
+      console.error("Failed to release artisan funds");
+      return;
+    }
   };
 
   return (
@@ -32,22 +48,26 @@ const CompletedJob = ({ job }: { job: Applied }) => {
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-4">
         <span className=" text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-[10px]">
-          Posted: 2 weeks ago
+          Posted: {formatDate(job.job?.createdAt)}
         </span>
       </div>
 
       <div className="p-4 space-y-4">
         {/* Client Address */}
-        <div className="mb-2 flex justify-between">
-          <p className="text-[#D8D6CF] text-[20px] font-merriweather">
-            {job.job?.client?.walletAddress.slice(0, 4)}...
-            {job.job?.client?.walletAddress.slice(-5)}
-          </p>
-          <div className="flex flex-col gap-x-2">
-            <span className="text-[#FFD700]">View Profile</span>
-            <p className="border-b border-yellow w-full"></p>
+        {job.user_type === "artisan" ? (
+        <div></div>
+        ) : (
+          <div className="mb-2 flex justify-between">
+            <p className="text-[#D8D6CF] text-[20px] font-merriweather">
+              {job.job.completedBy?.walletAddress.slice(0, 4)}...
+              {job.job.completedBy?.walletAddress.slice(-5)}
+            </p>
+            <div className="flex flex-col gap-x-2">
+              <span className="text-[#FFD700]">View Profile</span>
+              <p className="border-b border-yellow w-full"></p>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Job Title */}
         <div className="space-y-[4px]">
@@ -61,29 +81,29 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
               <Image
                 src={"/location.png"}
-                alt={job.job.preferredLocation}
+                alt="Location icon"
                 width="18"
                 height="16"
               />
               <span className="font-merriweather text-[#D8D6CF]">
-                {job.job.preferredLocation}
+                {clientData?.location}
               </span>
             </div>
             <div className="flex justify-center items-center gap-x-2 px-2  border-r border-[#FCFBF726] ">
               <Image
                 src={"/language.png"}
-                alt={"language"}
+                alt="language icon"
                 width="14"
                 height="16"
               />
               <span className="font-merriweather text-[#D8D6CF]">
-                {job.job.language}
+                {clientData?.language}
               </span>
             </div>
             <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
               <Image
                 src={"/calendar.png"}
-                alt={"timeline"}
+                alt="calender icon"
                 width="18"
                 height="16"
               />
@@ -94,7 +114,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             <div className="flex justify-center items-center gap-x-2 px-2 ">
               <Image
                 src={"/expertise.png"}
-                alt={job.job.experienceLevel}
+                alt="expertise icon"
                 width="20"
                 height="16"
               />
@@ -173,6 +193,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             <button
               className="bg-yellow text-[#262208]  font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors"
               onClick={() => setIsClaimModalOpen(true)}
+              disabled={job.status === "completed" ? true : false}
             >
               Claim Payment
             </button>

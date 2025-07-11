@@ -57,6 +57,7 @@ const PaymentSuccessModal = ({  onDone, onLeaveReview, amount, walletAddress }: 
         <div className="mb-6">
           <h3 className="text-2xl font-bold text-[#F9F1E2] mb-2">You&apos;ve claimed ${amount.toLocaleString()}</h3>
           <p className="text-[#B5B4AD] text-sm">Funds have been sent to your wallet: {walletAddress}</p>
+          <p className="text-[#B5B4AD] text-sm">Please refresh the page to get balance reflected</p>
         </div>
       </div>
 

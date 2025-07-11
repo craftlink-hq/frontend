@@ -136,7 +136,6 @@ export const useFetchClientPostedGigs = () => {
       const ipfsHash = details[0];
 
       if (ipfsHash) {
-        // const response = await fetch(`https://ipfs.io/ipfs/${ipfsHash}`); // Adjust IPFS fetch method as per your IPFS hook
         const fetchedDetail = await fetchFromIPFS(ipfsHash);
         return JSON.parse(fetchedDetail) as { username: string; location: string };
       }

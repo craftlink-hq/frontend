@@ -6,7 +6,7 @@ interface BackendGigData {
   _id: string;
   id: string;
   title: string;
-  projectDuration: { weeks: number };
+  projectDuration?: { weeks: number };
   preferredLocation: string;
   experienceLevel: string;
   projectDescription: string;
@@ -73,7 +73,7 @@ export const mapToApplied = (
   }
 
   // Safely calculate endDate using startDate (hire date)
-  const projectDurationWeeks = backend.projectDuration?.weeks;
+  const projectDurationWeeks = backend.projectDuration?.weeks || 404;
   if (projectDurationWeeks != null) {
     endDate = new Date(
       new Date(startDate).getTime() + projectDurationWeeks * 7 * 24 * 60 * 60 * 1000
@@ -187,7 +187,7 @@ export const mapToApplied = (
     id: backend.id,
     _id: backend._id,
     createdAt: createdAt, // Use backend.createdAt for job posting date
-    projectDuration: backend.projectDuration,
+    projectDuration: backend.projectDuration || { weeks: 404 },
     title: backend.title,
     preferredLocation: backend.preferredLocation,
     experienceLevel: backend.experienceLevel,
