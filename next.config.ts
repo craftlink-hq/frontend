@@ -20,8 +20,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path*",
-        destination: "/authenticate/:path*",
+        source: "/authenticate/:path*",
+        destination: "/:path*",
       },
     ];
   },

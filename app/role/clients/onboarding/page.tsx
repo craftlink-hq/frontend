@@ -203,7 +203,7 @@ export default function Onboarding() {
                   onChange={(e) => setClientBio(e.target.value)}
                   placeholder="Write a brief summary about yourself..."
                   className="h-44 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
-                  maxLength={300}
+                  maxLength={500}
                 />
                 <span className="text-xs text-[#D8D6CF]">
                   {clientBio.length}/500 characters

@@ -33,7 +33,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
         </div>
       </div>
       <div className="flex flex-col border border-[#FCFBF726] gap-y-2 px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
-        <div className="flex justify-between items-start justify-start">
+        <div className="flex items-start justify-start">
           <h3 className="text-lg font-bold">Location</h3>
         </div>
         <div className="flex  items-start justify-start gap-x-2">
@@ -47,7 +47,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
         </div>
       </div>
       <div className="flex flex-col border border-[#FCFBF726] gap-y-2 px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
-        <div className="flex justify-between items-start justify-start">
+        <div className="flex items-start justify-start">
           <h3 className="text-lg font-bold">Language</h3>
           <div className="flex ">
             <span className="relative h-[33px] w-[33px] ">
@@ -71,7 +71,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
         </div>
       </div>
       <div className="flex flex-col border border-[#FCFBF726] gap-y-2 px-2 md:px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
-        <div className="flex justify-between items-start justify-start">
+        <div className="flex items-start justify-start">
           <h3 className="text-lg font-bold">Hiring History</h3>
         </div>
         <div className="flex  items-start justify-start gap-x-2 w-full">
@@ -89,7 +89,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
         </div>
       </div>
       <div className="flex flex-col border border-[#FCFBF726] gap-y-2 px-2 md:px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
-        <div className="flex justify-between items-start justify-start">
+        <div className="flex items-start justify-start">
           <h3 className="text-lg font-bold">Total Amount Spent</h3>
         </div>
         <div className="flex  items-start justify-start gap-x-2 w-full">

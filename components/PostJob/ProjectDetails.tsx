@@ -144,20 +144,6 @@ const ProjectDetails = ({ project }: { project: Job }) => {
                         />
                       </div>
                     ))}
-                    {project.images?.map((file) => (
-                      <div key={file} className="relative h-[80%] w-[20%]">
-                        <Image
-                          src={file}
-                          alt="Attached file"
-                          fill
-                          sizes="(max-width: 768px) 20vw, (max-width: 1200px) 10vw, 7vw"
-                          style={{
-                            objectFit: "contain",
-                            objectPosition: "center",
-                          }}
-                        />
-                      </div>
-                    ))}
                   </div>
                 ) : (
                   <div className="flex items-center justify-center h-[15vh] text-[#FCFBF7] opacity-50">

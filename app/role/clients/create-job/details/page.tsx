@@ -12,6 +12,7 @@ export default function Details() {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const router = useRouter();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const {
     setJobDescription,
@@ -40,7 +41,13 @@ export default function Details() {
   };
 
   const validateFileType = (file: File): boolean => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
     if (!allowedTypes.includes(file.type)) {
       toast.error(`File type ${file.type} is not supported`);
       return false;
@@ -48,6 +55,7 @@ export default function Details() {
     return true;
   };
 
+   
   const handleNext = async () => {
     if (!jobDescription.trim()) {
       toast.error("Please provide a brief description of your project");
@@ -64,23 +72,8 @@ export default function Details() {
     try {
       let uploadedUrls: string[] = [];
 
-      if (imagePreviews.length > 0) {
-        const files = await Promise.all(
-          imagePreviews.map(async (preview, index) => {
-            const response = await fetch(preview);
-            const blob = await response.blob();
-            const mimeType = blob.type;
-            const fileExtension = mimeType.split("/")[1];
-
-            return new File(
-              [blob],
-              `image-${Date.now()}-${index}.${fileExtension}`,
-              { type: mimeType }
-            );
-          })
-        );
-
-        uploadedUrls = await uploadFiles(files);
+      if (selectedFiles.length > 0) {
+        uploadedUrls = await uploadFiles(selectedFiles);
         setJobMediaUrls(uploadedUrls);
       }
 
@@ -101,13 +94,21 @@ export default function Details() {
     const files = e.target.files;
     if (!files?.length) return;
 
-    const validFiles = Array.from(files).filter(file => 
-      validateFileSize(file) && validateFileType(file)
+    const validFiles = Array.from(files).filter(
+      (file) => validateFileSize(file) && validateFileType(file)
     );
 
-    const newImages = validFiles.map(file => URL.createObjectURL(file));
-    
-    setImagePreviews(prev => {
+    setSelectedFiles((prev) => {
+      const totalFiles = [...prev, ...validFiles];
+      return totalFiles.slice(0, 5);
+    });
+
+    // Only generate previews for images
+    const newImages = validFiles
+      .filter((file) => file.type.startsWith("image/"))
+      .map((file) => URL.createObjectURL(file));
+
+    setImagePreviews((prev) => {
       const totalImages = [...prev, ...newImages];
       if (totalImages.length > 5) {
         newImages.slice(5 - prev.length).forEach(URL.revokeObjectURL);
@@ -118,10 +119,11 @@ export default function Details() {
   };
 
   const handleRemoveImage = (index: number) => {
-    setImagePreviews(prev => {
+    setImagePreviews((prev) => {
       URL.revokeObjectURL(prev[index]);
       return prev.filter((_, i) => i !== index);
     });
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const isValidUrl = (url: string): boolean => {
@@ -141,7 +143,8 @@ export default function Details() {
           Describe Your Project!
         </h2>
         <p className="font-merriweather text-start self-start md:w-[70%]">
-          Tell us what you&apos;re looking for. Be as detailed as possible to help artisans understand your needs.
+          Tell us what you&apos;re looking for. Be as detailed as possible to
+          help artisans understand your needs.
         </p>
 
         <div className="flex flex-col md:grid md:grid-cols-2 md:justify-between w-full py-8 gap-4 md:gap-8">
@@ -156,7 +159,9 @@ export default function Details() {
               />
             </div>
             <div>
-              <p className="font-bold py-2">Share a link that gives more context to your project.</p>
+              <p className="font-bold py-2">
+                Share a link that gives more context to your project.
+              </p>
               <div className="flex items-start w-full gap-x-2">
                 <div className="w-full">
                   <Input
@@ -167,13 +172,17 @@ export default function Details() {
                   />
                 </div>
               </div>
-              <p className="text-xs text-[#D8D6CF]">Check that the URL is valid</p>
+              <p className="text-xs text-[#D8D6CF]">
+                Check that the URL is valid
+              </p>
             </div>
           </div>
 
           <div className="flex flex-col gap-y-4 self-center">
             <div>
-              <p className="font-bold py-2">Add up to 5 images or files to showcase your ideas.</p>
+              <p className="font-bold py-2">
+                Add up to 5 images or files to showcase your ideas.
+              </p>
               {imagePreviews.length > 0 && (
                 <div className="flex flex-wrap gap-4">
                   {imagePreviews.map((image, index) => (
@@ -197,14 +206,15 @@ export default function Details() {
                   ))}
                 </div>
               )}
-              
+
               {imagePreviews.length < 5 && (
                 <div>
                   {imagePreviews.length > 0 ? (
                     <label className="flex flex-col gap-y-2 py-4 items-center justify-center font-merrieweather">
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        multiple
                         className="hidden"
                         onChange={handleImageChange}
                       />
@@ -246,15 +256,19 @@ export default function Details() {
                           </p>
                         </label>
                       </div>
-                      <p className="text-xs text-[#D8D6CF]">Supports formats like JPEG, PNG, PDF, DOCX</p>
+                      <p className="text-xs text-[#D8D6CF]">
+                        Supports formats like JPEG, PNG, PDF, DOCX
+                      </p>
                     </div>
                   )}
                 </div>
               )}
             </div>
-            
+
             <div>
-              <p className="font-bold py-2">Additional Information for Artisans</p>
+              <p className="font-bold py-2">
+                Additional Information for Artisans
+              </p>
               <textarea
                 value={additionalInfo}
                 onChange={(e) => setAdditionalInfo(e.target.value)}

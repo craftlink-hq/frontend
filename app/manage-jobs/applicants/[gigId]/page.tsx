@@ -1,38 +1,41 @@
-"use client"
+"use client";
 
-import { appliedJobFilters } from "@/utils/filters"
-import ManageApplicants from "@/components/ManageJobs/ManageApplicants"
-import MarketHeader from "@/components/Marketplace/MarketHeader"
-import { useFilterState } from "@/context/filter"
-import { usePathname, useRouter } from "next/navigation"
-import { useFetchClientPostedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientPostedGigs"
-import { useState} from "react"
+import { appliedJobFilters } from "@/utils/filters";
+import ManageApplicants from "@/components/ManageJobs/ManageApplicants";
+import MarketHeader from "@/components/Marketplace/MarketHeader";
+import { useFilterState } from "@/context/filter";
+import { usePathname, useRouter } from "next/navigation";
+import { useFetchClientPostedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientPostedGigs";
+import { useState, use } from "react";
+// import { Applications } from "@/utils/job";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+export default function JobApplicants({
+  params,
+}: {
+  params: Promise<{ gigId: string }>;
+}) {
+  const { filterState, setFilterState } = useFilterState();
+  const pathname = usePathname();
+  const router = useRouter();
+  const { gigId } = use(params);
 
-export default function JobApplicants({ params }: PageProps) {
-  const { filterState, setFilterState } = useFilterState()
-  const pathname = usePathname()
-  const router = useRouter()
-  const { id:jobId } = params;
+  const {
+    postedGigs: Applications,
+    isLoading,
+    error,
+  } = useFetchClientPostedGigs();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
 
-  const { postedGigs: Applications, isLoading, error } = useFetchClientPostedGigs()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(4)
-
-  const isActive = (path: string) => pathname === path
+  const isActive = (path: string) => pathname === path;
 
   const toggleFilter = () => {
-    setFilterState(!filterState)
-  }
+    setFilterState(!filterState);
+  };
 
   const handleBackToJobs = () => {
-    router.push("/manage-jobs")
-  }
+    router.push("/manage-jobs/clients");
+  };
 
   // Handle loading state
   if (isLoading) {
@@ -40,16 +43,18 @@ export default function JobApplicants({ params }: PageProps) {
       <div className="flex items-center justify-center min-h-screen bg-[#333333]">
         <div className="text-[#F9F1E2]">Loading job applicants...</div>
       </div>
-    )
+    );
   }
 
   // Handle fetch errors
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#333333]">
-        <div className="text-red-400">Error loading job applicants: {error}</div>
+        <div className="text-red-400">
+          Error loading job applicants: {error}
+        </div>
       </div>
-    )
+    );
   }
 
   // Handle empty data
@@ -58,18 +63,18 @@ export default function JobApplicants({ params }: PageProps) {
       <div className="flex items-center justify-center min-h-screen bg-[#333333]">
         <div className="text-[#F9F1E2]">No posted gigs found.</div>
       </div>
-    )
+    );
   }
 
   // Find the specific job by ID
-  const currentJob = Applications.find((job) => job.job.id === jobId)
+  const currentJob = Applications.find((job) => job.job.id === gigId);
 
   if (!currentJob) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#333333]">
-        <div className="text-red-400">Job not found with ID: {jobId}</div>
+        <div className="text-red-400">Job not found with ID: {gigId}</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -89,7 +94,9 @@ export default function JobApplicants({ params }: PageProps) {
                 </button>
               </div>
               <div className="self-center">
-                <h1 className="text-[#F9F1E2] font-bold text-lg">Applicants for: {currentJob.job.title}</h1>
+                <h1 className="text-[#F9F1E2] font-bold text-lg">
+                  Applicants for: {currentJob.job.title}
+                </h1>
               </div>
             </div>
 
@@ -100,13 +107,15 @@ export default function JobApplicants({ params }: PageProps) {
                 jobType="applicants"
                 pageDetails={`Review and manage applications for "${currentJob.job.title}". You can hire artisans directly or start a conversation to learn more about their experience.`}
                 currentPage={currentPage}
-                totalPages={Math.ceil((currentJob.job?.applicants?.length || 0) / itemsPerPage)}
+                totalPages={Math.ceil(
+                  (currentJob.job?.applicants?.length || 0) / itemsPerPage
+                )}
                 itemsPerPage={itemsPerPage}
                 totalItems={currentJob.job?.applicants?.length || 0}
                 onPageChange={setCurrentPage}
                 onItemsPerPageChange={(items) => {
-                  setItemsPerPage(items)
-                  setCurrentPage(1)
+                  setItemsPerPage(items);
+                  setCurrentPage(1);
                 }}
               />
             </div>
@@ -114,5 +123,5 @@ export default function JobApplicants({ params }: PageProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
