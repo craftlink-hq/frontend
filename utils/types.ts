@@ -64,7 +64,7 @@ export interface Artisan {
   avatar?: string;
   username?: string;
   profile?: ArtisanProfileProps;
-  available?: boolean;
+  availableForProjects?: boolean;
   preferredLanguages?: string[];
   artisanCategory?: string;
   bio?: string;

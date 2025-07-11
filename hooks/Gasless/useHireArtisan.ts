@@ -15,24 +15,24 @@ export const useHireArtisan = () => {
   const RELAYER_URL = process.env.RELAYER_URL;
 
   const hireArtisan = useCallback(
-    async (databaseId: string, artisanAddress: string) => {
+    async (databaseId: string, artisan: string) => {
       if (!isConnected || !address) {
         toast.warning("Please connect your wallet first.");
-        return;
+        return false;
       }
       if (!isSupportedChain(chainId)) {
         toast.warning("Unsupported network. Please switch to the correct network.");
-        return;
+        return false;
       }
-      if (!databaseId || !ethers.isAddress(artisanAddress)) {
+      if (!databaseId || !ethers.isAddress(artisan)) {
         toast.error("Invalid gig ID or artisan address");
-        return;
+        return false;
       }
 
       startLoading();
       try {
         const functionName = "hireArtisan";
-        const params = { databaseId, artisanAddress };
+        const params = { databaseId, artisan };
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
         const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
 
@@ -53,15 +53,19 @@ export const useHireArtisan = () => {
         const result = await response.json();
         if (result.success) {
           toast.success("Artisan hired successfully");
+          return true;
         } else {
           toast.error(`Error: ${result.message}`);
+          return false;
         }
       } catch (error: unknown) {
         if ((error as Error).message.includes("User rejected")) {
           toast.info("Signature request cancelled");
+          return false;
         } else {
           toast.error("Error during hiring artisan");
           console.error(error);
+          return false;
         }
       } finally {
         stopLoading();

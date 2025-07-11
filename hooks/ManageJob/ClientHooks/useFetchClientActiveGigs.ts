@@ -98,6 +98,7 @@ export const useFetchClientActiveGigs = () => {
     } finally {
       stopLoading();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, clientAmountSpent]);
 
   useEffect(() => {

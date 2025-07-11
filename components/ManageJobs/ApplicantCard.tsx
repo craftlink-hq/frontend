@@ -44,7 +44,7 @@ const ApplicantCard = ({
             </div>
 
             <h4 className="text-lg text-[#B5B4AD] mb-4">
-              {applicant.category}
+              {applicant.artisanCategory || "Artisan Category"}
             </h4>
 
             {/* Details */}
@@ -68,7 +68,7 @@ const ApplicantCard = ({
                   height="16"
                 />
                 <span className="font-merriweather text-[#D8D6CF]">
-                  {applicant.language}
+                  {applicant.preferredLanguages?.join(", ") || "English"}
                 </span>
               </div>
               <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726]">
@@ -91,7 +91,7 @@ const ApplicantCard = ({
                 />
                 <span className="font-merriweather text-[#D8D6CF]">
                   <span>
-                    {applicant?.available
+                    {applicant.availableForProjects
                       ? "Available to work"
                       : "Not available"}
                   </span>
@@ -104,11 +104,11 @@ const ApplicantCard = ({
         {/* About Section */}
         <div className="mb-6">
           <h4 className="text-lg font-medium text-[#F9F1E2] mb-3">About</h4>
-          <p className="text-[#B5B4AD] mb-4">{applicant.about}</p>
+          <p className="text-[#B5B4AD] mb-4">{applicant.bio}</p>
 
           {/* Skills */}
           <div className="flex flex-wrap p-2 gap-2">
-            {applicant.profile?.skills.slice(0, 6).map((skill) => (
+            {applicant.skills?.slice(0, 6).map((skill) => (
               <span
                 key={skill}
                 className="flex items-center px-4 py-[4px] rounded-full border border-[#FFFFFF40] text-[#D8D6CF] text-sm  bg-[#26220826]"
@@ -150,6 +150,8 @@ const ApplicantCard = ({
             <HireConfirmationModal
               onCancel={() => setIsModalOpen(false)}
               artisanName={applicant.username || "Unknown Artisan"}
+              artisanAddress={applicant.walletAddress || "Artisan Address"}
+              databaseId={String(job.id) || "Job ID"}
               projectTitle={job.title}
               budget={job.price ?? 404}
               duration={job.projectDuration.weeks}
