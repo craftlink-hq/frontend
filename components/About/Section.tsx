@@ -53,18 +53,18 @@ const SectionWithImage: FC<SectionWithImageProps> = ({
 
         {/* Text Content */}
         <div 
-          className={`${imageOnRight ? 'lg:order-1' : 'lg:order-2'} space-y-6 p-8 rounded-lg h-[400px] lg:h-[500px] flex flex-col justify-center border`}
+          className={`${imageOnRight ? 'lg:order-1' : 'lg:order-2'} space-y-6 p-6 lg:p-8 rounded-lg min-h-[400px] lg:h-[500px] flex flex-col justify-center border`}
           style={{ backgroundColor: '#33322F', borderColor: '#F2E8CF29' }}
         >
-          <h1 className={`text-4xl lg:text-5xl xl:text-6xl font-bold ${isDark ? 'text-[#F9F1E2]' : 'text-gray-900'}`}>
+          <h1 className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold ${isDark ? 'text-[#F9F1E2]' : 'text-gray-900'}`}>
             {title}
           </h1>
           {typeof content === 'string' ? (
-            <p className={`text-lg lg:text-xl leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-base sm:text-lg lg:text-xl leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {content}
             </p>
           ) : (
-            <div className={`space-y-4 text-lg leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <div className={`space-y-4 text-base sm:text-lg leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {content}
             </div>
           )}
