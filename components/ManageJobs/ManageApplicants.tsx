@@ -7,6 +7,7 @@ import NoJob from "./NoJob";
 import Pagination from "./JobsPagination";
 import { useMemo } from "react";
 import type { Artisan, Job } from "@/utils/types";
+import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
 
 interface ManageApplicantsProps {
   applicants?: Artisan[];
@@ -43,6 +44,7 @@ const ManageApplicants = ({
   onItemsPerPageChange,
 }: Readonly<ManageApplicantsProps>) => {
   const { filterState } = useFilterState();
+  const closeGig = useCloseGig();
 
   // Use applicants from job if not provided directly
   const jobApplicants = useMemo(() => {
@@ -84,6 +86,10 @@ const ManageApplicants = ({
     }
   };
 
+  const handleCloseJob = async () => {
+    await closeGig(String(job.id));
+  }
+
   return (
     <div className="grid h-full w-full">
       {jobApplicants.length > 0 ? (
@@ -93,7 +99,7 @@ const ManageApplicants = ({
               {pageDetails}
             </p>
             <div className="flex items-center justify-end  w-[40%] ">
-              <button className="bg-yellow text-[#1A1203] font-bold py-2 px-8 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
+              <button onClick={handleCloseJob} className="bg-yellow text-[#1A1203] font-bold py-2 px-8 rounded uppercase text-sm hover:bg-yellow/90 transition-colors">
                 Close Job
               </button>
             </div>

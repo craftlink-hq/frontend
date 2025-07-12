@@ -24,11 +24,11 @@ const useCloseGig = () => {
         async (databaseId: string) => {
             if (!isConnected) {
                 toast.warning("Please connect your wallet first.");
-                return;
+                return false;
             }
             if (!isSupportedChain(chainId)) {
                 toast.warning("Unsupported network. Please switch to the correct network.");
-                return;
+                return false;
             }
 
             const readWriteProvider = getProvider(walletProvider);
@@ -50,11 +50,11 @@ const useCloseGig = () => {
                 }
 
                 toast.success("Gig closed successfully and he funds have been refunded.");
-                router.push("/manage-jobs/clients");
+                router.push("/manage-jobs/clients/closed");
             } catch (error) {
                 const err = error as ErrorWithReason;
-                let errorMessage = "An error occurred while closing the gig.";
-                
+                let errorMessage = "Request cancelled.";
+
                 if (err.reason === "Not gig owner") {
                     errorMessage = "You are not the owner of this gig.";
                 } else if (err.reason === "Cannot close active gig") {

@@ -63,36 +63,42 @@ export const useFetchClientClosedGigs = () => {
       const databaseIds: string[] = await contract.getClientCreatedGigs(address);
 
       const gigPromises = databaseIds.map(async (databaseId: string) => {
-        const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
-        const backendData: BackendGigData = backendResponse.data.gig;
+        try {
+          const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
+          const backendData: BackendGigData = backendResponse.data.gig;
 
-        const contractData = await contract.getGigInfo(databaseId);
+          const contractData = await contract.getGigInfo(databaseId);
 
-        const gigData: GigData = {
-          backend: backendData,
-          contract: {
-            client: contractData.client,
-            hiredArtisan: contractData.hiredArtisan,
-            paymentId: contractData.paymentId,
-            rootHash: contractData.rootHash,
-            artisanComplete: contractData.artisanComplete,
-            isCompleted: contractData.isCompleted,
-            isClosed: contractData.isClosed,
-          },
-        };
+          const isClosed =
+            contractData.isClosed &&
+            !contractData.isCompleted
 
-        return mapToApplied(gigData, address, 'client', clientAmountSpent);
+          if (!isClosed) {
+            return null;
+          }
+
+          const gigData: GigData = {
+            backend: backendData,
+            contract: {
+              client: contractData.client,
+              hiredArtisan: contractData.hiredArtisan,
+              paymentId: contractData.paymentId,
+              rootHash: contractData.rootHash,
+              artisanComplete: contractData.artisanComplete,
+              isCompleted: contractData.isCompleted,
+              isClosed: contractData.isClosed,
+            },
+          };
+
+          return mapToApplied(gigData, address, 'client', clientAmountSpent);
+        } catch (error) {
+          console.error(`Error fetching gig info for ${databaseId}:`, error);
+          return null;
+        }
       });
 
-      const fetchedGigs = await Promise.all(gigPromises);
-      setClosedGigs(
-        fetchedGigs.filter(
-          (gig) =>
-            gig.status === 'closed' &&
-            gig.job.id === gig.job.id &&
-            gig.job.completedBy?.walletAddress === '0x0000000000000000000000000000000000000000'
-        )
-      );
+      const fetchedGigs = (await Promise.all(gigPromises)).filter((gig): gig is Applied => gig !== null);
+      setClosedGigs(fetchedGigs);
     } catch (err) {
       setError('Failed to fetch closed gigs');
       console.error(err);
