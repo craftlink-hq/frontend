@@ -1,4 +1,3 @@
-// ActiveJob.tsx - FULL UPDATED CODE
 "use client";
 import { useState, useEffect } from "react";
 import { Applied } from "@/utils/types";

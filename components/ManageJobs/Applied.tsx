@@ -7,10 +7,17 @@ import GigDetails from "./GigDetails";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { formatDate } from "@/utils/formatDate";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
+import { useRouter } from "next/navigation"
 
 const AppliedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
+  const router = useRouter()
+
+  const handleViewProfile = (clientId: string) => {
+    // Navigate to specific client profile
+    router.push(`/profile/clients/artisan-view/${clientId}`);
+  };
 
   return (
     <AnimatedDiv
@@ -34,10 +41,13 @@ const AppliedJob = ({ job }: { job: Applied }) => {
             {job.job.client?.walletAddress.slice(0, 4)}...
             {job.job.client?.walletAddress.slice(-5)}
           </p>
-          <div className="flex flex-col gap-x-2">
+          <button
+            className="flex flex-col gap-x-2"
+            onClick={() => handleViewProfile(clientData?.walletAddress || "")}
+          >
             <span className="text-[#FFD700]">View Profile</span>
             <p className="border-b border-yellow w-full"></p>
-          </div>
+          </button>
         </div>
 
         {/* Job Title */}
@@ -116,7 +126,8 @@ const AppliedJob = ({ job }: { job: Applied }) => {
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-[#FAB427] rounded-full"></div>
           <span className="text-[#F9F1E2] font-medium">
-            {job.status}: <span className="text-[#B5B4AD]">{job.statusMsg}</span>
+            {job.status}:{" "}
+            <span className="text-[#B5B4AD]">{job.statusMsg}</span>
           </span>
         </div>
 

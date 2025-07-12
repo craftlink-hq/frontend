@@ -1,12 +1,17 @@
 import Image from "next/image";
 import { Client } from "@/utils/types";
+import { formatDate } from "@/utils/formatDate";
 
 interface Details {
   detailValue: string | number;
   imgSrc: string;
 }
 
-const AccountCard = ({ client }: { client: Client }) => {
+interface ClientProfileCardProps {
+  client: Client;
+}
+
+const AccountCard = ({ client }: ClientProfileCardProps) => {
   const details: Details[] = [
     {
       imgSrc: "/language.png",
@@ -22,7 +27,7 @@ const AccountCard = ({ client }: { client: Client }) => {
     },
     {
       imgSrc: "/calendar.png",
-      detailValue: `Joined ${client.dateJoined}`,
+      detailValue: `Joined ${formatDate(client.dateJoined)}`,
     },
     {
       imgSrc: "/totalJobs.png",

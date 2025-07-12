@@ -7,7 +7,7 @@ import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
 import { formatUnits } from "ethers";
 
-const useGetClientAmountSpent = () => {
+const useGetClientAmountSpent = (walletAddress ?: string) => {
   const { address, isConnected } = useAccount();
   const [amountSpent, setAmountSpent] = useState<number | null>(null);
 
@@ -16,7 +16,7 @@ const useGetClientAmountSpent = () => {
 
     try {
       const contract = getPaymentProcessorContract(readOnlyProvider);
-      const resp = await contract.getClientAmountSpent(address);
+      const resp = await contract.getClientAmountSpent(walletAddress ?? address);
       const formattedAmount = formatUnits(resp, 6);
       setAmountSpent(parseFloat(formattedAmount));
     } catch (error) {
@@ -24,7 +24,7 @@ const useGetClientAmountSpent = () => {
       console.error("Error checking amount spent:", error);
       setAmountSpent(null);
     }
-  }, [address]);
+  }, [address, walletAddress]);
 
   useEffect(() => {
     checkAmountSpent();

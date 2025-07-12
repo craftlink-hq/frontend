@@ -22,11 +22,6 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
     router.push("/marketplace");
   };
 
-  // const setIsModalOpen = (isOpen: boolean) => {
-  //   // Placeholder function, replace with actual modal logic
-  //   console.log("Modal open state:", isOpen);
-  // };
-
   return (
     <div className="bg-[#F2E8CF0A] lg:flex rounded-lg p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
       <div className="lg:hidden flex justify-end">

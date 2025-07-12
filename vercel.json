@@ -1,8 +1,16 @@
 {
     "rewrites": [
         {
-            "source": "/manage-jobs/applicants/:jobId",
-            "destination": "/manage-jobs/applicants/:jobId"
+            "source": "/manage-jobs/applicants/:gigId",
+            "destination": "/manage-jobs/applicants/:gigId"
+        },
+        {
+            "source": "/profile/clients/artisan-view/:clientId",
+            "destination": "/profile/clients/artisan-view/:clientId"
+        },
+        {
+            "source": "/profile/artisans/client-view/:artisanId",
+            "destination": "/profile/artisans/client-view/:artisanId"
         },
         {
             "source": "/(.*)",

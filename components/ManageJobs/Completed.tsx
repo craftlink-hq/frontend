@@ -19,7 +19,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
   const { releaseArtisanFunds } = useReleaseArtisanFunds();
-
+  const [isClaimed, setIsClaimed ] = useState(false)
   const onClaim = async () => {
     const databaseId = job.job.id;
     if (!databaseId) {
@@ -30,6 +30,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
     const success = await releaseArtisanFunds(String(databaseId));
     if (success) {
       setIsClaimModalOpen(false)
+      setIsClaimed(true)
       setIsSuccessOpen(true)
     } else {
       console.error("Failed to release artisan funds");
@@ -193,13 +194,15 @@ const CompletedJob = ({ job }: { job: Applied }) => {
 
         {job.user_type === "artisan" ? (
           <div className="flex justify-between gap-3">
-            <button
-              className="bg-yellow text-[#262208]  font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors"
-              onClick={() => setIsClaimModalOpen(true)}
-              disabled={job.status === "completed" ? true : false}
-            >
-              Claim Payment
-            </button>
+          <button
+            className={`bg-yellow text-[#262208] font-bold px-6 py-2 rounded uppercase text-sm transition-colors
+              ${isClaimed ? "opacity-50 cursor-not-allowed blur-[1px]" : "hover:bg-yellow/90"}
+            `}
+            onClick={() => setIsClaimModalOpen(true)}
+            disabled={isClaimed}
+          >
+            {isClaimed ? "Claimed" : "Claim Payment"}
+          </button>
             <button
               onClick={() => setIsModalOpen(true)}
               className="bg-[#262208] self-end  text-[#F9F1E2] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-[#2A2A2A] transition-colors"

@@ -14,6 +14,8 @@ const OpenJob = ({ job }: { job: Applied }) => {
   const closeGig = useCloseGig()
   const router = useRouter()
 
+  console.log(clientData)
+
   const handleCloseJob = () => {
     if (job.job.id) {
       closeGig(String(job.job.id))
@@ -27,10 +29,12 @@ const OpenJob = ({ job }: { job: Applied }) => {
     router.push(`/manage-jobs/applicants/${job.job.id}`)
   }
 
-  const handleViewProfile = (applicantId: string) => {
+  const handleViewProfile = (applicantAddress: string) => {
     // Navigate to specific applicant profile
-    router.push(`/profile/${applicantId}`)
+    router.push(`/profile/artisans/client-view/${applicantAddress}`)
   }
+
+  console.log(job)
 
   return (
     <AnimatedDiv
@@ -106,7 +110,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-2xl font-bold text-[#F9F1E2] uppercase">{applicants[0].username}</h3>
                   <button
-                    onClick={() => handleViewProfile(applicants[0].id || applicants[0].walletAddress)}
+                    onClick={() => handleViewProfile(applicants[0].walletAddress)}
                     className="text-yellow hover:text-yellow/80 transition-colors text-sm font-medium"
                   >
                     View Profile

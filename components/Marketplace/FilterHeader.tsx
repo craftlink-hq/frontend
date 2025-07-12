@@ -47,7 +47,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
   // Menu items array
   const menuItems = [
     { href: links.browseJob, label: "Browse Jobs" },
-    { href: links.applied, label: "Manage Jobs" },
+    { href: isArtisan ? links.applied : links.opened, label: "Manage Jobs" },
     { href: links.message, label: "Messages" },
     { href: links.resources, label: "Resources" },
   ]
