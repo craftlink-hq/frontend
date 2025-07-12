@@ -56,9 +56,7 @@ export default function ClientProfileView({
 
       fetchArtisanProfile()
     }, [artisanAddress, artisanInfo])
-
-    console.log(artisanInfo);
-  
+   
     if (error || !artisanInfo) {
       return (
         <div className="flex items-center justify-center min-h-screen">

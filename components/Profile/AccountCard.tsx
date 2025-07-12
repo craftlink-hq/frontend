@@ -91,7 +91,7 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
         <div className="flex self-end gap-x-2 p-8">
           <p className="text-xl font-bold text-[#D8D6CF]">
             {artisan.details.walletAddress.slice(0, 6)}...
-            {artisan.details.walletAddress.slice(21)}
+            {artisan.details.walletAddress.slice(-5)}
           </p>
           <div className="flex gap-x-2 items-center text-[#E0D8A8]">
             <span className="relative border border-[#F9F1E240]  rounded-full h-[24px] w-[24px] ">

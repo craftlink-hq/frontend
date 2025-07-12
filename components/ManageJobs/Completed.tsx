@@ -12,6 +12,8 @@ import PaymentSuccessModal from "./PaymentSuccess";
 import { formatDate } from "@/utils/formatDate";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 import { useReleaseArtisanFunds } from "@/hooks/Gasless/useReleaseArtisanFunds";
+import useGetPaymentDetails from "@/hooks/PaymentProcessor/useGetPaymentDetails";
+import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
 
 const CompletedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +21,13 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
   const { releaseArtisanFunds } = useReleaseArtisanFunds();
-  const [isClaimed, setIsClaimed ] = useState(false)
+  const gigInfo = useGetGigInfo(String(job?.job?.id));
+  const paymentDetails = useGetPaymentDetails(Number(gigInfo?.paymentId));
+  const [isClaimed, setIsClaimed ] = useState(false);
+
+  console.log(gigInfo)
+  
+  console.log("Payment details", paymentDetails)
   const onClaim = async () => {
     const databaseId = job.job.id;
     if (!databaseId) {

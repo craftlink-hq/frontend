@@ -2,12 +2,13 @@
 import ProfileHeader from "@/components/Profile/Header";
 import Footer from "@/components/LandingPage/Footer";
 import { usePathname } from "next/navigation";
-import { jobs } from "@/utils/job";
 import CompletedProjects from "@/components/Profile/ViewCompletedProject";
 import AccountCard from "@/components/Profile/ClientAccCard";
 import { use } from "react";
 import Loading from "@/components/Loading";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
+import { useFetchClientCompletedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientCompletedGigs";
+
 
 export default function ArtisanView({
  params,
@@ -18,7 +19,10 @@ export default function ArtisanView({
   const isActive = (path: string) => pathname === path;
   const { clientAddress } = use(params);
   const { clientData, isLoading, error } = useGetClientInfo(clientAddress);
+  const { completedGigs: completed } = useFetchClientCompletedGigs();
   
+  const jobs = completed.map(item => item.job);
+
  if (isLoading || !clientData) {
     return <Loading show={false} />
   }

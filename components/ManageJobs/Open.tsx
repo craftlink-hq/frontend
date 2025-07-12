@@ -13,9 +13,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "")
   const closeGig = useCloseGig()
   const router = useRouter()
-
-  console.log(clientData)
-
+ 
   const handleCloseJob = () => {
     if (job.job.id) {
       closeGig(String(job.job.id))
@@ -34,7 +32,6 @@ const OpenJob = ({ job }: { job: Applied }) => {
     router.push(`/profile/artisans/client-view/${applicantAddress}`)
   }
 
-  console.log(job)
 
   return (
     <AnimatedDiv

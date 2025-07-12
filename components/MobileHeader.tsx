@@ -9,16 +9,21 @@ import { CiFilter } from "react-icons/ci";
 import { useState } from "react";
 import { userCard } from "@/utils/profile";
 import Image from "next/image";
+import { useGetUserRole } from "@/utils/store";
 
 interface Header { 
   toggleFilter: () => void;
   isActive: (path: string) => boolean;
 }
 const MobileHeader = ({ toggleFilter, isActive }: Header) => {
+  const { role } = useGetUserRole();
+  const isArtisan = role === "artisan";
+
+
   const menuItems = [
     { href: links.artisans_profile, label: "Profile" },
     { href: links.browseJob, label: "Browse Jobs" },
-    { href: links.applied, label: "Manage Jobs" },
+    { href: isArtisan ? links.applied : links.opened, label: "Manage Jobs" },
     { href: links.message, label: "Messages" },
     { href: links.resources, label: "Resources" },
   ];
