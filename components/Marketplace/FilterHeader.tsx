@@ -5,13 +5,10 @@ import ConnectWallet from "../ConnectWallet"
 import SearchBar from "../SearchBar"
 import Link from "next/link"
 import { links } from "@/utils/links"
-
-
-// import useIsArtisan from "@/hooks/Registry/useIsArtisan"
-// import useIsClient from "@/hooks/Registry/useIsClient"
-import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText} from "react-icons/fi"
-
+import useCheckDualRole from "@/hooks/Registry/useCheckDualRole";
+import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText, FiChevronDown, FiChevronUp} from "react-icons/fi"
 import { useGetUserRole } from "@/utils/store";
+import { useAccount } from "wagmi";
 
 interface Header {
   isActive: (path: string) => boolean
@@ -19,10 +16,15 @@ interface Header {
 
 const MarketplaceHeader = ({ isActive }: Header) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
 
   const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const profileDropdownRef = useRef<HTMLDivElement>(null)
 
-  const { role } = useGetUserRole();
+  const { address } = useAccount();
+  const { role, setRole } = useGetUserRole(); 
+  const { hasDualRole } = useCheckDualRole(address || "");
+  
   const isArtisan = role === "artisan";
   const isClient = role === "client";
 
@@ -31,6 +33,9 @@ const MarketplaceHeader = ({ isActive }: Header) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         setIsMobileMenuOpen(false)
+      }
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
+        setIsProfileDropdownOpen(false)
       }
     }
 
@@ -51,6 +56,12 @@ const MarketplaceHeader = ({ isActive }: Header) => {
     setIsMobileMenuOpen(false)
   }
 
+  // Handle role switching
+  const handleRoleSwitch = (newRole: "artisan" | "client") => {
+    setRole(newRole);
+    setIsProfileDropdownOpen(false);
+  }
+
   // Get user role text for display
   const getUserRoleText = () => {
     if (isArtisan) return "Artisan"
@@ -60,9 +71,9 @@ const MarketplaceHeader = ({ isActive }: Header) => {
 
   // Get user image based on role - using same logic as getUserRoleText
   const getUserImage = () => {
-    if (isArtisan) return "/profile.png" // or "/artisan-profile.png" if you have different images
-    if (isClient) return "/profile.png"  // or "/client-profile.png" if you have different images
-    return "/placeholder.svg" // default image for visitors
+    if (isArtisan) return "/profile.png" 
+    if (isClient) return "/profile.png" 
+    return "/placeholder.svg" 
   }
 
   // Get profile page based on role - using same logic as getUserRoleText
@@ -133,25 +144,88 @@ const MarketplaceHeader = ({ isActive }: Header) => {
                 </button>
               </Link>
             ) : (
-              // Artisans & Clients - Show Connect Wallet and Profile
               <>
                 <ConnectWallet />
                 {hasValidRole ? (
-                  <div className="flex flex-col items-center">
-                    {/* Profile Section with Image and Role Text Below - No dropdown functionality */}
-                    <div className="rounded-full h-8 w-8 overflow-hidden">
-                      <Image
-                        src={getUserImage()}
-                        alt="Profile pic"
-                        width={32}
-                        height={32}
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                    {/* Role Text Below Profile Image */}
-                    <span className="text-white text-xs font-medium mt-1 text-center">
-                      {getUserRoleText()}
-                    </span>
+                  <div className="relative" ref={profileDropdownRef}>
+                    {hasDualRole ? (
+                      <div 
+                        className="flex flex-col items-center cursor-pointer"
+                        onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                      >
+                        <div className="flex items-center">
+                          <div className="rounded-full h-8 w-8 overflow-hidden">
+                            <Image
+                              src={getUserImage()}
+                              alt="Profile pic"
+                              width={32}
+                              height={32}
+                              style={{ objectFit: "cover" }}
+                            />
+                          </div>
+                          {/* Dropdown arrow */}
+                          <div className="ml-1">
+                            {isProfileDropdownOpen ? (
+                              <FiChevronUp className="w-3 h-3 text-white" />
+                            ) : (
+                              <FiChevronDown className="w-3 h-3 text-white" />
+                            )}
+                          </div>
+                        </div>
+                        {/* Role Text Below Profile Image */}
+                        <span className="text-white text-xs font-medium mt-1 text-center">
+                          {getUserRoleText()}
+                          <span className="text-green-500 ml-1 text-[10px] italic">Active</span>
+                        </span>
+                      </div>
+                    ) : (
+                      // Single role users get no dropdown
+                      <div className="flex flex-col items-center">
+                        <div className="rounded-full h-8 w-8 overflow-hidden">
+                          <Image
+                            src={getUserImage()}
+                            alt="Profile pic"
+                            width={32}
+                            height={32}
+                            style={{ objectFit: "cover" }}
+                          />
+                        </div>
+                        {/* Role Text Below Profile Image */}
+                        <span className="text-white text-xs font-medium mt-1 text-center">
+                          {getUserRoleText()}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Dropdown Menu for Dual Role Users */}
+                    {hasDualRole && isProfileDropdownOpen && (
+                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-32 bg-[#333333] rounded-lg shadow-lg border border-[#555555] py-2 z-50">
+                        <button
+                          onClick={() => handleRoleSwitch("artisan")}
+                          className={`flex items-center justify-between w-full text-left px-4 py-2 text-white hover:bg-[#444444] transition-colors ${
+                            isArtisan ? 'bg-[#444444]' : ''
+                          }`}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <FiUser className="w-3 h-3" />
+                            <span className="text-sm">Artisan</span>
+                          </div>
+                          {isArtisan && <span className="text-green-500 text-xs italic">Active</span>}
+                        </button>
+                        <button
+                          onClick={() => handleRoleSwitch("client")}
+                          className={`flex items-center justify-between w-full text-left px-4 py-2 text-white hover:bg-[#444444] transition-colors ${
+                            isClient ? 'bg-[#444444]' : ''
+                          }`}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <FiUser className="w-3 h-3" />
+                            <span className="text-sm">Client</span>
+                          </div>
+                          {isClient && <span className="text-green-500 text-xs italic">Active</span>}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="flex flex-col items-center">
@@ -186,9 +260,47 @@ const MarketplaceHeader = ({ isActive }: Header) => {
                   </div>
                   <div className="border-t border-[#555555] mt-2 pt-2 md:hidden"></div>
                   
-                  {/* Profile Options Section - Conditional based on user role */}
                   {(isArtisan || isClient) && (
                     <>
+                      {hasDualRole && (
+                        <>
+                          <div className="px-4 py-2">
+                            <span className="text-white text-sm font-medium">Your Profile</span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              handleRoleSwitch("artisan");
+                              setIsMobileMenuOpen(false);
+                            }}
+                            className={`flex items-center justify-between w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors ${
+                              isArtisan ? 'bg-[#444444] text-[#FFD700]' : ''
+                            }`}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <FiUser className="w-4 h-4" />
+                              <span>Artisan</span>
+                            </div>
+                            {isArtisan && <span className="text-green-500 text-xs italic">Active</span>}
+                          </button>
+                          <button
+                            onClick={() => {
+                              handleRoleSwitch("client");
+                              setIsMobileMenuOpen(false);
+                            }}
+                            className={`flex items-center justify-between w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors ${
+                              isClient ? 'bg-[#444444] text-[#FFD700]' : ''
+                            }`}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <FiUser className="w-4 h-4" />
+                              <span>Client</span>
+                            </div>
+                            {isClient && <span className="text-green-500 text-xs italic">Active</span>}
+                          </button>
+                          <div className="border-t border-[#555555] my-2"></div>
+                        </>
+                      )}
+
                       {hasValidRole ? (
                         <>
                           <Link href={getProfilePage()}>
@@ -234,6 +346,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
                   >
                     <FiBell className="w-4 h-4" />
                     <span>Notification</span>
+                    <span className="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 ml-auto">1</span>
                   </button>
                   <button
                     onClick={() => {
@@ -255,6 +368,16 @@ const MarketplaceHeader = ({ isActive }: Header) => {
                     <FiFileText className="w-4 h-4" />
                     <span>Terms and Policies</span>
                   </button>
+                  <button
+                    onClick={() => {
+                      console.log("Selected: Disconnect Wallet")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="flex items-center space-x-3 w-full text-left px-4 py-3 text-white hover:bg-[#444444] hover:text-[#FFD700] transition-colors"
+                  >
+                    <FiSettings className="w-4 h-4" />
+                    <span>Disconnect Wallet</span>
+                  </button>
 
                   {/* Bottom Connect Wallet Button */}
                   <div className="border-t border-[#555555] mt-2 pt-2 px-4">
@@ -265,7 +388,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
                 </div>
               )}
             </div>
-                      </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 interface CoreValue {
@@ -8,6 +8,10 @@ interface CoreValue {
 }
 
 const CoreValues: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
   const coreValues: CoreValue[] = [
     {
       id: 1,
@@ -31,6 +35,80 @@ const CoreValues: React.FC = () => {
     }
   ];
 
+  // Create extended array with duplicate first slide at the end for seamless loop
+  const extendedValues = [...coreValues, coreValues[0]];
+
+  // Auto-play functionality (only for mobile carousel)
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => prev + 1);
+    }, 4000); // Change slide every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  // Handle seamless loop (only for mobile carousel)
+  useEffect(() => {
+    if (currentIndex === coreValues.length) {
+      // When we reach the duplicate slide, wait for transition to complete
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(0); // Jump to real first slide
+        setTimeout(() => setIsTransitioning(true), 50); // Re-enable transitions
+      }, 500);
+    }
+  }, [currentIndex, coreValues.length]);
+
+  const goToSlide = (index: number) => {
+    if (index >= 0 && index < coreValues.length) {
+      setCurrentIndex(index);
+      setIsAutoPlaying(false);
+    }
+  };
+
+  const goToPrevious = () => {
+    if (currentIndex === 0) {
+      setCurrentIndex(coreValues.length - 1);
+    } else {
+      setCurrentIndex(currentIndex - 1);
+    }
+    setIsAutoPlaying(false);
+  };
+
+  const goToNext = () => {
+    setCurrentIndex(currentIndex + 1);
+    setIsAutoPlaying(false);
+  };
+
+  // Touch/swipe handling for mobile
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      goToNext(); // Swipe left = go to next (right to left animation)
+    } else if (isRightSwipe) {
+      goToPrevious(); // Swipe right = go to previous
+    }
+  };
+
   return (
     <section className="bg-[#333333] py-16 lg:py-24">
       <div className="w-full">
@@ -41,9 +119,9 @@ const CoreValues: React.FC = () => {
           </h2>
         </div>
         
-        {/* Core Values Grid */}
-        <div className="px-6 lg:px-12 xl:px-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {/* Desktop Grid View (md and up) */}
+        <div className="hidden md:block px-6 lg:px-12 xl:px-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             {coreValues.map((value) => (
               <div key={value.id} className="relative bg-[#F2E8CF0A] rounded-lg p-8 lg:p-10 xl:p-12 h-80 lg:h-96 xl:h-[420px] overflow-hidden hover:bg-[#F2E8CF15] transition-colors duration-300">
                 {/* Yellow icon square */}
@@ -58,12 +136,12 @@ const CoreValues: React.FC = () => {
                 </div>
                 
                 {/* Title */}
-                <h3 className="text-lg lg:text-xl xl:text-2xl font-semibold mb-6 lg:mb-8 text-white">
+                <h3 className="text-xl lg:text-2xl xl:text-3xl font-semibold mb-6 lg:mb-8 text-white">
                   {value.title}
                 </h3>
                 
                 {/* Description */}
-                <p className="text-[#B0B0B0] text-sm lg:text-base xl:text-lg leading-relaxed">
+                <p className="text-[#B0B0B0] text-base lg:text-lg xl:text-xl leading-relaxed">
                   {value.description}
                 </p>
                 
@@ -73,6 +151,100 @@ const CoreValues: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Mobile Carousel View (below md) */}
+        <div className="md:hidden px-6">
+          {/* Carousel Container */}
+          <div 
+            className="relative overflow-hidden rounded-lg"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div 
+              className={`flex ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {extendedValues.map((value, index) => (
+                <div 
+                  key={`${value.id}-${index}`}
+                  className="w-full flex-shrink-0"
+                >
+                  <div className="bg-[#F2E8CF0A] rounded-lg p-8 h-80 relative overflow-hidden">
+                    {/* Yellow icon square */}
+                    <div className="bg-[#FFD700] w-12 h-12 flex items-center justify-center mb-6">
+                      <Image
+                        src="/articon.svg"
+                        alt="Core value icon"
+                        width={24}
+                        height={24}
+                        className="w-5 h-5"
+                      />
+                    </div>
+                    
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold mb-6 text-white">
+                      {value.title}
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-[#B0B0B0] text-base leading-relaxed">
+                      {value.description}
+                    </p>
+                    
+                    {/* Large number overlay */}
+                    <div className="absolute bottom-6 right-6 text-7xl font-bold text-[#F2E8CF29] opacity-20 leading-none select-none">
+                      #{value.id}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Navigation Controls */}
+          <div className="flex justify-between items-center mt-8">
+            {/* Left Arrow */}
+            <button
+              onClick={goToPrevious}
+              className="bg-[#FFD700] hover:bg-[#E6C200] text-[#1A1203] rounded-full p-3 transition-colors duration-200"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            {/* Pagination Dots */}
+            <div className="flex justify-center items-center space-x-3">
+              {coreValues.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === (currentIndex % coreValues.length)
+                      ? 'bg-[#FFD700] scale-125' 
+                      : 'bg-[#666666] hover:bg-[#888888]'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Right Arrow */}
+            <button
+              onClick={goToNext}
+              className="bg-[#FFD700] hover:bg-[#E6C200] text-[#1A1203] rounded-full p-3 transition-colors duration-200"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          {/* Swipe indicator */}
+          <div className="flex justify-center mt-4">
+            <p className="text-[#B0B0B0] text-sm">Swipe to navigate</p>
           </div>
         </div>
       </div>
