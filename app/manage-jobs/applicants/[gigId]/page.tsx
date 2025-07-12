@@ -107,7 +107,7 @@ export default function JobApplicants({
                   job={currentJob.job}
                   filters={appliedJobFilters}
                   jobType="applicants"
-                  pageDetails={`Review and manage applications for "${currentJob.job.title}". You can hire artisans directly or start a conversation to learn more about their experience.`}
+                  pageDetails={`You can hire artisans directly or start a conversation to learn more about their experience.`}
                   currentPage={currentPage}
                   totalPages={Math.ceil(
                     (currentJob.job?.applicants?.length || 0) / itemsPerPage

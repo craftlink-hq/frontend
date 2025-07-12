@@ -54,20 +54,23 @@ const CompletedJob = ({ job }: { job: Applied }) => {
 
       <div className="p-4 space-y-4">
         {/* Client Address */}
-        {job.user_type === "artisan" ? (
-        <div></div>
-        ) : (
-          <div className="mb-2 flex justify-between">
+        <div className="mb-2 flex justify-between">
+          {job.user_type === "artisan" ? (
+            <p className="text-[#D8D6CF] text-[20px] font-merriweather">
+              {job.job.client?.walletAddress.slice(0, 4)}...
+              {job.job.client?.walletAddress.slice(-5)}
+            </p>
+          ) : (
             <p className="text-[#D8D6CF] text-[20px] font-merriweather">
               {job.job.completedBy?.walletAddress.slice(0, 4)}...
               {job.job.completedBy?.walletAddress.slice(-5)}
             </p>
-            <div className="flex flex-col gap-x-2">
-              <span className="text-[#FFD700]">View Profile</span>
-              <p className="border-b border-yellow w-full"></p>
-            </div>
+          )}
+          <div className="flex flex-col gap-x-2">
+            <span className="text-[#FFD700]">View Profile</span>
+            <p className="border-b border-yellow w-full"></p>
           </div>
-        )}
+        </div>
 
         {/* Job Title */}
         <div className="space-y-[4px]">

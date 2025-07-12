@@ -154,7 +154,7 @@ const JobDetails = ({ job }: { job: Job }) => {
         <p className="text-[#B5B4AD]">ATTACHED FILES</p>
         <div className="flex flex-wrap justify-start gap-x-4 w-full h-[10vh] py-2">
           <AttachedFiles files={job.files} />
-ß        </div>
+        </div>
       </div>
       <div className="flex gap-x-4">
         <button

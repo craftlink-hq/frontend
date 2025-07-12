@@ -90,10 +90,17 @@ const ActiveJob = ({ job }: { job: Applied }) => {
 
         {/* User Info Row - Wallet Address Left, Profile Right */}
         <div className="flex justify-between items-center">
+          {job.user_type === "artisan" ? (
           <span className="text-[#F9F1E2] text-lg font-alata">
-            {job.job?.completedBy?.walletAddress.slice(0, 4)}...
-            {job.job?.completedBy?.walletAddress.slice(-4)}
+            {job.job?.client?.walletAddress.slice(0, 4)}...
+            {job.job?.client?.walletAddress.slice(-4)}
           </span>
+          ) : (
+            <span className="text-[#F9F1E2] text-lg font-alata">
+              {job.job?.completedBy?.walletAddress.slice(0, 4)}...
+              {job.job?.completedBy?.walletAddress.slice(-4)}
+            </span>
+          )}
           <div className="flex items-center gap-x-3">
             <span className="text-[#FFD700] text-sm cursor-pointer hover:underline">
               View Profile

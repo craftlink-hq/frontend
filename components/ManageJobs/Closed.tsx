@@ -5,10 +5,13 @@ import AnimatedDiv from "@/components/AnimatedDiv";
 import { useState } from "react";
 import Modal from "../Modal";
 import Image from "next/image";
-import JobDetails from "../Marketplace/JobDetails";
+import GigDetails from "./GigDetails";
+import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
+import { formatDate } from "@/utils/formatDate";
 
 const ClosedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
 
   return (
     <AnimatedDiv
@@ -21,22 +24,26 @@ const ClosedJob = ({ job }: { job: Applied }) => {
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-4">
         <span className=" text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-[10px]">
-          Posted: 2 weeks ago
+          Posted: {formatDate(job.job?.createdAt)}
         </span>
       </div>
 
       <div className="p-4 space-y-4">
         {/* Client Address */}
-        <div className="mb-2 flex justify-between">
-          <p className="text-[#D8D6CF] text-[20px] font-merriweather">
-            {job.job?.client?.walletAddress.slice(0, 4)}...
-            {job.job?.client?.walletAddress.slice(-5)}
-          </p>
-          <div className="flex flex-col gap-x-2">
-            <span className="text-[#FFD700]">View Profile</span>
-            <p className="border-b border-yellow w-full"></p>
+        {job.user_type === "artisan" ? (
+          <div className="mb-2 flex justify-between">
+            <p className="text-[#D8D6CF] text-[20px] font-merriweather">
+              {job.job?.client?.walletAddress.slice(0, 4)}...
+              {job.job?.client?.walletAddress.slice(-5)}
+            </p>
+            <div className="flex flex-col gap-x-2">
+              <span className="text-[#FFD700]">View Profile</span>
+              <p className="border-b border-yellow w-full"></p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div></div>
+        )}
 
         {/* Job Title */}
         <div className="space-y-[4px]">
@@ -50,23 +57,23 @@ const ClosedJob = ({ job }: { job: Applied }) => {
             <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
               <Image
                 src={"/location.png"}
-                alt={job.job.preferredLocation}
+                alt="location icon"
                 width="18"
                 height="16"
               />
               <span className="font-merriweather text-[#D8D6CF]">
-                {job.job.preferredLocation}
+                {clientData?.location}
               </span>
             </div>
             <div className="flex justify-center items-center gap-x-2 px-2  border-r border-[#FCFBF726] ">
               <Image
                 src={"/language.png"}
-                alt={"language"}
+                alt="language icon"
                 width="14"
                 height="16"
               />
               <span className="font-merriweather text-[#D8D6CF]">
-                {job.job.language}
+                {clientData?.language}
               </span>
             </div>
             <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726] ">
@@ -115,7 +122,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
 
         <div className="space-y-2">
           {/* Dates */}
-          <div className="flex gap-x-2 flex-wrap">
+          {/* <div className="flex gap-x-2 flex-wrap">
             <span className="relative h-[20px] w-[20px] self-center ">
               {" "}
               <Image
@@ -128,7 +135,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
             <p className="font-merriweather self-center text-sm md:text-base  lg:text-lg text-[#B5B4AD] pr-2 ">
               Start Date: {job?.startDate}
             </p>
-          </div>
+          </div> */}
 
           {/* Status */}
           <div className="flex items-center gap-2">
@@ -165,7 +172,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
             className="bg-[#333333] border border-[#FCFBF726] md:w-[60vw] h-[90vh] rounded-xl p-4 relative  "
           >
             <div className="h-[90%]  overflow-y-scroll">
-              <JobDetails job={job.job} />
+              <GigDetails job={job.job} />
             </div>
           </AnimatedDiv>
         </Modal>
