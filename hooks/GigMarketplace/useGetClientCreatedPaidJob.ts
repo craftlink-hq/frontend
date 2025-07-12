@@ -45,8 +45,7 @@ const useGetClientCreatedPaidJobs = () => {
       for (const databaseId of createdGigs) {
         const gigInfo = await contract.getGigInfo(databaseId);
         if (
-          gigInfo[5] || // isCompleted
-          gigInfo[1] !== "0x0000000000000000000000000000000000000000" // hiredArtisan != address(0)
+          gigInfo[5]
         ) {
           createdPaidJobsList.push(databaseId);
         }
@@ -67,7 +66,8 @@ const useGetClientCreatedPaidJobs = () => {
     } finally {
       stopLoading();
     }
-  }, [address, createdGigs, gigsError, startLoading, stopLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   useEffect(() => {
     if (isConnected && !gigsLoading) {
@@ -76,7 +76,8 @@ const useGetClientCreatedPaidJobs = () => {
       setCreatedPaidJobs(null);
       setError(null);
     }
-  }, [isConnected, gigsLoading, fetchClientCreatedPaidJobs]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   return { createdPaidJobs, isLoading: isLoading || gigsLoading, error: error || gigsError };
 };

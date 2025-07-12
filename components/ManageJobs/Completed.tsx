@@ -23,11 +23,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const { releaseArtisanFunds } = useReleaseArtisanFunds();
   const gigInfo = useGetGigInfo(String(job?.job?.id));
   const paymentDetails = useGetPaymentDetails(Number(gigInfo?.paymentId));
-  const [isClaimed, setIsClaimed ] = useState(false);
+  const isClaimed = paymentDetails?.isReleased || false;
 
-  console.log(gigInfo)
-  
-  console.log("Payment details", paymentDetails)
   const onClaim = async () => {
     const databaseId = job.job.id;
     if (!databaseId) {
@@ -38,7 +35,6 @@ const CompletedJob = ({ job }: { job: Applied }) => {
     const success = await releaseArtisanFunds(String(databaseId));
     if (success) {
       setIsClaimModalOpen(false)
-      setIsClaimed(true)
       setIsSuccessOpen(true)
     } else {
       console.error("Failed to release artisan funds");

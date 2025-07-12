@@ -65,7 +65,8 @@ const useGetClientGigsCompleted = () => {
     } finally {
       stopLoading();
     }
-  }, [address, createdGigs, gigsError, startLoading, stopLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   useEffect(() => {
     if (isConnected && !gigsLoading) {
@@ -74,7 +75,8 @@ const useGetClientGigsCompleted = () => {
       setClientGigsCompleted(null);
       setError(null);
     }
-  }, [isConnected, gigsLoading, fetchClientCreatedPaidJobs]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   return { clientGigsCompleted, isLoading: isLoading || gigsLoading, error: error || gigsError };
 };

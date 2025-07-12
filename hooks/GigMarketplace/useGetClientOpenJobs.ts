@@ -68,7 +68,8 @@ const useGetClientOpenJobs = () => {
     } finally {
       stopLoading();
     }
-  }, [address, createdGigs, gigsError, startLoading, stopLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   useEffect(() => {
     if (isConnected && !gigsLoading) {
@@ -77,7 +78,8 @@ const useGetClientOpenJobs = () => {
       setOpenJobs(null);
       setError(null);
     }
-  }, [isConnected, gigsLoading, fetchClientOpenJobs]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   return { openJobs, isLoading: isLoading || gigsLoading, error: error || gigsError };
 };
