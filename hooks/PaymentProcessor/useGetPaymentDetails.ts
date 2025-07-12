@@ -16,24 +16,28 @@ const useGetPaymentDetails = (paymentId: number) => {
   } | null>(null);
 
   const fetchPaymentDetails = useCallback(async () => {
-    if (!paymentId) return;
+    if (isNaN(paymentId)) {
+      console.warn("Invalid payment ID:", paymentId);
+      setPaymentDetails(null);
+      return;
+    }
+    
     try {
       const contract = getPaymentProcessorContract(readOnlyProvider);
-      console.log(paymentId);
       const resp = await contract.getPaymentDetails(paymentId);
-      console.log("Hooks payment details", resp);
       setPaymentDetails(resp);
     } catch (error) {
       toast.error("Error fetching payment details");
       console.error("Error fetching payment details:", error);
       setPaymentDetails(null);
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paymentId]);
 
   useEffect(() => {
     fetchPaymentDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected]);
+  }, [isConnected, paymentId, fetchPaymentDetails]);
 
   return paymentDetails;
 };
