@@ -70,7 +70,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
       address =  job?.job?.client?.walletAddress
       router.push(`/profile/artisans/client-view/${address}`);
     }
-    address =  job?.hiredArtisan
+    address = job.job.completedBy?.walletAddress;
     router.push(`/profile/clients/artisan-view/${address}`);
   };
 

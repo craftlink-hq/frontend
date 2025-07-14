@@ -62,9 +62,7 @@ export const mapToApplied = (
   let issue: string | undefined;
   let disputeRaisedDate: string | undefined;
   let disputeStatus: "pending" | "resolved" | "escalated" | undefined;
-  const hiredArtisan =  contract.hiredArtisan !== "0x0000000000000000000000000000000000000000"
-      ? contract.hiredArtisan
-      : undefined;
+
   // Use hireTimestamp for startDate, fallback to current date
   const startDate = hireTimestamp || new Date().toISOString();
 
@@ -242,6 +240,5 @@ export const mapToApplied = (
     disputeRaisedDate,
     disputeStatus,
     user_type,
-    hiredArtisan
   };
 };
