@@ -73,7 +73,7 @@ const MarketplaceHeader = ({ isActive }: Header) => {
   const getProfilePage = (selectedRole?: "artisan" | "client") => {
     const targetRole = selectedRole || role;
     if (targetRole === "artisan") return "/profile/artisans"
-    if (targetRole === "client") return "/profile/client"
+    if (targetRole === "client") return "/profile/clients"
     return "/"
   }
 

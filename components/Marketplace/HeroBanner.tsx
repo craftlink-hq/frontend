@@ -44,9 +44,9 @@ const HeroBanner: React.FC = () => {
   const content = getContent();
 
   return (
-    <div className="bg-[#333333] bg-opacity-[98%] px-4 lg:px-8 2xl:px-16 py-8 lg:py-12">
+    <div className=" bg-opacity-[98%] px-4 lg:px-8 2xl:px-16 py-8 lg:py-12">
       {/* Container Box */}
-      <div className="rounded-2xl relative overflow-hidden" style={{ background: '#F2E8CF0A' }}>
+      <div className="bg-[#333333] rounded-2xl relative overflow-hidden" style={{ background: '#F2E8CF0A' }}>
         <div className="flex items-center justify-between px-6 lg:px-12 py-12 lg:py-16">
           {/* Left Content */}
           <div className="flex flex-col max-w-2xl">
