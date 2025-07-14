@@ -1,5 +1,6 @@
 import { clientDate } from "@/utils/clientDate";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export interface Client {
   walletAddress: string;
@@ -9,6 +10,12 @@ export interface Client {
 }
 
 const ClientDetails = ({ client }: { client: Client }) => {
+  const router = useRouter();
+
+  const handleViewProfile = (applicantAddress: string) => {
+    router.push(`/profile/artisans/client-view/${applicantAddress}`);
+  };
+
   return (
     <div className="bg-[#F2E8CF0A] text-start rounded-lg w-full p-4 h-fit space-y-4">
       <p className="text-[#B5B4AD]">CLIENT INFO</p>
@@ -44,7 +51,10 @@ const ClientDetails = ({ client }: { client: Client }) => {
         <p className="font-merriweather self-center text-[#B5B4AD]">
           Member since {clientDate(client?.dateJoined)}
         </p>
-        <button className="bg-[#262208] space-x-2 rounded-full text-[#FCF8E3] py-2 px-4">
+        <button
+          className="bg-[#262208] space-x-2 rounded-full text-[#FCF8E3] py-2 px-4"
+          onClick={() => handleViewProfile(client?.walletAddress)}
+        >
           View Profile
         </button>
       </div>

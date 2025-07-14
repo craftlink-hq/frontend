@@ -1,6 +1,6 @@
 "use client";
 import ProfileHeader from "@/components/Profile/Header";
-import Footer from "@/components/LandingPage/Footer";
+// import Footer from "@/components/LandingPage/Footer";
 import { usePathname } from "next/navigation";
 import CompletedProjects from "@/components/Profile/ViewCompletedProject";
 import AccountCard from "@/components/Profile/ClientAccCard";
@@ -45,7 +45,7 @@ export default function ArtisanView({
         <div className="pt-24 px-4  flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
           <AccountCard client={clientData} />
           <CompletedProjects projects={jobs} />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
   );

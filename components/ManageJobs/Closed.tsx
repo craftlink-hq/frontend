@@ -8,10 +8,25 @@ import Image from "next/image";
 import GigDetails from "./GigDetails";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 import { formatDate } from "@/utils/formatDate";
+import { useGetUserRole } from "@/utils/store";
+import { useRouter } from "next/navigation";
 
 const ClosedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
+  const { role } = useGetUserRole();
+  const router = useRouter();
+
+  const handleViewProfile = () => {
+    // Navigate to specific applicant profile
+    let address;
+    if (role === "artisan") {
+      address = job?.job?.client?.walletAddress;
+      router.push(`/profile/artisans/client-view/${address}`);
+    }
+    address = job?.hiredArtisan;
+    router.push(`/profile/clients/artisan-view/${address}`);
+  };
 
   return (
     <AnimatedDiv
@@ -37,7 +52,12 @@ const ClosedJob = ({ job }: { job: Applied }) => {
               {job.job?.client?.walletAddress.slice(-5)}
             </p>
             <div className="flex flex-col gap-x-2">
-              <span className="text-[#FFD700]">View Profile</span>
+              <button
+                className="text-[#FFD700]"
+                onClick={() => handleViewProfile()}
+              >
+                View Profile
+              </button>
               <p className="border-b border-yellow w-full"></p>
             </div>
           </div>

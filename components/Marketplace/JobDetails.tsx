@@ -150,7 +150,7 @@ const JobDetails = ({ job }: { job: Job }) => {
         <p className="text-[#B5B4AD]">ADDITIONAL NOTES</p>
         <p className="text-[#D8D6CF] w-[70%]">{job.additionalProjectInfo}</p>
       </div>
-      <div className="bg-[#F2E8CF0A] text-start rounded-lg w-full p-4 h-fit m">
+      <div className="bg-[#F2E8CF0A] text-start rounded-lg w-full p-4 h-fit">
         <p className="text-[#B5B4AD]">ATTACHED FILES</p>
         <div className="flex flex-wrap justify-start gap-x-4 w-full h-[10vh] py-2">
           <AttachedFiles files={job.files} />

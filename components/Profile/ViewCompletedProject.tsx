@@ -53,22 +53,10 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                   <span>Completed by:</span>
                   <span className="text-[#D8D6CF]">
                     {project.client?.walletAddress.slice(0, 6)}...
-                    {project.client?.walletAddress.slice(21)}
+                    {project.client?.walletAddress.slice(-5)}
                   </span>{" "}
-                  <button className="bg-[#262208] space-x-2 rounded-md md:rounded-full text-[#FCF8E3] py-2 px-4">
-                    View Profile
-                  </button>
                 </div>
                 <div className="flex  text-sm items-center justify-start gap-x-2">
-                  <Image
-                    src={"/star.png"}
-                    alt={"star"}
-                    width="22"
-                    height="22"
-                  />
-                  <span className="flex self-center items-center italic font-bold text-[#F9F1E2]">
-                    {project.rating}/5
-                  </span>
                   <p className=" text-[#D8D6CF]">
                     {project.completedBy?.review}
                   </p>

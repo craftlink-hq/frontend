@@ -14,6 +14,8 @@ import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 import { useReleaseArtisanFunds } from "@/hooks/Gasless/useReleaseArtisanFunds";
 import useGetPaymentDetails from "@/hooks/PaymentProcessor/useGetPaymentDetails";
 import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
+import { useRouter } from "next/navigation";
+import { useGetUserRole } from "@/utils/store";
 
 const CompletedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +26,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const gigInfo = useGetGigInfo(String(job?.job?.id));
   const paymentDetails = useGetPaymentDetails(Number(gigInfo?.paymentId));
   const [isClaimed, setIsClaimed ] = useState(false);
+  const router = useRouter();
+  const { role } = useGetUserRole();
 
   console.log(gigInfo)
   
@@ -44,6 +48,17 @@ const CompletedJob = ({ job }: { job: Applied }) => {
       console.error("Failed to release artisan funds");
       return;
     }
+  };
+
+  const handleViewProfile = () => {
+    // Navigate to specific applicant profile
+    let address
+    if (role === "artisan") {
+      address =  job?.job?.client?.walletAddress
+      router.push(`/profile/artisans/client-view/${address}`);
+    }
+    address =  job?.hiredArtisan
+    router.push(`/profile/clients/artisan-view/${address}`);
   };
 
   return (
@@ -76,7 +91,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             </p>
           )}
           <div className="flex flex-col gap-x-2">
-            <span className="text-[#FFD700]">View Profile</span>
+            <button className="text-[#FFD700]" onClick={() => handleViewProfile()}>View Profile</button>
             <p className="border-b border-yellow w-full"></p>
           </div>
         </div>
@@ -203,8 +218,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
         {job.user_type === "artisan" ? (
           <div className="flex justify-between gap-3">
           <button
-            className={`bg-yellow text-[#262208] font-bold px-6 py-2 rounded uppercase text-sm transition-colors
-              ${isClaimed ? "opacity-50 cursor-not-allowed blur-[1px]" : "hover:bg-yellow/90"}
+            className={` text-[#262208] font-bold px-6 py-2 rounded uppercase text-sm transition-colors
+              ${isClaimed ? "border-[#262208] text-[#F9F1E2] cursor-not-allowed " : "bg-yellow hover:bg-yellow/90"}
             `}
             onClick={() => setIsClaimModalOpen(true)}
             disabled={isClaimed}
