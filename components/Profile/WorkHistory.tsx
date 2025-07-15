@@ -1,6 +1,8 @@
+import { formatDate } from "@/utils/formatDate";
 import { WorkHistory } from "@/utils/profile";
+import { Applied } from '@/utils/types';
 
-const Works = ({ works }: { works?: WorkHistory[] }) => {
+const Works = ({ works }: { works?: Applied[] }) => {
   return (
     <div className="flex font-merriweather text-[#F9F1E2] p-4 md:p-8 bg-profile border border-[#FCFBF726] rounded-lg h-full gap-y-8 max-w-full  flex-col">
       <h3 className="text-2xl font-bold">Work History</h3>
@@ -10,17 +12,15 @@ const Works = ({ works }: { works?: WorkHistory[] }) => {
           No jobs yet!
         </div>
       ) : (works?.map((work) => (
-          <div key={work.detail} className="flex gap-x-4">
+          <div key={work.job._id} className="flex gap-x-4">
             <p className="h-4 w-4 p-2 rounded-full bg-[#AEFF00]"></p>
             <div className="flex flex-col gap-2">
               <span className="font-bold text-xl">
-                {work.title}
-                ({work.start !== work.end
-                  ? `${work.start}-${work.end}`
-                  : work.end})
+                {work.job.title} 
+                <p>{formatDate(work.job.createdAt)} - {work.job.projectDuration?.weeks} weeks</p>
               </span>
               <div className="border-l-[3px] border-[#FCFBF726] px-4 md:w-[70%]  text-[#B5B4AD]">
-                {work.detail}
+                {work.job.projectDescription || "No description provided."}
               </div>
             </div>
           </div>

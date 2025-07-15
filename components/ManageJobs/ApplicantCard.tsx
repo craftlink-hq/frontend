@@ -7,6 +7,7 @@ import AnimatedDiv from "@/components/AnimatedDiv";
 import Modal from "../Modal";
 import HireConfirmationModal from "./HireConfirmation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const ApplicantCard = ({
   applicant,
@@ -16,6 +17,12 @@ const ApplicantCard = ({
   job: Job;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+   const router = useRouter();
+
+  const handleViewProfile = (applicantAddress: string) => {
+    // Navigate to specific applicant profile
+    router.push(`/profile/artisans/client-view/${applicantAddress}`)
+  }
 
   return (
     <div className="space-y-6">
@@ -38,7 +45,7 @@ const ApplicantCard = ({
               <h3 className="text-2xl font-bold text-[#F9F1E2] uppercase">
                 {applicant.username}
               </h3>
-              <button className="text-yellow hover:text-yellow/80 transition-colors text-sm font-medium">
+              <button onClick={() => handleViewProfile(applicant.walletAddress)} className="text-yellow hover:text-yellow/80 transition-colors text-sm font-medium">
                 View Profile
               </button>
             </div>
