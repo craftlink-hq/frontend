@@ -88,8 +88,9 @@ export default function ClientProfileView({
         <AccountCard artisan={profile} />
         <PreviewAbout profile={profile} />{" "}
         <PreviewPortfolio portfolio={profile.portfolio} />
-        <div className="grid lg:grid-cols-2  gap-4">
+        <div className="grid gap-4">
           <Works works={completedGigs} />
+
           <PreviewReview reviews={profile.reviews} />
         </div>
       </div>

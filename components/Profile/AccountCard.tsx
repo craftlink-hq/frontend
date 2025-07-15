@@ -104,8 +104,8 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
             {artisan.details.walletAddress.slice(0, 6)}...
             {artisan.details.walletAddress.slice(-5)}
           </p>
-          <div className="flex gap-x-2 items-center text-[#E0D8A8]">
-            <span className="relative border border-[#F9F1E240]  rounded-full h-[24px] w-[24px] ">
+          <button className="flex gap-x-2 items-center text-[#E0D8A8]" onClick={handleCopy}>
+            <span className="relative border border-[#F9F1E240]  rounded-full h-[32px] w-[32px] ">
               <Image
                 src={"/save.png"}
                 alt="save"
@@ -113,8 +113,7 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
                 className="object-contain p-[6px]"
               />
             </span>{" "}
-            <p onClick={handleCopy} className="text-lg ">Copy</p>
-          </div>
+          </button>
         </div>
         <div className="hidden lg:flex relative  self-end items-end justify-end  h-[23vh] w-[25vw]">
           <Image
