@@ -40,14 +40,14 @@ interface GigData {
   contract: ContractGigData;
 }
 
-export const useFetchArtisanCompletedGigs = () => {
+export const useFetchArtisanCompletedGigs = (walletAddress?: string) => {
   const { address } = useAccount();
   const [completedGigs, setCompletedGigs] = useState<Applied[]>([]);
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [error, setError] = useState<string | null>(null);
 
   const fetchGigs = useCallback(async () => {
-    if (!address) {
+    if (!walletAddress || !address) {
       setCompletedGigs([]);
       stopLoading();
       return;
@@ -58,7 +58,7 @@ export const useFetchArtisanCompletedGigs = () => {
 
     try {
       const contract = getGigContract(readOnlyProvider);
-      const databaseIds: string[] = await contract.getArtisanAppliedGigs(address);
+      const databaseIds: string[] = await contract.getArtisanAppliedGigs(walletAddress ?? address);
 
       const gigPromises = databaseIds.map(async (databaseId: string) => {
         const backendResponse = await axios.get(`/api/gigs/${databaseId}`);
@@ -79,7 +79,7 @@ export const useFetchArtisanCompletedGigs = () => {
           },
         };
 
-        return mapToApplied(gigData, address, 'artisan');
+        return mapToApplied(gigData, walletAddress ?? address, 'artisan');
       });
 
       const fetchedGigs = await Promise.all(gigPromises);
@@ -88,7 +88,7 @@ export const useFetchArtisanCompletedGigs = () => {
           (gig) =>
             gig.status === 'completed' &&
             gig.job.id === gig.job.id &&
-            gig.job.completedBy?.walletAddress === address
+            gig.job.completedBy?.walletAddress === (walletAddress ?? address)
         )
       );
     } catch (err) {
@@ -98,7 +98,7 @@ export const useFetchArtisanCompletedGigs = () => {
       stopLoading();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [walletAddress ?? address]);
 
   useEffect(() => {
     fetchGigs();

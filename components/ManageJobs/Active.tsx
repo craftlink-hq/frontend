@@ -68,10 +68,11 @@ const ActiveJob = ({ job }: { job: Applied }) => {
     let address
     if (role === "artisan") {
       address =  job?.job?.client?.walletAddress
+      router.push(`/profile/clients/artisan-view/${address}`);
+    } else if (role === "client") {
+      address = job.job.completedBy?.walletAddress;
       router.push(`/profile/artisans/client-view/${address}`);
     }
-    address = job.job.completedBy?.walletAddress;
-    router.push(`/profile/clients/artisan-view/${address}`);
   };
 
   useEffect(() => {

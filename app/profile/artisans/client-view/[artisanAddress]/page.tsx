@@ -12,6 +12,7 @@ import useGetArtisanInfo from "@/hooks/ManageJob/useGetArtisanInfo";
 import { useEffect, useState, use } from "react";
 import axios from "@/app/API/axios";
 import PreviewAbout from "@/components/Profile/PeviewAbout";
+import { useFetchArtisanCompletedGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanCompletedGigs";
 
 export default function ClientProfileView({
   params,
@@ -25,6 +26,7 @@ export default function ClientProfileView({
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { completedGigs } = useFetchArtisanCompletedGigs(artisanAddress);
 
   useEffect(() => {
     const fetchArtisanProfile = async () => {
@@ -87,7 +89,7 @@ export default function ClientProfileView({
         <PreviewAbout profile={profile} />{" "}
         <PreviewPortfolio portfolio={profile.portfolio} />
         <div className="grid lg:grid-cols-2  gap-4">
-          <Works works={profile.works} />
+          <Works works={completedGigs} />
           <PreviewReview reviews={profile.reviews} />
         </div>
       </div>

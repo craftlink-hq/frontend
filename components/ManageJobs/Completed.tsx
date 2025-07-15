@@ -24,7 +24,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
   const { releaseArtisanFunds } = useReleaseArtisanFunds();
   const gigInfo = useGetGigInfo(String(job?.job?.id));
-  const paymentDetails = useGetPaymentDetails(Number(gigInfo?.paymentId));
+  const paymentId = gigInfo && !isNaN(Number(gigInfo.paymentId)) ? Number(gigInfo.paymentId) : 0;
+  const paymentDetails = useGetPaymentDetails(paymentId);
   const router = useRouter();
   const { role } = useGetUserRole();
   const isClaimed = paymentDetails?.isReleased || false;
@@ -51,10 +52,11 @@ const CompletedJob = ({ job }: { job: Applied }) => {
     let address
     if (role === "artisan") {
       address =  job?.job?.client?.walletAddress
+      router.push(`/profile/clients/artisan-view/${address}`);
+    } else if (role === "client") {
+      address = job.job.completedBy?.walletAddress;
       router.push(`/profile/artisans/client-view/${address}`);
     }
-    address = job.job.completedBy?.walletAddress;
-    router.push(`/profile/clients/artisan-view/${address}`);
   };
 
   return (
