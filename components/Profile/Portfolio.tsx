@@ -51,14 +51,14 @@ const Portfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
             key={project.imgSrc[0]}
             className="bg-[#F2E8CF0A] rounded-lg flex-shrink-0 md:w-[35%] h-[400px] flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
           >
-            <span className="relative h-[20vh] md:h-[200px] w-full ">
+            <div className="relative w-full h-[200px] rounded-lg overflow-hidden">
               <Image
                 src={project.imgSrc[0]}
                 alt="Project image"
                 fill
-                style={{ objectFit: "contain", objectPosition: "center" }}
+                style={{ objectFit: "cover", objectPosition: "center" }}
               />
-            </span>
+            </div>
             <h3 className="font-bold text-lg md:text-xl px-2 text-[#F9F1E2]">
               {project.title}
             </h3>
