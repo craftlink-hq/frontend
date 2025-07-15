@@ -44,10 +44,10 @@ const HeroBanner: React.FC = () => {
   const content = getContent();
 
   return (
-    <div className=" bg-opacity-[98%] px-4 lg:px-8 2xl:px-16 py-8 lg:py-12">
+    <div className="bg-[#333333] bg-opacity-[98%] px-4 lg:px-8 2xl:px-16 py-8 lg:py-12">
       {/* Container Box */}
-      <div className="bg-[#333333] rounded-2xl relative overflow-hidden" style={{ background: '#F2E8CF0A' }}>
-        <div className="flex items-center justify-between px-6 lg:px-12 py-12 lg:py-16">
+      <div className="rounded-2xl relative overflow-hidden" style={{ background: '#F2E8CF0A' }}>
+        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-12 py-8 sm:py-12 lg:py-16">
           {/* Left Content */}
           <div className="flex flex-col max-w-2xl w-full lg:w-auto">
             <div className="flex items-start justify-between mb-4 lg:mb-0">
@@ -57,14 +57,14 @@ const HeroBanner: React.FC = () => {
               
               {/* Arrow - show on mobile next to title, hidden on lg+ (desktop absolute positioning takes over) */}
               <div className="lg:hidden flex-shrink-0" style={{
-                width: '60px',
-                height: '60px'
+                width: '80px',
+                height: '80px'
               }}>
                 <Image
                   src="/market/arrow.svg"
                   alt="Arrow pointing to target"
-                  width={60}
-                  height={60}
+                  width={80}
+                  height={80}
                   className="w-full h-full"
                   style={{
                     transform: 'rotate(19.48deg)'
@@ -73,19 +73,18 @@ const HeroBanner: React.FC = () => {
               </div>
             </div>
             
-            <p className="text-[#B5B4AD] text-base sm:text-lg lg:text-xl mb-6 lg:mb-8 lg:whitespace-nowrap" style={{ fontFamily: 'Merriweather' }}>
+            <p className="text-[#B5B4AD] text-lg sm:text-lg lg:text-xl mb-6 lg:mb-8 lg:whitespace-nowrap" style={{ fontFamily: 'Merriweather' }}>
               {content.description}
             </p>
 
             <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-              <Link href={content.buttonLink} className="w-full sm:w-auto">
-                <button className="bg-[#FFD700] text-[#1A1203] rounded hover:bg-yellow-400 transition-colors w-full sm:w-auto flex items-center justify-center" style={{ 
+              <Link href={content.buttonLink} className="w-full lg:w-auto">
+                <button className="bg-[#FFD700] text-[#1A1203] rounded hover:bg-yellow-400 transition-colors w-full lg:w-[174px] flex items-center justify-center" style={{ 
                   fontFamily: 'Merriweather',
                   fontWeight: 400,
                   fontSize: '16px',
                   lineHeight: '120%',
                   letterSpacing: '8%',
-                  width: '174px',
                   height: '60px'
                 }}>
                   {content.buttonText}
