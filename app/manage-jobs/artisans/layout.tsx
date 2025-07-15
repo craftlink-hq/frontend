@@ -33,7 +33,7 @@ export default function Layout({
   };
 
   return (
-    <div className="flex flex-col bg-[url('/bg.png')] min-h-screen bg-opacity-[25%]">
+    <div className="flex flex-col bg-[url('/bg.png')] min-h-screen w-screen bg-opacity-[25%]">
       <div className="flex flex-col bg-[#333333] bg-opacity-[95%] min-h-screen ">
         <div className="min-h-screen">
           <div className="flex gap-y-4 flex-col w-screen h-full pb-8">

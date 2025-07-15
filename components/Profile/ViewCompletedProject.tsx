@@ -8,7 +8,11 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
       <div className="flex w-full justify-between py-4">
         <h3 className="text-xl font-bold">Completed Projects</h3>
       </div>
-      {projects.map((project) => (
+        {projects.length === 0 ? (
+        <div className="text-center text-[#D8D6CF] py-8 text-lg font-semibold">
+          No completed jobs yet!
+        </div>
+      ) : (projects.map((project) => (
         <div
           key={formatDate(project.createdAt)}
           className="bg-profile max-sm:border-[0.5px] max-sm:border-[#FCFBF726] rounded-md p-4"
@@ -53,22 +57,10 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                   <span>Completed by:</span>
                   <span className="text-[#D8D6CF]">
                     {project.client?.walletAddress.slice(0, 6)}...
-                    {project.client?.walletAddress.slice(21)}
+                    {project.client?.walletAddress.slice(-5)}
                   </span>{" "}
-                  <button className="bg-[#262208] space-x-2 rounded-md md:rounded-full text-[#FCF8E3] py-2 px-4">
-                    View Profile
-                  </button>
                 </div>
                 <div className="flex  text-sm items-center justify-start gap-x-2">
-                  <Image
-                    src={"/star.png"}
-                    alt={"star"}
-                    width="22"
-                    height="22"
-                  />
-                  <span className="flex self-center items-center italic font-bold text-[#F9F1E2]">
-                    {project.rating}/5
-                  </span>
                   <p className=" text-[#D8D6CF]">
                     {project.completedBy?.review}
                   </p>
@@ -77,7 +69,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
             </div>
           </div>
         </div>
-      ))}
+      )))}
     </div>
   );
 };

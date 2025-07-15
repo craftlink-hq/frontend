@@ -14,6 +14,8 @@ import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 import { useReleaseArtisanFunds } from "@/hooks/Gasless/useReleaseArtisanFunds";
 import useGetPaymentDetails from "@/hooks/PaymentProcessor/useGetPaymentDetails";
 import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
+import { useRouter } from "next/navigation";
+import { useGetUserRole } from "@/utils/store";
 
 const CompletedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,7 +24,10 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "");
   const { releaseArtisanFunds } = useReleaseArtisanFunds();
   const gigInfo = useGetGigInfo(String(job?.job?.id));
-  const paymentDetails = useGetPaymentDetails(Number(gigInfo?.paymentId));
+  const paymentId = gigInfo && !isNaN(Number(gigInfo.paymentId)) ? Number(gigInfo.paymentId) : 0;
+  const paymentDetails = useGetPaymentDetails(paymentId);
+  const router = useRouter();
+  const { role } = useGetUserRole();
   const isClaimed = paymentDetails?.isReleased || false;
 
   const onClaim = async () => {
@@ -39,6 +44,18 @@ const CompletedJob = ({ job }: { job: Applied }) => {
     } else {
       console.error("Failed to release artisan funds");
       return;
+    }
+  };
+
+  const handleViewProfile = () => {
+    // Navigate to specific applicant profile
+    let address
+    if (role === "artisan") {
+      address =  job?.job?.client?.walletAddress
+      router.push(`/profile/clients/artisan-view/${address}`);
+    } else if (role === "client") {
+      address = job.job.completedBy?.walletAddress;
+      router.push(`/profile/artisans/client-view/${address}`);
     }
   };
 
@@ -72,7 +89,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             </p>
           )}
           <div className="flex flex-col gap-x-2">
-            <span className="text-[#FFD700]">View Profile</span>
+            <button className="text-[#FFD700]" onClick={() => handleViewProfile()}>View Profile</button>
             <p className="border-b border-yellow w-full"></p>
           </div>
         </div>
@@ -199,8 +216,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
         {job.user_type === "artisan" ? (
           <div className="flex justify-between gap-3">
           <button
-            className={`bg-yellow text-[#262208] font-bold px-6 py-2 rounded uppercase text-sm transition-colors
-              ${isClaimed ? "opacity-50 cursor-not-allowed blur-[1px]" : "hover:bg-yellow/90"}
+            className={` text-[#262208] font-bold px-6 py-2 rounded uppercase text-sm transition-colors
+              ${isClaimed ? "border-[#262208] text-[#F9F1E2] cursor-not-allowed " : "bg-yellow hover:bg-yellow/90"}
             `}
             onClick={() => setIsClaimModalOpen(true)}
             disabled={isClaimed}

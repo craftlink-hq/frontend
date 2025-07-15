@@ -10,7 +10,7 @@ import useGetArtisanDetails from "../Registry/useGetArtisanDetails";
 import { transformBackendProfileData } from "@/utils/transformBackendProfileData";
 import { AxiosError } from "axios";
 
-const useFetchArtisanProfile = () => { // DO NOT USE UNTIL BUG IS FIXED
+const useFetchArtisanProfile = (walletAddress?: string) => { // DO NOT USE UNTIL BUG IS FIXED
   const { fetchFromIPFS } = IPFS();
   const { address, isConnected } = useAccount();
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -21,16 +21,16 @@ const useFetchArtisanProfile = () => { // DO NOT USE UNTIL BUG IS FIXED
 
 
   const fetchArtisanProfile = useCallback(async () => {
-    if (!address) return;
+    if (!walletAddress || !address) return;
 
     startLoading();
 
     try {
-        const response = await axios.get(`/api/artisans/${address}`)
+        const response = await axios.get(`/api/artisans/${walletAddress ?? address}`)
         const artisanData = response.data.artisan
 
         if (detail) {
-          const transformedProfile = transformBackendProfileData(artisanData, detail, address);
+          const transformedProfile = transformBackendProfileData(artisanData, detail, walletAddress ?? address);
           setProfile(transformedProfile);
         }
       } catch (err) {
@@ -44,7 +44,7 @@ const useFetchArtisanProfile = () => { // DO NOT USE UNTIL BUG IS FIXED
         stopLoading();
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, fetchFromIPFS]);
+  }, [walletAddress ?? address, fetchFromIPFS]);
 
   useEffect(() => {
     fetchArtisanProfile();

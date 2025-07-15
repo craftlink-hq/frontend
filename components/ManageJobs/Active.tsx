@@ -21,20 +21,25 @@ const ActiveJob = ({ job }: { job: Applied }) => {
   const contract = getGigContract(readOnlyProvider);
   const { markComplete, isLoading: mcLoading } = useMarkComplete();
   const { confirmComplete, isLoading: ccLoading } = useConfirmComplete();
+  const [isCompleted, setIsCompleted] = useState(job.status === "completed");
   const router = useRouter();
 
   const handleMarkComplete = async () => {
     if (!job.job?.id) return;
     const databaseId = job.job?.id;
     const contractData = await contract.getGigInfo(databaseId);
-    
+
     if (role === "artisan" && !contractData.artisanComplete) {
       const success = await markComplete(String(databaseId));
       if (success) {
         setDisableButton(true);
         router.push("/manage-jobs/artisans/completed");
       }
-    } else if (role === "client" && !contractData.isCompleted && !contractData.isClosed) {
+    } else if (
+      role === "client" &&
+      !contractData.isCompleted &&
+      !contractData.isClosed
+    ) {
       if (!contractData.artisanComplete) {
         // setDisableButton(true);
         toast.error("The artisan has not marked this job as complete yet.");
@@ -44,10 +49,11 @@ const ActiveJob = ({ job }: { job: Applied }) => {
       const success = await confirmComplete(String(databaseId));
       if (success) {
         setDisableButton(true);
+        setIsCompleted(true);
         router.push("/manage-jobs/clients/completed");
       }
     }
-  }
+  };
 
   const handleOpenDisputeModal = () => {
     setIsDisputeModalOpen(true);
@@ -55,6 +61,18 @@ const ActiveJob = ({ job }: { job: Applied }) => {
 
   const handleCloseDisputeModal = () => {
     setIsDisputeModalOpen(false);
+  };
+
+  const handleViewProfile = () => {
+    // Navigate to specific applicant profile
+    let address
+    if (role === "artisan") {
+      address =  job?.job?.client?.walletAddress
+      router.push(`/profile/clients/artisan-view/${address}`);
+    } else if (role === "client") {
+      address = job.job.completedBy?.walletAddress;
+      router.push(`/profile/artisans/client-view/${address}`);
+    }
   };
 
   useEffect(() => {
@@ -90,10 +108,10 @@ const ActiveJob = ({ job }: { job: Applied }) => {
         {/* User Info Row - Wallet Address Left, Profile Right */}
         <div className="flex justify-between items-center">
           {job.user_type === "artisan" ? (
-          <span className="text-[#F9F1E2] text-lg font-alata">
-            {job.job?.client?.walletAddress.slice(0, 4)}...
-            {job.job?.client?.walletAddress.slice(-4)}
-          </span>
+            <span className="text-[#F9F1E2] text-lg font-alata">
+              {job.job?.client?.walletAddress.slice(0, 4)}...
+              {job.job?.client?.walletAddress.slice(-4)}
+            </span>
           ) : (
             <span className="text-[#F9F1E2] text-lg font-alata">
               {job.job?.completedBy?.walletAddress.slice(0, 4)}...
@@ -101,9 +119,12 @@ const ActiveJob = ({ job }: { job: Applied }) => {
             </span>
           )}
           <div className="flex items-center gap-x-3">
-            <span className="text-[#FFD700] text-sm cursor-pointer hover:underline">
+            <button
+              className="text-[#FFD700] text-sm cursor-pointer hover:underline"
+              onClick={() => handleViewProfile()}
+            >
               View Profile
-            </span>
+            </button>
             <div className="rounded-full bg-[#FFD700] h-10 w-10 flex justify-center items-center cursor-pointer">
               <span className="relative h-6 w-6">
                 <Image
@@ -157,7 +178,11 @@ const ActiveJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain" }}
               />
             </span>
-            <span>{job.job?.projectDuration?.weeks ? `${job.job.projectDuration.weeks} Weeks` : "2 Weeks"}</span>
+            <span>
+              {job.job?.projectDuration?.weeks
+                ? `${job.job.projectDuration.weeks} Weeks`
+                : "2 Weeks"}
+            </span>
           </div>
           <div className="flex items-center gap-x-2">
             <span className="relative h-4 w-4">
@@ -188,7 +213,10 @@ const ActiveJob = ({ job }: { job: Applied }) => {
               <span className="text-sm font-normal ml-1">(Fixed)</span>
             </span>
             <span className="text-[#B5B4AD] text-sm">
-              ≈ ₦{job.job?.price ? (job.job.price * 1500).toLocaleString() : "2,250,000"}
+              ≈ ₦
+              {job.job?.price
+                ? (job.job.price * 1500).toLocaleString()
+                : "2,250,000"}
             </span>
           </div>
         </div>
@@ -229,19 +257,36 @@ const ActiveJob = ({ job }: { job: Applied }) => {
 
         {/* Action Buttons - Full Width Side by Side */}
         <div className="flex justify-between gap-[10px] mt-4">
-          <button disabled={disableButton} onClick={handleMarkComplete} className="w-[232px] h-[43px] rounded-[4px] bg-[#FFD700] uppercase text-sm font-bold text-[#1A1203] hover:bg-[#E6C200] transition-colors px-6 py-3">
-            MARK AS COMPLETE
-          </button>
-          <button 
-            onClick={handleOpenDisputeModal}
-            className="w-[232px] h-[43px] rounded-[4px] bg-[#262208] uppercase text-[#FCF8E3] font-bold text-sm hover:bg-[#333316] transition-colors px-6 py-3"
+          <button
+            disabled={disableButton || isCompleted}
+            onClick={handleMarkComplete}
+            className={`w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
+    ${
+      isCompleted
+        ? "bg-[#F2E8CF0A] text-[#FCF8E3] border-[#262208] cursor-not-allowed"
+        : "bg-[#FFD700] text-[#1A1203] border-transparent hover:bg-[#E6C200]"
+    }
+  `}
           >
-            RAISE DISPUTE
+            {isCompleted ? "COMPLETED" : "MARK AS COMPLETE"}
+          </button>
+          <button
+            onClick={handleOpenDisputeModal}
+            disabled={job.status === "dispute"}
+            className={`w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
+    ${
+      job.status === "dispute"
+        ? "bg-[#F2E8CF0A] text-[#262208] border-[#FFD700] cursor-not-allowed"
+        : "bg-[#262208] text-[#FCF8E3] border-transparent hover:bg-[#333316]"
+    }
+  `}
+          >
+            {job.status === "dispute" ? "DISPUTED" : "RAISE DISPUTE"}
           </button>
         </div>
 
         {/* Raise Dispute Modal */}
-        <RaiseDisputeModal 
+        <RaiseDisputeModal
           isOpen={isDisputeModalOpen}
           onClose={handleCloseDisputeModal}
         />

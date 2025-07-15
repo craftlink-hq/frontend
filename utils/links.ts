@@ -96,5 +96,5 @@ export const links = {
   client_disputed: "/manage-jobs/clients/disputed",
   client_closed: "/manage-jobs/clients/closed",
   artisans_profile: "/profile/artisans",
-  client_profile: "/profile/client"
+  client_profile: "/profile/clients"
 };

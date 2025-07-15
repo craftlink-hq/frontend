@@ -5,6 +5,7 @@ import Link from "next/link";
 import { links } from "@/utils/links";
 import { MdOutlineMenu } from "react-icons/md";
 import { useState } from "react";
+import { useGetUserRole } from "@/utils/store";
 
 interface Header {
   isActive: (path: string) => boolean;
@@ -17,9 +18,12 @@ const ProfileHeader = ({ isActive }: Header) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const { role } = useGetUserRole();
+  const isArtisan = role === "artisan";
+
   const menuItems = [
     { href: links.browseJob, label: "Browse Jobs" },
-    { href: links.applied, label: "Manage Jobs" },
+    { href: isArtisan ? links.applied : links.opened, label: "Manage Jobs" },
     { href: links.message, label: "Messages" },
     { href: links.resources, label: "Resources" },
   ];

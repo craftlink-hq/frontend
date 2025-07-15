@@ -9,6 +9,7 @@ export const transformBackendProfileData = (
     yearsOfPractice: number | undefined;
     serviceTagline: string | undefined;
     bio: string | undefined;
+    minimumProjectAmount: number | undefined;
     rate: number | undefined;
     availableForProjects: boolean | undefined;
     avatar: string | undefined;
@@ -46,6 +47,7 @@ export const transformBackendProfileData = (
     location: detail?.location ?? "Not specified",
     experience: `${fetchedData.experienceLevel ?? "Not specified"}/${fetchedData.yearsOfPractice ?? "0"} years`,
     availability: fetchedData.availableForProjects ?? "Not specified",
+    minimumProjectAmount: fetchedData.minimumProjectAmount ?? 0,
     pricing: fetchedData.rate ?? 0,
     walletAddress: address,
     amountEarned: undefined,

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArtisanProfileProps } from "@/utils/profile";
+import { toast } from "sonner";
 
 interface Details {
   detailValue: string | boolean;
@@ -14,7 +15,7 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
     },
     {
       imgSrc: "/money.png",
-      detailValue: `$${artisan.details.pricing} - $500/Project`,
+      detailValue: `$${artisan.details.minimumProjectAmount / 1e6}/Project`,
     },
     {
       imgSrc: "/location.png",
@@ -22,13 +23,26 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
     },
     {
       imgSrc: "/calendar.png",
-      detailValue: artisan.details.availability,
+      detailValue: (artisan.details.availability ? "Available" : "Not Available") + " To Work",
     },
     {
       imgSrc: "/expertise.png",
       detailValue: artisan.details.experience,
     },
   ];
+
+  const handleShareProfile = () => {
+    const profileUrl = `${window.location.origin}/profile/artisans/${artisan.details.walletAddress}`;
+    navigator.clipboard.writeText(profileUrl).then(() => {
+      toast.success("Profile URL copied to clipboard!");
+    });
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(artisan.details.walletAddress).then(() => {
+      toast.success("Wallet address copied to clipboard!");
+    });
+  };
 
   return (
     <div className="flex max-w-full font-merriweather text-[#F9F1E2] bg-profile border border-[#FCFBF726] rounded-lg  gap-x-4 justify-between">
@@ -77,11 +91,8 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
             </div>
           ))}
         </div>
-        <div className="flex justify-between">  <button className=" rounded-md bg-yellow uppercase py-2 px-4 font-bold text-sm md:text-base text-[#1A1203] ">
-            Hire Artisan
-          </button>
-
-          <button className="  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold text-sm md:text-base">
+        <div className="flex justify-between">
+          <button onClick={handleShareProfile} className="  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold text-sm md:text-base">
             Share Profile
           </button></div>
         </div>
@@ -93,8 +104,8 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
             {artisan.details.walletAddress.slice(0, 6)}...
             {artisan.details.walletAddress.slice(-5)}
           </p>
-          <div className="flex gap-x-2 items-center text-[#E0D8A8]">
-            <span className="relative border border-[#F9F1E240]  rounded-full h-[24px] w-[24px] ">
+          <button className="flex gap-x-2 items-center text-[#E0D8A8]" onClick={handleCopy}>
+            <span className="relative border border-[#F9F1E240]  rounded-full h-[32px] w-[32px] ">
               <Image
                 src={"/save.png"}
                 alt="save"
@@ -102,8 +113,7 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
                 className="object-contain p-[6px]"
               />
             </span>{" "}
-            <p className="text-lg ">Copy</p>
-          </div>
+          </button>
         </div>
         <div className="hidden lg:flex relative  self-end items-end justify-end  h-[23vh] w-[25vw]">
           <Image

@@ -36,6 +36,7 @@ export interface PortfolioProps {
 
 
 export interface DetailsProps {
+  minimumProjectAmount: any;
   language: string;
   location: string;
   experience: string;
@@ -92,6 +93,7 @@ const dummyDetails: DetailsProps = {
   location: "Nigeria",
   experience: "Intermediate/3years",
   availability: "Available to work",
+  minimumProjectAmount: 100,
   pricing: 200,
   amountEarned: 500,
   rating: 4.5,
@@ -110,6 +112,18 @@ const dummyPortfolio: PortfolioProps[] = [
     imgSrc: ["/elegant-dress.png"],
     title: "Elegant Evening Dress",
     desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
+    duration: "4 weeks",
+  },
+  {
+    imgSrc: ["/elegant-dress.png"],
+    title: "Elegant Evening Dress",
+    desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
+    duration: "4 weeks",
+  },
+  {
+    imgSrc: ["/elegant-dress.png"],
+    title: "Elegant Evening Dress",
+    desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr... This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
     duration: "4 weeks",
   },
   {

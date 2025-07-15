@@ -50,6 +50,7 @@ export const transformProfileData = (
       fetchedData.yearsOfExperience || "0"
     } years`,
     availability: fetchedData.availability ? "Available" : "Not Available", // Adjusted to boolean check
+    minimumProjectAmount: fetchedData.rate ? fetchedData.rate * 1e6 : 0, // Assuming rate is in native currency units
     pricing: fetchedData.rate || 0,
     walletAddress: address,
     amountEarned: undefined,

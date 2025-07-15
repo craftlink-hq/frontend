@@ -88,6 +88,7 @@ export interface Applied {
   disputeRaisedDate?: string;
   disputeStatus?: "pending" | "resolved" | "escalated";
   user_type?: "artisan" | "client";
+  hiredArtisan?: string
 }
 
 export interface JobCardProps {

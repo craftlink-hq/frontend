@@ -12,7 +12,7 @@ export default function Layout({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex flex-col bg-[url('/bg.png')] min-h-screen  bg-opacity-[25%]">
+      <div className="flex flex-col bg-[url('/bg.png')] min-h-screen  w-screen bg-opacity-[25%]">
         <div className="flex flex-col bg-[#333333] bg-opacity-[95%] min-h-screen ">
           <div className="min-h-screen">{children}</div>
         </div>
