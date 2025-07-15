@@ -19,7 +19,7 @@ export default function ArtisanView({
   const isActive = (path: string) => pathname === path;
   const { clientAddress } = use(params);
   const { clientData, isLoading, error } = useGetClientInfo(clientAddress);
-  const { completedGigs: completed } = useFetchClientCompletedGigs();
+  const { completedGigs: completed } = useFetchClientCompletedGigs(clientAddress);
   
   const jobs = completed.map(item => item.job);
 
