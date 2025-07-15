@@ -8,7 +8,11 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
       <div className="flex w-full justify-between py-4">
         <h3 className="text-xl font-bold">Completed Projects</h3>
       </div>
-      {projects.map((project) => (
+        {projects.length === 0 ? (
+        <div className="text-center text-[#D8D6CF] py-8 text-lg font-semibold">
+          No completed jobs yet!
+        </div>
+      ) : (projects.map((project) => (
         <div
           key={formatDate(project.createdAt)}
           className="bg-profile max-sm:border-[0.5px] max-sm:border-[#FCFBF726] rounded-md p-4"
@@ -65,7 +69,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
             </div>
           </div>
         </div>
-      ))}
+      )))}
     </div>
   );
 };

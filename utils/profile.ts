@@ -118,6 +118,18 @@ const dummyPortfolio: PortfolioProps[] = [
     desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
     duration: "4 weeks",
   },
+  {
+    imgSrc: ["/elegant-dress.png"],
+    title: "Elegant Evening Dress",
+    desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr... This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
+    duration: "4 weeks",
+  },
+  {
+    imgSrc: ["/elegant-dress.png"],
+    title: "Elegant Evening Dress",
+    desc: "This bespoke evening gown combines classic design with modern elegance, crafted from premium satin and adorned with intr...",
+    duration: "4 weeks",
+  },
 ];
 
 const dummyReviews: ReviewsProp[] = [
