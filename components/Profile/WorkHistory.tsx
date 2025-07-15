@@ -1,5 +1,4 @@
 import { formatDate } from "@/utils/formatDate";
-import { WorkHistory } from "@/utils/profile";
 import { Applied } from '@/utils/types';
 
 const Works = ({ works }: { works?: Applied[] }) => {
