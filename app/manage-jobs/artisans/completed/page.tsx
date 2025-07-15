@@ -4,9 +4,11 @@ import CompletedJob from "@/components/ManageJobs/Completed";
 import ManageJobs from "@/components/ManageJobs/Job";
 import { useFetchArtisanCompletedGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanCompletedGigs";
 import Loading from "@/components/Loading";
+import { useAccount } from "wagmi";
 
 export default function CompletedJobs() {
-  const { completedGigs: Completed, isLoading, error } = useFetchArtisanCompletedGigs();
+  const { address } = useAccount();
+  const { completedGigs: Completed, isLoading, error } = useFetchArtisanCompletedGigs(address);
 
   if (error) {
     console.error("Error fetching completed gigs:", error);

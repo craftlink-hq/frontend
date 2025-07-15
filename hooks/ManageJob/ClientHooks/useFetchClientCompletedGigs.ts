@@ -41,7 +41,7 @@ interface GigData {
   contract: ContractGigData;
 }
 
-export const useFetchClientCompletedGigs = () => {
+export const useFetchClientCompletedGigs = (walletAddress?: string) => {
   const { address } = useAccount();
   const clientAmountSpent = useGetClientAmountSpent() ?? 404;
   const [completedGigs, setCompletedGigs] = useState<Applied[]>([]);
@@ -49,7 +49,7 @@ export const useFetchClientCompletedGigs = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchGigs = useCallback(async () => {
-    if (!address) {
+    if (!address || !walletAddress) {
       setCompletedGigs([]);
       stopLoading();
       return;
@@ -60,7 +60,7 @@ export const useFetchClientCompletedGigs = () => {
 
     try {
       const contract = getGigContract(readOnlyProvider);
-      const databaseIds: string[] = await contract.getClientCreatedGigs(address);
+      const databaseIds: string[] = await contract.getClientCreatedGigs(walletAddress ?? address);
 
       const gigPromises = databaseIds.map(async (databaseId: string) => {
         try {
@@ -74,7 +74,6 @@ export const useFetchClientCompletedGigs = () => {
           const contractData = await contract.getGigInfo(databaseId);
 
           const isCompleted =
-            contractData.hiredArtisan !== '0x0000000000000000000000000000000000000000' &&
             contractData.artisanComplete &&
             contractData.isCompleted &&
             !contractData.isClosed
@@ -96,7 +95,7 @@ export const useFetchClientCompletedGigs = () => {
             },
           };
 
-          return mapToApplied(gigData, address, 'client', clientAmountSpent);
+          return mapToApplied(gigData, address ?? walletAddress, 'client', clientAmountSpent);
         } catch (error) {
           console.error(`Error processing database ID ${databaseId}:`, error);
           return null;
@@ -112,7 +111,7 @@ export const useFetchClientCompletedGigs = () => {
       stopLoading();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, clientAmountSpent]);
+  }, [clientAmountSpent]);
 
   useEffect(() => {
     fetchGigs();
