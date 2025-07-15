@@ -19,7 +19,7 @@ const Works = ({ works }: { works?: WorkHistory[] }) => {
                   ? `${work.start}-${work.end}`
                   : work.end})
               </span>
-              <div className="border-l-[3px] border-[#FCFBF726] px-4 md:w-[70%]  text-[#B5B4AD]">
+              <div className="border-l-[3px] border-[#FCFBF726] px-4 w-full line-clamp-3   text-[#B5B4AD]">
                 {work.detail}
               </div>
             </div>

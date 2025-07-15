@@ -90,7 +90,7 @@ const GigDetails = ({ job }: { job: Job }) => {
       </div>
       <div className="font-merriweather w-full self-start p-4 bg-[#F2E8CF0A] rounded-lg">
         <p className="text-[#B5B4AD] text-start">DETAILED DESCRIPTION</p>
-        <p className="text-[#D8D6CF] whitespace-pre-wrap text-start font-merriweather w-[90%]">
+        <p className="text-[#D8D6CF] whitespace-pre-wrap text-start font-merriweather w-full px-2">
           {job.projectDescription}
         </p>
       </div>
@@ -130,7 +130,7 @@ const GigDetails = ({ job }: { job: Job }) => {
       </div>
       <div className="bg-[#F2E8CF0A] text-start rounded-lg w-full p-4">
         <p className="text-[#B5B4AD]">ADDITIONAL NOTES</p>
-        <p className="text-[#D8D6CF] w-[70%]">{job.additionalProjectInfo ? job.additionalProjectInfo : "NONE PROVIDED"}</p>
+        <p className="text-[#D8D6CF] w-full px-2">{job.additionalProjectInfo ? job.additionalProjectInfo : "NONE PROVIDED"}</p>
       </div>
       <div className="bg-[#F2E8CF0A] text-start rounded-lg w-full p-4 h-fit">
         <p className="text-[#B5B4AD]">ATTACHED FILES</p>
