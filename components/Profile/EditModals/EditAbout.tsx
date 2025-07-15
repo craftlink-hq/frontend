@@ -107,6 +107,7 @@ const AboutEditModal: React.FC<AboutEditModalProps> = ({
         tagline: tagline,
         location: currentData.details.location,
         availability: currentData.details.availability,
+        minimumProjectAmount: currentData.details.minimumProjectAmount,
         pricing: currentData.details.pricing,
         walletAddress: currentData.details.walletAddress,
       },
