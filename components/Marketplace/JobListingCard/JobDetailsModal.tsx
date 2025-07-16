@@ -97,8 +97,9 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
 
       {/* Budget/Experience/Duration Cards - AFTER Description */}
       <div className="bg-[#F2E8CF0A] rounded-lg w-full p-4">
-        <div className="flex flex-wrap gap-4">
-          <div className="rounded-xl flex-1 min-w-[200px] p-4 border border-[#FCFBF726]">
+        <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
+          {/* Budget Card - Full width on mobile, flex-1 on desktop */}
+          <div className="rounded-xl w-full md:flex-1 md:min-w-[200px] p-4 border border-[#FCFBF726]">
             <div className="flex gap-x-2 mb-4">
               <Image
                 src="/market/money-2.svg"
@@ -116,34 +117,39 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
             </span>
           </div>
 
-          <div className="rounded-xl flex-1 min-w-[200px] p-4 border border-[#FCFBF726]">
-            <div className="flex gap-x-2 mb-4">
-              <Image
-                src="/market/medal-star.svg"
-                alt="Experience"
-                width={24}
-                height={24}
-              />
-              <span className="font-bold text-[#B5B4AD]">Experience</span>
+          {/* Experience and Duration Cards - Side by side on mobile */}
+          <div className="flex gap-4 w-full md:contents">
+            <div className="rounded-xl flex-1 md:flex-1 md:min-w-[200px] p-4 border border-[#FCFBF726]">
+              <div className="flex gap-x-2 mb-4">
+                <Image
+                  src="/market/medal-star.svg"
+                  alt="Experience"
+                  width={20}
+                  height={20}
+                  className="md:w-6 md:h-6"
+                />
+                <span className="font-bold text-[#B5B4AD] text-sm md:text-base">Experience</span>
+              </div>
+              <span className="text-[#F9F1E2] text-base md:text-lg font-medium">
+                {job.experienceLevel}
+              </span>
             </div>
-            <span className="text-[#F9F1E2] text-lg font-medium">
-              {job.experienceLevel}
-            </span>
-          </div>
 
-          <div className="rounded-xl flex-1 min-w-[200px] p-4 border border-[#FCFBF726]">
-            <div className="flex gap-x-2 mb-4">
-              <Image
-                src="/market/calendar-tick.svg"
-                alt="Duration"
-                width={24}
-                height={24}
-              />
-              <span className="font-bold text-[#B5B4AD]">Duration</span>
+            <div className="rounded-xl flex-1 md:flex-1 md:min-w-[200px] p-4 border border-[#FCFBF726]">
+              <div className="flex gap-x-2 mb-4">
+                <Image
+                  src="/market/calendar-tick.svg"
+                  alt="Duration"
+                  width={20}
+                  height={20}
+                  className="md:w-6 md:h-6"
+                />
+                <span className="font-bold text-[#B5B4AD] text-sm md:text-base">Duration</span>
+              </div>
+              <span className="text-[#F9F1E2] text-base md:text-lg font-medium">
+                {job.projectDuration.weeks} Weeks
+              </span>
             </div>
-            <span className="text-[#F9F1E2] text-lg font-medium">
-              {job.projectDuration.weeks} Weeks
-            </span>
           </div>
         </div>
       </div>
