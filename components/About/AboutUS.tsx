@@ -57,7 +57,7 @@ const HomePage = () => {
       <CoreValues />
 
         <div className="flex justify-center">
-          <div className="flex flex-col justify-between relative bg-[#FFD700] items-center md:w-[90%] min-h-[45vh] h-fit w-[95vw] rounded-md py-8 my-4">
+          <div className="flex flex-col justify-center relative bg-[#FFD700] items-center md:w-[90%] min-h-[45vh] h-fit w-[95vw] rounded-md py-12 my-4 space-y-8">
             <Image
               src="/bg-blend.png"
               alt="background blend"
@@ -65,19 +65,19 @@ const HomePage = () => {
               className="z-20 opacity-70 mix-blend-overlay"
               style={{ objectFit: "cover", objectPosition: "center" }}
             />
-            <p className="text-[#0D0800] font-alata text-[24px] sm:text-[40px] md:text-[4vw] self-center text-center w-[80%] md:w-[60%] md:leading-[60px] lg:leading-[4vw]">
-              Let&apos;s Build Together
-            </p>
-            <div className="text-center space-y-4">
-              <p className="uppercase font-bold font-merriweather text-[#0D0800]">
-                We&apos;re not just a product—We&apos;re a Movement 
+            <h2 className="text-[#0D0800] font-alata text-[32px] sm:text-[40px] md:text-[4vw] text-center w-[90%] md:w-[70%] leading-[38px] sm:leading-[48px] md:leading-[60px] lg:leading-[4vw] z-30">
+              Let Us Build Together
+            </h2>
+            <div className="text-center space-y-6 px-4 z-30">
+              <p className="font-bold font-merriweather text-[#0D0800] text-[18px] sm:text-[20px] md:text-[22px] leading-relaxed">
+                We are not just a product, We are a Movement.
               </p>
-              <p className="uppercase font-merriweather text-[#0D0800]">
+              <p className="font-merriweather text-[#0D0800] text-[16px] sm:text-[18px] md:text-[20px] leading-relaxed max-w-[600px] mx-auto">
                 Join us as a user, supporter, or collaborator to help shape the future of skilled work.
               </p>
             </div>
-            <button className="bg-[#262208] text-[#FCF8E3] uppercase sm:w-[25%] md:w-[20%] lg:w-[15%] shadow-sm rounded-sm p-4">
-              PARTNER WITH US
+            <button className="bg-[#262208] text-[#FCF8E3] uppercase w-[60%] sm:w-[200px] md:w-[220px] lg:w-[240px] shadow-sm rounded-sm py-4 px-8 text-[14px] sm:text-[16px] font-medium z-30 hover:bg-[#1a1506] transition-colors">
+              GET STARTED
             </button>
           </div>
         </div>

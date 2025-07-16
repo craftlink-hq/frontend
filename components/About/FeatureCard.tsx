@@ -16,7 +16,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 }) => {
   const ImageDiv = () => (
     <div 
-      className="flex items-center justify-center p-8 rounded-lg h-full"
+      className="flex items-center justify-center p-6 md:p-8 rounded-lg h-[160px] md:h-full"
       style={{ backgroundColor: '#F2E8CF0A' }}
     >
       <Image 
@@ -31,31 +31,40 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 
   const TextDiv = () => (
     <div 
-      className="p-8 rounded-lg flex flex-col justify-center h-full"
+      className="p-6 md:p-8 rounded-lg flex flex-col justify-center h-[160px] md:h-full"
       style={{ backgroundColor: '#120F0040' }}
     >
-      <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-tight whitespace-pre-line" style={{ color: '#F9F1E2', fontFamily: 'Alata, sans-serif' }}>
+      <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-3 md:mb-4 leading-tight whitespace-pre-line" style={{ color: '#F9F1E2', fontFamily: 'Alata, sans-serif' }}>
         {title}
       </h3>
-      <p className="text-base md:text-lg leading-relaxed" style={{ color: '#F9F1E2', fontFamily: 'Merriweather, serif' }}>
+      <p className="text-sm md:text-base lg:text-lg leading-relaxed" style={{ color: '#F9F1E2', fontFamily: 'Merriweather, serif' }}>
         {description}
       </p>
     </div>
   );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 min-h-[200px] md:min-h-[250px]">
-      {imageOnLeft ? (
-        <>
-          <ImageDiv />
-          <TextDiv />
-        </>
-      ) : (
-        <>
-          <TextDiv />
-          <ImageDiv />
-        </>
-      )}
+    <div className="min-h-[340px] md:min-h-[250px]">
+      {/* Mobile Layout - Always Text first, then Image */}
+      <div className="flex flex-col gap-2 md:hidden">
+        <TextDiv />
+        <ImageDiv />
+      </div>
+      
+      {/* Desktop Layout - Respects imageOnLeft prop */}
+      <div className="hidden md:grid md:grid-cols-2 gap-2 h-full">
+        {imageOnLeft ? (
+          <>
+            <ImageDiv />
+            <TextDiv />
+          </>
+        ) : (
+          <>
+            <TextDiv />
+            <ImageDiv />
+          </>
+        )}
+      </div>
     </div>
   );
 };
@@ -90,7 +99,7 @@ const FeaturesSection: React.FC = () => {
 
   return (
     <div className="min-h-screen p-6 md:p-8" style={{ backgroundColor: '#333333' }}>
-      <div className="w-full px-8 md:px-12">
+      <div className="w-full px-4 md:px-8 lg:px-12">
         <div className="space-y-4">
           {features.map((feature, index) => (
             <FeatureCard 
