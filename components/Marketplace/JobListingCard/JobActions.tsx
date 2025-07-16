@@ -15,45 +15,28 @@ interface UpdatedJobActionsProps extends JobActionsProps {
 const JobActions: React.FC<UpdatedJobActionsProps> = ({ job, onViewDetails, jobStatus }) => {
   return (
     <>
-      <style jsx>{`
-        .status-text {
-          font-family: Merriweather;
-          font-weight: 400;
-          font-style: italic;
-          font-size: 13px;
-          line-height: 120%;
-          letter-spacing: 0%;
-          color: #FCF7F7;
-        }
-
-        .view-details-btn {
-          width: 319px;
-          height: 43px;
-          padding: 12px 24px;
-          gap: 10px;
-          border-radius: 4px;
-          background-color: #262208;
-        }
-      `}</style>
-      
       {/* Status and Action Row */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-3 items-stretch md:flex-row md:items-center md:justify-between md:gap-0">
+        <div className="flex items-center gap-6 md:gap-8">
           {/* Secured Payment */}
           <div className="flex items-center gap-1">
             <FaCheckCircle className="w-3 h-3" style={{ color: '#fbbf24' }} />
-            <span className="status-text">{job.payment}</span>
+            <span className="text-xs md:text-sm font-normal italic leading-tight text-[#FCF7F7]" style={{ fontFamily: 'Merriweather' }}>
+              {job.payment}
+            </span>
           </div>
           
           {/* Dynamic Application Status */}
           <div className="flex items-center gap-1">
             <FaCircle className="w-3 h-3" style={{ color: jobStatus.color }} />
-            <span className="status-text">{jobStatus.text}</span>
+            <span className="text-xs md:text-sm font-normal italic leading-tight text-[#FCF7F7]" style={{ fontFamily: 'Merriweather' }}>
+              {jobStatus.text}
+            </span>
           </div>
         </div>
 
         <button 
-          className="view-details-btn text-xs font-medium text-white hover:opacity-90 transition-opacity"
+          className="w-[calc(100%-8px)] h-10 px-5 py-2 text-xs rounded-md md:w-80 md:h-11 md:px-6 md:py-3 md:rounded font-medium text-white bg-[#262208] hover:opacity-90 transition-opacity"
           onClick={onViewDetails}
         >
           View Details

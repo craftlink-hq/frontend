@@ -30,13 +30,33 @@ const JobPricing: React.FC<JobPricingProps> = ({ job }) => {
           color: #FFCC6D;
           align-self: flex-end;
         }
+        
+        .money-icon {
+          width: 16px;
+          height: 16px;
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+          .money-icon {
+            width: 20px;
+            height: 20px;
+          }
+        }
       `}</style>
       
       {/* Price Section */}
       <div className="mb-4">
         <div className="flex items-end gap-2 mb-1">
           <div className="flex items-center gap-2">
-            <Image src="/market/money-2.svg" alt="Price" width={"4"} height={"4"} style={{ filter: 'brightness(0) saturate(100%) invert(74%) sepia(85%) saturate(353%) hue-rotate(358deg) brightness(101%) contrast(97%)' }} />
+            <Image 
+              src="/market/money-2.svg" 
+              alt="Price" 
+              width={16} 
+              height={16} 
+              className="money-icon"
+              style={{ filter: 'brightness(0) saturate(100%) invert(74%) sepia(85%) saturate(353%) hue-rotate(358deg) brightness(101%) contrast(97%)' }} 
+            />
             <span className="job-price">
               ${job.price?.toLocaleString()}
             </span>

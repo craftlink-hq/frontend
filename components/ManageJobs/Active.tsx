@@ -146,7 +146,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
         </div>
 
         {/* Job Details Row - Icons with Labels */}
-        <div className="flex items-center gap-x-6 text-sm text-[#B5B4AD] flex-wrap">
+        <div className="grid grid-cols-2 gap-y-3 gap-x-4 md:flex md:items-center md:gap-x-6 md:gap-y-0 text-sm text-[#B5B4AD]">
           <div className="flex items-center gap-x-2">
             <span className="relative h-4 w-4">
               <Image
@@ -222,7 +222,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
         </div>
 
         {/* Dates Row - Start and End Date Side by Side */}
-        <div className="flex items-center gap-x-8 text-sm text-[#B5B4AD]">
+        <div className="flex flex-col gap-y-2 md:flex-row md:items-center md:gap-x-8 md:gap-y-0 text-sm text-[#B5B4AD]">
           <div className="flex items-center gap-x-2">
             <span className="relative h-4 w-4">
               <Image
@@ -256,11 +256,11 @@ const ActiveJob = ({ job }: { job: Applied }) => {
         </div>
 
         {/* Action Buttons - Full Width Side by Side */}
-        <div className="flex justify-between gap-[10px] mt-4">
+        <div className="flex flex-col gap-3 md:flex-row md:justify-between md:gap-[10px] mt-4">
           <button
             disabled={disableButton || isCompleted}
             onClick={handleMarkComplete}
-            className={`w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
+            className={`w-full md:w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
     ${
       isCompleted
         ? "bg-[#F2E8CF0A] text-[#FCF8E3] border-[#262208] cursor-not-allowed"
@@ -273,7 +273,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
           <button
             onClick={handleOpenDisputeModal}
             disabled={job.status === "dispute"}
-            className={`w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
+            className={`w-full md:w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
     ${
       job.status === "dispute"
         ? "bg-[#F2E8CF0A] text-[#262208] border-[#FFD700] cursor-not-allowed"
