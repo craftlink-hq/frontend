@@ -8,17 +8,28 @@ const JobTags: React.FC<JobTagsProps> = ({
   isExpanded, 
   onToggle 
 }) => {
-  const getVisibleTags = (tags: string[], maxVisible: number = 5) => {
+  const getVisibleTags = (tags: string[], maxVisible: number = 5, isMobile: boolean = false) => {
     if (!tags) return { visible: [], remaining: 0 };
-    const visible = tags.slice(0, maxVisible);
-    const remaining = Math.max(0, tags.length - maxVisible);
+    const mobileMaxVisible = isMobile ? 2 : maxVisible;
+    const visible = tags.slice(0, isExpanded ? tags.length : mobileMaxVisible);
+    const remaining = Math.max(0, tags.length - mobileMaxVisible);
     return { visible, remaining };
   };
 
   const tags = job.skillCategory || [];
-  const { visible, remaining } = getVisibleTags(
+  
+  // For desktop (default behavior)
+  const { visible: desktopVisible, remaining: desktopRemaining } = getVisibleTags(
     tags, 
-    isExpanded ? tags.length : 5
+    isExpanded ? tags.length : 5,
+    false
+  );
+  
+  // For mobile
+  const { visible: mobileVisible, remaining: mobileRemaining } = getVisibleTags(
+    tags, 
+    isExpanded ? tags.length : 2,
+    true
   );
 
   return (
@@ -42,12 +53,62 @@ const JobTags: React.FC<JobTagsProps> = ({
           background-color: #26220826;
           width: fit-content;
         }
+        
+        .desktop-tags {
+          display: flex;
+        }
+        
+        .mobile-tags {
+          display: none;
+        }
+        
+        .mobile-count-circle {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background-color: #FFFFFF20;
+          border: 1px solid #FFFFFF40;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: 500;
+          color: #D8D6CF;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .mobile-count-circle:hover {
+          background-color: #FFFFFF30;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+          .desktop-tags {
+            display: none;
+          }
+          
+          .mobile-tags {
+            display: flex;
+          }
+          
+          .job-tags {
+            font-size: 11px;
+          }
+          
+          .tag-pill {
+            height: 32px;
+            padding: 8px 12px;
+            font-size: 11px;
+          }
+        }
       `}</style>
       
       {/* Tags */}
       <div className="mb-4">
-        <div className="flex flex-wrap gap-1">
-          {visible.map((tag, tagIndex) => (
+        {/* Desktop View */}
+        <div className="desktop-tags flex-wrap gap-1">
+          {desktopVisible.map((tag, tagIndex) => (
             <span
               key={tagIndex}
               className="job-tags tag-pill flex items-center justify-center"
@@ -55,12 +116,12 @@ const JobTags: React.FC<JobTagsProps> = ({
               {tag}
             </span>
           ))}
-          {remaining > 0 && !isExpanded && (
+          {desktopRemaining > 0 && !isExpanded && (
             <span
               className="job-tags tag-pill flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
               onClick={() => onToggle(jobId)}
             >
-              +{remaining}
+              +{desktopRemaining}
             </span>
           )}
           {isExpanded && tags.length > 5 && (
@@ -70,6 +131,34 @@ const JobTags: React.FC<JobTagsProps> = ({
             >
               Show Less
             </span>
+          )}
+        </div>
+        
+        {/* Mobile View */}
+        <div className="mobile-tags flex-wrap gap-1 items-center">
+          {mobileVisible.map((tag, tagIndex) => (
+            <span
+              key={tagIndex}
+              className="job-tags tag-pill flex items-center justify-center"
+            >
+              {tag}
+            </span>
+          ))}
+          {mobileRemaining > 0 && !isExpanded && (
+            <div
+              className="mobile-count-circle"
+              onClick={() => onToggle(jobId)}
+            >
+              +{mobileRemaining}
+            </div>
+          )}
+          {isExpanded && tags.length > 2 && (
+            <div
+              className="mobile-count-circle"
+              onClick={() => onToggle(jobId)}
+            >
+              −
+            </div>
           )}
         </div>
       </div>
