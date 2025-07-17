@@ -38,44 +38,44 @@ export default function Layout({
         <div className="min-h-screen">
           <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
             <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
-            <div className="w-[90%] self-center flex flex-col md:flex-row justify-between gap-4">
-              <div className="self-center w-full md:w-auto mb-4 md:mb-0">
-                <h2 className="text-xl md:text-2xl text-[#FCFBF7] font-bold mb-2">
+            <div className="w-[90%] self-center flex flex-col md:flex-row justify-between gap-6 md:gap-4">
+              <div className="self-center w-full md:w-auto py-4 md:py-0">
+                <h2 className="text-2xl md:text-2xl text-[#FCFBF7] font-bold mb-3">
                   <span className="border-b-2 border-yellow"> MANAGE </span>JOBS
                 </h2>
-                <p className="text-base md:text-base font-merriweather text-[#F9F1E2] leading-relaxed md:w-[20%] w-full">
+                <p className="text-lg md:text-base font-merriweather text-[#F9F1E2] leading-relaxed md:w-[20%] w-full">
                   Track applications, submit completed work, and resolve disputes
                   in one place.
                 </p>
               </div>
               
-              <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 md:p-4 w-full md:w-auto md:min-w-[400px] min-h-[120px] md:min-h-auto">
-                <div className="flex items-center gap-2 mb-2">
-                  <Image src={"/wallet.png"} alt={"coin"} width="18" height="18" />{" "}
-                  <h2 className="text-lg md:text-base text-[#F9F1E2]">Earnings</h2>
+              <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-6 md:p-4 w-full md:w-auto md:min-w-[400px] min-h-[140px] md:min-h-auto">
+                <div className="flex items-center gap-2 mb-3">
+                  <Image src={"/wallet.png"} alt={"coin"} width="20" height="20" />{" "}
+                  <h2 className="text-xl md:text-base text-[#F9F1E2]">Earnings</h2>
                 </div>
-                <p className="text-sm text-[#D8D6CF] mb-3 md:mb-2">
+                <p className="text-base md:text-sm text-[#D8D6CF] mb-4 md:mb-2">
                   Your earnings, in tokens. withdraw when you&apos;re ready.
                 </p>
         
-                <div className="flex justify-between p-3 md:p-4">
+                <div className="flex justify-between p-4 md:p-4">
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-2">
                       <div className="w-3 h-3 bg-[#04DF76] rounded-full"></div>
-                      <span className="text-sm md:text-sm text-[#B5B4AD]">Available</span>
+                      <span className="text-base md:text-sm text-[#B5B4AD]">Available</span>
                     </div>
-                    <div className="text-xl md:text-2xl font-bold text-[#FFCC6D] font-alata">
-                      {tokenBalance} <span className="text-base md:text-lg">USDT</span>
+                    <div className="text-2xl md:text-2xl font-bold text-[#FFCC6D] font-alata">
+                      {tokenBalance} <span className="text-lg md:text-lg">USDT</span>
                     </div>
                   </div>
         
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-2">
                       <div className="w-3 h-3 bg-[#47F9FF] rounded-full"></div>
-                      <span className="text-sm md:text-sm text-[#B5B4AD]">Total Earned</span>
+                      <span className="text-base md:text-sm text-[#B5B4AD]">Total Earned</span>
                     </div>
-                    <div className="text-xl md:text-2xl font-bold text-[#FFCC6D] font-alata">
-                      {checkAmountMade} <span className="text-base md:text-lg">USDT</span>
+                    <div className="text-2xl md:text-2xl font-bold text-[#FFCC6D] font-alata">
+                      {checkAmountMade} <span className="text-lg md:text-lg">USDT</span>
                     </div>
                   </div>
                 </div>
