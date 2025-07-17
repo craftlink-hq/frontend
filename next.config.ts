@@ -17,14 +17,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/authenticate/:path*",
-        destination: "/:path*",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/authenticate/:path*",
+  //       destination: "/:path*",
+  //     },
+  //   ];
+  // },
   env: {
     GIG_MARKET_PLACE: process.env.GIG_MARKET_PLACE,
     REGISTRY: process.env.REGISTRY,

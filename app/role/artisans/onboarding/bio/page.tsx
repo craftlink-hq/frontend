@@ -38,7 +38,9 @@ export default function Bio() {
   };
 
   const handleTagline = (tagline: string) => {
-    setTagline(tagline);
+    if (bio.length <= maxLength) {
+      setTagline(tagline);
+    }
   };
 
   const handleBio = (bio: string) => {
@@ -79,7 +81,7 @@ export default function Bio() {
         <h2 className="font-alata text-2xl md:text-3xl ">
           Almost There! Let&apos;s Fine-Tune Your Profile.
         </h2>
-        <p className="font-merriweather text-start self-start md:w-[70%]">
+        <p className="font-merriweather text-[#D8D6CF] text-sm md:text-base text-start self-start md:w-[90%]">
           Tell us a little more about yourself to help clients get to know you
           better. You’re just a few steps away from showcasing your skills!
         </p>
@@ -128,9 +130,15 @@ export default function Bio() {
               <p className="font-bold">Service Tagline</p>
               <textarea
                 onChange={(e) => handleTagline(e.target.value)}
+                value={tagline}
                 placeholder="E.g Sustainable Wed3 Fashion Designer"
-                className="h-24 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
+                className="h-24 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md  placeholder:text-[#D8D6CF] placeholder:px-[4px]  text-[#FCFBF7] placeholder:italic p-2"
+                minLength={30}
+                maxLength={150}
               ></textarea>
+              <p className="text-right text-sm text-[#D8D6CF] self-end">
+                {tagline.length} / {150}
+              </p>
             </div>
             <div>
               <p className="font-bold">Bio</p>
@@ -140,9 +148,9 @@ export default function Bio() {
                 placeholder="Write a brief description about your expertise or passion for your craft"
                 minLength={minLength}
                 maxLength={maxLength}
-                className="h-44 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-4 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
+                className="h-44 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md  placeholder:text-[#D8D6CF] placeholder:px-[4px] text-[#FCFBF7] placeholder:italic p-2"
               />
-              <p className="text-right text-sm text-[#D8D6CF] self-end mt-1">
+              <p className="text-right text-sm text-[#D8D6CF] self-end">
                 {bio.length} / {maxLength}
               </p>
             </div>
@@ -160,9 +168,15 @@ export default function Bio() {
               <p className="font-bold">Service Tagline</p>
               <textarea
                 onChange={(e) => handleTagline(e.target.value)}
+                value={tagline}
                 placeholder="E.g Sustainable Wed3 Fashion Designer"
-                className="h-24 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
+                className="h-24 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md  placeholder:text-[#D8D6CF] placeholder:px-[4px] text-[#FCFBF7] placeholder:italic p-2"
+                minLength={30}
+                maxLength={150}
               ></textarea>
+              <p className="text-right text-sm text-[#D8D6CF] self-end">
+                {tagline.length} / {150}
+              </p>
             </div>
           </div>
         </div>

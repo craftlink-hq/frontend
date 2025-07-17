@@ -6,7 +6,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
   return (
     <div className="text-[#F9F1E2] font-merriweather bg-[#F2E8CF0A] p-2 md:p-8 rounded-xl gap-y-4 flex h-full flex-col">
       <div className="flex w-full justify-between py-4">
-        <h3 className="text-xl font-bold">Completed Projects</h3>
+        <h3 className="text-xl font-bold px-2">Completed Projects</h3>
       </div>
         {projects.length === 0 ? (
         <div className="text-center text-[#D8D6CF] py-8 text-lg font-semibold">

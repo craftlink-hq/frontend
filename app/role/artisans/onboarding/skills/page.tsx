@@ -64,21 +64,21 @@ export default function Skills() {
 
   return (
     <div className="flex min-h-[90vh] w-screen items-center md:items-end justify-center py-4">
-      <div className="flex flex-col text-[#F9F1E2] w-[90vw] p-8 rounded-lg bg-opacity-80 shadow-lg md:w-[65%] lg:w-[50%] shadow-second relative 2xl:bottom-16 bg-[#F2E8CF0A] items-start md:min-h-[80%] gap-y-2 md:gap-y-4">
+      <div className="flex flex-col text-[#F9F1E2] w-[90vw] p-4 md:p-8 rounded-lg bg-opacity-80 shadow-lg md:w-[65%] lg:w-[50%] shadow-second relative 2xl:bottom-16 bg-[#F2E8CF0A] items-start md:min-h-[80%] gap-y-2 md:gap-y-4">
         <ProgressBar totalSteps={7} currentStep={2} />
         <h2 className="font-alata text-2xl md:text-3xl md:w-[80%]">
           Nice! Now, let’s get specific, what are your skills?
         </h2>
-        <p className="font-merriweather text-start self-start md:w-[70%]">
+        <p className="font-merriweather  text-[#D8D6CF] text-sm md:text-base text-start self-start md:w-[70%]">
           Choose from the suggested list or type your unique skill to help
           clients find exactly what you do best.
         </p>
 
         {/* Selected Skills */}
-        <div className="w-[80%] md:w-[60%] self-start py-8">
+        <div className="w-full md:w-[60%] self-start py-8">
           <label>
-            <p className="font-bold py-2">Your Skills</p>
-            <div className="flex flex-wrap gap-2 mb-4">
+            <p className="font-bold text-[#FCFBF7] relative top-4 font-merriweather ">Your Skills</p>
+            <div className="flex flex-wrap gap-2 my-4">
               {skills.map((skill) => (
                 <button
                   key={skill}
@@ -89,7 +89,7 @@ export default function Skills() {
                 </button>
               ))}
             </div>
-            <div className="relative">
+            <div className="relative ">
               <Input
                 placeholder="Enter your skills"
                 type="text"
@@ -115,7 +115,7 @@ export default function Skills() {
 
         {/* Suggested Skills */}
         <div>
-          <h3 className="font-bold mb-2">Suggested Skills</h3>
+          <h3 className="font-bold mb-2 text-[#FCFBF7] font-merriweather">Suggested Skills</h3>
           <div className="flex flex-wrap  gap-2">
             {filteredSuggestedSkills.map((skill) => (
               <button

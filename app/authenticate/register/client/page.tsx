@@ -36,7 +36,7 @@ export default function Register() {
           <p className="font-alata text-fontPrimary pt-2 md:pt-8 text-xl md:text-[2vw]">
             Create Your Craftlink Account
           </p>
-          <p className="text-fontSec px-2 text-balance font-merriweather italic">
+          <p className="text-fontSec px-2 max-sm:text-sm md:text-balance font-merriweather italic">
             Join Craftlink to find skilled artisans for your projects and start connecting with talented hands.
           </p>
         </div>

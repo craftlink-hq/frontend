@@ -50,7 +50,7 @@ const FirstDesign = () => {
           <span className="border-b-4 border-[#FFD700]">Get Hired</span>
         </p>
         <p
-          className={`md:max-w-[45%] max-sm:leading-8  text-[25px] font-merriweather bottom-24 text-center px-4  ${
+          className={`md:max-w-[45%] text-[18px] md:text-[25px] font-merriweather bottom-24 text-center px-4  ${
             inView ? "animate-slideInRight" : ""
           }`}
         >

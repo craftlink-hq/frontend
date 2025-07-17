@@ -8,6 +8,7 @@ import Modal from "../Modal";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import EditProfile from "./EditModals/EditProfile";
 import { editProfile } from "@/utils/profile";
+import BottomSheetModal from "../BottomModal";
 
 interface ClientProfileCardProps {
   client: Client;
@@ -26,9 +27,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
   return (
     <div className="bg-[#F2E8CF0A] xl:flex rounded-lg p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
       <div className="xl:hidden flex justify-end">
-        <div className="flex items-start">
+        <div className="flex items-start pb-2">
           <button
-            className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
+            className="bg-[#262208] rounded-full flex items-center px-3 py-[4px] gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
             onClick={() => {
               setIsModalOpen(true);
             }}
@@ -48,17 +49,17 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
 
       <div className="flex flex-col md:flex-row gap-4 w-full relative">
         <div className="flex-shrink-0">
-          <div className="relative h-72 w-72">
+          <div className="relative h-72 w-84 md:w-72">
             <Image
               src={client.avatar || "/placeholder.svg"}
               alt="Profile avatar"
               fill
-              className="object-cover rounded-xl"
+              className="object-cover rounded-md"
             />
           </div>
         </div>
 
-        <div className="flex flex-col justify-between space-y-4 w-full ">
+        <div className="flex flex-col justify-between  md:space-y-4 w-full ">
           <div className="flex flex-col justify-between space-y-4 py-4">
             <div className="flex justify-between w-full px-2">
               <div className="flex items-center gap-2 mb-2">
@@ -85,7 +86,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                   />
                   <span className="text-[10px] xl:text-xs">Location</span>
                 </div>
-                <p className="text-[#F9F1E2]  text-xs xl:text-sm">{client.location}</p>
+                <p className="text-[#F9F1E2]  text-xs xl:text-sm">
+                  {client.location}
+                </p>
               </div>
 
               <div className="border-r border-[#FCFBF726]">
@@ -98,7 +101,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                   />
                   <span className="text-[10px] xl:text-xs">Language</span>
                 </div>
-                <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.language}</p>
+                <p className="text-[#F9F1E2] text-xs xl:text-sm">
+                  {client.language}
+                </p>
               </div>
 
               <div>
@@ -111,7 +116,9 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                   />
                   <span className="text-[10px] xl:text-xs">Hiring History</span>
                 </div>
-                <p className="text-[#F9F1E2] text-xs xl:text-sm">{client.posted} Jobs posted</p>
+                <p className="text-[#F9F1E2] text-xs xl:text-sm">
+                  {client.posted} Jobs posted
+                </p>
               </div>
             </div>
           </div>
@@ -119,7 +126,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           <div>
             <button
               onClick={handlePostJobs}
-              className="bg-yellow text-[#1A1203] px-6 py-2 rounded-[4px] uppercase text-sm hover:bg-yellow/90 transition-colors"
+              className="bg-yellow text-[#1A1203] px-6 py-2 rounded-[4px] uppercase max-sm:w-full  text-sm hover:bg-yellow/90 transition-colors"
             >
               Post Jobs
             </button>
@@ -127,32 +134,33 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
         </div>
       </div>
       <div className="hidden w-[15%] xl:flex justify-end">
-        <div><button
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-          className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
-        >
-          Edit{""}
-          <span className="relative h-6 w-6 rounded-full bg-[#F2E8CF0A]">
-            <Image
-              src="/edit.png"
-              alt="edit"
-              fill
-              className="object-contain p-1"
-            />
-          </span>
-        </button>
+        <div>
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+            className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
+          >
+            Edit{""}
+            <span className="relative h-6 w-6 rounded-full bg-[#F2E8CF0A]">
+              <Image
+                src="/edit.png"
+                alt="edit"
+                fill
+                className="object-contain p-1"
+              />
+            </span>
+          </button>
         </div>
       </div>
       {isModalOpen && (
-        <Modal closeFn={() => setIsModalOpen(false)}>
+        <Modal closeFn={() => setIsModalOpen(false)} className="hidden md:block ">
           <AnimatedDiv
-            initialX="200%"
+            initialX="100%"
             animateX={0}
             exitX={"-100%"}
             duration={0.5}
-            className="bg-[#333333] border border-[#FCFBF726] md:w-[60vw] h-[90vh] rounded-xl p-4 relative  "
+            className="bg-[#333333] border border-[#FCFBF726] w-screen md:w-[60vw] lg:w-[40vw] h-[90vh] rounded-xl p-2 md:p-4 relative  "
           >
             <div className="h-[90%] overflow-y-scroll">
               <EditProfile
@@ -163,6 +171,14 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
               />
             </div>
           </AnimatedDiv>
+          <BottomSheetModal closeFn={() => setIsModalOpen(false)} className="md:hidden">
+            <EditProfile
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              currentData={profileData}
+              onSave={setProfileData}
+            />
+          </BottomSheetModal>
         </Modal>
       )}
     </div>
