@@ -4,10 +4,8 @@ import Image from 'next/image';
 const CraftcoinBalanceCard: React.FC = () => {
   return (
     <div 
-      className="relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg" 
+      className="relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg w-full sm:w-[400px] h-[200px]" 
       style={{
-        width: '400px',
-        height: '200px',
         backgroundColor: '#F2E8CF0A',
         border: '1px solid #FCFBF726'
       }}
@@ -28,7 +26,7 @@ const CraftcoinBalanceCard: React.FC = () => {
       </div>
       
       {/* Content */}
-      <div className="p-6 relative z-10 h-full flex flex-col justify-between">
+      <div className="p-4 sm:p-6 relative z-10 h-full flex flex-col justify-between">
         {/* Header - Craftcoin Balance */}
         <div className="flex items-center gap-2">
           <Image
@@ -43,11 +41,11 @@ const CraftcoinBalanceCard: React.FC = () => {
             }}
           />
           <span 
-            className="text-white"
+            className="text-white text-sm sm:text-base"
             style={{
               fontFamily: 'Merriweather, serif',
               fontWeight: 700,
-              fontSize: '16px',
+              fontSize: 'clamp(14px, 4vw, 16px)',
               lineHeight: '120%',
               letterSpacing: '5%',
               verticalAlign: 'middle'
@@ -58,12 +56,12 @@ const CraftcoinBalanceCard: React.FC = () => {
         </div>
         
         {/* Available Status and Balance Container */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3 sm:gap-4">
           {/* Available Status */}
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-400" />
             <span 
-              className="text-white"
+              className="text-white text-xs"
               style={{
                 fontFamily: 'Merriweather, serif',
                 fontWeight: 400,
@@ -83,7 +81,7 @@ const CraftcoinBalanceCard: React.FC = () => {
               style={{
                 fontFamily: 'Merriweather, serif',
                 fontWeight: 700,
-                fontSize: '36px',
+                fontSize: 'clamp(28px, 8vw, 36px)',
                 lineHeight: '120%',
                 letterSpacing: '0%'
               }}
@@ -95,7 +93,7 @@ const CraftcoinBalanceCard: React.FC = () => {
               style={{
                 fontFamily: 'Merriweather, serif',
                 fontWeight: 400,
-                fontSize: '36px',
+                fontSize: 'clamp(28px, 8vw, 36px)',
                 lineHeight: '120%',
                 letterSpacing: '0%'
               }}
