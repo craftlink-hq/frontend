@@ -2,10 +2,7 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/LandingPage/Footer";
-import About from "@/components/Profile/Bio";
 import Portfolio from "@/components/Profile/Portfolio";
-import PreviewDetails from "@/components/Profile/PreviewDetails";
-import Skills from "@/components/Profile/Skills";
 // import Status from "@/components/Profile/Status";
 import { useGetArtisanData } from "@/utils/store";
 import { transformProfileData } from "@/utils/transformProfileData";
@@ -18,6 +15,7 @@ import { useRouter } from "next/navigation";
 import axios from '@/app/API/axios';
 import handleApiError, { ArtisanResponse } from "@/app/API/handleApiError";
 import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
+import About from "@/components/Profile/About";
 
 export default function ProfilePreview() {
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
@@ -134,15 +132,8 @@ export default function ProfilePreview() {
           button={"Go live now"}
           imageSrc={"/preview.png"}
         /> */}
-        <About about={profile.about} />
-        <div className="grid md:grid-cols-4 gap-4 w-full h-full">
-          <div>
-            <PreviewDetails details={profile.details} />
-          </div>
-          <div className="md:col-span-3">
-            <Skills skills={profile.skills} />
-          </div>
-        </div>
+         <About profile={profile} />{" "}
+       
         <Portfolio portfolio={profile.portfolio} />
         <button onClick={handleNext} className="flex self-end items-center w-fit py-2 px-4 uppercase bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base">
           GO LIVE NOW

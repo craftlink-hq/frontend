@@ -47,7 +47,7 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
   return (
     <div className="flex max-w-full font-merriweather text-[#F9F1E2] bg-profile border border-[#FCFBF726] rounded-lg  gap-x-4 justify-between">
       <div className="flex flex-col md:flex-row gap-4 p-4 md:p-8">
-        <span className=" h-72 w-72 relative">
+        <span className=" h-72 w-96 relative">
           {" "}
           <Image
             src={artisan.about.avatar}

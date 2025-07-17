@@ -1,6 +1,6 @@
 const Community = () => {
   return (
-    <div className="bg-[#26220826] md:rounded-md w-[100vw] md:px-[5vw] p-8 mt-4 font-merriweather">
+    <div className="bg-[#26220826] md:rounded-md md:w-full md:px-[5vw] p-8 mt-4 font-merriweather">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
         {/* Left side - Text content */}
         <div className="flex-1">
@@ -11,19 +11,20 @@ const Community = () => {
         </div>
         
         {/* Right side - Email signup form */}
-        <div className="flex-1 max-w-md">
+        <div className="flex-1 md:max-w-md">
           <label className="block text-sm md:text-base text-[#F9F1E2] mb-2">
             Email Address
           </label>
-          <div className="flex gap-2">
+          <div className="md:flex max-sm:space-y-4 md:gap-2">
             <input 
               type="email" 
               placeholder="Enter your email" 
-              className="flex-1 h-12 rounded-sm px-4 text-base focus:outline-[#1A1203] placeholder:text-[#D8D6CF] bg-[#F2E8CF0A] border border-[#F2E8CF0A]"
+              className="w-full flex-1 h-12 rounded-sm px-4 text-base focus:outline-[#1A1203] placeholder:text-[#D8D6CF] bg-[#F2E8CF0A] border border-[#F2E8CF0A]"
             />
-            <button className="bg-[#FFD700] text-[#1A1203] font-bold h-12 px-6 rounded-sm whitespace-nowrap">
+            <button className=" bg-[#FFD700] text-[#1A1203] font-bold h-12 px-6 max-sm:w-full rounded-sm whitespace-nowrap">
               JOIN FOR FREE
             </button>
+            
           </div>
         </div>
       </div>

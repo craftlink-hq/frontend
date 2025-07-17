@@ -9,7 +9,7 @@ const PreviewPortfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
         {portfolio.map((project) => (
           <div
             key={project.imgSrc[0]}
-            className="bg-[#F2E8CF0A] rounded-lg flex-shrink-0 md:w-[35%] h-[400px] flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
+            className="bg-[#F2E8CF0A] rounded-lg flex-shrink-0 w-full md:w-[35%] h-[400px] flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
           >
             <div className="relative w-full h-[200px] rounded-lg overflow-hidden">
               <Image

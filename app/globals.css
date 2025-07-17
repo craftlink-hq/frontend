@@ -22,11 +22,11 @@ body {
 }
 html, body {
   overflow: auto;
-  /* scrollbar-width: none; */
+  scrollbar-width: none;
 }
 
 html::-webkit-scrollbar {
-  /* display: none; */
+  display: none;
 }
 
 ::-webkit-scrollbar {
@@ -48,6 +48,7 @@ html::-webkit-scrollbar {
  }
  
  ::-webkit-scrollbar-thumb {
+  display: none;
   background-color: #262208; /* Semi-transparent scrollbar thumb */
   border-radius: 10px;
   border: 2px solid transparent; /* Space around the thumb */

@@ -36,7 +36,7 @@ export default function Portfolio() {
       toast.error("Please upload at least one image.");
       return;
     }
-    
+
     setIsUploading(true);
 
     try {
@@ -111,7 +111,7 @@ export default function Portfolio() {
         <h2 className="font-alata text-2xl md:text-3xl">
           Let Your Work Speak!
         </h2>
-        <p className="font-merriweather text-start self-start md:w-[70%]">
+        <p className="font-merriweather  text-[#D8D6CF] text-sm md:text-base text-start self-start md:w-[70%]">
           Show off your proudest projects to catch the eyes of clients. Upload
           images, or videos that tell your story.
         </p>
@@ -122,9 +122,15 @@ export default function Portfolio() {
               <p className="font-bold">Project Title</p>
               <textarea
                 onChange={(e) => setProjectTitle(e.target.value)}
+                value={projectTitle}
                 placeholder="Write a short descriptive title E.g Luxury Wedding Gown Design"
-                className="h-24 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
+                className="h-24 focus:outline-[#262208] placeholder:text-[#D8D6CF] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-[4px] text-[#FCFBF7] placeholder:italic p-2"
+                minLength={30}
+                maxLength={150}
               ></textarea>
+              <p className="text-right text-sm text-[#D8D6CF] self-end">
+                {projectTitle.length} / {150}
+              </p>
             </div>
             <div>
               <p className="font-bold">What was the project duration?</p>
@@ -154,9 +160,15 @@ export default function Portfolio() {
               <p className="font-bold">Description</p>
               <textarea
                 onChange={(e) => setDescription(e.target.value)}
+                value={description}
                 placeholder="Write a brief summary of the project"
-                className="h-44 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-4 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
-              />
+                className=" placeholder:text-[#D8D6CF] h-44 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-[4px] text-[#FCFBF7] placeholder:italic p-2"
+                minLength={30}
+                maxLength={300}
+              ></textarea>
+              <p className="text-right text-sm text-[#D8D6CF] self-end">
+                {description.length} / {300}
+              </p>
             </div>
             {imagePreviews.length > 0 && (
               <div className="flex flex-wrap gap-4">

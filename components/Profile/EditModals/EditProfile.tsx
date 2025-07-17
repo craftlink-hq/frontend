@@ -105,15 +105,15 @@ const EditProfile: React.FC<ProfileEditModalProps> = ({
 
   return (
     <div>
-      <div className="rounded-lg p-6 relative h-full   text-[#F9F1E2] font-merriweather">
+      <div className="rounded-lg p-4 md:p-6 relative h-full text-[#F9F1E2] font-merriweather">
         <div className="flex justify-between items-center mb-6">
           <div>
           <h2 className="text-xl font-bold text-[#F9F1E2]">EDIT PROFILE</h2>
-          <div className="w-16 h-1 bg-yellow mt-1"></div>
+          <div className="w-18 h-1 bg-yellow mt-1"></div>
           </div>
         </div>
 
-        <div className="space-y-4 px-4 ">
+        <div className="space-y-4 md:px-4 ">
           <div className="space-y-4 p-4  border rounded-md border-[#FCFBF726]">
             {/* Username */}
             <div>
@@ -207,7 +207,7 @@ const EditProfile: React.FC<ProfileEditModalProps> = ({
           <button
             onClick={handleSave}
             disabled={isUploading}
-            className="bg-yellow text-[#1A1203] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors disabled:opacity-50"
+            className="bg-yellow text-[#1A1203] max-sm:w-full font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors disabled:opacity-50"
           >
             {isUploading ? "Uploading..." : "Save"}
           </button>

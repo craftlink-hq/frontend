@@ -314,7 +314,7 @@ const AboutEditModal: React.FC<AboutEditModalProps> = ({
       <div className="p-6 border-t border-[#444444] flex justify-end">
         <button
           onClick={handleSave}
-          className="bg-yellow text-[#1A1203] font-bold px-8 py-3 rounded uppercase text-sm hover:bg-yellow/90 transition-colors"
+          className="max-sm:w-full bg-yellow text-[#1A1203] font-bold px-8 py-3 rounded uppercase text-sm hover:bg-yellow/90 transition-colors"
         >
           Save
         </button>

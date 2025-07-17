@@ -48,7 +48,7 @@ const ClientTokenUsage = ({
         </div>
       </div>
 
-      <div className="hidden lg:flex relative self-end items-end justify-end  h-[16vh] w-full">
+      <div className="flex relative self-end items-end justify-end  h-[10vh] md:h-[16vh] w-full">
         <Image
           src={"/client-style.png"}
           alt="Profile status"

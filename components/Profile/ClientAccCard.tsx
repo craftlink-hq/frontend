@@ -43,7 +43,7 @@ const AccountCard = ({ client }: ClientProfileCardProps) => {
   return (
     <div className="flex max-w-full font-merriweather text-[#F9F1E2] bg-profile border border-[#FCFBF726] rounded-lg  gap-x-4 justify-between">
       <div className="flex flex-col md:flex-row gap-4  p-4 md:p-8">
-        <span className=" h-72 min-w-72 w-fit max-w-[40vw] relative">
+        <span className=" h-72 w-84 w-fit max-w-[40vw] relative">
           {" "}
           <Image
             src={client.avatar}
@@ -53,12 +53,13 @@ const AccountCard = ({ client }: ClientProfileCardProps) => {
           />
         </span>
         <div className="flex flex-col py-4 gap-y-4">
-          <span className="text-lg xl:text-2xl font-bold text-[#FCF8F0] flex items-center gap-x-2">
-            {client.username}{" "}
-            <span className="flex text-[#F0FCF6]  self-start text-xs md:text-sm px-2  py-[3px] bg-[#04DF7621] border rounded-full border-[#04DF76]">
-              Verified
-            </span>
+           <div className="font-alata font-bold text-lg xl:text-[35px] text-[#FCF8F0] uppercase flex max-sm:gap-x-2">
+            #{client.username}{" "}
+          <span className="flex text-[#F0FCF6]  self-start text-xs md:text-sm px-2  py-[3px] bg-[#04DF7621] border rounded-full border-[#04DF76]">
+            Verified
           </span>
+          </div>
+
           <span className=" flex text-balance items-center gap-x-2">
             {client.about}{" "}
           </span>

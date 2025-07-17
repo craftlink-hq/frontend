@@ -121,8 +121,8 @@ const EditPortfolio: React.FC<PortfolioEditModalProps> = ({
             <textarea
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Write a short descriptive title E.g Luxury Wedding Gown Design"
-              className="h-24 w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2 focus:outline-[#262208] border border-[#FCFBF726]"
+              placeholder="Write a short descriptive title"
+              className="h-24 w-full font-merriweather placeholder:text-[#D8D6CF] placeholder:text-sm bg-[#F2E8CF29] rounded-md placeholder:px-[4px] text-[#FCFBF7] placeholder:italic p-2 focus:outline-[#262208] border border-[#FCFBF726]"
             />
           </div>
 
@@ -158,7 +158,7 @@ const EditPortfolio: React.FC<PortfolioEditModalProps> = ({
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
               placeholder="Write a brief summary of the project"
-              className="h-44 w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-4 placeholder:py-2 text-[#FCFBF7] placeholder:italic px-4 py-2 focus:outline-[#262208] border border-[#FCFBF726]"
+              className="h-44 w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-[4px]  placeholder:text-[#D8D6CF] placeholder:text-sm text-[#FCFBF7] placeholder:italic p-2 focus:outline-[#262208] border border-[#FCFBF726]"
             />
           </div>
 
@@ -226,7 +226,7 @@ const EditPortfolio: React.FC<PortfolioEditModalProps> = ({
         <button
           onClick={handleSave}
           disabled={isUploading}
-          className="bg-yellow text-[#1A1203] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors disabled:opacity-50"
+          className="max-sm:w-full bg-yellow text-[#1A1203] font-bold px-6 py-2 rounded uppercase text-sm hover:bg-yellow/90 transition-colors disabled:opacity-50"
         >
           {isUploading ? "Uploading..." : "Save"}
         </button>

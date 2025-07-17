@@ -16,17 +16,17 @@ const Faqs = () => {
       <p className="font-alata text-[#FCFBF7] text-center text-3xl md:w-[50%]">
         Got Questons? We&apos;ve Got Answers!
       </p>
-      <div className="grid gap-y-4 w-[90%] md:w-[70%] lg:w-[50%]">
+      <div className="grid gap-y-4 w-full md:w-[70%] lg:w-[50%]">
         {Faq.map((faq, index) => (
           <div
             key={faq.question}
             className="flex flex-col rounded-md bg-[#F2E8CF0A] border border-[#FFFFFF40]"
           >
             <button
-              className="flex justify-between p-4  items-center w-full py-4 text-left focus:outline-none"
+              className="flex justify-between p-2 md:p-4  items-center w-full py-4 text-left focus:outline-none"
               onClick={() => toggleFAQ(index)}
             >
-              <span className="text-lg font-medium  px-2">{faq.question}</span>
+              <span className="md:text-lg font-medium  px-2">{faq.question}</span>
               <svg
                 className={`w-5 h-5 transition-transform ${
                   activeIndex === index ? "rotate-180" : ""

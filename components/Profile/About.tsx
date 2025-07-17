@@ -8,8 +8,9 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import EditAbout from "@/components/Profile/EditModals/EditAbout";
 import AnimatedDiv from "@/components/AnimatedDiv";
+import BottomSheetModal from "../BottomModal";
 
-const About = ({profile}: {profile: ArtisanProfileProps} ) => {
+const About = ({ profile }: { profile: ArtisanProfileProps }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileData, setProfileData] = useState(profile);
 
@@ -24,9 +25,9 @@ const About = ({profile}: {profile: ArtisanProfileProps} ) => {
       <div className="flex justify-between items-center">
         <h3 className="text-2xl">About</h3>
         <button
-         onClick={() => {
-              setIsModalOpen(true);
-            }}
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
           className="bg-[#262208] rounded-full flex items-center px-[10px] py-[6px] gap-x-2 hover:bg-[#262208]/80 transition-colors"
         >
           Edit{""}
@@ -56,16 +57,19 @@ const About = ({profile}: {profile: ArtisanProfileProps} ) => {
           </div>
         </div>
       </div>
-       {isModalOpen && (
-        <Modal closeFn={() => setIsModalOpen(false)}>
+      {isModalOpen && (
+        <Modal
+          closeFn={() => setIsModalOpen(false)}
+          className="hidden md:flex "
+        >
           <AnimatedDiv
-            initialX="200%"
+            initialX="100%"
             animateX={0}
             exitX={"-100%"}
             duration={0.5}
-            className="bg-[#333333] border border-[#FCFBF726] md:w-[60vw] h-[90vh] rounded-xl p-4 relative  "
+            className="bg-[#333333] border border-[#FCFBF726] w-screen md:w-[60vw] h-[90vh] rounded-xl p-2 md:p-4 relative  "
           >
-            <div className="h-[90%]  overflow-y-scroll">
+            <div className="h-[90%] overflow-y-scroll">
               <EditAbout
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
@@ -74,6 +78,17 @@ const About = ({profile}: {profile: ArtisanProfileProps} ) => {
               />
             </div>
           </AnimatedDiv>
+          <BottomSheetModal
+            closeFn={() => setIsModalOpen(false)}
+            className="md:hidden"
+          >
+            <EditAbout
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              currentData={profileData}
+              onSave={setProfileData}
+            />
+          </BottomSheetModal>
         </Modal>
       )}
     </div>

@@ -43,7 +43,7 @@ export default function ClaimToken() {
           </div>
           <div className="relative top-4">
             {" "}
-            <Button onClick={handleClaim} text={"Claim Token"} />
+            <Button onClick={handleClaim} text={"Claim To Proceed"} />
           </div>
         </div>
       </div>

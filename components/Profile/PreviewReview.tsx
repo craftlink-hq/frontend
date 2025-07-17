@@ -18,7 +18,8 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
       >
         {reviews.length === 0 ? (
           <div className="w-full text-center text-[#D8D6CF] py-8 text-lg font-semibold">
-            No reviews yet!
+           <span> No reviews yet</span>
+           <p className="text-sm text-[#B5B4AD] px-2">This client hasn’t received any reviews from artisans. Once they complete a project, feedback will appear here.</p>
           </div>
         ) : (
           reviews.map((review) => (

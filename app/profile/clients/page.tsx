@@ -1,7 +1,7 @@
 "use client";
 import ProfileHeader from "@/components/Profile/Header";
 import Footer from "@/components/LandingPage/Footer";
-import Status from "@/components/Profile/Status";
+// import Status from "@/components/Profile/Status";
 import Settings from "@/components/Profile/Settings";
 import ClientProfileCard from "@/components/Profile/ClientProfileCard";
 import ClientTokenUsage from "@/components/Profile/ClientTokenUsage";
@@ -41,16 +41,19 @@ export default function Profile() {
           <p className="border-b-2 border-yellow w-[80%]"></p>
         </div>
 
-        <Status
+        {/* <Status
           title="You're All Set!"
           desc="Now that your profile is complete, start posting projects and connecting with top artisans today."
-        />
+        /> */}
 
         <div className="grid lg:grid-cols-3 gap-4">
+           <div className="md:hidden h-full">
+            <ClientTokenUsage available={tokenBalance ?? 404} spent={spent}/>
+          </div>
           <div className="lg:col-span-2 h-full">
             <ClientProfileCard client={clientData} />
           </div>
-          <div className="lg:col-span-1 h-full">
+          <div className="hidden md:flex lg:col-span-1 h-full">
             <ClientTokenUsage available={tokenBalance ?? 404} spent={spent}/>
           </div>
         </div>

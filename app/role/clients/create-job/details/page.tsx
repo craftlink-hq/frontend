@@ -55,7 +55,6 @@ export default function Details() {
     return true;
   };
 
-   
   const handleNext = async () => {
     if (!jobDescription.trim()) {
       toast.error("Please provide a brief description of your project");
@@ -142,12 +141,12 @@ export default function Details() {
         <h2 className="font-alata text-2xl md:text-3xl">
           Describe Your Project!
         </h2>
-        <p className="font-merriweather text-start self-start md:w-[70%]">
+        <p className="font-merriweather text-sm text-start self-start md:w-[70%]">
           Tell us what you&apos;re looking for. Be as detailed as possible to
           help artisans understand your needs.
         </p>
 
-        <div className="flex flex-col md:grid md:grid-cols-2 md:justify-between w-full py-8 gap-4 md:gap-8">
+        <div className="flex flex-col md:grid md:grid-cols-2 md:justify-between w-full py-4 md:py-8 gap-4 md:gap-8">
           <div className="flex flex-col gap-y-4">
             <div>
               <p className="font-bold py-2">Describe the project</p>
@@ -156,7 +155,12 @@ export default function Details() {
                 onChange={(e) => setJobDescription(e.target.value)}
                 placeholder="E.g I need a fashion designer to create a minimalist clothing line..."
                 className="h-36 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
-              />
+                minLength={150}
+                maxLength={500}
+              ></textarea>
+              <p className="text-right text-sm text-[#D8D6CF] self-end">
+                {jobDescription.length} / {500}
+              </p>
             </div>
             <div>
               <p className="font-bold py-2">
@@ -274,7 +278,12 @@ export default function Details() {
                 onChange={(e) => setAdditionalInfo(e.target.value)}
                 placeholder="Share extra details about your expectations or benefits artisans can gain."
                 className="h-36 focus:outline-[#262208] w-full font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
-              />
+                minLength={150}
+                maxLength={500}
+              ></textarea>
+              <p className="text-right text-sm text-[#D8D6CF] self-end">
+                {additionalInfo.length} / {500}
+              </p>
             </div>
           </div>
         </div>
@@ -289,7 +298,7 @@ export default function Details() {
           <button
             onClick={handleNext}
             disabled={isUploading}
-            className="flex w-fit py-2 px-4 uppercase bg-yellow rounded-sm text-[#1A1203] font-bold text-sm md:text-base"
+            className="flex w-fit py-2 px-4 uppercase bg-yellow rounded-sm text-[#1A1203] text-sm md:text-base"
           >
             {isUploading ? "Uploading..." : "Next, SET TIMELINE"}
           </button>

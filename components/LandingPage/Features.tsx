@@ -12,7 +12,7 @@ const Features = () => {
                       lg:flex-1 lg:w-auto w-full
                       h-[280px] md:h-[320px] lg:h-[400px]"
           >
-            <div className="bg-[#AEFF0005] rounded-full border-1 shadow-lg md:w-24 w-16 h-16 md:h-24 flex items-center justify-center mb-2 md:mb-1 flex-shrink-0">
+            <div className="bg-[#AEFF0005] rounded-full border-1 shadow-lg md:w-24 w-8 h-8 md:h-24 flex items-center justify-center mb-2 md:mb-1 flex-shrink-0">
               <Image
                 src={feature.icon || "/placeholder.svg"}
                 alt={feature.title}

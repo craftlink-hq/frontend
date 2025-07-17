@@ -21,7 +21,7 @@ export default function SetTimeline() {
   };
 
   return (
-    <div className="flex min-h-[80vh] md:max-h-screen w-screen items-center justify-center overflow-y-scroll">
+    <div className="flex min-h-[80vh] md:max-h-screen w-screen items-start justify-center overflow-y-scroll">
       <div className="flex flex-col text-[#F9F1E2] max-w-[95%] md:max-w-[50%] md:min-w-[35%] p-8 rounded-lg bg-opacity-80 shadow-lg shadow-second relative bg-[#F2E8CF0A] items-start md:min-h-[80%] gap-y-4">
         <ProgressBar totalSteps={5} currentStep={3} />
         <h2 className="font-alata text-2xl md:text-3xl">
@@ -34,8 +34,9 @@ export default function SetTimeline() {
 
         <div className="flex flex-col  w-full lg:w-[70%] py-8 gap-4 md:gap-8">
           <div>
-            <p className="font-bold">
-              What will be the project&apos;s duration?
+            <p className="font-bold">Job Duration</p>
+            <p className="text-sm text-[#FCFBF7] italic py-[3px]">
+             How long do you expect this project to take?
             </p>
             <div className="flex items-start w-full gap-x-2">
               <div className=" py-4">
@@ -68,7 +69,7 @@ export default function SetTimeline() {
           </button>
           <button
             onClick={handleNext}
-            className="flex w-fit py-2 px-4 uppercase bg-yellow rounded-sm text-[#1A1203] font-bold text-sm md:text-base"
+            className="flex w-fit py-2 px-4 uppercase bg-yellow rounded-sm text-[#1A1203] text-sm md:text-base"
           >
             Next, SET BUDGET
           </button>

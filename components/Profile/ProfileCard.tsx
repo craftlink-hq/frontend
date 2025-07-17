@@ -8,6 +8,7 @@ import { editProfile } from "@/utils/profile";
 import { useState } from "react";
 import Modal from "../Modal";
 import AnimatedDiv from "../AnimatedDiv";
+import BottomSheetModal from "../BottomModal";
 
 interface ProfileCardProps {
   profile: ArtisanProfileProps;
@@ -23,15 +24,15 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
   };
 
   return (
-    <div className="bg-[#F2E8CF0A] lg:flex rounded-lg p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
-      <div className="lg:hidden flex justify-end">
+    <div className="max-sm:w-full bg-[#F2E8CF0A] lg:flex rounded-lg p-2 md:p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
+      <div className="lg:hidden flex justify-end pb-2">
         <div className="flex items-start">
           <button
-            className="bg-[#262208] rounded-full flex items-center px-3 py-2 gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
+            className="bg-[#262208] rounded-full flex items-center px-3 py-[4px] gap-x-2 text-sm hover:bg-[#262208]/80 transition-colors"
             onClick={() => {
               setIsModalOpen(true);
             }}
-          >
+          > 
             Edit{""}
             <span className="relative h-6 w-6 rounded-full bg-[#F2E8CF0A]">
               <Image
@@ -47,7 +48,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
 
       <div className="flex flex-col md:flex-row gap-4 w-full relative">
         <div className="flex-shrink-0">
-          <div className="relative h-72 w-72">
+          <div className="relative h-72 w-96">
             <Image
               src={profile.about.avatar || "/placeholder.svg"}
               alt="Profile avatar"
@@ -88,10 +89,10 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
             </div>
           </div>
 
-          <div>
+          <div className="max-sm:w-full">
             <button
               onClick={handleBrowseJobs}
-              className="bg-yellow text-[#1A1203] font-bold px-6 py-2 rounded-md uppercase text-sm hover:bg-yellow/90 transition-colors"
+              className="max-sm:w-full bg-yellow text-[#1A1203] font-bold px-6 py-2 rounded-md uppercase text-sm hover:bg-yellow/90 transition-colors"
             >
               Browse Jobs
             </button>
@@ -119,15 +120,15 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
         </div>
       </div>
       {isModalOpen && (
-        <Modal closeFn={() => setIsModalOpen(false)}>
+        <Modal closeFn={() => setIsModalOpen(false)} className="hidden md:flex">
           <AnimatedDiv
-            initialX="200%"
+            initialX="100%"
             animateX={0}
             exitX={"-100%"}
             duration={0.5}
-            className="bg-[#333333] border border-[#FCFBF726] md:w-[50vw] lg:w-[35vw] h-[90vh] rounded-xl p-4 relative  "
+            className="bg-[#333333] border border-[#FCFBF726] w-screen md:w-[60vw] lg:w-[40vw] h-[90vh] rounded-xl p-2 md:p-4 relative  "
           >
-            <div className="h-[90%] overflow-y-scroll relative top-2">
+            <div className="h-[90%] overflow-y-scroll">
               <EditProfile
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
@@ -136,6 +137,14 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
               />
             </div>
           </AnimatedDiv>
+          <BottomSheetModal closeFn={() => setIsModalOpen(false)} className="md:hidden">
+            <EditProfile
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              currentData={profileData}
+              onSave={setProfileData}
+            />
+          </BottomSheetModal>
         </Modal>
       )}
     </div>

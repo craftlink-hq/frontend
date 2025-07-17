@@ -178,7 +178,7 @@ export default function Onboarding() {
             Help Artisans Get to Know You!
           </h2>
 
-          <p className="font-merriweather md:w-[70%] text-balance">
+          <p className="font-merriweather md:w-[70%] max-sm:text-sm md:text-balance">
             Complete your profile with a few details to help artisans feel
             confident in applying for your job.
           </p>

@@ -21,26 +21,42 @@ const Review = ({ reviews }: { reviews: ReviewsProp[] }) => {
         </div>
       </div>
       <div className="min-w-screen flex overflow-x-scroll gap-x-4">
-        {reviews.map((review) => (
-          <div
-            key={review.id}
-            className="bg-[#F2E8CF0A] border-[0.5px] backdrop-blur-sm opacity-[200%] border-[#FCFBF726] rounded-lg min-h-[20vh] min-w-[80%] md:min-w-[35%] md:max-w-[75%]  lg:max-w-[40%] xl:max-w-[35%] flex flex-col justify-between p-2 gap-y-4"
-          >
-            <h4 className="text-xl text-[#F9F1E2] font-bold">{review.reviewer}</h4>
-                <div className="border-l-[3px] border-[#FCFBF726] px-2 text-[#B5B4AD] text-lg" >{review.review}</div>
-            <div className=" flex font-merriweather font-bold gap-x-2 w-full self-end justify-end">
-              <span className="relative h-[20px] w-[20px] ">
-                <Image
-                  src="/star.png"
-                  alt="star"
-                  fill
-                  style={{ objectFit: "contain", objectPosition: "center" }}
-                />
-              </span>
-              <p className="italic font-bold text-[#FCF8E3]">({review.rating}/5)</p>
-            </div>
+        {reviews.length === 0 ? (
+          <div className="w-full text-center text-[#D8D6CF] py-8 text-lg font-semibold">
+            <span> No reviews yet</span>
+            <p className="text-sm text-[#B5B4AD] px-2">
+              This client hasn’t received any reviews from artisans. Once they
+              complete a project, feedback will appear here.
+            </p>
           </div>
-        ))}
+        ) : (
+          reviews.map((review) => (
+            <div
+              key={review.id}
+              className="bg-[#F2E8CF0A] border-[0.5px] backdrop-blur-sm opacity-[200%] border-[#FCFBF726] rounded-lg min-h-[20vh] min-w-[80%] md:min-w-[35%] md:max-w-[75%]  lg:max-w-[40%] xl:max-w-[35%] flex flex-col justify-between p-2 gap-y-4"
+            >
+              <h4 className="text-xl text-[#F9F1E2] font-bold">
+                {review.reviewer}
+              </h4>
+              <div className="border-l-[3px] border-[#FCFBF726] px-2 text-[#B5B4AD] text-lg">
+                {review.review}
+              </div>
+              <div className=" flex font-merriweather font-bold gap-x-2 w-full self-end justify-end">
+                <span className="relative h-[20px] w-[20px] ">
+                  <Image
+                    src="/star.png"
+                    alt="star"
+                    fill
+                    style={{ objectFit: "contain", objectPosition: "center" }}
+                  />
+                </span>
+                <p className="italic font-bold text-[#FCF8E3]">
+                  ({review.rating}/5)
+                </p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
