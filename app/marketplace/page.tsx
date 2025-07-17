@@ -331,19 +331,34 @@ interface ApiJob {
     <div className="w-screen">
       <MarketHeader toggleFilter={toggleFilter} isActive={isActive} />
       <HeroBanner />
-      <div className="px-4 md:px-8 xl:px-16 py-8 gap-x-12 md:flex w-screen md:items-stretch">
+      
+      {/* Mobile Search and Filter Controls */}
+      <div className="md:hidden px-4 py-4">
+        <SearchSortBar 
+          searchTerm={searchTerm}
+          onSearchChange={handleSearchChange}
+          selectedSort={selectedSort}
+          onSortChange={handleSortChange}
+        />
+        
+        {/* Mobile Filter - Show when toggled */}
         {showFilter && (
-          <div className="md:hidden min-h-[60%]">
+          <div className="min-h-[60%] mt-4">
             <Filter filters={filters} />
           </div>
         )}
+      </div>
+
+      <div className="px-4 md:px-8 xl:px-16 py-8 gap-x-12 md:flex w-screen md:items-stretch">
+        {/* Desktop Sidebar Filter */}
         <div className="hidden md:grid md:w-[25%] xl:w-[20%] md:h-full">
           <Filter filters={filters} />
         </div>
         
-        <div className="flex flex-col gap-y-2 w-[90vw] md:flex-1 md:min-h-full">
+        <div className="flex flex-col gap-y-2 w-full md:flex-1 md:min-h-full">
           <div className="flex flex-col w-full">
-            <div className="w-full">
+            {/* Desktop Search Bar */}
+            <div className="hidden md:block w-full">
               <SearchSortBar 
                 searchTerm={searchTerm}
                 onSearchChange={handleSearchChange}
@@ -351,6 +366,7 @@ interface ApiJob {
                 onSortChange={handleSortChange}
               />
             </div>
+            
             <div className="w-full flex-1 mt-2">
               <div 
                 className="overflow-y-auto space-y-4 w-full job-container" 

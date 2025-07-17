@@ -39,19 +39,19 @@ export default function Layout({
           <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
             <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
             <div className="w-[90%] self-center flex flex-col md:flex-row justify-between gap-6 md:gap-4">
-              <div className="self-center w-full md:w-auto py-4 md:py-0">
-                <h2 className="text-2xl md:text-2xl text-[#FCFBF7] font-bold mb-3">
+              <div className="self-center py-4 md:py-0">
+                <h2 className="text-[#FCFBF7] md:text-2xl font-bold mb-3 md:mb-0 text-2xl">
                   <span className="border-b-2 border-yellow"> MANAGE </span>JOBS
                 </h2>
-                <p className="text-lg md:text-base font-merriweather text-[#F9F1E2] leading-relaxed md:w-[20%] w-full">
+                <span className="md:w-[20%] font-merriweather text-[#F9F1E2] text-lg md:text-base block md:inline">
                   Track applications, submit completed work, and resolve disputes
                   in one place.
-                </p>
+                </span>
               </div>
               
               <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-6 md:p-4 w-full md:w-auto md:min-w-[400px] min-h-[140px] md:min-h-auto">
                 <div className="flex items-center gap-2 mb-3">
-                  <Image src={"/wallet.png"} alt={"coin"} width="20" height="20" />{" "}
+                  <Image src={"/wallet.png"} alt={"coin"} width="20" height="20" className="md:w-[18px] md:h-[18px]" />{" "}
                   <h2 className="text-xl md:text-base text-[#F9F1E2]">Earnings</h2>
                 </div>
                 <p className="text-base md:text-sm text-[#D8D6CF] mb-4 md:mb-2">

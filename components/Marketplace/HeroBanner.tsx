@@ -6,7 +6,7 @@ import { useGetUserRole } from '@/utils/store';
 const HeroBanner: React.FC = () => {
   const { role } = useGetUserRole();
 
-  // Content based on user role
+  // Content based on user role 
   const getContent = () => {
     if (role === 'artisan') {
       return {
