@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Client } from "@/utils/types";
 import { formatDate } from "@/utils/formatDate";
+import { useFetchClientCompletedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientCompletedGigs";
+import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
 
 interface Details {
   detailValue: string | number;
@@ -12,6 +14,9 @@ interface ClientProfileCardProps {
 }
 
 const AccountCard = ({ client }: ClientProfileCardProps) => {
+  const clientAddress = client.walletAddress;
+  const { completedGigs } = useFetchClientCompletedGigs(clientAddress);
+  const clientAmountSpent = useGetClientAmountSpent(clientAddress) ?? 404;
   const details: Details[] = [
     {
       imgSrc: "/language.png",
@@ -19,7 +24,7 @@ const AccountCard = ({ client }: ClientProfileCardProps) => {
     },
     {
       imgSrc: "/money.png",
-      detailValue: `$${client.moneySpent} Spent`,
+      detailValue: `$${Number(clientAmountSpent)} Spent`,
     },
     {
       imgSrc: "/location.png",
@@ -31,7 +36,7 @@ const AccountCard = ({ client }: ClientProfileCardProps) => {
     },
     {
       imgSrc: "/totalJobs.png",
-      detailValue: `${client.posted} Posted`,
+      detailValue: `${completedGigs.length} Posted`,
     },
   ];
 

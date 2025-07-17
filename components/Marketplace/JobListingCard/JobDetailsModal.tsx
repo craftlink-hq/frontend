@@ -49,35 +49,38 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
         <h2 className="font-alata text-3xl text-white leading-tight">
           {job.title}
         </h2>
-        <div className="flex items-center gap-6 text-sm text-[#B5B4AD]">
-          <div className="flex items-center gap-2">
-            <FiMapPin className="w-4 h-4" />
+        <div className="flex items-center gap-3 text-xs text-[#B5B4AD] md:gap-6 md:text-sm">
+          <div className="flex items-center gap-1 md:gap-2">
+            <FiMapPin className="w-3 h-3 md:w-4 md:h-4" />
             <span>{job.preferredLocation}</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <Image
               src="/market/tabler_flag.svg"
               alt=""
-              width={16}
-              height={16}
+              width={12}
+              height={12}
+              className="md:w-4 md:h-4"
             />
             <span>{job.language ?? "English"}</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <Image
               src="/market/calendar-tick.svg"
               alt=""
-              width={16}
-              height={16}
+              width={12}
+              height={12}
+              className="md:w-4 md:h-4"
             />
             <span>{`${job.projectDuration.weeks} Weeks`}</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <Image
               src="/market/medal-star.svg"
               alt=""
-              width={16}
-              height={16}
+              width={12}
+              height={12}
+              className="md:w-4 md:h-4"
             />
             <span>{job.experienceLevel}</span>
           </div>
@@ -94,8 +97,9 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
 
       {/* Budget/Experience/Duration Cards - AFTER Description */}
       <div className="bg-[#F2E8CF0A] rounded-lg w-full p-4">
-        <div className="flex flex-wrap gap-4">
-          <div className="rounded-xl flex-1 min-w-[200px] p-4 border border-[#FCFBF726]">
+        <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
+          {/* Budget Card - Full width on mobile, flex-1 on desktop */}
+          <div className="rounded-xl w-full md:flex-1 md:min-w-[200px] p-4 border border-[#FCFBF726]">
             <div className="flex gap-x-2 mb-4">
               <Image
                 src="/market/money-2.svg"
@@ -113,34 +117,39 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
             </span>
           </div>
 
-          <div className="rounded-xl flex-1 min-w-[200px] p-4 border border-[#FCFBF726]">
-            <div className="flex gap-x-2 mb-4">
-              <Image
-                src="/market/medal-star.svg"
-                alt="Experience"
-                width={24}
-                height={24}
-              />
-              <span className="font-bold text-[#B5B4AD]">Experience</span>
+          {/* Experience and Duration Cards - Side by side on mobile */}
+          <div className="flex gap-4 w-full md:contents">
+            <div className="rounded-xl flex-1 md:flex-1 md:min-w-[200px] p-4 border border-[#FCFBF726]">
+              <div className="flex gap-x-2 mb-4">
+                <Image
+                  src="/market/medal-star.svg"
+                  alt="Experience"
+                  width={20}
+                  height={20}
+                  className="md:w-6 md:h-6"
+                />
+                <span className="font-bold text-[#B5B4AD] text-sm md:text-base">Experience</span>
+              </div>
+              <span className="text-[#F9F1E2] text-base md:text-lg font-medium">
+                {job.experienceLevel}
+              </span>
             </div>
-            <span className="text-[#F9F1E2] text-lg font-medium">
-              {job.experienceLevel}
-            </span>
-          </div>
 
-          <div className="rounded-xl flex-1 min-w-[200px] p-4 border border-[#FCFBF726]">
-            <div className="flex gap-x-2 mb-4">
-              <Image
-                src="/market/calendar-tick.svg"
-                alt="Duration"
-                width={24}
-                height={24}
-              />
-              <span className="font-bold text-[#B5B4AD]">Duration</span>
+            <div className="rounded-xl flex-1 md:flex-1 md:min-w-[200px] p-4 border border-[#FCFBF726]">
+              <div className="flex gap-x-2 mb-4">
+                <Image
+                  src="/market/calendar-tick.svg"
+                  alt="Duration"
+                  width={20}
+                  height={20}
+                  className="md:w-6 md:h-6"
+                />
+                <span className="font-bold text-[#B5B4AD] text-sm md:text-base">Duration</span>
+              </div>
+              <span className="text-[#F9F1E2] text-base md:text-lg font-medium">
+                {job.projectDuration.weeks} Weeks
+              </span>
             </div>
-            <span className="text-[#F9F1E2] text-lg font-medium">
-              {job.projectDuration.weeks} Weeks
-            </span>
           </div>
         </div>
       </div>
@@ -244,12 +253,13 @@ const JobDetailsModal = ({ job, onApplyClick }: { job: Job; onApplyClick: () => 
             {isArtisan ? (
               <button 
                 onClick={handleViewProfile}
-                className="bg-[#262208] text-[#FCF8E3] py-2 px-4 rounded-full text-sm hover:bg-[#3a3012] transition-colors cursor-pointer"
+                className="bg-[#262208] text-[#FCF8E3] py-1 px-6 rounded text-xs whitespace-nowrap inline-block w-auto md:py-2 md:px-4 md:rounded-full md:text-sm hover:bg-[#3a3012] transition-colors cursor-pointer"
+                style={{ minWidth: '80px' }}
               >
                 View Profile
               </button>
             ) : (
-              <span className="bg-[#1a1a1a] text-[#666] py-2 px-4 rounded-full text-sm cursor-not-allowed">
+              <span className="bg-[#1a1a1a] text-[#666] py-1 px-6 rounded text-xs whitespace-nowrap inline-block w-auto md:py-2 md:px-4 md:rounded-full md:text-sm cursor-not-allowed">
                 View Profile
               </span>
             )}

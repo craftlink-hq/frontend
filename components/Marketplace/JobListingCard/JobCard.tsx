@@ -186,6 +186,24 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
           padding: 24px;
           background-color: #f2e8cf0a;
         }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+          .job-card {
+            border-radius: 12px;
+            padding: 16px;
+            margin: 0 16px 16px 16px;
+            background-color: #333333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .job-card {
+            margin: 0 12px 12px 12px;
+            padding: 14px;
+          }
+        }
       `}</style>
 
       <div className="job-card">

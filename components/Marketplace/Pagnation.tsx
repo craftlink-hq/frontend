@@ -28,7 +28,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, option
       {/* Dropdown trigger */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="rounded-lg px-4 py-3 text-white text-sm cursor-pointer pr-12 flex items-center justify-between min-w-[100px]"
+        className="rounded-lg px-2 py-2 md:px-4 md:py-3 text-white text-xs md:text-sm cursor-pointer pr-6 md:pr-12 flex items-center justify-between min-w-[60px] md:min-w-[100px]"
         style={{
           backgroundColor: '#F2E8CF0A',
           border: '0.5px solid',
@@ -38,7 +38,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, option
       >
         <span>{selectedOption?.label}</span>
         <svg 
-          className={`w-4 h-4 text-gray-400 transition-transform ml-3 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-3 h-3 md:w-4 md:h-4 text-gray-400 transition-transform ml-2 md:ml-3 ${isOpen ? 'rotate-180' : ''}`}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -156,24 +156,22 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div 
-      className="flex items-center w-full rounded-bl-2xl rounded-br-2xl" 
+      className="flex items-center w-full rounded-bl-2xl rounded-br-2xl px-4 py-3 md:px-6 md:py-5" 
       style={{ 
         backgroundColor: '#F2E8CF0A',
         justifyContent: 'space-between',
-        padding: '22px',
         borderBottom: '1px solid #F2E8CF0A',
         boxShadow: 'inset 0 1px 0 0 #00000040',
         height: 'auto'
       }}
     >
       {/* Left Side - Showing per page */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-1 md:space-x-3">
         <span 
-          className="text-sm"
+          className="text-xs md:text-base whitespace-nowrap"
           style={{
             fontFamily: 'Merriweather',
             fontWeight: 400,
-            fontSize: '16px',
             lineHeight: '120%',
             letterSpacing: '0%',
             color: '#B4B3B3'
@@ -189,33 +187,28 @@ const Pagination: React.FC<PaginationProps> = ({
           options={getDropdownOptions()}
         />
         
-        {/* FIXED: Show total jobs instead of jobsPerPage */}
-        <span className="text-gray-300 text-sm">of {totalJobs}</span>
+        <span className="text-gray-300 text-xs md:text-sm whitespace-nowrap">of {totalJobs}</span>
       </div>
 
       {/* Right Side - Pagination */}
       <div 
-        className="flex items-center rounded-lg"
+        className="flex items-center rounded-lg w-[180px] md:w-[226px] h-[36px] md:h-[42px] gap-1 md:gap-2 p-[6px] md:p-2"
         style={{
           backgroundColor: '#1A1203',
-          width: '226px',
-          height: '42px',
-          gap: '8px',
-          borderRadius: '8px',
-          padding: '8px'
+          borderRadius: '8px'
         }}
       >
         {/* Previous Button */}
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`flex items-center justify-center w-8 h-8 rounded ${
+          className={`flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded ${
             currentPage === 1 
               ? 'text-gray-400 cursor-not-allowed' 
               : 'text-white hover:bg-gray-600'
           } transition-colors`}
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <polyline points="15,18 9,12 15,6"></polyline>
           </svg>
         </button>
@@ -225,20 +218,13 @@ const Pagination: React.FC<PaginationProps> = ({
           <button
             key={page}
             onClick={() => handlePageChange(page)}
-            className={`flex items-center justify-center text-sm font-medium transition-colors ${
+            className={`flex items-center justify-center text-xs md:text-sm font-medium transition-colors ${
               currentPage === page
-                ? 'text-black font-bold'
-                : 'text-white hover:bg-gray-600 w-8 h-8 rounded'
+                ? 'text-black font-bold w-6 h-5 md:w-8 md:h-7 px-2 md:px-3 py-1 md:py-1 rounded-sm'
+                : 'text-white hover:bg-gray-600 w-6 h-6 md:w-8 md:h-8 rounded'
             }`}
             style={currentPage === page ? { 
-              backgroundColor: '#FFD700',
-              width: '30px',
-              height: '26px',
-              paddingTop: '4px',
-              paddingRight: '12px',
-              paddingBottom: '4px',
-              paddingLeft: '12px',
-              borderRadius: '2px'
+              backgroundColor: '#FFD700'
             } : {}}
           >
             {page}
@@ -249,13 +235,13 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`flex items-center justify-center w-8 h-8 rounded ${
+          className={`flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded ${
             currentPage === totalPages 
               ? 'text-gray-400 cursor-not-allowed' 
               : 'text-white hover:bg-gray-600'
           } transition-colors`}
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <polyline points="9,18 15,12 9,6"></polyline>
           </svg>
         </button>

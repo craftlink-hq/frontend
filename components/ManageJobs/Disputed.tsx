@@ -4,7 +4,6 @@ import Image from "next/image";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { formatDate } from "@/utils/formatDate";
 import { useState } from "react";
-import RaiseDisputeModal from "./RaiseDisputeModal";
 import Modal from "../Modal";
 import { useFetchArtisanDisputedGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanDisputedGigs";
 
@@ -49,8 +48,8 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
         </h3>
       </div>
 
-      {/* Job Details Row - Icons with Labels */}
-      <div className="flex items-center gap-x-6 text-sm text-[#B5B4AD] flex-wrap">
+      {/* Job Details Row - Icons with Labels - Responsive Grid */}
+      <div className="grid grid-cols-2 gap-y-3 gap-x-4 md:flex md:items-center md:gap-x-6 md:gap-y-0 text-sm text-[#B5B4AD]">
         <div className="flex items-center gap-x-2">
           <span className="relative h-4 w-4">
             <Image
@@ -97,24 +96,24 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
         </div>
       </div>
 
-      {/* Bottom Section: 4-Column Grid + Button */}
-      <div className="flex justify-between items-end">
-        {/* Dispute Details Grid - 4 Columns with Separating Lines */}
-        <div className="flex text-sm flex-1 divide-x divide-[#FCFBF726]">
-          <div className="flex flex-col pr-8">
-            <span className="text-[#B5B4AD] mb-2">Raised Date:</span>
+      {/* Bottom Section: Responsive Layout */}
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-end">
+        {/* Dispute Details - Mobile: 2x2 Grid, Desktop: 4 Columns */}
+        <div className="grid grid-cols-2 gap-4 md:flex md:text-sm md:flex-1 md:divide-x md:divide-[#FCFBF726] md:gap-0">
+          <div className="flex flex-col md:pr-8">
+            <span className="text-[#B5B4AD] mb-2 text-sm">Raised Date:</span>
             <span className="text-[#F9F1E2] font-bold text-lg">
               {job?.disputeRaisedDate || "13/12/24"}
             </span>
           </div>
-          <div className="flex flex-col px-8">
-            <span className="text-[#B5B4AD] mb-2">Dispute Type:</span>
-            <span className="text-[#F9F1E2] font-medium italic">
+          <div className="flex flex-col md:px-8">
+            <span className="text-[#B5B4AD] mb-2 text-sm">Dispute Type:</span>
+            <span className="text-[#F9F1E2] font-medium italic text-sm md:text-base">
               {job?.disputeType || "Payment not released"}
             </span>
           </div>
-          <div className="flex flex-col px-8">
-            <span className="text-[#B5B4AD] mb-2">Budget:</span>
+          <div className="flex flex-col md:px-8">
+            <span className="text-[#B5B4AD] mb-2 text-sm">Budget:</span>
             <div className="flex items-center gap-x-2">
               <span className="relative h-5 w-5">
                 <Image
@@ -129,8 +128,8 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col pl-8">
-            <span className="text-[#B5B4AD] mb-2">Resolution Status:</span>
+          <div className="flex flex-col md:pl-8">
+            <span className="text-[#B5B4AD] mb-2 text-sm">Resolution Status:</span>
             <div className="flex items-center gap-x-2">
               <div className="bg-[#04DF76] h-3 w-3 rounded-full flex-shrink-0"></div>
               <span className="text-[#B5B4AD] text-sm font-medium">
@@ -143,36 +142,105 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
           </div>
         </div>
 
-        {/* View Full Details Button - Bottom Right */}
-        <div className="flex-shrink-0 ml-8">
+        {/* View Full Details Button */}
+        <div className="flex-shrink-0 md:ml-8">
           <button 
             onClick={() => setIsDetailsModalOpen(true)}
-            className="bg-[#262208] hover:bg-[#333316] text-[#F9F1E2] px-6 py-2 rounded text-sm font-medium transition-colors uppercase"
+            className="w-full md:w-auto bg-[#262208] hover:bg-[#333316] text-[#F9F1E2] px-6 py-2 rounded text-sm font-medium transition-colors uppercase"
           >
             VIEW FULL DETAILS
           </button>
         </div>
       </div>
 
-      {/* Details Modal - You can implement this later */}
-      {/* <DisputeDetailsModal 
-        isOpen={isDetailsModalOpen}
-        onClose={handleCloseDetailsModal}
-        job={job}
-      /> */}
+      {/* Details Modal */}
       {isDetailsModalOpen && (
-              <Modal closeFn={handleCloseDetailsModal}>
-                <AnimatedDiv
-                  initialX="200%"
-                  animateX={0}
-                  exitX={"-100%"}
-                  duration={0.5}
-                  className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] lg:w-[35vw] rounded-xl p-4 relative"
-                >
-                  <RaiseDisputeModal isOpen={isDetailsModalOpen} onClose={handleCloseDetailsModal} />
-                </AnimatedDiv>
-              </Modal>
-            )}
+        <Modal closeFn={handleCloseDetailsModal}>
+          <AnimatedDiv
+            initialX="200%"
+            animateX={0}
+            exitX={"-100%"}
+            duration={0.5}
+            className="bg-[#333333] border border-[#FCFBF726] md:w-[40vw] lg:w-[35vw] w-[90vw] max-w-lg rounded-xl p-6 relative max-h-[90vh] overflow-y-auto"
+          >
+            {/* Job Title */}
+            <div className="mb-6">
+              <h3 className="text-white text-xl font-semibold mb-2">{job.job?.title}</h3>
+              <p className="text-[#B5B4AD] text-sm">Posted: {formatDate(job.job?.createdAt)}</p>
+            </div>
+
+            {/* Dispute Information */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="text-[#B5B4AD] text-sm block mb-1">Raised Date:</span>
+                  <span className="text-white font-medium">{job?.disputeRaisedDate || "13/12/24"}</span>
+                </div>
+                <div>
+                  <span className="text-[#B5B4AD] text-sm block mb-1">Dispute Type:</span>
+                  <span className="text-white font-medium">{job?.disputeType || "Payment not released"}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="text-[#B5B4AD] text-sm block mb-1">Budget:</span>
+                  <span className="text-[#FFD700] font-bold">${job.job?.price || "1500"} (Fixed)</span>
+                </div>
+                <div>
+                  <span className="text-[#B5B4AD] text-sm block mb-1">Status:</span>
+                  <div className="flex items-center gap-2">
+                    <div className="bg-[#04DF76] h-2 w-2 rounded-full"></div>
+                    <span className="text-[#B5B4AD] text-sm">
+                      {job?.disputeStatus === 'resolved' 
+                        ? "Resolved" 
+                        : "Pending"
+                      }
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Client Information */}
+              <div className="border-t border-[#FCFBF726] pt-4">
+                <span className="text-[#B5B4AD] text-sm block mb-2">Client:</span>
+                <span className="text-white font-medium">
+                  {job.job?.client?.walletAddress.slice(0, 4)}...{job.job?.client?.walletAddress.slice(-4)}
+                </span>
+              </div>
+
+              {/* Description */}
+              <div className="border-t border-[#FCFBF726] pt-4">
+                <span className="text-[#B5B4AD] text-sm block mb-2">Dispute Description:</span>
+                <p className="text-white text-sm leading-relaxed">
+                  The artisan has completed the work as specified but the client has not released the payment. This dispute has been raised to resolve the payment issue and ensure fair compensation for the completed work.
+                </p>
+              </div>
+
+              {/* Resolution Details */}
+              <div className="border-t border-[#FCFBF726] pt-4">
+                <span className="text-[#B5B4AD] text-sm block mb-2">Resolution:</span>
+                <p className="text-[#04DF76] text-sm">
+                  {job?.disputeStatus === 'resolved' 
+                    ? "Payment has been released to the artisan. Dispute resolved successfully."
+                    : "Awaiting client action to resolve this dispute."
+                  }
+                </p>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <div className="mt-6 pt-4 border-t border-[#FCFBF726]">
+              <button
+                onClick={handleCloseDetailsModal}
+                className="w-full bg-[#FFD700] text-[#1A1203] py-2 px-4 rounded font-medium hover:bg-[#E6C200] transition-colors"
+              >
+                CLOSE
+              </button>
+            </div>
+          </AnimatedDiv>
+        </Modal>
+      )}
     </AnimatedDiv>
   );
 };
