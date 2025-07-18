@@ -55,7 +55,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
             src={image || "/placeholder.svg"}
             alt={role}
             fill
-            style={{ objectFit: "contain" }}
+            style={{ objectFit: "cover" }}
             className="rounded-lg"
           />
         </div>
