@@ -55,7 +55,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
             src={image || "/placeholder.svg"}
             alt={role}
             fill
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
             className="rounded-lg"
           />
         </div>
