@@ -329,19 +329,14 @@ interface ApiJob {
   
   return (
     <div className="w-screen">
-      <MarketHeader toggleFilter={toggleFilter} isActive={isActive} />
+      <MarketHeader 
+        toggleFilter={toggleFilter} 
+        isActive={isActive} 
+      />
       <HeroBanner />
       
-      {/* Mobile Search and Filter Controls */}
+      {/* Mobile Filter - Show when toggled */}
       <div className="md:hidden px-4 py-4">
-        <SearchSortBar 
-          searchTerm={searchTerm}
-          onSearchChange={handleSearchChange}
-          selectedSort={selectedSort}
-          onSortChange={handleSortChange}
-        />
-        
-        {/* Mobile Filter - Show when toggled */}
         {showFilter && (
           <div className="min-h-[60%] mt-4">
             <Filter filters={filters} />
