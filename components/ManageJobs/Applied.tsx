@@ -163,4 +163,4 @@ const AppliedJob = ({ job }: { job: Applied }) => {
   );
 };
 
-export default AppliedJob;
+export default AppliedJob; 

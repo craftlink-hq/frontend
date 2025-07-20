@@ -48,7 +48,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   };
 
   const handleViewProfile = () => {
-    // Navigate to specific applicant profile
+    // Navigate to specific applicant profile,
     let address
     if (role === "artisan") {
       address =  job?.job?.client?.walletAddress

@@ -1,6 +1,92 @@
 "use client"
 
+import React, { useState } from 'react';
 import { IoChevronBack, IoChevronForward } from "react-icons/io5"
+
+interface DropdownOption {
+  value: number;
+  label: string;
+  disabled?: boolean;
+}
+
+interface CustomDropdownProps {
+  value: number;
+  onChange: (value: number) => void;
+  options: DropdownOption[];
+}
+
+const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, options }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const selectedOption = options.find(option => option.value === value);
+
+  const handleOptionClick = (optionValue: number, disabled?: boolean) => {
+    if (disabled) return;
+    onChange(optionValue);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="relative">
+      {/* Dropdown trigger */}
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="rounded-lg px-2 py-2 md:px-4 md:py-3 text-white text-xs md:text-sm cursor-pointer pr-6 md:pr-12 flex items-center justify-between min-w-[60px] md:min-w-[100px]"
+        style={{
+          backgroundColor: '#F2E8CF0A',
+          border: '0.5px solid',
+          borderImageSource: 'linear-gradient(135.3deg, #FD9C49 2.51%, #FCCF49 120.64%)',
+          borderImageSlice: 1
+        }}
+      >
+        <span>{selectedOption?.label}</span>
+        <svg 
+          className={`w-3 h-3 md:w-4 md:h-4 text-gray-400 transition-transform ml-2 md:ml-3 ${isOpen ? 'rotate-180' : ''}`}
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
+      </div>
+
+      {/* Dropdown menu */}
+      {isOpen && (
+        <div 
+          className="absolute top-full left-0 right-0 mt-1 rounded-lg shadow-lg z-10"
+          style={{ backgroundColor: '#F2E8CF0A' }}
+        >
+          {options.map((option) => (
+            <div
+              key={option.value}
+              onClick={() => handleOptionClick(option.value, option.disabled)}
+              className={`px-3 py-2 text-sm transition-colors first:rounded-t-lg last:rounded-b-lg ${
+                option.disabled 
+                  ? 'text-gray-500 cursor-not-allowed' 
+                  : 'text-white cursor-pointer'
+              }`}
+              style={{
+                backgroundColor: value === option.value ? '#F2E8CF1A' : '#F2E8CF0A'
+              }}
+              onMouseEnter={(e) => {
+                if (value !== option.value && !option.disabled) {
+                  e.currentTarget.style.backgroundColor = '#F2E8CF1A';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (value !== option.value && !option.disabled) {
+                  e.currentTarget.style.backgroundColor = '#F2E8CF0A';
+                }
+              }}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 interface PaginationProps {
   currentPage: number
@@ -48,66 +134,122 @@ const Pagination = ({
     return pages
   }
 
-  // Generate dropdown options that are less than or equal to total items
+  // Generate dropdown options with disabled state based on total items
   const getDropdownOptions = () => {
-    const options = [1, 2, 4, 8, 12, 20]
-    return options.filter((option) => option <= totalItems)
-  }
+    const baseOptions = [
+      { value: 1, label: `1 ${itemType}` },
+      { value: 2, label: `2 ${itemType}` },
+      { value: 4, label: `4 ${itemType}` },
+      { value: 8, label: `8 ${itemType}` },
+      { value: 12, label: `12 ${itemType}` },
+      { value: 20, label: `20 ${itemType}` }
+    ];
+
+    return baseOptions.map(option => ({
+      ...option,
+      disabled: option.value > totalItems
+    }));
+  };
 
   // Calculate current view range
   const startItem = (currentPage - 1) * itemsPerPage + 1
   const endItem = Math.min(currentPage * itemsPerPage, totalItems)
 
   return (
-    <div className="flex bg-[#F2E8CF0A] border border-[#F2E8CF0A] rounded-md justify-between items-center p-4 text-[#F9F1E2]">
-      {/* Items per page info */}
-      <div className="flex items-center gap-2 text-[#B5B4AD] text-sm">
-        <span>Showing per page:</span>
-        <select
-          value={itemsPerPage}
-          onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-          className="border-[0.5px] border-[#FD9C49] bg-[#1A1A1A] rounded px-2 py-1 text-[#FDFDFD] text-sm capitalize"
+    <div 
+      className="flex flex-col md:flex-row md:items-center w-full rounded-bl-2xl rounded-br-2xl px-4 py-3 md:px-6 md:py-5 gap-3 md:gap-0" 
+      style={{ 
+        backgroundColor: '#F2E8CF0A',
+        justifyContent: 'space-between',
+        borderBottom: '1px solid #F2E8CF0A',
+        boxShadow: 'inset 0 1px 0 0 #00000040',
+        height: 'auto'
+      }}
+    >
+      {/* Left Side - Showing per page */}
+      <div className="flex items-center justify-between md:justify-start md:space-x-3 w-full md:w-auto">
+        <span 
+          className="text-xs md:text-base whitespace-nowrap"
+          style={{
+            fontFamily: 'Merriweather',
+            fontWeight: 400,
+            lineHeight: '120%',
+            letterSpacing: '0%',
+            color: '#B4B3B3'
+          }}
         >
-          {getDropdownOptions().map((option) => (
-            <option key={option} value={option}>
-              {option} {itemType}
-            </option>
-          ))}
-        </select>
-        <span>
-          ({startItem}-{endItem} of {totalItems.toLocaleString()})
+          Showing per page :
         </span>
+        
+        <div className="flex items-center space-x-2">
+          {/* Items per page custom dropdown */}
+          <CustomDropdown 
+            value={itemsPerPage}
+            onChange={onItemsPerPageChange}
+            options={getDropdownOptions()}
+          />
+          
+          <span className="text-gray-300 text-xs md:text-sm whitespace-nowrap">
+            ({startItem}-{endItem} of {totalItems.toLocaleString()})
+          </span>
+        </div>
       </div>
 
-      {/* Page navigation */}
-      <div className="flex items-center gap-1">
-        <button
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="w-8 h-8 flex items-center justify-center bg-[#1A1203] text-[#F9F1E2] rounded hover:bg-[#555555] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      {/* Right Side - Pagination */}
+      <div 
+        className="flex items-center justify-center md:justify-end w-full md:w-auto"
+      >
+        <div 
+          className="flex items-center rounded-lg w-[180px] md:w-[226px] h-[36px] md:h-[42px] gap-1 md:gap-2 p-[6px] md:p-2"
+          style={{
+            backgroundColor: '#1A1203',
+            borderRadius: '8px'
+          }}
         >
-          <IoChevronBack className="h-4 w-4" />
-        </button>
-
-        {getVisiblePages().map((page) => (
+          {/* Previous Button */}
           <button
-            key={page}
-            onClick={() => onPageChange(page)}
-            className={`w-8 h-8 flex items-center justify-center rounded font-bold text-sm transition-colors ${
-              page === currentPage ? "bg-yellow text-[#1A1203]" : "bg-[#1A1203] text-[#F9F1E2] hover:bg-[#555555]"
-            }`}
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded ${
+              currentPage === 1 
+                ? 'text-gray-400 cursor-not-allowed' 
+                : 'text-white hover:bg-gray-600'
+            } transition-colors`}
           >
-            {page}
+            <IoChevronBack className="w-3 h-3 md:w-4 md:h-4" />
           </button>
-        ))}
 
-        <button
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="w-8 h-8 flex items-center justify-center bg-[#1A1203] text-[#F9F1E2] rounded hover:bg-[#555555] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          <IoChevronForward className="h-4 w-4" />
-        </button>
+          {/* Page Numbers */}
+          {getVisiblePages().map((page) => (
+            <button
+              key={page}
+              onClick={() => onPageChange(page)}
+              className={`flex items-center justify-center text-xs md:text-sm font-medium transition-colors ${
+                currentPage === page
+                  ? 'text-black font-bold w-6 h-5 md:w-8 md:h-7 px-2 md:px-3 py-1 md:py-1 rounded-sm'
+                  : 'text-white hover:bg-gray-600 w-6 h-6 md:w-8 md:h-8 rounded'
+              }`}
+              style={currentPage === page ? { 
+                backgroundColor: '#FFD700'
+              } : {}}
+            >
+              {page}
+            </button>
+          ))}
+
+          {/* Next Button */}
+          <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded ${
+              currentPage === totalPages 
+                ? 'text-gray-400 cursor-not-allowed' 
+                : 'text-white hover:bg-gray-600'
+            } transition-colors`}
+          >
+            <IoChevronForward className="w-3 h-3 md:w-4 md:h-4" />
+          </button>
+        </div>
       </div>
     </div>
   )

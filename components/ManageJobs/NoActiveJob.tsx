@@ -11,7 +11,7 @@ const NoJobsPage: React.FC<NoJobsPageProps> = ({ onBrowseJobs }) => {
       <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full text-center shadow-xl">
         {/* Illustration */}
         <div className="mb-6">
-          {/* Using a fixed size for the illustration container */}
+          {/* Using a fixed size for the illustration container  */}
           <div className="w-32 h-32 mx-auto relative">
             <Image
               src="/market/image 110.svg"

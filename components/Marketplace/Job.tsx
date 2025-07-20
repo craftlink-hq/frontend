@@ -47,10 +47,10 @@ const PostedJob = ({ job }: { job: Job }) => {
         setIsModalOpen(true);
       }}
     >
-      <span className="italic font-merriweather text-fontPrimary text-sm py-2 pt-4">
+      <span className="italic font-merriweather text-fontPrimary text-sm py-2 pt-4 sm:text-xs md:text-sm">
         Job dropped: {formatDate(job.createdAt)}
       </span>
-      <h3 className="font-alata text-xl md:text-3xl text-fontPrimary group-hover:text-yellow">
+      <h3 className="font-alata text-xl md:text-3xl text-fontPrimary group-hover:text-yellow sm:text-lg">
         {job.title}
       </h3>
       <div className="flex w-full md:w-[90%] 2xl:w-[50%] gap-x-4 py-2 ">
@@ -63,7 +63,7 @@ const PostedJob = ({ job }: { job: Job }) => {
                   index == 2 ? "border-0" : "border-r border-[#FCFBF726] "
                 }`}
               >
-                <span className="font-merriweather text-[#D8D6CF]">
+                <span className="font-merriweather text-[#D8D6CF] text-sm sm:text-xs md:text-base">
                   {details.name}
                 </span>
               </div>
@@ -79,8 +79,8 @@ const PostedJob = ({ job }: { job: Job }) => {
           className="hidden md:flex"
         />
 
-        <span className="capitalize self-center text-lg">{job.experienceLevel}</span>
-        <span className="px-4 text-fontPrimary self-center">---</span>
+        <span className="capitalize self-center text-lg sm:text-sm md:text-lg">{job.experienceLevel}</span>
+        <span className="px-4 text-fontPrimary self-center text-base sm:text-xs md:text-base">---</span>
         <Image
           src="/money.png"
           alt="Amount"
@@ -89,14 +89,14 @@ const PostedJob = ({ job }: { job: Job }) => {
           className="hidden md:flex"
         />
 
-        <span className=" self-center font-bold text-2xl">
+        <span className=" self-center font-bold text-2xl sm:text-lg md:text-2xl">
           ${displayPrice}
           {/* <span className="text-[#B5B4AD] font-normal text-base">
             ({job.paymentType})
           </span> */}
         </span>
       </div>
-      <p className="text-[#D8D6CF] font-merriweather line-clamp-2 w-[90%]">
+      <p className="text-[#D8D6CF] font-merriweather line-clamp-2 w-[90%] text-base sm:text-xs md:text-base">
         {job.projectDescription}
       </p>
       <div className="flex  flex-wrap md:py-4 py-2 gap-x-4 gap-y-2">
@@ -104,7 +104,7 @@ const PostedJob = ({ job }: { job: Job }) => {
           (tag, index) =>
             index < 3 && (
               <div
-                className="bg-[#26220826] text-[#D8D6CF] border rounded-full border-[#FFFFFF40] text-xs text-center xl:text-sm p-[10px]"
+                className="bg-[#26220826] text-[#D8D6CF] border rounded-full border-[#FFFFFF40] text-xs text-center xl:text-sm p-[10px] sm:text-[10px] sm:p-2 md:text-xs md:p-[10px]"
                 key={tag}
               >
                 {tag}
@@ -113,27 +113,34 @@ const PostedJob = ({ job }: { job: Job }) => {
         )}
       </div>
       <div className="flex justify-between font-merriweather py-4">
-        <div className="flex py-2 max-sm:justify-center max-sm:w-full gap-x-4 italic text-sm">
+        <div className="flex py-2 max-sm:justify-center max-sm:w-full gap-x-4 italic text-sm sm:text-xs md:text-sm">
           <div className="flex items-center max-sm:w-[32%] gap-x-2">
             <Image
               src="/secure-payment.png"
               alt={"paid"}
               width="20"
               height="12"
+              className="sm:w-4 sm:h-3 md:w-5 md:h-3"
             />{" "}
             <span>{job.payment ? job.payment : "Secure Payment"}</span>
           </div>
           <div className="flex items-center gap-x-2">
-            <Image src="/star.png" alt="rating" width="20" height="12" />{" "}
+            <Image 
+              src="/star.png" 
+              alt="rating" 
+              width="20" 
+              height="12"
+              className="sm:w-4 sm:h-3 md:w-5 md:h-3"
+            />{" "}
             <span>{job.rating ? job.rating : 3}/5</span>
           </div>
           <div className="flex items-center gap-x-2 capitalize">
-            <div className="rounded-full w-4 h-4 bg-[#AEFF00]" />{" "}
+            <div className="rounded-full w-4 h-4 bg-[#AEFF00] sm:w-3 sm:h-3 md:w-4 md:h-4" />{" "}
             <span>{job.type ? job.type : "Open Application"}</span>
           </div>
         </div>
         <button
-          className="hidden md:flex py-2 px-4 bg-[#262208] rounded-sm text-[#FCF8E3] font-bold"
+          className="hidden md:flex py-2 px-4 bg-[#262208] rounded-sm text-[#FCF8E3] font-bold text-sm sm:text-xs md:text-sm"
           onClick={() => {
             setIsModalOpen(true);
           }}
@@ -149,9 +156,9 @@ const PostedJob = ({ job }: { job: Job }) => {
             animateX={0}
             exitX={"-100%"}
             duration={0.5}
-            className="bg-[#333333] border border-[#FCFBF726] md:w-[60vw] h-[90vh] rounded-xl p-4 relative  "
+            className="bg-[#333333] border border-[#FCFBF726] md:w-[50vw] rounded-xl p-4 relative"
           >
-            <div className="h-[90%]  overflow-y-scroll">
+            <div className="h-[90%] overflow-y-scroll">
             <JobDetails job={job} />
             </div>
           </AnimatedDiv>

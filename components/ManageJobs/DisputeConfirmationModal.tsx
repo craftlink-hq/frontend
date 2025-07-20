@@ -35,7 +35,7 @@ const DisputeConfirmationModal: React.FC<DisputeConfirmationModalProps> = ({
           </h1>
         </div>
 
-        {/* Content */}
+        {/* Content, */}
         <div className="space-y-4 mb-8">
           <p className="text-[#D8D6CF] leading-relaxed">
             Once submitted, this dispute will be reviewed by our support team
