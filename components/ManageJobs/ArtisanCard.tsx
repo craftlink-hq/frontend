@@ -6,7 +6,7 @@ import { RiGlobalLine, RiTimeLine, RiCheckboxCircleLine } from "react-icons/ri"
 
 interface ArtisanCardProps {
   artisan: {
-    id: string
+    id: string 
     name: string
     title: string
     avatar: string

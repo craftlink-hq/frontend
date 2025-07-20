@@ -22,47 +22,60 @@ const JobDetails: React.FC<JobDetailsProps> = ({ job }) => {
           color: #D8D6CF;
         }
         
+        /* Hide scrollbar */
+        .job-details-container {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE/Edge */
+        }
+        
+        .job-details-container::-webkit-scrollbar {
+          display: none; /* Chrome/Safari */
+        }
+        
         /* Mobile-specific styles */
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
           .job-details {
-            font-size: 12px;
+            font-size: 8px;
             color: #B5B4AD;
             font-weight: 400;
-          }
-          
-          .job-details-container {
-            gap: 12px;
-            margin-bottom: 12px;
-          }
-          
-          .job-details-item {
-            gap: 4px;
-          }
-          
-          .job-details-icon {
-            width: 12px;
-            height: 12px;
-            opacity: 0.8;
           }
         }
       `}</style>
       
       {/* Job Details Row */}
-      <div className="flex items-center gap-4 mb-4 job-details-container">
-        <div className="flex items-center gap-1 job-details-item">
-          <FiMapPin className="w-3 h-3 job-details-icon" />
+      <div className="flex items-center gap-4 mb-4 sm:gap-1 sm:mb-3 job-details-container">
+        <div className="flex items-center gap-1 whitespace-nowrap sm:gap-[2px]">
+          <FiMapPin className="w-3 h-3 sm:w-[10px] sm:h-[10px] sm:opacity-80" />
           <span className="job-details">{job.preferredLocation}</span>
         </div>
-        <div className="flex items-center gap-1 job-details-item">
-          <Image src="/market/tabler_flag.svg" alt="Language" width={12} height={12} className="job-details-icon" />
+        <div className="flex items-center gap-1 whitespace-nowrap sm:gap-[2px]">
+          <Image 
+            src="/market/tabler_flag.svg" 
+            alt="Language" 
+            width={12} 
+            height={12} 
+            className="sm:w-[10px] sm:h-[10px] sm:opacity-80" 
+          />
           <span className="job-details">{job.language}</span>
         </div>
-        <div className="flex items-center gap-1 job-details-item">
-          <Image src="/market/calendar-tick.svg" alt="Duration" width={12} height={12} className="job-details-icon" />
+        <div className="flex items-center gap-1 whitespace-nowrap sm:gap-[2px]">
+          <Image 
+            src="/market/calendar-tick.svg" 
+            alt="Duration" 
+            width={12} 
+            height={12} 
+            className="sm:w-[10px] sm:h-[10px] sm:opacity-80" 
+          />
           <span className="job-details">{formatDuration(job.projectDuration.weeks)}</span>
         </div>
-        <div className="flex items-center gap-1 job-details-item">
-          <Image src="/market/medal-star.svg" alt="Experience" width={12} height={12} className="job-details-icon" />
+        <div className="flex items-center gap-1 whitespace-nowrap sm:gap-[2px]">
+          <Image 
+            src="/market/medal-star.svg" 
+            alt="Experience" 
+            width={12} 
+            height={12} 
+            className="sm:w-[10px] sm:h-[10px] sm:opacity-80" 
+          />
           <span className="job-details">{job.experienceLevel}</span>
         </div>
       </div>
