@@ -63,7 +63,7 @@ export default function Skills() {
   );
 
   return (
-    <div className="flex min-h-[90vh] w-screen items-center md:items-end justify-center py-4">
+    <div className="flex min-h-[90vh] w-screen items-start md:items-end justify-center py-4">
       <div className="flex flex-col text-[#F9F1E2] w-[90vw] p-4 md:p-8 rounded-lg bg-opacity-80 shadow-lg md:w-[65%] lg:w-[50%] shadow-second relative 2xl:bottom-16 bg-[#F2E8CF0A] items-start md:min-h-[80%] gap-y-2 md:gap-y-4">
         <ProgressBar totalSteps={7} currentStep={2} />
         <h2 className="font-alata text-2xl md:text-3xl md:w-[80%]">

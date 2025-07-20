@@ -41,7 +41,7 @@ export default function Category() {
         </div>
         <div className="flex font-merriweather w-full md:justify-end">
         
-          <button onClick={handleNext} className="flex w-full md:w-fit py-2 px-4 uppercase  bg-yellow rounded-sm text-[#1A1203] font-bold text-sm text-center md:text-base">
+          <button onClick={handleNext} className="text-center flex w-full md:w-fit py-2 px-4 uppercase  bg-yellow rounded-sm text-[#1A1203] font-bold text-sm text-center md:text-base">
             Next, Add your Skills
           </button>
           </div>
