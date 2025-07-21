@@ -1,4 +1,3 @@
-// AttachedFiles.tsx
 import React from 'react';
 import Image from 'next/image';
 
@@ -31,7 +30,7 @@ const AttachedFiles: React.FC<AttachedFilesProps> = ({ files }) => {
         {fileData.type === 'IMAGE' && fileData.url ? (
           <Image
             src={fileData.url}
-            alt="Attached file"
+            alt={`Attached ${fileData._id}`}
             fill
             className="object-cover"
             sizes="(max-width: 96px) 100vw, 96px"

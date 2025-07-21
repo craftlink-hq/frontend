@@ -86,7 +86,7 @@ const AttachedFiles: React.FC<AttachedFilesProps> = ({ files }) => {
             <div className="w-20 h-20 border border-[#FCFBF726] rounded overflow-hidden">
               <Image
                 src={imageUrl}
-                alt={fileData.name}
+                alt={"Attached File"}
                 width={80}
                 height={80}
                 className="object-cover w-full h-full"
