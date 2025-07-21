@@ -374,7 +374,7 @@ interface ApiJob {
       
       {/* Mobile Filter Modal - Show when toggled */}
       {showFilter && (
-        <div className="md:hidden fixed inset-0 z-50" style={{ touchAction: 'none' }}>
+        <div className="md:hidden fixed inset-0 z-30" style={{ touchAction: 'none' }}>
           {/* Backdrop/Overlay - Fixed and non-scrollable */}
           <div 
             className="fixed inset-0 bg-black/60 backdrop-blur-sm"
@@ -405,7 +405,7 @@ interface ApiJob {
               </div>
               
               {/* Modal Body - Let Filter component handle its own scrolling */}
-              <div className="flex-1 min-h-0 bg-[#333333]">
+              <div className="flex justify-center w-full min-h-0 z-50 overflow-y-auto bg-[#333333]">
                 <Filter filters={filters} />
               </div>
               

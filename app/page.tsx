@@ -108,10 +108,10 @@ export default function Home() {
 
   <footer
   id="resources"
-  className="flex md:bg-faq flex-col lg:flex-row gap-y-8 gap-x-4 py-4 lg:px-16 lg:p-4 lg:h-[50vh] justify-center items-center rounded-md"
+  className="flex md:bg-faq flex-col lg:flex-row gap-y-4 md:gap-y-8 gap-x-4 lg:px-16 p-4 lg:h-[50vh] justify-center items-center rounded-md"
 >
   {/* Left container */}
-  <div className="bg-footer flex-grow w-[90vw] md:w-[90%] lg:w-[35%] h-full justify-center lg:h-[90%] border-[1px] p-8 border-[#FCFBF726] rounded-lg">
+  <div className="bg-footer flex-grow w-full md:w-[90%] lg:w-[35%] h-full justify-center lg:h-[90%] border-[1px] p-8 border-[#FCFBF726] rounded-lg">
     <div className="flex md:px-2 gap-x-2 items-center font-mooli">
       <Image src="/logo.png" alt="CraftLink logo" width={22} height={49} />
       <span className="text-[20px] md:text-[28px]">
@@ -140,7 +140,7 @@ export default function Home() {
   </div>
 
   {/* Right container */}
-  <div className="flex flex-col flex-grow w-[90vw] md:w-[90%] h-full gap-y-2 lg:h-[90%]">
+  <div className="flex flex-col flex-grow w-full md:w-[90%] h-full gap-y-2 lg:h-[90%]">
     <div className="grid grid-cols-2 lg:flex bg-footer gap-y-4 max-lg:items-center justify-center lg:justify-between border-[1px] lg:h-[70%] p-4 md:p-8 border-[#FCFBF726] rounded-lg">
       <FooterLinks />
     </div>

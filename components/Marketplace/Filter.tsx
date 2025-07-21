@@ -33,9 +33,9 @@ const Filter = ({ filters }: { filters: FilterProps[] }) => {
   };
 
   return (
-    <div className="max-sm:py-4">
+    <div className="w-full max-sm:px-2 max-sm:py-4 max-sm:overflow-y-auto max-sm:scrollbar-thin max-sm:scrollbar-thumb-[#FCFBF726]">
       <div
-        className="bg-[#F2E8CF0A]  grid rounded-md border h-full shadow-md border-[#FCFBF726] px-2 w-[92%] md:w-full"
+        className="bg-[#F2E8CF0A]  grid rounded-md border h-full shadow-md border-[#FCFBF726] px-2 w-full"
       >
         <div className="flex justify-between px-2 py-4">
           <span className="font-merriweather text-[#F9F1E2] font-bold">
