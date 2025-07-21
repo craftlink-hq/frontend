@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Filter from "@/components/Marketplace/Filter";
 import JobCard from '@/components/Marketplace/JobListingCard/JobCard';
 import SearchSortBar from "@/components/Marketplace/Search";
@@ -30,11 +30,41 @@ export default function MarketPlace(): JSX.Element {
     setShowFilter(!showFilter);
   };
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showFilter) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = '0';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+    };
+  }, [showFilter]);
+
   // Close modal when clicking outside
   const handleModalBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setShowFilter(false);
     }
+  };
+
+  // Close modal function
+  const closeModal = () => {
+    setShowFilter(false);
   };
   
   const fetchGigs = async (): Promise<ApiJob[]> => {
@@ -344,23 +374,28 @@ interface ApiJob {
       
       {/* Mobile Filter Modal - Show when toggled */}
       {showFilter && (
-        <div className="md:hidden fixed inset-0 z-50 flex items-center justify-center">
-          {/* Backdrop/Overlay */}
+        <div className="md:hidden fixed inset-0 z-50" style={{ touchAction: 'none' }}>
+          {/* Backdrop/Overlay - Fixed and non-scrollable */}
           <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             onClick={handleModalBackdropClick}
           />
           
-          {/* Modal Content */}
-          <div className="relative z-10 w-full max-w-md mx-4 my-8 max-h-[90vh] overflow-hidden">
-            <div className="bg-[#1a1a1a] rounded-lg shadow-2xl border border-[#FCFBF726] animate-in slide-in-from-bottom-4 duration-300">
-              {/* Modal Header */}
-              <div className="flex items-center justify-between p-4 border-b border-[#FCFBF726]">
+          {/* Modal Content Container */}
+          <div className="fixed inset-4 z-10 flex items-center justify-center">
+            <div 
+              className="w-full max-w-md h-full max-h-[90vh] flex flex-col animate-in slide-in-from-bottom-4 duration-300 bg-[#333333] rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              onWheel={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header - Fixed */}
+              <div className="flex items-center justify-between p-4 border-b border-[#FCFBF726] shrink-0 bg-[#333333] rounded-t-lg">
                 <h3 className="text-lg font-merriweather font-bold text-[#F9F1E2]">
                   Filter Jobs
                 </h3>
                 <button
-                  onClick={() => setShowFilter(false)}
+                  onClick={closeModal}
                   className="text-[#F9F1E2] hover:text-[#FAEED4] transition-colors duration-200 p-1"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -369,21 +404,21 @@ interface ApiJob {
                 </button>
               </div>
               
-              {/* Modal Body */}
-              <div className="p-4 max-h-[70vh] overflow-y-auto">
+              {/* Modal Body - Let Filter component handle its own scrolling */}
+              <div className="flex-1 min-h-0 bg-[#333333]">
                 <Filter filters={filters} />
               </div>
               
-              {/* Modal Footer */}
-              <div className="flex gap-3 p-4 border-t border-[#FCFBF726]">
+              {/* Modal Footer - Fixed */}
+              <div className="flex gap-3 p-4 border-t border-[#FCFBF726] shrink-0 bg-[#333333] rounded-b-lg">
                 <button
-                  onClick={() => setShowFilter(false)}
+                  onClick={closeModal}
                   className="flex-1 px-4 py-2 bg-[#04DF76] text-[#111A00] font-merriweather font-bold rounded-md hover:bg-[#03c766] transition-colors duration-200"
                 >
                   Apply Filters
                 </button>
                 <button
-                  onClick={() => setShowFilter(false)}
+                  onClick={closeModal}
                   className="px-4 py-2 border border-[#FCFBF726] text-[#F9F1E2] font-merriweather rounded-md hover:bg-[#F2E8CF0A] transition-colors duration-200"
                 >
                   Cancel
