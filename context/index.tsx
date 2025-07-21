@@ -20,7 +20,7 @@ if (!projectId) {
 const origin =
   typeof window !== "undefined"
     ? window.location.origin
-    : "https://craftlink-hq.vercel.app";
+    : "https://craftlinkhq.com";
 const metadata = {
   name: "craftLink",
   description: "The Future of Decentralized Commerce",
