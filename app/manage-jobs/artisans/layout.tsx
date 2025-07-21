@@ -47,10 +47,10 @@ export default function Layout({
                   Track applications, submit completed work, and resolve disputes
                   in one place.
                 </span>
-              </div>
+                </div>
               
-              <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-6 md:p-4 w-full md:w-auto md:min-w-[400px] min-h-[140px] md:min-h-auto">
-                <div className="flex items-center gap-2 mb-3">
+              <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-6 md:p-4 md:px-8 w-full md:w-auto md:min-w-[400px] min-h-[140px] md:min-h-auto">
+                <div className="flex items-center gap-2 mb-3 md:mb-1">
                   <Image src={"/wallet.png"} alt={"coin"} width="20" height="20" className="md:w-[18px] md:h-[18px]" />{" "}
                   <h2 className="text-xl md:text-base text-[#F9F1E2]">Earnings</h2>
                 </div>
@@ -60,7 +60,7 @@ export default function Layout({
         
                 <div className="flex justify-between p-4 md:p-4">
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-2 md:mb-0">
                       <div className="w-3 h-3 bg-[#04DF76] rounded-full"></div>
                       <span className="text-base md:text-sm text-[#B5B4AD]">Available</span>
                     </div>
@@ -70,7 +70,7 @@ export default function Layout({
                   </div>
         
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-2 md:mb-0">
                       <div className="w-3 h-3 bg-[#47F9FF] rounded-full"></div>
                       <span className="text-base md:text-sm text-[#B5B4AD]">Total Earned</span>
                     </div>

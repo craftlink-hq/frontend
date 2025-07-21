@@ -41,7 +41,6 @@ const ActiveJob = ({ job }: { job: Applied }) => {
       !contractData.isClosed
     ) {
       if (!contractData.artisanComplete) {
-        // setDisableButton(true);
         toast.error("The artisan has not marked this job as complete yet.");
         return;
       }
@@ -64,7 +63,6 @@ const ActiveJob = ({ job }: { job: Applied }) => {
   };
 
   const handleViewProfile = () => {
-    // Navigate to specific applicant profile
     let address
     if (role === "artisan") {
       address =  job?.job?.client?.walletAddress
@@ -94,12 +92,12 @@ const ActiveJob = ({ job }: { job: Applied }) => {
         animateX={0}
         exitX={"-100%"}
         duration={1.0}
-        className="hover:bg-[#F2E8CF0A] bg-[#F2E8CF0A] border border-[#FCFBF726] w-[92%] md:w-full rounded-xl flex flex-col p-6 gap-y-4"
+        className="hover:bg-[#F2E8CF0A] bg-[#F2E8CF0A] border border-[#FCFBF726] w-[92%] md:w-full rounded-xl flex flex-col p-4 md:p-6 gap-y-3 md:gap-y-4 overflow-hidden"
       >
         {/* Posted Date - Top Left */}
         <div className="flex justify-start">
-          <div className="bg-[#00F7FF17] px-3 py-1 rounded">
-            <span className="text-[#4AC7CB] text-sm">
+          <div className="bg-[#00F7FF17] px-2 md:px-3 py-1 rounded">
+            <span className="text-[#4AC7CB] text-xs md:text-sm">
               Posted: {formatDate(job.job?.createdAt)}
             </span>
           </div>
@@ -108,25 +106,25 @@ const ActiveJob = ({ job }: { job: Applied }) => {
         {/* User Info Row - Wallet Address Left, Profile Right */}
         <div className="flex justify-between items-center">
           {job.user_type === "artisan" ? (
-            <span className="text-[#F9F1E2] text-lg font-alata">
+            <span className="text-[#F9F1E2] text-base md:text-lg font-alata">
               {job.job?.client?.walletAddress.slice(0, 4)}...
               {job.job?.client?.walletAddress.slice(-4)}
             </span>
           ) : (
-            <span className="text-[#F9F1E2] text-lg font-alata">
+            <span className="text-[#F9F1E2] text-base md:text-lg font-alata">
               {job.job?.completedBy?.walletAddress.slice(0, 4)}...
               {job.job?.completedBy?.walletAddress.slice(-4)}
             </span>
           )}
-          <div className="flex items-center gap-x-3">
+          <div className="flex items-center gap-x-2 md:gap-x-3">
             <button
-              className="text-[#FFD700] text-sm cursor-pointer hover:underline"
+              className="text-[#FFD700] text-xs md:text-sm cursor-pointer hover:underline"
               onClick={() => handleViewProfile()}
             >
               View Profile
             </button>
-            <div className="rounded-full bg-[#FFD700] h-10 w-10 flex justify-center items-center cursor-pointer">
-              <span className="relative h-6 w-6">
+            <div className="rounded-full bg-[#FFD700] h-8 w-8 md:h-10 md:w-10 flex justify-center items-center cursor-pointer">
+              <span className="relative h-4 w-4 md:h-6 md:w-6">
                 <Image
                   src="/messages.png"
                   alt="Profile"
@@ -140,15 +138,15 @@ const ActiveJob = ({ job }: { job: Applied }) => {
 
         {/* Job Title - Large and Prominent */}
         <div className="w-full">
-          <h3 className="font-merriweather text-2xl md:text-3xl text-white leading-tight">
+          <h3 className="font-merriweather text-lg md:text-2xl lg:text-3xl text-white leading-tight">
             {job.job?.title}
           </h3>
         </div>
 
-        {/* Job Details Row - Icons with Labels */}
-        <div className="grid grid-cols-2 gap-y-3 gap-x-4 md:flex md:items-center md:gap-x-6 md:gap-y-0 text-sm text-[#B5B4AD]">
-          <div className="flex items-center gap-x-2">
-            <span className="relative h-4 w-4">
+        {/* Job Details Row - Single Line on Mobile */}
+        <div className="flex items-center text-[10px] md:text-sm text-[#B5B4AD] gap-0.5 md:gap-x-6">
+          <div className="flex items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-0 border-r border-[#FCFBF726]">
+            <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
                 src="/location.png"
                 alt="Location"
@@ -156,10 +154,10 @@ const ActiveJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain" }}
               />
             </span>
-            <span>{job.job?.preferredLocation || "Lagos, Nigeria"}</span>
+            <span className="whitespace-nowrap">{job.job?.preferredLocation || "Lagos, Nigeria"}</span>
           </div>
-          <div className="flex items-center gap-x-2">
-            <span className="relative h-4 w-4">
+          <div className="flex items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-0 border-r border-[#FCFBF726]">
+            <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
                 src="/language.png"
                 alt="Language"
@@ -167,10 +165,10 @@ const ActiveJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain" }}
               />
             </span>
-            <span>{job.job?.language || "English"}</span>
+            <span className="whitespace-nowrap">{job.job?.language || "English"}</span>
           </div>
-          <div className="flex items-center gap-x-2">
-            <span className="relative h-4 w-4">
+          <div className="flex items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-0 border-r border-[#FCFBF726]">
+            <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
                 src="/market/calendar-tick.svg"
                 alt="Duration"
@@ -178,14 +176,14 @@ const ActiveJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain" }}
               />
             </span>
-            <span>
+            <span className="whitespace-nowrap">
               {job.job?.projectDuration?.weeks
-                ? `${job.job.projectDuration.weeks} Weeks`
-                : "2 Weeks"}
+                ? `${job.job.projectDuration.weeks}w`
+                : "2w"}
             </span>
           </div>
-          <div className="flex items-center gap-x-2">
-            <span className="relative h-4 w-4">
+          <div className="flex items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-0">
+            <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
                 src="/market/medal-star.svg"
                 alt="Skill"
@@ -193,13 +191,13 @@ const ActiveJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain" }}
               />
             </span>
-            <span>{job.job?.experienceLevel || "Intermediate"}</span>
+            <span className="whitespace-nowrap">{job.job?.experienceLevel || "Intermediate"}</span>
           </div>
         </div>
 
         {/* Price Section - Left Aligned with Icon */}
-        <div className="flex items-start gap-x-3">
-          <span className="relative h-8 w-8 mt-1 flex-shrink-0">
+        <div className="flex items-start gap-x-2 md:gap-x-3">
+          <span className="relative h-6 w-6 md:h-8 md:w-8 mt-1 flex-shrink-0">
             <Image
               src="/market/money-2.svg"
               alt="Price"
@@ -208,11 +206,11 @@ const ActiveJob = ({ job }: { job: Applied }) => {
             />
           </span>
           <div className="flex flex-col">
-            <span className="text-[#FFD700] text-2xl font-bold">
+            <span className="text-[#FFD700] text-xl md:text-2xl font-bold">
               ${job.job?.price || "1,500"}
-              <span className="text-sm font-normal ml-1">(Fixed)</span>
+              <span className="text-xs md:text-sm font-normal ml-1">(Fixed)</span>
             </span>
-            <span className="text-[#B5B4AD] text-sm">
+            <span className="text-[#B5B4AD] text-xs md:text-sm">
               ≈ ₦
               {job.job?.price
                 ? (job.job.price * 1500).toLocaleString()
@@ -221,10 +219,10 @@ const ActiveJob = ({ job }: { job: Applied }) => {
           </div>
         </div>
 
-        {/* Dates Row - Start and End Date Side by Side */}
-        <div className="flex flex-col gap-y-2 md:flex-row md:items-center md:gap-x-8 md:gap-y-0 text-sm text-[#B5B4AD]">
-          <div className="flex items-center gap-x-2">
-            <span className="relative h-4 w-4">
+        {/* Dates Row - Single Line on Mobile */}
+        <div className="flex items-center text-xs md:text-sm text-[#B5B4AD] gap-2 md:gap-x-8">
+          <div className="flex items-center gap-x-1 md:gap-x-2">
+            <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
                 src="/calendar.png"
                 alt="Start Date"
@@ -232,10 +230,10 @@ const ActiveJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain" }}
               />
             </span>
-            <span>Start Date: {job?.startDate || "13/12/24"}</span>
+            <span className="whitespace-nowrap">Start: {job?.startDate || "13/12/24"}</span>
           </div>
-          <div className="flex items-center gap-x-2">
-            <span className="relative h-4 w-4">
+          <div className="flex items-center gap-x-1 md:gap-x-2">
+            <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
                 src="/endDate.png"
                 alt="End Date"
@@ -243,14 +241,14 @@ const ActiveJob = ({ job }: { job: Applied }) => {
                 style={{ objectFit: "contain" }}
               />
             </span>
-            <span>End Date: {job?.endDate || "27/12/24"}</span>
+            <span className="whitespace-nowrap">End: {job?.endDate || "27/12/24"}</span>
           </div>
         </div>
 
         {/* Status - Yellow Dot with Message */}
         <div className="flex items-center gap-x-2">
           <div className="bg-[#FFD700] h-3 w-3 rounded-full flex-shrink-0"></div>
-          <span className="text-[#B5B4AD] text-sm italic">
+          <span className="text-[#B5B4AD] text-xs md:text-sm italic">
             {job?.statusMsg || "Pending: Awaiting your acceptance."}
           </span>
         </div>
@@ -260,7 +258,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
           <button
             disabled={disableButton || isCompleted}
             onClick={handleMarkComplete}
-            className={`w-full md:w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
+            className={`w-full md:w-[232px] h-[43px] rounded-[4px] uppercase text-xs md:text-sm font-bold px-6 py-3 border transition-colors
     ${
       isCompleted
         ? "bg-[#F2E8CF0A] text-[#FCF8E3] border-[#262208] cursor-not-allowed"
@@ -273,7 +271,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
           <button
             onClick={handleOpenDisputeModal}
             disabled={job.status === "dispute"}
-            className={`w-full md:w-[232px] h-[43px] rounded-[4px] uppercase text-sm font-bold px-6 py-3 border transition-colors
+            className={`w-full md:w-[232px] h-[43px] rounded-[4px] uppercase text-xs md:text-sm font-bold px-6 py-3 border transition-colors
     ${
       job.status === "dispute"
         ? "bg-[#F2E8CF0A] text-[#262208] border-[#FFD700] cursor-not-allowed"

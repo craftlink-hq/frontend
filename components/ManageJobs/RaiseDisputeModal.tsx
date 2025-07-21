@@ -166,11 +166,11 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
       {/* Main Dispute Modal */}
       {isOpen && (
         <Modal closeFn={onClose}>
-          <div className="bg-[#F2E8CF0A] rounded-lg w-[90vw] max-w-3xl max-h-[90vh] overflow-hidden transition-all duration-300 flex flex-col shadow-2xl">
+          <div className="bg-[#F2E8CF0A] rounded-lg w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[90vw] max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl max-h-[90vh] overflow-hidden transition-all duration-300 flex flex-col shadow-2xl mx-auto">
             {/* Header */}
-            <div className="flex items-center justify-between p-6 pb-4 bg-[#F2E8CF0A]">
+            <div className="flex items-center justify-between p-3 sm:p-4 md:p-6 pb-2 sm:pb-3 md:pb-4 bg-[#F2E8CF0A]">
               <div>
-                <h2 className="text-[#FCFBF7] text-[32px] font-bold leading-[120%] tracking-[0.03em]" style={{ fontFamily: 'Merriweather' }}>
+                <h2 className="text-[#FCFBF7] text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold leading-[120%] tracking-[0.03em]" style={{ fontFamily: 'Merriweather' }}>
                   <span className="relative inline-block">
                     Raise
                     <div className="absolute bottom-0 left-0 w-full h-1 bg-[#FFD700]"></div>
@@ -181,41 +181,41 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
             </div>
 
             {/* Body - Scrollable content */}
-            <div className="px-6 pb-2 flex-grow bg-[#333333] overflow-y-auto max-h-[60vh]">
-              <p className="text-[#F9F1E2] text-[16px] font-normal leading-[156%] tracking-normal mb-6" style={{ fontFamily: 'Merriweather' }}>
+            <div className="px-3 sm:px-4 md:px-6 pb-2 flex-grow bg-[#333333] overflow-y-auto max-h-[65vh]">
+              <p className="text-[#F9F1E2] text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] font-normal leading-[156%] tracking-normal mb-3 sm:mb-4 md:mb-6" style={{ fontFamily: 'Merriweather' }}>
                 Tell us a little more about yourself to help clients get to know you better. You&apos;re just a few steps away from showcasing your skills!
               </p>
 
-              {/* Two Column Layout */}
-              <div className="flex gap-8">
-                {/* Left Column */}
-                <div className="flex-1">
+              {/* Responsive Layout - Single Column on Mobile/Tablet, Two Columns on Desktop */}
+              <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-8">
+                {/* First Section - Dispute Type & Description */}
+                <div className="w-full lg:flex-1">
                   {/* Dispute Type */}
-                  <div className="mb-6">
-                    <h3 className="text-white text-sm font-normal mb-3">Dispute Type</h3>
+                  <div className="mb-3 sm:mb-4 md:mb-6">
+                    <h3 className="text-white text-xs sm:text-sm font-normal mb-2 md:mb-3">Dispute Type</h3>
                     <div ref={dropdownRef}>
                       <button
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="w-full bg-[#F2E8CF29] text-gray-400 p-3 rounded border border-gray-600 focus:border-gray-500 focus:outline-none flex justify-between items-center text-sm"
+                        className="w-full bg-[#F2E8CF29] text-gray-400 p-2 sm:p-2.5 md:p-3 rounded border border-gray-600 focus:border-gray-500 focus:outline-none flex justify-between items-center text-xs sm:text-sm"
                       >
                         <span>
                           {formData.disputeTypes.length > 0 
                             ? `${formData.disputeTypes.length} selected` 
                             : 'Select Dispute Type'}
                         </span>
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                         </svg>
                       </button>
                       
                       {isDropdownOpen && (
-                        <div className="w-full bg-[#2A2A2A] border border-gray-600 rounded-b mt-[-1px] max-h-64 overflow-y-auto relative z-10">
+                        <div className="w-full bg-[#2A2A2A] border border-gray-600 rounded-b mt-[-1px] max-h-48 sm:max-h-64 overflow-y-auto relative z-10">
                           {disputeTypeOptions.map((type) => (
                             <label
                               key={type}
-                              className="flex items-center p-3 hover:bg-[#333333] cursor-pointer text-sm"
+                              className="flex items-center p-2 sm:p-2.5 md:p-3 hover:bg-[#333333] cursor-pointer text-xs sm:text-sm"
                             >
-                              <div className="mr-3 w-4 h-4 relative">
+                              <div className="mr-2 sm:mr-3 w-3 h-3 sm:w-4 sm:h-4 relative">
                                 <input
                                   type="checkbox"
                                   value={type}
@@ -223,9 +223,9 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                                   onChange={() => handleDisputeTypeToggle(type)}
                                   className="sr-only"
                                 />
-                                <div className={`w-4 h-4 rounded-full border ${formData.disputeTypes.includes(type) ? 'border-green-500 bg-green-500' : 'border-gray-500'}`}>
+                                <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full border ${formData.disputeTypes.includes(type) ? 'border-green-500 bg-green-500' : 'border-gray-500'}`}>
                                   {formData.disputeTypes.includes(type) && (
-                                    <FaCheck className="text-white text-xs absolute top-0.5 left-0.5" />
+                                    <FaCheck className="text-white text-[8px] sm:text-xs absolute top-0.5 left-0.5" />
                                   )}
                                 </div>
                               </div>
@@ -234,14 +234,14 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                           ))}
                           
                           {/* Custom dispute type input */}
-                          <div className="p-3 border-t border-gray-700">
-                            <p className="text-gray-400 text-xs mb-2">Couldn&apos;t find your preferred dispute type?</p>
+                          <div className="p-2 sm:p-2.5 md:p-3 border-t border-gray-700">
+                            <p className="text-gray-400 text-[10px] sm:text-xs mb-2">Couldn&apos;t find your preferred dispute type?</p>
                             <input
                               type="text"
                               placeholder="Enter dispute type here"
                               value={formData.customDisputeType}
                               onChange={(e) => setFormData(prev => ({ ...prev, customDisputeType: e.target.value }))}
-                              className="w-full bg-[#F2E8CF29] text-gray-300 p-2 rounded border border-gray-700 focus:border-gray-500 focus:outline-none text-sm"
+                              className="w-full bg-[#F2E8CF29] text-gray-300 p-1.5 sm:p-2 rounded border border-gray-700 focus:border-gray-500 focus:outline-none text-xs sm:text-sm"
                             />
                           </div>
                         </div>
@@ -250,8 +250,8 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                   </div>
 
                   {/* Description */}
-                  <div className="mb-6">
-                    <h3 className="text-white text-sm font-normal mb-2">
+                  <div className="mb-3 sm:mb-4 md:mb-6">
+                    <h3 className="text-white text-xs sm:text-sm font-normal mb-2">
                       Detailed Description <span className="text-red-500">*</span>
                     </h3>
                     <div className="relative">
@@ -259,18 +259,18 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                         value={formData.description}
                         onChange={handleDescriptionChange}
                         placeholder="Text area for user to explain the problem clearly."
-                        className="w-full h-24 bg-[#F2E8CF29] text-gray-300 p-3 rounded border border-gray-600 focus:border-gray-500 focus:outline-none placeholder-gray-500 text-sm resize-none"
+                        className="w-full h-16 sm:h-20 md:h-24 bg-[#F2E8CF29] text-gray-300 p-2 sm:p-2.5 md:p-3 rounded border border-gray-600 focus:border-gray-500 focus:outline-none placeholder-gray-500 text-xs sm:text-sm resize-none"
                       />
-                      <div className="absolute bottom-2 right-3 text-xs text-gray-500">
+                      <div className="absolute bottom-1.5 sm:bottom-2 right-2 sm:right-3 text-[10px] sm:text-xs text-gray-500">
                         {formData.description.length}/{maxDescriptionLength}
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Right Column - Upload Evidence */}
-                <div className="flex-1">
-                  <h3 className="text-white text-sm font-normal mb-3">Upload Evidence</h3>
+                {/* Second Section - Upload Evidence */}
+                <div className="w-full lg:flex-1">
+                  <h3 className="text-white text-xs sm:text-sm font-normal mb-2 md:mb-3">Upload Evidence</h3>
                   
                   <input
                     ref={fileInputRef}
@@ -287,16 +287,16 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
-                      className={`border-2 border-dashed ${isDragging ? 'border-[#FFD700] bg-[#333333]' : 'border-gray-600'} rounded-lg p-8 text-center transition-colors`}
+                      className={`border-2 border-dashed ${isDragging ? 'border-[#FFD700] bg-[#333333]' : 'border-gray-600'} rounded-lg p-4 sm:p-6 md:p-8 text-center transition-colors`}
                     >
                       <Image 
                         src="/market/upload.svg" 
                         alt="Upload" 
-                        width={48} 
-                        height={48} 
-                        className="mx-auto mb-3"
+                        width={32} 
+                        height={32}
+                        className="mx-auto mb-2 sm:mb-3 sm:w-10 sm:h-10 md:w-12 md:h-12"
                       />
-                      <p className="text-gray-400 text-sm mb-2">
+                      <p className="text-gray-400 text-xs sm:text-sm mb-2">
                         Drag and drop Image here or{' '}
                         <button
                           onClick={() => fileInputRef.current?.click()}
@@ -309,22 +309,22 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                   ) : (
                     // Files uploaded state
                     <div>
-                      <div className="grid grid-cols-3 gap-3 mb-3">
+                      <div className="grid grid-cols-3 gap-1.5 sm:gap-2 md:gap-3 mb-2 sm:mb-3">
                         {/* PDF Files */}
                         {formData.files.filter(f => f.type === 'pdf').map((file) => (
                           <div key={file.id} className="relative group">
-                            <div className="bg-red-500 rounded-lg p-4 aspect-square flex flex-col items-center justify-center">
-                              <FaFilePdf className="text-white text-3xl mb-1" />
-                              <span className="text-white text-xs font-medium">PDF</span>
-                              <span className="text-white text-[10px] mt-1 truncate w-full text-center px-1">
-                                {file.name.replace('.pdf', '').substring(0, 15)}
+                            <div className="bg-red-500 rounded-lg p-2 sm:p-3 md:p-4 aspect-square flex flex-col items-center justify-center">
+                              <FaFilePdf className="text-white text-lg sm:text-2xl md:text-3xl mb-1" />
+                              <span className="text-white text-[10px] sm:text-xs font-medium">PDF</span>
+                              <span className="text-white text-[8px] sm:text-[9px] md:text-[10px] mt-1 truncate w-full text-center px-1">
+                                {file.name.replace('.pdf', '').substring(0, 10)}
                               </span>
                             </div>
                             <button
                               onClick={() => removeFile(file.id)}
-                              className="absolute -top-2 -right-2 bg-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-white rounded-full p-0.5 sm:p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
-                              <IoClose size={16} className="text-gray-700" />
+                              <IoClose size={12} className="sm:w-4 sm:h-4 text-gray-700" />
                             </button>
                           </div>
                         ))}
@@ -343,9 +343,9 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                             </div>
                             <button
                               onClick={() => removeFile(file.id)}
-                              className="absolute -top-2 -right-2 bg-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-white rounded-full p-0.5 sm:p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
-                              <IoClose size={16} className="text-gray-700" />
+                              <IoClose size={12} className="sm:w-4 sm:h-4 text-gray-700" />
                             </button>
                           </div>
                         ))}
@@ -356,13 +356,13 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
                             onClick={() => fileInputRef.current?.click()}
                             className="border-2 border-dashed border-gray-600 rounded-lg aspect-square flex flex-col items-center justify-center hover:border-[#FFD700] transition-colors"
                           >
-                            <span className="text-3xl text-gray-500 mb-1">+</span>
-                            <span className="text-gray-500 text-xs">Add Another</span>
+                            <span className="text-xl sm:text-2xl md:text-3xl text-gray-500 mb-1">+</span>
+                            <span className="text-gray-500 text-[10px] sm:text-xs">Add Another</span>
                           </button>
                         )}
                       </div>
                       
-                      <p className="text-gray-500 text-xs text-right">
+                      <p className="text-gray-500 text-[10px] sm:text-xs text-right">
                         {maxFiles} Files Max ({remainingFiles} left)
                       </p>
                     </div>
@@ -372,17 +372,17 @@ const RaiseDisputeModal: React.FC<RaiseDisputeModalProps> = ({ isOpen, onClose }
             </div>
 
             {/* Footer */}
-            <div className="px-6 pb-6 pt-4 flex justify-between bg-[#333333]">
+            <div className="px-3 sm:px-4 md:px-6 pb-3 sm:pb-4 md:pb-6 pt-2 sm:pt-3 md:pt-4 flex justify-between bg-[#333333]">
               <button
                 onClick={onClose}
-                className="bg-[#262208] hover:bg-[#1a1706] text-white font-medium py-2.5 px-8 rounded text-sm"
+                className="bg-[#262208] hover:bg-[#1a1706] text-white font-medium py-2 sm:py-2.5 px-4 sm:px-6 md:px-8 rounded text-xs sm:text-sm"
               >
                 BACK
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={!formData.description.trim()}
-                className="bg-[#FFD700] hover:bg-[#e6c200] text-black font-medium py-2.5 px-8 rounded disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="bg-[#FFD700] hover:bg-[#e6c200] text-black font-medium py-2 sm:py-2.5 px-4 sm:px-6 md:px-8 rounded disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
               >
                 SUBMIT DISPUTE
               </button>
