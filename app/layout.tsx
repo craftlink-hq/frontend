@@ -25,7 +25,7 @@ const alata = Alata({
 
 export const metadata: Metadata = {
   title: "CraftLink",
-  description: "The home of artisans and thier clients",
+  description: "The home of artisans and their clients",
   icons: {
     icon: "/logo.png",
   },
