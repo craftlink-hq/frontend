@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback } from "react";
-import { useAccount, useChainId, useSignMessage, useSignTypedData } from "wagmi";
+import { useAccount, useChainId, usePublicClient, useSignMessage, useSignTypedData, useWalletClient } from "wagmi";
 import { toast } from "sonner";
 import { ethers, Signature } from "ethers";
 import { useRouter } from "next/navigation";
 import { getTokenContract } from "@/constants/contracts";
-import { getProvider } from "@/constants/providers";
+// import { getProvider } from "@/constants/providers";
 import { isSupportedChain } from "@/constants/chain";
 import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { Address } from "viem";
@@ -18,9 +18,36 @@ const useCreateGig = () => {
   const { signTypedDataAsync } = useSignTypedData();
   const { signMessageAsync } = useSignMessage();
   const { walletProvider } = useAppKitProvider<Provider>("eip155");
+  const publicClient = usePublicClient();
+  const { data: walletClient } = useWalletClient();
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const RELAYER_URL = process.env.RELAYER_URL;
+
+  // Helper function to get provider - fallback to read-only if no wallet provider
+  const getProviderSafely = () => {
+    if (walletProvider) {
+      try {
+        return new ethers.BrowserProvider(walletProvider);
+      } catch (error) {
+        console.warn("Failed to create BrowserProvider from walletProvider:", error);
+      }
+    }
+    
+    // Fallback to read-only provider for contract reads
+    if (publicClient) {
+      try {
+        // Extract RPC URL from transport if available
+        const rpcUrl = (publicClient.transport)?.url || process.env.RPC_URL;
+        return new ethers.JsonRpcProvider(rpcUrl);
+      } catch (error) {
+        console.warn("Failed to create provider from publicClient:", error);
+      }
+    }
+    
+    // Ultimate fallback - create read-only provider with RPC URL
+    return new ethers.JsonRpcProvider(process.env.RPC_URL);
+  };
 
   const createGig = useCallback(
     async (rootHash: string, databaseId: string, budget: number) => {
@@ -32,6 +59,13 @@ const useCreateGig = () => {
         toast.warning("Unsupported network. Please switch to the correct network.");
         return false;
       }
+
+      // Check if we have wallet client for signing (required for social logins)
+      if (!walletClient && !walletProvider) {
+        toast.error("Wallet not properly connected. Please reconnect your wallet.");
+        return false;
+      }
+
       if (!rootHash || !databaseId || !budget) {
         toast.error("Invalid gig parameters");
         return false;
@@ -42,7 +76,7 @@ const useCreateGig = () => {
         console.log("Creating gig");
         console.log("Creating gig with parameters:", rootHash, databaseId, budget || 0);
         console.log("Using address:", address);
-        const provider = getProvider(walletProvider);
+        const provider = getProviderSafely();
         const tokenContract = getTokenContract(provider);
 
         // Fetch nonce from token contract
