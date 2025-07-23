@@ -5,9 +5,10 @@ import Link from "next/link";
 import { MdOutlineMenu } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { useState } from "react";
-import Button from "../Button";
+// import Button from "../Button";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { useRouter } from "next/navigation";
+import ConnectWallet from "../ConnectWallet";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -26,9 +27,9 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogin = () => {
-    router.push("/role/artisans/signin");
-  };
+  // const handleLogin = () => {
+  //   router.push("/role/artisans/signin");
+  // };
 
   return (
     <div>
@@ -77,7 +78,11 @@ const Header = () => {
 
         {/* Desktop Sign In Button */}
         <div className="hidden lg:flex">
-          <Button onClick={handleLogin} text="Sign In" />
+          {/* <Button onClick={handleLogin} text="Sign In" /> */}
+          <ConnectWallet
+            label="Sign In"
+            onConnect={() => router.push("/role/artisans/signin")}
+          />
         </div>
 
         {/* Mobile Menu Icon */}
@@ -95,7 +100,7 @@ const Header = () => {
             animateX={0} 
             exitX="100%"
             duration={0.3}
-            className="absolute right-0 top-0  w-[70vw] h-[70vh] right-0 bg-[#333333] z-50 lg:hidden"
+            className="absolute top-0  w-[70vw] h-[70vh] right-0 bg-[#333333] z-50 lg:hidden"
           >
             {/* Mobile Menu Header */}
             <div className="flex justify-between items-center px-4 py-4 border-b border-[#FCFBF726]">
@@ -133,7 +138,7 @@ const Header = () => {
                     key={item.href}
                     href={item.href}
                     onClick={toggleMenu}
-                    className="hover:text-yellow text-[#B5B4AD] hover:text-[#F9F1E2] text-lg font-medium transition-colors"
+                    className="text-[#B5B4AD] hover:text-[#F9F1E2] text-lg font-medium transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -142,7 +147,14 @@ const Header = () => {
 
               {/* Sign In Button */}
               <div className="px-4 py-8">
-                <button
+                <ConnectWallet
+                  label="Sign In"
+                  onConnect={() => {
+                    router.push("/role/artisans/signin");
+                    toggleMenu();
+                  }}
+                />
+                {/* <button
                   onClick={() => {
                     handleLogin();
                     toggleMenu();
@@ -150,7 +162,7 @@ const Header = () => {
                   className="w-full bg-[#FFD700] text-[#1A1203]  py-[12px] px-6 rounded-lg text-lg uppercase hover:bg-[#FFD700]/90 transition-colors"
                 >
                   Sign In
-                </button>
+                </button> */}
               </div>
             </div>
           </AnimatedDiv>

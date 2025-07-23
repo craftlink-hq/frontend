@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Mooli, Merriweather, Alata } from "next/font/google";
-import ContextProvider from "@/context/index";
+// import ContextProvider from "@/context/index";
 import { headers } from "next/headers";
 import AnimatedWrapper from "@/components/AnimatedWrapper";
 import { FilterStateProvider } from "@/context/filter";
 import { Toaster } from "sonner";
-
+import { ThirdwebProvider } from "thirdweb/react";
+import { thirdwebClient } from "./client";
 
 const mooli = Mooli({
   subsets: ["latin"],
@@ -44,12 +45,14 @@ export default async function RootLayout({
       <body
         className={`${mooli.className} ${merriweather.className} ${alata.className} antialiased`}
       >
+        <ThirdwebProvider>
           <Toaster />
           <AnimatedWrapper>
-            <ContextProvider cookies={cookies}>
+            {/* <ContextProvider cookies={cookies}> */}
               <FilterStateProvider>{children}</FilterStateProvider>
-            </ContextProvider>
+            {/* </ContextProvider> */}
           </AnimatedWrapper>
+        </ThirdwebProvider>
       </body>
     </html>
   );
