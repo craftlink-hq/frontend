@@ -7,7 +7,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useGetJobData } from "@/utils/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useAccount } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { getProvider } from "@/constants/providers";
 
@@ -35,6 +35,7 @@ export default function Budget() {
   const { setAmount, amount } = useGetJobData();
   const { isConnected } = useAccount();
   const { walletProvider } = useAppKitProvider<Provider>('eip155');
+  const { data: walletClient } = useWalletClient();
 
   const displayAmount = amount / 1000000;
 
@@ -69,7 +70,7 @@ export default function Budget() {
         return;
       }
 
-      if (!walletProvider) {
+      if (!walletClient || !walletProvider) {
         toast.error("Wallet provider not available. Please try reconnecting your wallet.");
         return;
       }
