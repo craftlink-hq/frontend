@@ -51,7 +51,7 @@ const Artisans = () => {
   }, []);
 
   return (
-    <div className="relative w-full md:w-[90%] justify-self-center md:px-2 md:px-1 overflow-x-hidden">
+    <div className="relative w-full md:w-[90%] justify-self-center md:px-1 overflow-x-hidden">
       <h4 className="font-alata text-[30px] md:text-[4vw] lg:text-[3vw] text-[#F9F1E2] p-4 md:p-0">
         Artisan Categories
       </h4>

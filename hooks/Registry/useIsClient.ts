@@ -2,7 +2,7 @@
 
 import { getRegistryContract } from "@/constants/contracts";
 import { readOnlyProvider } from "@/constants/providers";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
 import { useLoading } from "../useLoading";

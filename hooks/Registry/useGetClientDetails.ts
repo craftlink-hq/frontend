@@ -1,7 +1,7 @@
 "use client";
 
 import { getRegistryContract } from "@/constants/contracts";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState, useCallback } from "react";
 import IPFS from "@/hooks/useIPFS";

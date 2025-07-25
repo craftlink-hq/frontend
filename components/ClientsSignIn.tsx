@@ -6,7 +6,7 @@ import { toast } from "sonner"
 import Loading from "./Loading"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { useAccount } from "wagmi"
+import { useActiveAccount } from "thirdweb/react";
 import useIsClient from "@/hooks/Registry/useIsClient"
 import { useGetUserRole } from "@/utils/store"
 import useHasClaimed from "@/hooks/Token/useHasClaimed"
@@ -17,16 +17,16 @@ interface WelcomeProps {
 }
 
 const ClientsSignIn = ({ image, role }: WelcomeProps) => {
-  const { address, isConnected } = useAccount()
+  const account = useActiveAccount();
   const { isClient, isLoading: clientCheckLoading } = useIsClient()
   const router = useRouter()
   const { setRole } = useGetUserRole()
   const hasClaimed = useHasClaimed()
 
   const handleSignIn = () => {
-    if (!isConnected || !address) {
-      toast.error("Please connect your wallet to continue.")
-      return
+    if (!account) {
+      toast.error("Please connect your wallet to continue.");
+      return;
     }
 
     setRole(role)

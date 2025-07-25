@@ -1,242 +1,221 @@
 "use client";
 
 import { useCallback } from "react";
-import { useAccount, useChainId, useSignMessage, useSignTypedData, usePublicClient, useWalletClient } from "wagmi";
 import { toast } from "sonner";
 import { ethers, formatEther } from "ethers";
 import { useRouter } from "next/navigation";
+import { useActiveAccount } from "thirdweb/react";
+import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
 import { getCraftCoinContract, getGigContract } from "@/constants/contracts";
-import { isSupportedChain } from "@/constants/chain";
-import { useAppKitProvider, type Provider } from "@reown/appkit/react";
-import { Address } from "viem";
 import { useLoading } from "../useLoading";
+import { useSignMessage } from "@/lib/thirdweb-hooks";
+import { useChainSwitch } from "../useChainSwitch";
+import { thirdwebClient } from "@/app/client";
+import { liskSepolia } from "@/constants/chain";
+
+interface EthereumProvider {
+  request: (args: { method: string; params?: any[] }) => Promise<any>;
+}
 
 const useApplyForGig = () => {
-  const { address, isConnected } = useAccount();
-  const chainId = useChainId();
-  const { signTypedDataAsync } = useSignTypedData();
+  const account = useActiveAccount();
   const { signMessageAsync } = useSignMessage();
-  const { walletProvider } = useAppKitProvider<Provider>("eip155");
-  const publicClient = usePublicClient();
-  const { data: walletClient } = useWalletClient();
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const RELAYER_URL = process.env.RELAYER_URL;
-
-  // Helper function to get provider - fallback to read-only if no wallet provider
-  const getProviderSafely = () => {
-    if (walletProvider) {
-      try {
-        return new ethers.BrowserProvider(walletProvider);
-      } catch (error) {
-        console.warn("Failed to create BrowserProvider from walletProvider:", error);
-      }
-    }
-    
-    // Fallback to read-only provider for contract reads
-    if (publicClient) {
-      try {
-        // Extract RPC URL from transport if available
-        const rpcUrl = (publicClient.transport)?.url || process.env.RPC_URL;
-        return new ethers.JsonRpcProvider(rpcUrl);
-      } catch (error) {
-        console.warn("Failed to create provider from publicClient:", error);
-      }
-    }
-    
-    // Ultimate fallback - create read-only provider with RPC URL
-    return new ethers.JsonRpcProvider(process.env.RPC_URL);
-  };
+  const { ensureCorrectChain } = useChainSwitch();
 
   const applyForGig = useCallback(
     async (databaseId: string) => {
-      if (!isConnected || !address) {
+      if (!account) {
         toast.warning("Please connect your wallet first.");
         return false;
       }
-      if (!isSupportedChain(chainId)) {
-        toast.warning("Unsupported network. Please switch to the correct network.");
-        return false;
-      }
-
-      // Check if we have wallet client for signing (required for social logins)
-      if (!walletClient && !walletProvider) {
-        toast.error("Wallet not properly connected. Please reconnect your wallet.");
+      
+      const isCorrectChain = await ensureCorrectChain();
+      if (!isCorrectChain) {
         return false;
       }
 
       startLoading();
+      
       try {
-        const provider = getProviderSafely();
+        const provider = new ethers.JsonRpcProvider("https://rpc.sepolia-api.lisk.com");
 
-        // Add retry logic and better error handling for contract calls
-        let requiredCFT, cftResp;
-        let retryCount = 0;
-        const maxRetries = 3;
-
-        let nonce, name, version;
-
-        while (retryCount < maxRetries) {
-          try {
-            // Fetch required CFT for the gig
-            const gigContract = getGigContract(provider);
-            requiredCFT = await gigContract.getRequiredCFT(databaseId);
-            
-            // Fetch user's CFT balance
-            const craftCoinContract = getCraftCoinContract(provider);
-            cftResp = await craftCoinContract.balanceOf(address);
-
-            nonce = await craftCoinContract.nonces(address);
-            name = await craftCoinContract.name();
-            version = await craftCoinContract.version?.() ?? "1";
-            break; // Success, exit retry loop
-          } catch (contractError: unknown) {
-            retryCount++;
-            console.warn(`Contract call attempt ${retryCount} failed:`, contractError);
-            
-            if (retryCount === maxRetries) {
-              // If all retries failed, check if it's a network issue
-              if ((contractError as Error).message?.includes('missing revert data') || 
-                  (contractError as Error).message?.includes('CALL_EXCEPTION') ||
-                  (contractError as Error).message === 'CALL_EXCEPTION') {
-                toast.error("Network error. Please check your connection and try again.");
-                return false;
-              }
-              throw contractError;
-            }
-            
-            // Wait before retry (exponential backoff)
-            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-          }
-        }
-
+        // Fetch required CFT for the gig
+        const gigContract = getGigContract(provider);
+        const requiredCFT = await gigContract.getRequiredCFT(databaseId);
         const formattedCFT = Number(formatEther(requiredCFT));
+
+        // Fetch user's CFT balance
+        const craftCoinContract = getCraftCoinContract(provider);
+        const cftResp = await craftCoinContract.balanceOf(account.address);
         const cftBalance = Number(formatEther(cftResp));
 
         if (cftBalance < formattedCFT) {
           toast.error("Insufficient CFT balance to apply for this gig.");
-          return;
+          return false;
         }
 
-        // Fetch user's info from CraftCoin contract
-        
-
-        // Set deadline (1 hour from now)
-        const deadline = Math.floor(Date.now() / 1000) + 3600;
-
-        // Prepare permit message for CraftCoin
-        const domain = {
-          name: name,
-          version: version,
-          chainId: chainId,
-          verifyingContract: process.env.CRAFT_COIN as Address,
-        };
-
-        const types = {
-          Permit: [
-            { name: "owner", type: "address" },
-            { name: "spender", type: "address" },
-            { name: "value", type: "uint256" },
-            { name: "nonce", type: "uint256" },
-            { name: "deadline", type: "uint256" },
-          ],
-        };
-
-        const permitMessage = {
-          owner: address,
-          spender: process.env.GIG_MARKET_PLACE,
-          value: requiredCFT.toString(),
-          nonce: nonce.toString(),
-          deadline: deadline.toString(),
-        };
-
-        // Sign permit message using wagmi hooks (works with social logins)
-        let permitSignature;
+        // Option 1: Try to use gasless with permit signing
         try {
-          permitSignature = await signTypedDataAsync({
-            domain,
-            types,
-            primaryType: "Permit",
-            message: permitMessage,
+          const ethereum = (window as any)?.ethereum as EthereumProvider;
+          
+          if (!ethereum?.request) {
+            throw new Error("No compatible wallet provider found");
+          }
+
+          try {
+            const nonce = await craftCoinContract.nonces(account.address);
+            const name = await craftCoinContract.name();
+            const version = await craftCoinContract.version?.() ?? "1";
+            const deadline = Math.floor(Date.now() / 1000) + 3600;
+            const chainId = liskSepolia.id;
+
+            const typedData = {
+              types: {
+                EIP712Domain: [
+                  { name: "name", type: "string" },
+                  { name: "version", type: "string" },
+                  { name: "chainId", type: "uint256" },
+                  { name: "verifyingContract", type: "address" },
+                ],
+                Permit: [
+                  { name: "owner", type: "address" },
+                  { name: "spender", type: "address" },
+                  { name: "value", type: "uint256" },
+                  { name: "nonce", type: "uint256" },
+                  { name: "deadline", type: "uint256" },
+                ],
+              },
+              primaryType: "Permit",
+              domain: {
+                name: name,
+                version: version,
+                chainId: chainId,
+                verifyingContract: process.env.CRAFT_COIN as string,
+              },
+              message: {
+                owner: account.address,
+                spender: process.env.GIG_MARKET_PLACE as string,
+                value: requiredCFT.toString(),
+                nonce: nonce.toString(),
+                deadline: deadline.toString(),
+              },
+            };
+
+            toast.message("Please sign the permit...");
+            
+            // Use wallet's native signing
+            const permitSignature = await ethereum.request({
+              method: 'eth_signTypedData_v4',
+              params: [account.address, JSON.stringify(typedData)],
+            }) as string;
+
+            // Split signature
+            const signature = ethers.Signature.from(permitSignature);
+            const { v, r, s } = signature;
+
+            // Prepare gasless transaction
+            const params = {
+              databaseId,
+              deadline: deadline.toString(),
+              v,
+              r,
+              s,
+            };
+
+            const functionName = "applyForGig";
+            const gaslessMessage = JSON.stringify({ functionName, user: account.address, params });
+            const gaslessSignature = await signMessageAsync(gaslessMessage);
+
+            // Send to relayer
+            if (!RELAYER_URL) {
+              throw new Error("Relayer URL is not defined");
+            }
+
+            const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                functionName,
+                user: account.address,
+                params,
+                signature: gaslessSignature,
+              }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+              toast.success("Application Submitted");
+              router.push("/manage-jobs/artisans");
+              return true;
+            } else {
+              toast.error(`Error: ${result.message}`);
+              return false;
+            }
+
+          } catch (walletError) {
+            console.error("Wallet signing failed:", walletError);
+            throw walletError;
+          }
+
+        } catch (thirdwebError) {
+          console.log("Gasless approach failed, trying direct approach:", thirdwebError);
+          
+          // Option 2: Fallback to thirdweb's built-in approach
+          const craftCoinThirdwebContract = getContract({
+            client: thirdwebClient,
+            chain: liskSepolia,
+            address: process.env.CRAFT_COIN as string,
           });
-        } catch (signError: unknown) {
-          console.error("Permit signing failed:", signError);
-          if ((signError as Error).message?.includes("User rejected")) {
-            toast.info("Signature request cancelled");
-            return false;
-          }
-          throw signError;
-        }
 
-        // Split permit signature into v, r, s
-        const signature = ethers.Signature.from(permitSignature);
-        const { v, r, s } = signature;
+          const gigThirdwebContract = getContract({
+            client: thirdwebClient,
+            chain: liskSepolia,
+            address: process.env.GIG_MARKET_PLACE as string,
+          });
 
-        // Prepare params for the gasless transaction
-        const params = {
-          databaseId,
-          deadline: deadline.toString(),
-          v,
-          r,
-          s,
-        };
+          // First, approve the spending
+          const approveTransaction = prepareContractCall({
+            contract: craftCoinThirdwebContract,
+            method: "function approve(address spender, uint256 amount) returns (bool)",
+            params: [process.env.GIG_MARKET_PLACE as string, requiredCFT.toString()],
+          });
 
-        // Prepare gasless transaction message
-        const functionName = "applyForGig";
-        const gaslessMessage = JSON.stringify({ functionName, user: address, params });
+          toast.message("Please approve CFT spending...");
+          await sendTransaction({ transaction: approveTransaction, account });
 
-        // Sign the gasless transaction message using wagmi (works with social logins)
-        let gaslessSignature;
-        try {
-          gaslessSignature = await signMessageAsync({ message: gaslessMessage });
-        } catch (signError: unknown) {
-          console.error("Gasless message signing failed:", signError);
-          if ((signError as Error).message?.includes("User rejected")) {
-            toast.info("Signature request cancelled");
-            return false;
-          }
-          throw signError;
-        }
+          // Then apply for the gig
+          const applyTransaction = prepareContractCall({
+            contract: gigThirdwebContract,
+            method: "function applyForGig(string memory databaseId)",
+            params: [databaseId],
+          });
 
-        // Send request to the relayer backend
-        if (!RELAYER_URL) {
-          throw new Error("Relayer URL is not defined");
-        }
-        const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            functionName,
-            user: address,
-            params,
-            signature: gaslessSignature,
-          }),
-        });
+          toast.message("Applying for gig...");
+          await sendTransaction({ transaction: applyTransaction, account });
 
-        const result = await response.json();
-        if (result.success) {
           toast.success("Application Submitted");
           router.push("/manage-jobs/artisans");
-        } else {
-          toast.error(`Error: ${result.message}`);
+          return true;
         }
 
-        return true;
       } catch (error: unknown) {
-        if ((error as Error).message.includes("User rejected")) {
-          toast.info("Signature request cancelled");
+        console.error("Application error:", error);
+        
+        if ((error as Error).message.includes("User rejected") || 
+            (error as Error).message.includes("rejected")) {
+          toast.info("Transaction cancelled by user");
         } else {
           toast.error("Error during application");
-          console.error(error);
         }
-
         return false;
       } finally {
         stopLoading();
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, walletClient, publicClient, router]
+    [account, ensureCorrectChain, signMessageAsync, router, RELAYER_URL]
   );
 
   return { applyForGig, isLoading };

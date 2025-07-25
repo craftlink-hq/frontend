@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { useAccount, useChainId, useSignMessage } from "wagmi";
+import { useAccount, useChainId, useSignMessage } from "@/lib/thirdweb-hooks";
 import { toast } from "sonner";
 import { isSupportedChain } from "@/constants/chain";
 import { ethers } from "ethers";
@@ -34,7 +34,7 @@ export const useHireArtisan = () => {
         const functionName = "hireArtisan";
         const params = { databaseId, artisan };
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
-        const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
+        const gaslessSignature = await signMessageAsync(gaslessMessage);
 
         if (!RELAYER_URL) {
           throw new Error("Relayer URL is not defined");

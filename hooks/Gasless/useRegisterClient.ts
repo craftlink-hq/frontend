@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useAccount, useChainId, useSignMessage } from "wagmi";
+import { useAccount, useChainId, useSignMessage } from "@/lib/thirdweb-hooks";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { isSupportedChain } from "@/constants/chain";
@@ -36,7 +36,7 @@ export const useRegisterClient = () => {
         const functionName = "registerAsClient";
         const params = { ipfsUrl };
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
-        const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
+        const gaslessSignature = await signMessageAsync(gaslessMessage);
 
         if (!RELAYER_URL) {
           throw new Error("Relayer URL is not defined");

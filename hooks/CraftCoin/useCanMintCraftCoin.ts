@@ -1,7 +1,7 @@
 "use client";
 
 import { getCraftCoinContract } from "@/constants/contracts";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { useLoading } from "../useLoading";

@@ -5,7 +5,7 @@ import ClientStatus from "@/components/PostJob/ClientStatus";
 import ProjectDetails from "@/components/PostJob/ProjectDetails";
 import { useGetJobData, useGetClientData, useGetUserRole } from "@/utils/store";
 import { Job } from "@/utils/types";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import { useLoading } from "@/hooks/useLoading";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

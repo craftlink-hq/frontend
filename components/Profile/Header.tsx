@@ -18,7 +18,7 @@ import {
   FiChevronDown,
   FiChevronUp,
 } from "react-icons/fi";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import SearchBar from "../SearchBar"
 
 
@@ -120,7 +120,7 @@ const ProfileHeader = ({ isActive }: Header) => {
               animateX={0}
               exitX="100%"
               duration={0.3}
-              className="absolute right-0 top-0  w-[70vw] h-fit pb-4 right-0 bg-[#333333] z-50 lg:hidden"
+              className="absolute top-0  w-[70vw] h-fit pb-4 right-0 bg-[#333333] z-50 lg:hidden"
             >
               {/* Mobile Menu Header */}
               <div className="flex justify-between items-center px-4 py-4 border-b border-[#FCFBF726]">
@@ -158,7 +158,7 @@ const ProfileHeader = ({ isActive }: Header) => {
                       key={item.href}
                       href={item.href}
                       onClick={toggleMenu}
-                      className="hover:text-yellow text-[#B5B4AD] hover:text-[#F9F1E2] text-lg font-medium transition-colors"
+                      className="text-[#B5B4AD] hover:text-[#F9F1E2] text-lg font-medium transition-colors"
                     >
                       {item.label}
                     </Link>

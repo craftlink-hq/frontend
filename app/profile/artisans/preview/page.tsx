@@ -7,7 +7,7 @@ import Portfolio from "@/components/Profile/Portfolio";
 import { useGetArtisanData } from "@/utils/store";
 import { transformProfileData } from "@/utils/transformProfileData";
 import { ArtisanProfileProps } from "@/utils/profile";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import Loading from "@/components/Loading";
 import { useLoading } from "@/hooks/useLoading";
 import { toast } from "sonner";

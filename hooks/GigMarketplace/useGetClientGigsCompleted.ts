@@ -4,7 +4,7 @@ import { getGigContract } from "@/constants/contracts";
 import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import { useLoading } from "../useLoading";
 import useGetClientCreatedGigs from "./useGetClientCreatedGigs";
 

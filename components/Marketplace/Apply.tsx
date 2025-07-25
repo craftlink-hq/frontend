@@ -1,12 +1,12 @@
 "use client";
+import useApplyForGig from "@/hooks/Gasless/useApplyForGig";
 import { FC } from "react";
-import useApplyForGig from "@/hooks/GigMarketplace/useApplyForGig";
 
 const Apply: FC<{
   onCancel?: () => void;
   databaseId?: string;
 }> = ({onCancel, databaseId}) => {
-  const applyForGig = useApplyForGig();
+  const { applyForGig } = useApplyForGig();
 
   const handleApply = async () => {
     applyForGig(databaseId!);
