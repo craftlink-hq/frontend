@@ -2,11 +2,11 @@
 
 import { useCallback } from "react";
 import { toast } from "sonner";
-import { ethers, formatEther } from "ethers";
+import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { useActiveAccount } from "thirdweb/react";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
-import { getTokenContract, getPaymentProcessorContract } from "@/constants/contracts";
+import { getTokenContract } from "@/constants/contracts";
 import { useLoading } from "../useLoading";
 import { useSignMessage } from "@/lib/thirdweb-hooks";
 import { useChainSwitch } from "../useChainSwitch";
@@ -14,7 +14,11 @@ import { thirdwebClient } from "@/app/client";
 import { liskSepolia } from "@/constants/chain";
 
 interface EthereumProvider {
-  request: (args: { method: string; params?: any[] }) => Promise<any>;
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+}
+
+interface WindowWithEthereum {
+  ethereum?: EthereumProvider;
 }
 
 const useCreateGig = () => {
@@ -67,7 +71,7 @@ const useCreateGig = () => {
             throw new Error("Not in browser environment");
           }
           
-          const ethereum = (window as any)?.ethereum as EthereumProvider;
+          const ethereum = (window as WindowWithEthereum)?.ethereum as EthereumProvider;
           
           if (!ethereum?.request) {
             throw new Error("No compatible wallet provider found");
@@ -225,6 +229,7 @@ const useCreateGig = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [account, ensureCorrectChain, signMessageAsync, router, RELAYER_URL]
   );
 
