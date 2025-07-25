@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Mooli, Merriweather, Alata } from "next/font/google";
-// import ContextProvider from "@/context/index";
 import { headers } from "next/headers";
 import AnimatedWrapper from "@/components/AnimatedWrapper";
 import { FilterStateProvider } from "@/context/filter";
