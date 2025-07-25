@@ -3,15 +3,13 @@
 import Image from "next/image";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
-import { useLoading } from "@/hooks/useLoading";
 import useHasClaimed from "@/hooks/Token/useHasClaimed";
 import { toast } from "sonner";
 import { useClaim } from "@/hooks/Gasless/useClaim";
 
 export default function ClaimToken() {
-  const { claim } = useClaim();
+  const { claim, isLoading } = useClaim();
   const hasClaimed = useHasClaimed();
-  const { isLoading } = useLoading();
 
   const handleClaim = async () => {
     if (hasClaimed) {

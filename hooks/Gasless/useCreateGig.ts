@@ -1,14 +1,12 @@
 "use client";
 
 import { useCallback } from "react";
-import { useAccount, useChainId, useSignMessage, useSignTypedData } from "wagmi";
+import { useAccount, useChainId, useSignMessage, useSignTypedData } from "@/lib/thirdweb-hooks";
 import { toast } from "sonner";
 import { ethers, Signature } from "ethers";
 import { useRouter } from "next/navigation";
 import { getTokenContract } from "@/constants/contracts";
-import { getProvider } from "@/constants/providers";
 import { isSupportedChain } from "@/constants/chain";
-import { useAppKitProvider, type Provider } from "@reown/appkit/react";
 import { Address } from "viem";
 import { useLoading } from "../useLoading";
 
@@ -17,7 +15,6 @@ const useCreateGig = () => {
   const chainId = useChainId();
   const { signTypedDataAsync } = useSignTypedData();
   const { signMessageAsync } = useSignMessage();
-  const { walletProvider } = useAppKitProvider<Provider>("eip155");
   const router = useRouter();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const RELAYER_URL = process.env.RELAYER_URL;
@@ -39,10 +36,9 @@ const useCreateGig = () => {
 
       startLoading();
       try {
-        console.log("Creating gig");
-        console.log("Creating gig with parameters:", rootHash, databaseId, budget || 0);
-        console.log("Using address:", address);
-        const provider = getProvider(walletProvider);
+        const provider = new ethers.JsonRpcProvider(
+          "https://rpc.sepolia.lisk.com"
+        );
         const tokenContract = getTokenContract(provider);
 
         // Fetch nonce from token contract
@@ -110,7 +106,7 @@ const useCreateGig = () => {
         const gaslessMessage = JSON.stringify({ functionName, user: address, params });
 
         // Sign gasless transaction message
-        const gaslessSignature = await signMessageAsync({ message: gaslessMessage });
+        const gaslessSignature = await signMessageAsync(gaslessMessage);
 
         // Send request to backend
         if (!RELAYER_URL) {
@@ -150,7 +146,7 @@ const useCreateGig = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, walletProvider, router]
+    [address, isConnected, chainId, signTypedDataAsync, signMessageAsync, router]
   );
 
   return { createGig, isLoading };
