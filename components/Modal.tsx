@@ -21,13 +21,13 @@ const Modal = ({ children, closeFn, className }: ModalProps) => {
           className="relative py-2"
           onClick={(e) => e.stopPropagation()}
         >
-          {children}
           <button
             className="absolute top-4 right-4 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors z-10"
             onClick={closeFn}
           >
             <IoCloseSharp size={24} />
           </button>
+          {children}
         </AnimatedDiv>
       </div>
     </div>,

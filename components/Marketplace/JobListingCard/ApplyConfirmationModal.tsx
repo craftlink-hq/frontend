@@ -1,18 +1,22 @@
 "use client";
+import Loading from "@/components/Loading";
 import React from "react";
 
 interface ApplyConfirmationModalProps {
   onCancel: () => void;
   onConfirm: () => void;
+  isLoading?: boolean;
   craftCoinsRequired?: number;
 }
 
 const ApplyConfirmationModal: React.FC<ApplyConfirmationModalProps> = ({
   onCancel,
   onConfirm,
+  isLoading = false,
   craftCoinsRequired = 50
 }) => {
   return (
+    <Loading show={isLoading}>
     <div className="bg-[#333333] w-[90vw] max-w-md rounded-xl p-6 relative">
       {/* Header */}
       <div className="flex justify-between items-start mb-6">
@@ -63,6 +67,7 @@ const ApplyConfirmationModal: React.FC<ApplyConfirmationModalProps> = ({
         </button>
       </div>
     </div>
+    </Loading>
   );
 };
 
