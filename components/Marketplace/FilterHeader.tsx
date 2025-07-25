@@ -9,7 +9,7 @@ import useCheckDualRole from "@/hooks/Registry/useCheckDualRole";
 import { FiUser, FiMenu, FiHelpCircle, FiBell, FiSettings, FiFileText, FiChevronDown, FiChevronUp, FiX} from "react-icons/fi"
 
 import { useGetUserRole } from "@/utils/store";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 
 interface Header {
   isActive: (path: string) => boolean

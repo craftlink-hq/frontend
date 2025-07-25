@@ -4,7 +4,7 @@ import CompletedJob from "@/components/ManageJobs/Completed";
 import ManageJobs from "@/components/ManageJobs/Job";
 import { useFetchArtisanCompletedGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanCompletedGigs";
 import Loading from "@/components/Loading";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 
 export default function CompletedJobs() {
   const { address } = useAccount();
