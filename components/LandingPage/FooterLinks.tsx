@@ -5,7 +5,7 @@ const FooterLinks = () => {
   return (
     <>
       {footerLinks.map(({name, links}) => (
-        <div key={name} className="grid gap-y-2 font-merriweather text-sm">
+        <div key={name} className="grid gap-y-2 font-merriweather text-sm text-[#FFFFFF]">
           <h4 className="py-2 h-[35px] border-b-2 border-white text-base w-fit">
             {name}
           </h4>

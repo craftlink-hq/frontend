@@ -42,7 +42,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${mooli.className} ${merriweather.className} ${alata.className} antialiased`}
+        className={`${mooli.className} ${alata.className} ${merriweather.className} antialiased`}
       >
           <Toaster />
           <AnimatedWrapper>
