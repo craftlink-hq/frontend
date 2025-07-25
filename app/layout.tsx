@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Mooli, Merriweather, Alata } from "next/font/google";
-import { headers } from "next/headers";
 import AnimatedWrapper from "@/components/AnimatedWrapper";
 import { FilterStateProvider } from "@/context/filter";
 import { Toaster } from "sonner";
 import { ThirdwebProvider } from "thirdweb/react";
-import { thirdwebClient } from "./client";
 
 const mooli = Mooli({
   subsets: ["latin"],
@@ -36,7 +34,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookies = (await headers()).get("cookie");
+  // const cookies = (await headers()).get("cookie");
 
   return (
     <html lang="en">

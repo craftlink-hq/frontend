@@ -27,6 +27,10 @@ const useApplyForGig = () => {
 
   const applyForGig = useCallback(
     async (databaseId: string) => {
+      if (typeof window === 'undefined') {
+        return false;
+      }
+
       if (!account) {
         toast.warning("Please connect your wallet first.");
         return false;
@@ -59,6 +63,10 @@ const useApplyForGig = () => {
 
         // Option 1: Try to use gasless with permit signing
         try {
+          if (typeof window === 'undefined') {
+            throw new Error("Not in browser environment");
+          }
+          
           const ethereum = (window as any)?.ethereum as EthereumProvider;
           
           if (!ethereum?.request) {
