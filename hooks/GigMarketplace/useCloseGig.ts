@@ -1,13 +1,14 @@
 "use client";
 
 import { useCallback } from "react";
-import { getProvider } from "@/constants/providers";
-import { isSupportedChain } from "@/constants/chain";
-import { getGigContract } from "@/constants/contracts";
 import { toast } from "sonner";
-import { useChainId, useAccount } from "wagmi";
-import { useAppKitProvider, type Provider } from "@reown/appkit/react";
+import { useChainId, useAccount } from "@/lib/thirdweb-hooks";
 import { useRouter } from "next/navigation";
+import { useActiveAccount } from "thirdweb/react";
+import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
+import { thirdwebClient } from "@/app/client";
+import { liskSepolia } from "@/constants/chain";
+import { useChainSwitch } from "../useChainSwitch";
 
 type ErrorWithReason = {
   reason?: string;
@@ -16,41 +17,50 @@ type ErrorWithReason = {
 
 const useCloseGig = () => {
     const chainId = useChainId();
+    const account = useActiveAccount();
     const { isConnected } = useAccount();
-    const { walletProvider } = useAppKitProvider<Provider>('eip155');
     const router = useRouter();
+    const { ensureCorrectChain } = useChainSwitch();
 
     return useCallback(
         async (databaseId: string) => {
-            if (!isConnected) {
+            if (!account) {
                 toast.warning("Please connect your wallet first.");
                 return false;
             }
-            if (!isSupportedChain(chainId)) {
-                toast.warning("Unsupported network. Please switch to the correct network.");
+
+            const isCorrectChain = await ensureCorrectChain();
+            if (!isCorrectChain) {
                 return false;
             }
 
-            const readWriteProvider = getProvider(walletProvider);
-            const signer = await readWriteProvider.getSigner();
-            const contract = getGigContract(signer);
-
             try {
-                const gasEstimate = await contract.closeGig.estimateGas(databaseId);
-                const txn = await contract.closeGig(
-                    databaseId,
-                    { gasLimit: gasEstimate }
-                );
-                
+                // Get the contract instance using thirdweb
+                const contract = getContract({
+                    client: thirdwebClient,
+                    chain: liskSepolia,
+                    address: process.env.NEXT_PUBLIC_GIG_MARKET_PLACE as string,
+                });
+
+                // Prepare the contract call
+                const transaction = prepareContractCall({
+                    contract,
+                    method: "function closeGig(string memory databaseId)",
+                    params: [databaseId],
+                });
+
                 toast.message("Please wait while we process your transaction.");
-                const receipt = await txn.wait();
 
-                if (!receipt.status) {
-                    throw new Error("Transaction failed");
-                }
+                // Send the transaction
+                await sendTransaction({
+                    transaction,
+                    account,
+                });
 
-                toast.success("Gig closed successfully and he funds have been refunded.");
+                toast.success("Gig closed successfully and the funds have been refunded.");
                 router.push("/manage-jobs/clients/closed");
+        
+                return true;
             } catch (error) {
                 const err = error as ErrorWithReason;
                 let errorMessage = "Request cancelled.";
