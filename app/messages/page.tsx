@@ -136,7 +136,7 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#333333] flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Header />
 
       <div className="flex-1 flex">
