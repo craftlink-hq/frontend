@@ -10,7 +10,7 @@ import EarningsDisplay from "@/components/Profile/TokenBalance";
 import type { ArtisanProfileProps } from "@/utils/profile";
 import { transformBackendProfileData } from "@/utils/transformBackendProfileData";
 import { usePathname } from "next/navigation";
-import { useAccount } from "wagmi";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
 import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";

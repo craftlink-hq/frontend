@@ -7,9 +7,9 @@ import Loading from "./Loading"
 import { useRouter } from "next/navigation"
 import useIsArtisan from "@/hooks/Registry/useIsArtisan"
 import Link from "next/link"
-import { useAccount } from "wagmi"
 import { useGetUserRole } from "@/utils/store"
 import axios from "@/app/API/axios"
+import { useActiveAccount } from "thirdweb/react";
 
 interface WelcomeProps {
   image: string
@@ -17,21 +17,21 @@ interface WelcomeProps {
 }
 
 const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
-  const { address, isConnected } = useAccount()
+  const account = useActiveAccount();
   const { isArtisan, isLoading: artisanCheckLoading } = useIsArtisan()
   const router = useRouter()
   const { setRole } = useGetUserRole()
 
   const handleSignIn = async () => {
-    if (!isConnected && !address) {
-      toast.error("Please connect your wallet to continue.")
-      return
+    if (!account) {
+      toast.error("Please connect your wallet to continue.");
+      return;
     }
 
     setRole(role)
 
     if (isArtisan) {
-      const response = await axios.get(`/api/artisans/${address}`)
+      const response = await axios.get(`/api/artisans/${account?.address}`)
       if (!response) {
         toast.info("Please complete your artisan profile.")
         router.push("/role/artisans/onboarding/category")

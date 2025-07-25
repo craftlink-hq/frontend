@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  webpack: (config) => {
+    config.externals.push("pino-pretty", "lokijs", "encoding");
+    return config;
+  },
   // reactStrictMode: false,
   images: {
     remotePatterns: [
@@ -44,6 +48,8 @@ const nextConfig: NextConfig = {
     CLOUDINARY_PRESET: process.env.CLOUDINARY_PRESET,
     SERVER_URL: process.env.SERVER_URL,
     RELAYER_URL: process.env.RELAYER_URL,
+    THIRDWEB_CLIENT_ID: process.env.THIRDWEB_CLIENT_ID,
+    THIRDWEB_SECRET_KEY: process.env.THIRDWEB_SECRET_KEY,
   },
 };
 

@@ -36,7 +36,7 @@ export interface PortfolioProps {
 
 
 export interface DetailsProps {
-  minimumProjectAmount: any;
+  minimumProjectAmount: number;
   language: string;
   location: string;
   experience: string;

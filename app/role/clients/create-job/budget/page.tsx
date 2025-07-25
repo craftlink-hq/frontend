@@ -1,15 +1,15 @@
 // Component
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ProgressBar from "@/components/ProgressBar";
 import Image from "next/image";
 import { IoCloseSharp } from "react-icons/io5";
 import { useGetJobData } from "@/utils/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useAccount } from "wagmi";
-import { useAppKitProvider, type Provider } from "@reown/appkit/react";
-import { getProvider } from "@/constants/providers";
+import { useAccount } from "@/lib/thirdweb-hooks";
+import { useActiveAccount } from "thirdweb/react";
+import { useChainSwitch } from "@/hooks/useChainSwitch";
 
 // Constants
 const MINIMUM_AMOUNT = 5;
@@ -30,20 +30,15 @@ export default function Budget() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
+  const account = useActiveAccount();
+  const { ensureCorrectChain } = useChainSwitch();
+
   // Hooks
   const router = useRouter();
   const { setAmount, amount } = useGetJobData();
   const { isConnected } = useAccount();
-  const { walletProvider } = useAppKitProvider<Provider>('eip155');
 
   const displayAmount = amount / 1000000;
-
-  // Effects
-  useEffect(() => {
-    if (!isConnected) {
-      toast.error("Please connect your wallet first");
-    }
-  }, [isConnected]);
 
   // Handlers
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,14 +59,14 @@ export default function Budget() {
     try {
       setIsLoading(true);
 
-      if (!isConnected) {
-        toast.error("Please connect your wallet first");
-        return;
+      if (!account) {
+        toast.warning("Please connect your wallet first.");
+        return false;
       }
 
-      if (!walletProvider) {
-        toast.error("Wallet provider not available. Please try reconnecting your wallet.");
-        return;
+      const isCorrectChain = await ensureCorrectChain();
+      if (!isCorrectChain) {
+        return false;
       }
 
       if (!validateAmount(amount)) {
@@ -79,16 +74,11 @@ export default function Budget() {
         return;
       }
 
-      const readWriteProvider = getProvider(walletProvider);
-      const signer = await readWriteProvider.getSigner();
-
-      if (!signer) {
-        toast.warning("Wallet not connected");
-        router.push("/");
-        return;
-      }
-
-      // Add any additional validation or blockchain interaction here
+      // if (!signer) {
+      //   toast.warning("Wallet not connected");
+      //   router.push("/");
+      //   return;
+      // }
 
       router.push("/role/clients/create-job/preview");
     } catch (error) {

@@ -1,14 +1,15 @@
 "use client";
 
 import { useCallback } from "react";
-import { getProvider } from "@/constants/providers";
-import { isSupportedChain } from "@/constants/chain";
-import { getRegistryContract } from "@/constants/contracts";
 import { toast } from "sonner";
 import { useStoreIPFS } from "@/utils/store";
-import { useChainId, useAccount } from "wagmi";
-import { useAppKitProvider, type Provider } from "@reown/appkit/react";
+import { useChainId, useAccount } from "@/lib/thirdweb-hooks";
 import { useRouter } from "next/navigation";
+import { useChainSwitch } from "../useChainSwitch";
+import { useActiveAccount } from "thirdweb/react";
+import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
+import { thirdwebClient } from "@/app/client";
+import { liskSepolia } from "@/constants/chain";
 
 type ErrorWithReason = {
   reason?: string;
@@ -18,24 +19,26 @@ type ErrorWithReason = {
 
 const useRegisterArtisan = () => {
     const chainId = useChainId();
+    const account = useActiveAccount();
     const { isConnected } = useAccount();
-    const { walletProvider } = useAppKitProvider<Provider>('eip155');
     const { ipfsUrl } = useStoreIPFS();
     const router = useRouter();
+    const { ensureCorrectChain } = useChainSwitch();
 
     return useCallback(
         async () => {
+            if (!account) {
+                toast.warning("Please connect your wallet first.");
+                return false;
+            }
+
             if (!isConnected) {
                 toast.warning("Please connect your wallet first.");
                 return false;
             }
-            if (!isSupportedChain(chainId)) {
-                toast.warning("Unsupported network. Please switch to the correct network.");
-                return false;
-            }
-
-            if (!walletProvider) {
-                toast.error("Wallet provider is not available. Please try reconnecting your wallet.");
+            
+            const isCorrectChain = await ensureCorrectChain();
+            if (!isCorrectChain) {
                 return false;
             }
 
@@ -44,20 +47,29 @@ const useRegisterArtisan = () => {
                 return false;
             }
 
-            const readWriteProvider = getProvider(walletProvider);
-            const signer = await readWriteProvider.getSigner();
-            const contract = getRegistryContract(signer);
-
             try {
-                const estimateGas = await contract.registerAsArtisan.estimateGas(ipfsUrl);
-                const txn = await contract.registerAsArtisan(ipfsUrl, { gasLimit: estimateGas });
-                
-                toast.message("Please wait while we process your transaction.");
-                const receipt = await txn.wait();
+                // Get the contract instance using thirdweb
+                const contract = getContract({
+                    client: thirdwebClient,
+                    chain: liskSepolia,
+                    address: process.env.REGISTRY as string,
+                });
 
-                if (!receipt.status) {
-                    throw new Error("Transaction failed");
-                }
+                // Prepare the contract call
+                const transaction = prepareContractCall({
+                    contract,
+                    method: "function registerAsArtisan(string memory ipfsUrl)",
+                    params: [ipfsUrl],
+                });
+
+                toast.message("Please wait while we process your transaction.");
+
+                // Send the transaction
+                await sendTransaction({
+                    transaction,
+                    account,
+                });
+
                 toast.success("Account created");
                 router.push("/role/artisans/onboarding/category");
                 return true;
@@ -75,7 +87,7 @@ const useRegisterArtisan = () => {
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [chainId, isConnected, walletProvider]
+        [chainId, isConnected]
     );
 };
 

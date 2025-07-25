@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Mooli, Merriweather, Alata } from "next/font/google";
-import ContextProvider from "@/context/index";
-import { headers } from "next/headers";
 import AnimatedWrapper from "@/components/AnimatedWrapper";
 import { FilterStateProvider } from "@/context/filter";
 import { Toaster } from "sonner";
-
+import { ThirdwebProvider } from "thirdweb/react";
 
 const mooli = Mooli({
   subsets: ["latin"],
@@ -25,7 +23,7 @@ const alata = Alata({
 
 export const metadata: Metadata = {
   title: "CraftLink",
-  description: "The home of artisans and thier clients",
+  description: "The home of artisans and their clients",
   icons: {
     icon: "/logo.png",
   },
@@ -36,20 +34,21 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookies = (await headers()).get("cookie");
-
+  // const cookies = (await headers()).get("cookie");
 
   return (
     <html lang="en">
       <body
         className={`${mooli.className} ${alata.className} ${merriweather.className} antialiased`}
       >
+        <ThirdwebProvider>
           <Toaster />
           <AnimatedWrapper>
-            <ContextProvider cookies={cookies}>
+            {/* <ContextProvider cookies={cookies}> */}
               <FilterStateProvider>{children}</FilterStateProvider>
-            </ContextProvider>
+            {/* </ContextProvider> */}
           </AnimatedWrapper>
+        </ThirdwebProvider>
       </body>
     </html>
   );
