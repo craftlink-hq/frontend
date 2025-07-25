@@ -14,7 +14,11 @@ import { thirdwebClient } from "@/app/client";
 import { liskSepolia } from "@/constants/chain";
 
 interface EthereumProvider {
-  request: (args: { method: string; params?: any[] }) => Promise<any>;
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+}
+
+interface WindowWithEthereum {
+  ethereum?: EthereumProvider;
 }
 
 const useApplyForGig = () => {
@@ -67,7 +71,7 @@ const useApplyForGig = () => {
             throw new Error("Not in browser environment");
           }
           
-          const ethereum = (window as any)?.ethereum as EthereumProvider;
+          const ethereum = (window as WindowWithEthereum)?.ethereum as EthereumProvider;
           
           if (!ethereum?.request) {
             throw new Error("No compatible wallet provider found");
@@ -223,6 +227,7 @@ const useApplyForGig = () => {
         stopLoading();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [account, ensureCorrectChain, signMessageAsync, router, RELAYER_URL]
   );
 
