@@ -39,7 +39,7 @@ const useCloseGig = () => {
                 const contract = getContract({
                     client: thirdwebClient,
                     chain: liskSepolia,
-                    address: process.env.NEXT_PUBLIC_GIG_MARKET_PLACE as string,
+                    address: process.env.GIG_MARKET_PLACE as string,
                 });
 
                 // Prepare the contract call
