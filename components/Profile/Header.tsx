@@ -80,7 +80,7 @@ const ProfileHeader = ({ isActive }: Header) => {
               width={40}
               height={49}
             />
-            <span className="text-[20px] hidden xl:flex md:text-[28px]">
+            <span className="text-[20px] text-[#F9F1E2] hidden xl:flex md:text-[28px]">
               Craft{""}
               <span className="bg-[#FFD700] text-[#1A1203] rounded-sm">
                 Link

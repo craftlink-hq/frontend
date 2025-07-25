@@ -22,7 +22,7 @@ const Modal = ({ children, closeFn, className }: ModalProps) => {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute top-4 right-4 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors z-10"
+            className="absolute top-12 right-12 bg-[] rounded text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
             onClick={closeFn}
           >
             <IoCloseSharp size={24} />
