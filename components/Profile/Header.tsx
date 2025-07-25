@@ -158,7 +158,7 @@ const ProfileHeader = ({ isActive }: Header) => {
                       key={item.href}
                       href={item.href}
                       onClick={toggleMenu}
-                      className="hover:text-yellow text-[#B5B4AD] hover:text-[#F9F1E2] text-lg font-medium transition-colors"
+                      className="text-[#B5B4AD] hover:text-[#F9F1E2] text-lg font-medium transition-colors"
                     >
                       {item.label}
                     </Link>
