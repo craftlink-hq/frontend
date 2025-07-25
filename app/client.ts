@@ -22,9 +22,8 @@ export const wallets = [
     auth: {
       options: [
         "google",
-        "discord",
+        "facebook",
         "telegram",
-        "farcaster",
         "email",
         "x",
         "passkey",
