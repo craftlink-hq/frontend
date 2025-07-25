@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount } from '@/lib/thirdweb-hooks';
 import { getGigContract } from '@/constants/contracts';
 import { readOnlyProvider } from '@/constants/providers';
 import axios from '@/app/API/axios';
