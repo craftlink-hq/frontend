@@ -9,11 +9,11 @@ interface Details {
 const ClientCard = ({ client }: { client: Client }) => {
   const details: Details[] = [
     {
-      imgSrc: "/language.png",
+      imgSrc: "/language.svg",
       detailValue: client.language || "Not specified",
     },
     {
-      imgSrc: "/location.png",
+      imgSrc: "/location.svg",
       detailValue: client.location || "Not specified",
     },
     {

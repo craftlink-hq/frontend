@@ -17,15 +17,15 @@
 
 //   const titleDetails: TitleDetails[] = [
 //     {
-//       imgSrc: "/location.png",
+//       imgSrc: "/location.svg",
 //       name: job.preferredLocation,
 //     },
 //     {
-//       imgSrc: "/language.png",
+//       imgSrc: "/language.svg",
 //       name: job.language ? job.language : "English",
 //     },
 //     {
-//       imgSrc: "/calendar.png",
+//       imgSrc: "/calendar.svg",
 //       name: `${job.projectDuration.weeks} weeks`,
 //     },
 //     {
@@ -72,7 +72,7 @@
 //       </div>
 //       <div className="py-2 md:py-8 font-merriweather text-fontPrimary flex gap-x-2 md:gap-x-4">
 //         <Image
-//           src="/expertise.png"
+//           src="/expertise.svg"
 //           alt="Expertise"
 //           width="30"
 //           height="22"
@@ -82,7 +82,7 @@
 //         <span className="capitalize self-center text-lg">{job.experienceLevel}</span>
 //         <span className="px-4 text-fontPrimary self-center">---</span>
 //         <Image
-//           src="/money.png"
+//           src="/money.svg"
 //           alt="Amount"
 //           width="30"
 //           height="22"

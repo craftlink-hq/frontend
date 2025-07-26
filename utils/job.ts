@@ -164,14 +164,14 @@ export const fashion = {
 export const Applications: Applied[] = [
   {
     startDate: "13/01/25",
-    status: "review",
-    statusMsg: "Under Review: Client is yet to pick an artisan",
+    status: "Review",
+    statusMsg: "Client is yet to pick an artisan",
     job: fashionDesigner,
   },
   {
     startDate: "13/01/25",
-    status: "review",
-    statusMsg: "Under Review: Client is yet to pick an artisan",
+    status: "Review",
+    statusMsg: "Client is yet to pick an artisan",
     job: fashion,
   },
 ];

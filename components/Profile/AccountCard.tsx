@@ -10,23 +10,23 @@ interface Details {
 const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
   const details: Details[] = [
     {
-      imgSrc: "/language.png",
+      imgSrc: "/language.svg",
       detailValue: artisan.details.language,
     },
     {
-      imgSrc: "/money.png",
+      imgSrc: "/money.svg",
       detailValue: `$${artisan.details.minimumProjectAmount / 1e6}/Project`,
     },
     {
-      imgSrc: "/location.png",
+      imgSrc: "/location.svg",
       detailValue: artisan.details.location,
     },
     {
-      imgSrc: "/calendar.png",
+      imgSrc: "/calendar.svg",
       detailValue: (artisan.details.availability ? "Available" : "Not Available") + " To Work",
     },
     {
-      imgSrc: "/expertise.png",
+      imgSrc: "/expertise.svg",
       detailValue: artisan.details.experience,
     },
   ];

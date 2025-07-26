@@ -76,7 +76,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
           <div className="flex items-center gap-4 text-sm text-[#D8D6CF]">
             <div className="flex items-center gap-2">
               <Image
-                src="/location.png"
+                src="/location.svg"
                 alt="location"
                 width={16}
                 height={16}

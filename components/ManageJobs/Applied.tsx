@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Modal from "../Modal";
 import GigDetails from "./GigDetails";
 import AnimatedDiv from "@/components/AnimatedDiv";
-import { formatDate } from "@/utils/formatDate";
+import { formatRelativeTime } from "@/utils/timeUtils";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
 import { useRouter } from "next/navigation"
 
@@ -30,7 +30,7 @@ const AppliedJob = ({ job }: { job: Applied }) => {
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-3 md:p-4">
         <span className="text-xs md:text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-2 md:p-[10px]">
-          Posted: {formatDate(job.startDate)}
+          Posted: {formatRelativeTime(job.startDate)}
         </span>
       </div>
 
@@ -60,7 +60,7 @@ const AppliedJob = ({ job }: { job: Applied }) => {
           <div className="flex items-center text-[10px] md:text-[14px] text-[#B5B4AD] mb-2 gap-0.5 md:gap-1">
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/location.png"}
+                src={"/location.svg"}
                 alt={clientData?.location || "Not specified"}
                 width="10"
                 height="10"
@@ -72,10 +72,10 @@ const AppliedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/language.png"}
+                src={"/language.svg"}
                 alt={"language"}
-                width="8"
-                height="8"
+                width="10"
+                height="10"
                 className="md:w-[14px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-[10px] md:text-[14px] whitespace-nowrap">
@@ -84,19 +84,19 @@ const AppliedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/calendar.png"}
+                src={"/calendar.svg"}
                 alt={"timeline"}
                 width="10"
                 height="10"
                 className="md:w-[18px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-[10px] md:text-[14px] whitespace-nowrap">
-                {job.job.projectDuration.weeks}w
+                {job.job.projectDuration.weeks} weeks
               </span>
             </div>
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-2">
               <Image
-                src={"/expertise.png"}
+                src={"/expertise.svg"}
                 alt={job.job.experienceLevel}
                 width="10"
                 height="10"
@@ -113,7 +113,7 @@ const AppliedJob = ({ job }: { job: Applied }) => {
         <div className="flex gap-x-2 items-center text-[#FFCC6D]">
           <div className="flex">
             <Image
-              src="/money-2.png"
+              src="/money.svg"
               alt="Amount"
               width="16"
               height="16"
@@ -129,7 +129,7 @@ const AppliedJob = ({ job }: { job: Applied }) => {
         {/* Status */}
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-[#FAB427] rounded-full"></div>
-          <span className="text-[#F9F1E2] font-medium text-sm md:text-base">
+          <span className="text-[#F9F1E2] font-medium capitalize text-sm md:text-base">
             {job.status}:{" "}
             <span className="text-[#B5B4AD] text-xs md:text-base">{job.statusMsg}</span>
           </span>
@@ -159,7 +159,7 @@ const AppliedJob = ({ job }: { job: Applied }) => {
             className="bg-[#333333] border border-[#FCFBF726] w-[95vw] md:w-[60vw] h-[90vh] rounded-xl p-4 relative max-w-md md:max-w-none mx-auto"
           >
             <div className="h-[90%] overflow-y-scroll">
-              <GigDetails job={job.job} />
+              <GigDetails job={job.job} closeFn={() => setIsModalOpen(false)} />
             </div>
           </AnimatedDiv>
         </Modal>

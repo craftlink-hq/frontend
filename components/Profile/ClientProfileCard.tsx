@@ -79,7 +79,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
               <div className="border-r border-[#FCFBF726]">
                 <div className="flex items-center gap-2 text-[#B5B4AD] mb-1">
                   <Image
-                    src="/location.png"
+                    src="/location.svg"
                     alt="location"
                     width={12}
                     height={14}
@@ -94,7 +94,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
               <div className="border-r border-[#FCFBF726]">
                 <div className="flex items-center gap-2 text-[#B5B4AD] mb-1">
                   <Image
-                    src="/language.png"
+                    src="/language.svg"
                     alt="language"
                     width={12}
                     height={14}
