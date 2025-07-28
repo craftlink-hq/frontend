@@ -60,9 +60,8 @@ export const useCloseGig = () => {
 
       const result = await response.json();
       if (result.success) {
-        toast.success("Tokens claimed successfully");
-
-        router.push("/authenticate/register/client");
+        toast.success("Gig closed successfully and the funds have been refunded.");
+        router.push("/manage-jobs/clients/closed");
       } else {
         toast.error(`Error: ${result.message}`);
       }
