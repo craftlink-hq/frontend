@@ -7,7 +7,8 @@ import NoJob from "./NoJob";
 import Pagination from "./JobsPagination";
 import { useMemo } from "react";
 import type { Artisan, Job } from "@/utils/types";
-import useCloseGig from "@/hooks/GigMarketplace/useCloseGig";
+import { useCloseGig } from "@/hooks/Gasless/useCloseGig";
+import Loading from "../Loading";
 
 interface ManageApplicantsProps {
   applicants?: Artisan[];
@@ -44,7 +45,7 @@ const ManageApplicants = ({
   onItemsPerPageChange,
 }: Readonly<ManageApplicantsProps>) => {
   const { filterState } = useFilterState();
-  const closeGig = useCloseGig();
+  const { closeGig, isLoading } = useCloseGig();
 
   // Use applicants from job if not provided directly
   const jobApplicants = useMemo(() => {
@@ -91,7 +92,8 @@ const ManageApplicants = ({
   }
 
   return (
-    <div className="grid h-full w-full">
+    <Loading show={isLoading}>
+      <div className="grid h-full w-full">
       {jobApplicants.length > 0 ? (
         <div className="w-full px-4 md:px-8 2xl:px-16 py-8">
           <div className="flex justify-between md:gap-x-8 lg:gap-x-16">
@@ -160,6 +162,7 @@ const ManageApplicants = ({
         />
       )}
     </div>
+    </Loading>
   );
 };
 
