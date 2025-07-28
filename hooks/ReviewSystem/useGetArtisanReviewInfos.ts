@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { getReviewContract } from "@/constants/contracts";
+import { useAccount } from "@/lib/thirdweb-hooks";
+import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
 
@@ -14,25 +15,30 @@ interface ReviewInfo {
   timestamp: number;
 }
 
-export const useGetArtisanReviewInfos = (artisanAddress: string) => {
+const useGetArtisanReviewInfos = (artisanAddress: string) => {
+  const { address, isConnected } = useAccount();
   const [reviews, setReviews] = useState<ReviewInfo[]>([]);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const contract = getReviewContract(readOnlyProvider);
-        const reviewInfos = await contract.getArtisanReviewInfos(artisanAddress);
-        setReviews(reviewInfos);
-      } catch (error) {
-        toast.error("Error fetching artisan reviews");
-        console.error("Error fetching artisan reviews:", error);
-      }
-    };
+  const fetchReviews = useCallback(async () => {
+    if (!address) return;
 
-    if (artisanAddress) {
-      fetchReviews();
+    try {
+      const contract = getReviewContract(readOnlyProvider);
+      const reviewInfos = await contract.getArtisanReviewInfos(artisanAddress);
+      setReviews(reviewInfos);
+    } catch (error) {
+      toast.error("Error fetching artisan reviews");
+        console.error("Error fetching artisan reviews:", error);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artisanAddress]);
+
+  useEffect(() => {
+    fetchReviews();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   return reviews;
 };
+
+export default useGetArtisanReviewInfos;
