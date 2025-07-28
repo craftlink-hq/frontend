@@ -5,21 +5,9 @@ import { toast } from "sonner";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { useActiveAccount } from "thirdweb/react";
-import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
-import { getTokenContract } from "@/constants/contracts";
-import { useLoading } from "../useLoading";
 import { useSignMessage } from "@/lib/thirdweb-hooks";
 import { useChainSwitch } from "../useChainSwitch";
-import { thirdwebClient } from "@/app/client";
-import { liskSepolia } from "@/constants/chain";
-
-interface EthereumProvider {
-  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
-}
-
-interface WindowWithEthereum {
-  ethereum?: EthereumProvider;
-}
+import { useLoading } from "../useLoading";
 
 const useCreateGig = () => {
   const account = useActiveAccount();
@@ -39,7 +27,7 @@ const useCreateGig = () => {
         toast.warning("Please connect your wallet first.");
         return false;
       }
-      
+
       const isCorrectChain = await ensureCorrectChain();
       if (!isCorrectChain) {
         return false;
@@ -51,13 +39,11 @@ const useCreateGig = () => {
       }
 
       startLoading();
-      
+
       try {
         const provider = new ethers.JsonRpcProvider("https://rpc.sepolia-api.lisk.com");
-
-        // Check user's USDT balance
-        const tokenContract = getTokenContract(provider);
-        const budgetInWei = ethers.parseUnits(budget.toString(), 6); // USDT has 6 decimals
+        const tokenContract = new ethers.Contract(process.env.TOKEN!, ['function balanceOf(address) view returns (uint256)'], provider);
+        const budgetInWei = ethers.parseUnits(budget.toString(), 6);
         const tokenBalance = await tokenContract.balanceOf(account.address);
 
         if (tokenBalance < budgetInWei) {
@@ -65,164 +51,80 @@ const useCreateGig = () => {
           return false;
         }
 
-        // Option 1: Try to use gasless with permit signing
-        try {
-          if (typeof window === 'undefined') {
-            throw new Error("Not in browser environment");
-          }
-          
-          const ethereum = (window as WindowWithEthereum)?.ethereum as EthereumProvider;
-          
-          if (!ethereum?.request) {
-            throw new Error("No compatible wallet provider found");
-          }
-
-          try {
-            const nonce = await tokenContract.nonces(account.address);
-            const name = await tokenContract.name();
-            const version = await tokenContract.version?.() ?? "1";
-            const deadline = Math.floor(Date.now() / 1000) + 3600;
-            const chainId = liskSepolia.id;
-
-            const typedData = {
-              types: {
-                EIP712Domain: [
-                  { name: "name", type: "string" },
-                  { name: "version", type: "string" },
-                  { name: "chainId", type: "uint256" },
-                  { name: "verifyingContract", type: "address" },
-                ],
-                Permit: [
-                  { name: "owner", type: "address" },
-                  { name: "spender", type: "address" },
-                  { name: "value", type: "uint256" },
-                  { name: "nonce", type: "uint256" },
-                  { name: "deadline", type: "uint256" },
-                ],
-              },
-              primaryType: "Permit",
-              domain: {
-                name: name,
-                version: version,
-                chainId: chainId,
-                verifyingContract: process.env.TOKEN as string,
-              },
-              message: {
-                owner: account.address,
-                spender: process.env.PAYMENT_PROCESSOR as string,
-                value: budgetInWei.toString(),
-                nonce: nonce.toString(),
-                deadline: deadline.toString(),
-              },
-            };
-
-            toast.message("Please sign the permit...");
-            
-            // Use wallet's native signing
-            const permitSignature = await ethereum.request({
-              method: 'eth_signTypedData_v4',
-              params: [account.address, JSON.stringify(typedData)],
-            }) as string;
-
-            // Split signature
-            const signature = ethers.Signature.from(permitSignature);
-            const { v, r, s } = signature;
-
-            // Prepare gasless transaction
-            const params = {
-              rootHash,
-              databaseId,
-              budget: budgetInWei.toString(),
-              deadline: deadline.toString(),
-              v,
-              r,
-              s,
-            };
-
-            const functionName = "createGig";
-            const gaslessMessage = JSON.stringify({ functionName, user: account.address, params });
-            const gaslessSignature = await signMessageAsync(gaslessMessage);
-
-            // Send to relayer
-            if (!RELAYER_URL) {
-              throw new Error("Relayer URL is not defined");
-            }
-
-            const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                functionName,
-                user: account.address,
-                params,
-                signature: gaslessSignature,
-              }),
-            });
-
-            const result = await response.json();
-            if (result.success) {
-              toast.success("Gig created successfully");
-              router.push("/manage-jobs/clients"); // or wherever you want to navigate
-              return true;
-            } else {
-              toast.error(`Error: ${result.message}`);
-              return false;
-            }
-
-          } catch (walletError) {
-            console.error("Wallet signing failed:", walletError);
-            throw walletError;
-          }
-
-        } catch (thirdwebError) {
-          console.log("Gasless approach failed, trying direct approach:", thirdwebError);
-          
-          // Option 2: Fallback to thirdweb's built-in approach
-          const tokenThirdwebContract = getContract({
-            client: thirdwebClient,
-            chain: liskSepolia,
-            address: process.env.TOKEN as string,
-          });
-
-          const paymentProcessorThirdwebContract = getContract({
-            client: thirdwebClient,
-            chain: liskSepolia,
-            address: process.env.PAYMENT_PROCESSOR as string,
-          });
-
-          // First, approve the spending
-          const approveTransaction = prepareContractCall({
-            contract: tokenThirdwebContract,
-            method: "function approve(address spender, uint256 amount) returns (bool)",
-            params: [process.env.PAYMENT_PROCESSOR as string, budgetInWei],
-          });
-
-          toast.message("Please approve USDT spending...");
-          await sendTransaction({ transaction: approveTransaction, account });
-
-          // Then create the gig
-          const createGigTransaction = prepareContractCall({
-            contract: paymentProcessorThirdwebContract,
-            method: "function createGig(string memory rootHash, string memory databaseId, uint256 budget)",
-            params: [rootHash, databaseId, budgetInWei],
-          });
-
-          toast.message("Creating gig...");
-          await sendTransaction({ transaction: createGigTransaction, account });
-
-          toast.success("Gig created successfully");
-          router.push("/manage-jobs/clients"); // or wherever you want to navigate
-          return true;
+        if (!RELAYER_URL) {
+          throw new Error("Relayer URL is not defined");
         }
 
+        // Fetch nonce for approval
+        const approveNonceResponse = await fetch(`${RELAYER_URL}/nonce/${account.address}`);
+        const { nonce: approveNonce } = await approveNonceResponse.json();
+
+        // Gasless approval
+        const approveParams = {
+          spender: process.env.PAYMENT_PROCESSOR as string,
+          amount: budgetInWei.toString(),
+        };
+        const approveMessage = JSON.stringify({ functionName: "approveToken", user: account.address, params: approveParams, nonce: approveNonce });
+        const approveSignature = await signMessageAsync(approveMessage);
+
+        toast.message("Approving token spending...");
+        const approveResponse = await fetch(`${RELAYER_URL}/gasless-transaction`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            functionName: "approveToken",
+            user: account.address,
+            params: approveParams,
+            signature: approveSignature,
+            nonce: approveNonce,
+          }),
+        });
+
+        const approveResult = await approveResponse.json();
+        if (!approveResult.success) {
+          throw new Error(approveResult.message);
+        }
+
+        // Fetch nonce for gig creation
+        const createNonceResponse = await fetch(`${RELAYER_URL}/nonce/${account.address}`);
+        const { nonce: createNonce } = await createNonceResponse.json();
+
+        // Create the gig
+        const createParams = {
+          rootHash,
+          databaseId,
+          budget: budgetInWei.toString(),
+        };
+        const createMessage = JSON.stringify({ functionName: "createGig", user: account.address, params: createParams, nonce: createNonce });
+        const createSignature = await signMessageAsync(createMessage);
+
+        toast.message("Creating gig...");
+        const createResponse = await fetch(`${RELAYER_URL}/gasless-transaction`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            functionName: "createGig",
+            user: account.address,
+            params: createParams,
+            signature: createSignature,
+            nonce: createNonce,
+          }),
+        });
+
+        const createResult = await createResponse.json();
+        if (createResult.success) {
+          toast.success("Gig created successfully");
+          router.push("/manage-jobs/clients");
+          return true;
+        } else {
+          throw new Error(createResult.message);
+        }
       } catch (error: unknown) {
         console.error("Gig creation error:", error);
-        
-        if ((error as Error).message.includes("User rejected") || 
-            (error as Error).message.includes("rejected")) {
+        if ((error as Error).message.includes("User rejected") || (error as Error).message.includes("rejected")) {
           toast.info("Transaction cancelled by user");
         } else {
-          toast.error("Error during gig creation");
+          toast.error("Error during gig creation: " + ((error as Error).message || "Unknown error"));
         }
         return false;
       } finally {
