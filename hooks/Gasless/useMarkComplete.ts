@@ -30,14 +30,18 @@ export const useMarkComplete = () => {
 
       startLoading();
       try {
-        const functionName = "markComplete";
-        const params = { databaseId };
-        const gaslessMessage = JSON.stringify({ functionName, user: address, params });
-        const gaslessSignature = await signMessageAsync(gaslessMessage);
-
         if (!RELAYER_URL) {
           throw new Error("Relayer URL is not defined");
         }
+
+        const nonceResponse = await fetch(`${RELAYER_URL}/nonce/${address}`);
+        const { nonce } = await nonceResponse.json();
+
+        const functionName = "markComplete";
+        const params = { databaseId };
+        const gaslessMessage = JSON.stringify({ functionName, user: address, params, nonce });
+        const gaslessSignature = await signMessageAsync(gaslessMessage);
+
         const response = await fetch(`${RELAYER_URL}/gasless-transaction`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -46,6 +50,7 @@ export const useMarkComplete = () => {
             user: address,
             params,
             signature: gaslessSignature,
+            nonce,
           }),
         });
 
