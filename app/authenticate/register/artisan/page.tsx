@@ -64,7 +64,7 @@ export default function Register() {
               Join Craftlink to showcase your skills to clients and start earning from projects.
             </p>
           </div>
-          <form className="w-full md:w-[70%] p-4 sm:p-8 gap-2 md:gap-x-8 md:gap-y-2 ">
+          <form className="w-full text-[#FCFBF7] md:w-[70%] p-4 sm:p-8 gap-2 md:gap-x-8 md:gap-y-2 ">
             <div className="flex flex-col py-2">
               <label className="">
                 Username

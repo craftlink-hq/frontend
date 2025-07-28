@@ -151,7 +151,7 @@ export default function ProfilePreview() {
     <Loading show={createGigLoading}>
       <div className="px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
         <div className="w-fit pt-8">
-          <h1 className="font-bold text-xl">JOB POST PREVIEW</h1>
+          <h1 className="font-bold text-xl text-[#FCFBF7]">JOB POST PREVIEW</h1>
           <p className="border-b-2 border-yellow w-[60%]"></p>
         </div>
         <div className="hidden md:grid w-full">

@@ -24,7 +24,7 @@ const Header = () => {
               width={22}
               height={49}
             />
-            <span className="text-[20px] md:text-[28px]">
+            <span className="text-[20px] text-[#F9F1E2] md:text-[28px]">
               Craft
               <span className="bg-[#FFD700] text-[#1A1203] rounded-sm">
                 Link

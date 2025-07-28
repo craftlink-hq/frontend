@@ -24,7 +24,7 @@ const Input = ({
         min={min}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        className="w-full font-merriweather bg-[#F2E8CF29] h-[56px] p-[8px] border rounded-md border-[#FCFBF726] shadow-md shadow-[#333333] placeholder:text-base placeholder:text-[#D8D6CF] focus:outline-[#333333]"
+        className="w-full font-merriweather bg-[#F2E8CF29] h-[56px] p-[8px] border rounded-md border-[#FCFBF726] shadow-md shadow-[#333333] placeholder:text-base text-[#D8D6CF] focus:outline-[#333333]"
       />
     </div>
   );
