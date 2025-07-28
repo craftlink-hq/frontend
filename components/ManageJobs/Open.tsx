@@ -5,13 +5,14 @@ import AnimatedDiv from "@/components/AnimatedDiv"
 import Image from "next/image"
 import { formatDate } from "@/utils/formatDate"
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo"
-import useCloseGig from "@/hooks/GigMarketplace/useCloseGig"
 import { useRouter } from "next/navigation"
+import { useCloseGig } from "@/hooks/Gasless/useCloseGig"
+import Loading from "../Loading"
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "")
-  const closeGig = useCloseGig()
+  const { closeGig, isLoading } = useCloseGig()
   const router = useRouter()
  
   const handleCloseJob = () => {
@@ -34,7 +35,8 @@ const OpenJob = ({ job }: { job: Applied }) => {
 
 
   return (
-    <AnimatedDiv
+    <Loading show={isLoading}>
+      <AnimatedDiv
       initialX="100%"
       animateX={0}
       exitX={"-100%"}
@@ -189,6 +191,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
         </div>
       )}
     </AnimatedDiv>
+    </Loading>
   )
 }
 
