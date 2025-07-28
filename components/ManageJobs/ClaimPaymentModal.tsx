@@ -28,7 +28,7 @@ const ClaimPaymentModal = ({
       {/* Header */}
       <div className="mb-6">
         <div className=" flex w-full border-b bg-about border-[#FFFFFF40] px-2 py-4 justify-between items-center">
-          <h2 className="text-xl font-bold text-[#F9F1E2] mb-3">
+          <h2 className="text-xl font-bold text-[#F9F1E2] ">
             CLAIM YOUR PAYMENT
           </h2>
 
