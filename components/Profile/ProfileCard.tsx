@@ -48,7 +48,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
 
       <div className="flex flex-col md:flex-row gap-4 w-full relative">
         <div className="flex-shrink-0">
-          <div className="relative h-72 w-84">
+          <div className="relative h-72 w-72">
             <Image
               src={profile.about.avatar || "/placeholder.svg"}
               alt="Profile avatar"

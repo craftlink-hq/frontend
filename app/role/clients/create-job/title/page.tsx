@@ -6,7 +6,7 @@ import Input from "@/components/Input";
 import ProgressBar from "@/components/ProgressBar";
 import { suggestedSkillsArray } from "@/utils/skills";
 import Select from "@/components/Select";
-import { LevelOfExperience } from "@/utils/filters";
+import { LevelOfExperience, ArtisanLocation } from "@/utils/filters";
 import { useGetJobData } from "@/utils/store";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ export default function Title() {
     addSkill,
     removeSkill,
     jobTitle,
-    // jobLocation,
+    jobLocation,
     experienceRequired,
     requiredSkills,
   } = useGetJobData();
@@ -71,11 +71,11 @@ export default function Title() {
       setIsUploading(false);
       return;
     }
-    // if (jobLocation === "") {
-    //   toast.error("Please select a location");
-    //   setIsUploading(false);
-    //   return;
-    // }
+    if (jobLocation === "") {
+      toast.error("Please select a location");
+      setIsUploading(false);
+      return;
+    }
 
     if (requiredSkills.length === 0) {
       toast.error("Please add at least one required skill");
@@ -119,6 +119,16 @@ export default function Title() {
                     onSelect={(value) => setExperienceRequired(value)}
                     filters={LevelOfExperience}
                     placeholder="Select your level of experience"
+                  />
+                </label>
+              </div>
+
+                 <div className="space-y-3">
+                <label className="block">
+                  <Select
+                    onSelect={(value) => setJobLocation(value)}
+                    filters={ArtisanLocation}
+                    placeholder="Select location"
                   />
                 </label>
               </div>
