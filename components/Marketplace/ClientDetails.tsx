@@ -42,7 +42,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
       <div className="flex gap-4 flex-wrap">
         <span className="relative h-[20px] w-[20px] self-center">
           <Image
-            src="/calendar.png"
+            src="/calendar.svg"
             alt="Calendar"
             fill
             style={{ objectFit: "contain", objectPosition: "center" }}

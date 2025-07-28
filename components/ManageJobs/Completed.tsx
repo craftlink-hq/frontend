@@ -104,10 +104,10 @@ const CompletedJob = ({ job }: { job: Applied }) => {
           <div className="flex flex-wrap items-center text-xs md:text-sm text-[#B5B4AD] mb-2 gap-1">
             <div className="flex justify-center items-center gap-x-1 px-1 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/location.png"}
+                src={"/location.svg"}
                 alt="Location icon"
-                width="12"
-                height="12"
+                width="10"
+                height="10"
                 className="md:w-[18px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">
@@ -116,7 +116,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-1 px-1 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/language.png"}
+                src={"/language.svg"}
                 alt="language icon"
                 width="10"
                 height="10"
@@ -128,10 +128,10 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-1 px-1 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/calendar.png"}
+                src={"/calendar.svg"}
                 alt="calender icon"
-                width="12"
-                height="12"
+                width="10"
+                height="10"
                 className="md:w-[18px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">
@@ -140,10 +140,10 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-1 px-1 md:px-2">
               <Image
-                src={"/expertise.png"}
+                src={"/expertise.svg"}
                 alt="expertise icon"
-                width="12"
-                height="12"
+                width="10"
+                height="10"
                 className="md:w-[20px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">
@@ -181,7 +181,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             <div className="flex items-center gap-x-1">
               <span className="relative h-[14px] w-[14px] md:h-[20px] md:w-[20px]">
                 <Image
-                  src="/calendar.png"
+                  src="/calendar.svg"
                   alt="Calendar"
                   fill
                   style={{ objectFit: "contain", objectPosition: "center" }}
@@ -296,6 +296,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
               onLeaveReview={() => ""}
               amount={job.job.price || 404}
               walletAddress={job.job.completedBy?.walletAddress || ""}
+              closeFn={() => setIsSuccessOpen(false)}
             />
           </AnimatedDiv>
         </Modal>

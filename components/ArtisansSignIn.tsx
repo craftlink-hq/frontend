@@ -52,7 +52,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
         {/* Mobile Hero Image */}
         <div className="relative h-[45vh] w-[92%] mx-4 rounded-lg overflow-hidden">
           <Image
-            src={image || "/placeholder.svg"}
+            src={"/welcome-artisan-mobile.svg"}
             alt={role}
             fill
             style={{ objectFit: "cover" }}

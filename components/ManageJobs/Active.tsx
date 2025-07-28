@@ -148,7 +148,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
           <div className="flex items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-0 border-r border-[#FCFBF726]">
             <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
-                src="/location.png"
+                src="/location.svg"
                 alt="Location"
                 fill
                 style={{ objectFit: "contain" }}
@@ -159,7 +159,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
           <div className="flex items-center gap-x-0.5 md:gap-x-2 px-0.5 md:px-0 border-r border-[#FCFBF726]">
             <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
-                src="/language.png"
+                src="/language.svg"
                 alt="Language"
                 fill
                 style={{ objectFit: "contain" }}
@@ -224,7 +224,7 @@ const ActiveJob = ({ job }: { job: Applied }) => {
           <div className="flex items-center gap-x-1 md:gap-x-2">
             <span className="relative h-3 w-3 md:h-4 md:w-4">
               <Image
-                src="/calendar.png"
+                src="/calendar.svg"
                 alt="Start Date"
                 fill
                 style={{ objectFit: "contain" }}

@@ -76,7 +76,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
           <div className="flex items-center text-[10px] md:text-sm text-[#B5B4AD] mb-2 gap-0.5 md:gap-1">
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-1 px-0.5 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/location.png"}
+                src={"/location.svg"}
                 alt="location icon"
                 width="10"
                 height="10"
@@ -88,10 +88,10 @@ const ClosedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-1 px-0.5 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/language.png"}
+                src={"/language.svg"}
                 alt="language icon"
-                width="8"
-                height="8"
+                width="10"
+                height="10"
                 className="md:w-[14px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-[10px] md:text-sm whitespace-nowrap">
@@ -100,7 +100,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-1 px-0.5 md:px-2 border-r border-[#FCFBF726]">
               <Image
-                src={"/calendar.png"}
+                src={"/calendar.svg"}
                 alt={"timeline"}
                 width="10"
                 height="10"
@@ -112,7 +112,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
             </div>
             <div className="flex justify-center items-center gap-x-0.5 md:gap-x-1 px-0.5 md:px-2">
               <Image
-                src={"/expertise.png"}
+                src={"/expertise.svg"}
                 alt={job.job.experienceLevel}
                 width="10"
                 height="10"
@@ -152,7 +152,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
           <div className="flex items-center gap-x-2">
             <span className="relative h-[14px] w-[14px] md:h-[20px] md:w-[20px]">
               <Image
-                src="/calendar.png"
+                src="/calendar.svg"
                 alt="Calendar"
                 fill
                 style={{ objectFit: "contain", objectPosition: "center" }}
@@ -201,7 +201,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
             className="bg-[#333333] border border-[#FCFBF726] w-[95vw] md:w-[60vw] h-[90vh] rounded-xl p-4 relative max-w-md md:max-w-none mx-auto"
           >
             <div className="h-[90%] overflow-y-scroll">
-              <GigDetails job={job.job} />
+              <GigDetails job={job.job} closeFn={() => setIsModalOpen(false)} />
             </div>
           </AnimatedDiv>
         </Modal>

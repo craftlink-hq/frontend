@@ -19,19 +19,19 @@ const AccountCard = ({ client }: ClientProfileCardProps) => {
   const clientAmountSpent = useGetClientAmountSpent(clientAddress) ?? 404;
   const details: Details[] = [
     {
-      imgSrc: "/language.png",
+      imgSrc: "/language.svg",
       detailValue: client.language,
     },
     {
-      imgSrc: "/money.png",
+      imgSrc: "/money.svg",
       detailValue: `$${Number(clientAmountSpent)} Spent`,
     },
     {
-      imgSrc: "/location.png",
+      imgSrc: "/location.svg",
       detailValue: client.location,
     },
     {
-      imgSrc: "/calendar.png",
+      imgSrc: "/calendar.svg",
       detailValue: `Joined ${formatDate(client.dateJoined)}`,
     },
     {

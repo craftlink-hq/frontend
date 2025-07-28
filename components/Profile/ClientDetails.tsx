@@ -38,7 +38,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
         </div>
         <div className="flex  items-start justify-start gap-x-2">
           <Image
-            src={"/location.png"}
+            src={"/location.svg"}
             alt={"location"}
             width="22"
             height="22"
@@ -62,7 +62,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
         </div>
         <div className="flex  items-start justify-start gap-x-2">
           <Image
-            src={"/language.png"}
+            src={"/language.svg"}
             alt={"language"}
             width="18"
             height="18"
@@ -93,7 +93,7 @@ const ClientDetails = ({ client }: { client: Client }) => {
           <h3 className="text-lg font-bold">Total Amount Spent</h3>
         </div>
         <div className="flex  items-start justify-start gap-x-2 w-full">
-          <Image src={"/money.png"} alt={"money"} width="22" height="22" />
+          <Image src={"/money.svg"} alt={"money"} width="22" height="22" />
           <span className="text-[#D8D6CF]">${client.moneySpent}</span>
         </div>
         <div className="flex  items-start justify-start gap-x-2 w-full">

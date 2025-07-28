@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="bg-footer flex-grow w-full  lg:w-[35%] h-full justify-center lg:h-[90%] border-[1px] p-8 border-[#FCFBF726] rounded-lg">
         <div className="flex md:px-2 gap-x-2 items-center font-mooli">
           <Image src="/logo.png" alt="CraftLink logo" width={22} height={49} />
-          <span className="text-[20px] md:text-[28px]">
+          <span className="text-[20px]  text-[#F9F1E2] md:text-[28px]">
             Craft{""}
             <span className="bg-[#FFD700] text-[#1A1203] rounded-sm">Link</span>
           </span>

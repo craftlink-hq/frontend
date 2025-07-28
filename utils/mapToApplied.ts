@@ -119,7 +119,7 @@ export const mapToApplied = (
       !contract.isCompleted
     ) {
       status = "review";
-      statusMsg = "Under Review: Client is yet to pick an artisan";
+      statusMsg = "Client is yet to pick an artisan";
     } else if (
       contract.hiredArtisan === userAddress &&
       !contract.isCompleted &&

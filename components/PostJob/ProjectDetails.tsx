@@ -9,15 +9,15 @@ interface Details {
 const ProjectDetails = ({ project }: { project: Job }) => {
   const details: Details[] = [
     {
-      imgSrc: "/money.png",
+      imgSrc: "/money.svg",
       detailValue: `$${project.price}`,
     },
     {
-      imgSrc: "/calendar.png",
+      imgSrc: "/calendar.svg",
       detailValue:`${project.projectDuration.weeks} weeks`,
     },
     {
-      imgSrc: "/expertise.png",
+      imgSrc: "/expertise.svg",
       detailValue: project.experienceLevel,
     },
   ];
