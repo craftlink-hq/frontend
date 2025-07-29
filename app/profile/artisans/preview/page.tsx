@@ -20,7 +20,7 @@ import ProfileCard from "@/components/Profile/ProfileCard";
 
 export default function ProfilePreview() {
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
-  const { 
+  const {
     category,
     skills,
     experienceLevel,
@@ -35,7 +35,7 @@ export default function ProfilePreview() {
     reset
   } = useGetArtisanData();
   const router = useRouter();
-  
+
   const { address } = useAccount();
   const detail = useGetArtisanDetails();
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -109,7 +109,7 @@ export default function ProfilePreview() {
       setProfile(transformedProfile);
       setIsInitialLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, detail]);
 
   if (isInitialLoading || isLoading || !profile) {
@@ -126,9 +126,11 @@ export default function ProfilePreview() {
           <h1 className="font-bold text-xl text-[#FCFBF7]">PREVIEW PROFILE</h1>
           <p className="border-b-2 border-yellow w-[60%]"></p>
         </div>
-        <ProfileCard profile={profile} />
-         <About profile={profile} />{" "}
-       
+        <div className="lg:h-[35vh]">
+          <ProfileCard profile={profile} />
+        </div>
+        <About profile={profile} />{" "}
+
         <Portfolio portfolio={profile.portfolio} />
         <button onClick={handleNext} className="flex self-end items-center w-fit py-2 px-4 uppercase bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base">
           GO LIVE NOW
