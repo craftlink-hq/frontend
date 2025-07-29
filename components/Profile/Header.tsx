@@ -63,7 +63,7 @@ const ProfileHeader = ({ isActive }: Header) => {
 
   return (
     <div className="bg-[#333333] bg-opacity-[98%] bg-header z-10 ">
-      <div className=" flex w-screen justify-between border-b-[0.5px] border-[#FCFBF726] px-4 lg:px-8 items-center py-4  gap-x-4 xl:gap-x-8 font-merriweather">
+      <div className=" flex w-screen justify-between border-b-[0.5px] border-[#FCFBF726] px-4 lg:px-8 items-center  gap-x-4 xl:gap-x-8 font-merriweather">
         <Link href="/">
           <div className="md:hidden bg-yellow rounded-md px-4 py-2">
             <Image
@@ -73,19 +73,13 @@ const ProfileHeader = ({ isActive }: Header) => {
               height={24}
             />
           </div>
-          <div className="md:flex hidden gap-x-4  w-full items-center font-mooli">
+          <div className="hidden md:flex gap-x-4  w-full items-center font-mooli">
             <Image
-              src="/logo.png"
+              src="/logo.svg"
               alt="CraftLink logo"
               width={40}
-              height={49}
+              height={40}
             />
-            <span className="text-[20px] text-[#F9F1E2] hidden xl:flex md:text-[28px]">
-              Craft{""}
-              <span className="bg-[#FFD700] text-[#1A1203] rounded-sm">
-                Link
-              </span>
-            </span>
           </div>
         </Link>
         <div className=" gap-x-4 xl:gap-x-8 lg:w-[50%] justify-center  hidden lg:flex  text-[#B5B4AD]">
@@ -103,9 +97,7 @@ const ProfileHeader = ({ isActive }: Header) => {
             </Link>
           ))}
         </div>
-        <div className="hidden md:block">
-          <SearchBar />
-        </div>
+  
         <div className="flex gap-x-4">
           <ConnectWallet />
           <div className="flex md:hidden">
