@@ -2,7 +2,7 @@
 import { Applied } from "@/utils/types";
 import Image from "next/image";
 import AnimatedDiv from "@/components/AnimatedDiv";
-import { formatDate } from "@/utils/formatDate";
+import { formatRelativeTime } from "@/utils/timeUtils";
 import { useState } from "react";
 import Modal from "../Modal";
 import { useFetchArtisanDisputedGigs } from "@/hooks/ManageJob/ArtisanHooks/useFetchArtisanDisputedGigs";
@@ -28,7 +28,7 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
       <div className="flex justify-start">
         <div className="bg-[#4AC7CB] bg-opacity-20 px-2 md:px-3 py-1 rounded">
           <span className="text-[#4AC7CB] text-xs md:text-sm italic">
-            Posted: {formatDate(job.job?.createdAt) || "Two weeks ago"}
+            Posted: {formatRelativeTime(job.job?.createdAt) || "Two weeks ago"}
           </span>
         </div>
       </div>
@@ -166,7 +166,7 @@ const DisputedJobCard = ({ job }: { job: Applied }) => {
             {/* Job Title */}
             <div className="mb-4 md:mb-6">
               <h3 className="text-white text-lg md:text-xl font-semibold mb-2">{job.job?.title}</h3>
-              <p className="text-[#B5B4AD] text-xs md:text-sm">Posted: {formatDate(job.job?.createdAt)}</p>
+              <p className="text-[#B5B4AD] text-xs md:text-sm">Posted: {formatRelativeTime(job.job?.createdAt)}</p>
             </div>
 
             {/* Dispute Information */}

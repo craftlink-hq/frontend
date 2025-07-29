@@ -3,7 +3,7 @@
 import type { Applied } from "@/utils/types"
 import AnimatedDiv from "@/components/AnimatedDiv"
 import Image from "next/image"
-import { formatDate } from "@/utils/formatDate"
+import { formatRelativeTime } from "@/utils/timeUtils";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo"
 import { useRouter } from "next/navigation"
 import { useCloseGig } from "@/hooks/Gasless/useCloseGig"
@@ -46,7 +46,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-3 md:p-4">
         <span className="text-xs md:text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-2 md:p-[10px]">
-          Posted: {formatDate(job.job?.createdAt) || "Two weeks ago"}
+          Posted: {formatRelativeTime(job.job?.createdAt) || "Two weeks ago"}
         </span>
       </div>
 

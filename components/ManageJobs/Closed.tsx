@@ -7,7 +7,7 @@ import Modal from "../Modal";
 import Image from "next/image";
 import GigDetails from "./GigDetails";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo";
-import { formatDate } from "@/utils/formatDate";
+import { formatRelativeTime } from "@/utils/timeUtils";
 import { useGetUserRole } from "@/utils/store";
 import { useRouter } from "next/navigation";
 
@@ -21,7 +21,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
     // Navigate to specific applicant profile
     let address;
     if (role === "artisan") {
-      address =  job?.job?.client?.walletAddress
+      address = job?.job?.client?.walletAddress
       router.push(`/profile/clients/artisan-view/${address}`);
     } else if (role === "client") {
       address = job.job.completedBy?.walletAddress;
@@ -40,7 +40,7 @@ const ClosedJob = ({ job }: { job: Applied }) => {
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-3 md:p-4">
         <span className="text-xs md:text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-2 md:p-[10px]">
-          Posted: {formatDate(job.job?.createdAt)}
+          Posted: {formatRelativeTime(job.job?.createdAt)}
         </span>
       </div>
 
@@ -90,8 +90,8 @@ const ClosedJob = ({ job }: { job: Applied }) => {
               <Image
                 src={"/language.svg"}
                 alt="language icon"
-                width="10"
-                height="10"
+                width="14"
+                height="14"
                 className="md:w-[14px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-[10px] md:text-sm whitespace-nowrap">

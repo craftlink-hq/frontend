@@ -31,6 +31,7 @@ export default function ProfilePreview() {
     availability,
     avatar,
     workHistory,
+    reset
   } = useGetArtisanData();
   const router = useRouter();
   
@@ -76,6 +77,7 @@ export default function ProfilePreview() {
       await handleApiError<ArtisanResponse>(backendResponse);
 
       toast.success("Profile posted successfully");
+      reset(); // Reset the artisan data store
       router.push("/profile/artisans");
     } catch (error) {
       toast.error("Error posting profile");

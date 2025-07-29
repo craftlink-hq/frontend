@@ -67,6 +67,7 @@ interface artisanData {
   addWorkHistoryItem: (item: WorkHistoryItem) => void;
   updateWorkHistoryItem: (index: number, item: WorkHistoryItem) => void;
   removeWorkHistoryItem: (index: number) => void;
+  reset: () => void;
 }
 
 export const useGetArtisanData = create<artisanData>()(
@@ -87,7 +88,6 @@ export const useGetArtisanData = create<artisanData>()(
             setSelectedSkills: (skill) =>
                 set((state) => {
                     const alreadySelected = state.skills.some((s) => s === skill);
-
                     return {
                         skills: alreadySelected
                             ? state.skills.filter((s) => s !== skill)
@@ -112,7 +112,20 @@ export const useGetArtisanData = create<artisanData>()(
             }),
             removeWorkHistoryItem: (index) => set((state) => ({
               workHistory: state.workHistory.filter((_, i) => i !== index)
-            })),   
+            })),
+            reset: () => set({
+                category: "",
+                skills: [],
+                experienceLevel: "",
+                preferredLanguage: "",
+                yearsOfExperience: 0,
+                tagline: "",
+                bio: "",
+                rate: 1,
+                availability: false,
+                avatar: "",
+                workHistory: [],
+            }),
         }),
         {
             name: "new-artisan-data",
@@ -133,6 +146,7 @@ interface clientData {
   setClientAvatar: (avatar: string) => void;
   setPreferredLanguage: (language: string) => void;
   setJoined: (joined: string) => void;
+  reset: () => void;
 }
 
 export const useGetClientData = create<clientData>()(
@@ -150,6 +164,14 @@ export const useGetClientData = create<clientData>()(
       setClientAvatar: (avatar) => set({ clientAvatar: avatar }),
       setPreferredLanguage: (language) => set({ preferredLanguage: language }),
       setJoined: (joined) => set({ joined: joined }),
+      reset: () => set({
+        username: "",
+        location: "",
+        clientBio: "",
+        clientAvatar: "",
+        preferredLanguage: "",
+        joined: ""
+      }),
     }),
     {
       name: "new-client-data",
@@ -180,6 +202,7 @@ interface JobData {
   setRequiredSkills: (skills: string[]) => void;
   addSkill: (skill: string) => void;
   removeSkill: (skill: string) => void;
+  reset: () => void;
 }
 
 export const useGetJobData = create<JobData>()(
@@ -217,7 +240,19 @@ export const useGetJobData = create<JobData>()(
       removeSkill: (skill) => 
         set((state) => ({
           requiredSkills: state.requiredSkills.filter((s) => s !== skill)
-        }))
+        })),
+      reset: () => set({
+        jobTitle: "",
+        experienceRequired: "",
+        jobMediaUrls: [],
+        jobContextLink: "",
+        additionalInfo: "",
+        jobDescription: "",
+        amount: 0,
+        duration: 0,
+        requiredSkills: [],
+        jobLocation: ""
+      }),
     }),
     {
       name: "job-data"

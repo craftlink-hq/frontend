@@ -74,8 +74,8 @@ const AppliedJob = ({ job }: { job: Applied }) => {
               <Image
                 src={"/language.svg"}
                 alt={"language"}
-                width="10"
-                height="10"
+                width="14"
+                height="14"
                 className="md:w-[14px] md:h-[16px]"
               />
               <span className="font-merriweather text-[#D8D6CF] text-[10px] md:text-[14px] whitespace-nowrap">
