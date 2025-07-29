@@ -10,6 +10,7 @@ import useIsArtisan from "@/hooks/Registry/useIsArtisan";
 import useIsClient from "@/hooks/Registry/useIsClient";
 import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
 import useGetClientDetails from "@/hooks/Registry/useGetClientDetails";
+import { useAccount } from "@/lib/thirdweb-hooks";
 
 interface WelcomeProps {
   image: string;
@@ -17,16 +18,15 @@ interface WelcomeProps {
 }
 
 const WelcomePage = ({ image, role }: WelcomeProps) => {
+  const { address } = useAccount();
   const { isLoading } = useLoading(); // startLoading, stopLoading 
   const [userRole, setUserRole] = useState("");
   const isArtisan = useIsArtisan();
   const isClient = useIsClient();
   const artisanDetails = useGetArtisanDetails();
-  const clientDetails = useGetClientDetails();
+  const clientDetails = useGetClientDetails(address as string);
   const router = useRouter();
 
-  console.log("isArtisan:", isArtisan);
-  console.log("isClient:", isClient);
   useEffect(() => {
     if (isClient) {
       setUserRole("client");
