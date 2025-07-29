@@ -37,7 +37,7 @@ const Footer = () => {
 
       {/* Right container */}
       <div className="flex flex-col flex-grow w-full md:w-[90vw]  h-full gap-y-2 lg:h-[90%]">
-        <div className="grid grid-cols-2 lg:flex bg-footer gap-y-4 max-lg:items-center justify-center lg:justify-between border-[1px] lg:h-[70%] p-8 border-[#FCFBF726] rounded-lg">
+        <div className="grid grid-cols-2 lg:flex bg-footer gap-y-4 items-start max-lg:items-center justify-center lg:justify-between border-[1px] lg:h-[70%] p-8 border-[#FCFBF726] rounded-lg">
           <FooterLinks />
         </div>
         <div className="bg-footer flex font-merriweather items-center px-4 text-[#9A9992] text-sm justify-between h-24 lg:h-[30%] rounded-lg border-[1px] border-[#FCFBF726]">
