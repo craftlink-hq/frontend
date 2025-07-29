@@ -1,13 +1,12 @@
 "use client";
 import ProgressBar from "@/components/ProgressBar";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGetArtisanData } from "@/utils/store";
 import { useRouter } from "next/navigation";
 import { uploadFiles } from "@/utils/upload";
 import { toast } from "sonner";
 
-export default function Portfolio() {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [projectTitle, setProjectTitle] = useState("");
@@ -15,9 +14,13 @@ export default function Portfolio() {
   const [duration, setDuration] = useState("");
 
   const router = useRouter();
-  const addWorkHistoryItem = useGetArtisanData(
-    (state) => state.addWorkHistoryItem
-  );
+  const addWorkHistoryItem = useGetArtisanData((state) => state.addWorkHistoryItem);
+  const resetWorkHistory = useGetArtisanData((state) => state.reset);
+
+  // Clear work history on mount to prevent duplicates
+  useEffect(() => {
+    resetWorkHistory();
+  }, []);
 
   const handleNext = async () => {
     if (!projectTitle) {
@@ -70,7 +73,6 @@ export default function Portfolio() {
         duration,
         mediaUrls: uploadedUrls,
       };
-
       addWorkHistoryItem(workItem);
 
       router.push("/role/artisans/onboarding/pricing");
