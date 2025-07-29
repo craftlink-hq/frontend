@@ -1,6 +1,5 @@
 "use client";
 import MarketHeader from "@/components/Marketplace/MarketHeader";
-import {useFilterState } from "@/context/filter";
 import { links } from "@/utils/links";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,7 +12,6 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { filterState, setFilterState } = useFilterState();
   const pathname = usePathname();
   const tokenBalance = useGetTokenBalance();
   const checkAmountMade = useGetArtisanAmountMade();
@@ -28,16 +26,14 @@ export default function Layout({
     { href: links.closed, label: "Closed" },
   ];
 
-  const toggleFilter = () => {
-    setFilterState(!filterState);
-  };
+
 
   return (
     <div className="flex flex-col bg-[url('/bg.png')] min-h-screen w-screen bg-opacity-[25%]">
       <div className="flex flex-col bg-[#333333] bg-opacity-[95%] min-h-screen ">
         <div className="min-h-screen">
           <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
-            <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
+            <MarketHeader isActive={isActive} />
             <div className="w-[90%] self-center flex flex-col md:flex-row justify-between gap-6 md:gap-4">
               <div className="self-center py-4 md:py-0">
                 <h2 className="text-[#FCFBF7] md:text-2xl font-bold mb-3 md:mb-0 text-2xl">

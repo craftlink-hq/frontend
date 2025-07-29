@@ -26,9 +26,6 @@ export default function MarketPlace(): JSX.Element {
   
   const isActive = (path: string): boolean => pathname === path;
 
-  const toggleFilter = (): void => {
-    setShowFilter(!showFilter);
-  };
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -367,7 +364,6 @@ interface ApiJob {
   return (
     <div className="w-screen">
       <MarketHeader 
-        toggleFilter={toggleFilter} 
         isActive={isActive} 
       />
       <HeroBanner />
