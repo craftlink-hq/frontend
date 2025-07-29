@@ -52,7 +52,7 @@ export default function JobPreview() {
         clientAddress: address,
         title: jobTitle,
         skillCategory: requiredSkills,
-        preferredLocation: location,
+        preferredLocation: jobLocation || location,
         experienceLevel: experienceRequired,
         projectDescription: jobDescription,
         contextLink: jobContextLink,

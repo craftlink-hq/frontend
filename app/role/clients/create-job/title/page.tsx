@@ -124,7 +124,7 @@ export default function Title() {
                 </label>
               </div>
 
-                 <div className="space-y-3">
+                <div className="space-y-3">
                 <label className="block">
                   <Select
                     onSelect={(value) => setJobLocation(value)}
