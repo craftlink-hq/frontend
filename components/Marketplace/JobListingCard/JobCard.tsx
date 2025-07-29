@@ -17,6 +17,7 @@ import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
 import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
 import useApplyForGig from "@/hooks/Gasless/useApplyForGig";
 import useHasAppliedForGig from "@/hooks/GigMarketplace/useHasAppliedForGig";
+import { useAccount } from "@/lib/thirdweb-hooks";
 import { toast } from "sonner";
 
 // Define the return type for job status
@@ -84,6 +85,8 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const gigInfo = useGetGigInfo(job.id as string);
 
   const { applyForGig, isLoading } = useApplyForGig();
+  const { address } = useAccount();
+  const { checkHasApplied } = useHasAppliedForGig();
 
   // Get dynamic status based on smart contract state
   const jobStatus = getJobStatus(gigInfo);
@@ -98,8 +101,6 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const [relativeTime, setRelativeTime] = useState(() =>
     formatRelativeTime(job.createdAt)
   );
-
-  const hasApplied = useHasAppliedForGig(job.id as string);
 
   // Update relative time every minute
   React.useEffect(() => {
@@ -151,18 +152,22 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
     setIsModalOpen(false); // Close job details modal
 
     if (role === "artisan") {
-      console.log("Showing apply confirmation modal for artisan");
         setIsApplyModalOpen(true);
     } else {
-      console.log("Showing signup modal for non-artisan user");
         setIsSignupModalOpen(true);
     }
   };
 
   const handleApplyConfirm = async () => {
-    // Handle the actual application logic here
+    const hasApplied = await checkHasApplied(address as string, job.id as string);
     if (hasApplied) {
       toast.warning("You have already applied for this gig.");
+      setIsApplyModalOpen(false);
+      return;
+    }
+
+    if (gigInfo?.client === address) {
+      toast.error("You cannot apply to your own gig.");
       setIsApplyModalOpen(false);
       return;
     }
@@ -174,7 +179,6 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
 
   const handleSignupComplete = () => {
     // Handle what happens after user clicks sign in
-    console.log("User clicked sign in - redirect to artisan signup/login");
     setIsSignupModalOpen(false);
   };
 
