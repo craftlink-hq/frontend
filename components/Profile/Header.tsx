@@ -67,7 +67,7 @@ const ProfileHeader = ({ isActive }: Header) => {
         <Link href="/">
           <div className="md:hidden bg-yellow rounded-md px-4 py-2">
             <Image
-              src="/dark-logo.png"
+              src="/dark-logo.svg"
               alt="CraftLink logo"
               width={13}
               height={13}

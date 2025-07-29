@@ -25,7 +25,7 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
   return (
     <div className="space-y-2 font-merriweather h-full">
       {/* Earnings Card */}
-      <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 ">
+      <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 h-full">
         <div className="flex items-center gap-2 mb-1">
           <Image src={"/wallet.png"} alt={"coin"} width="18" height="18" />{" "}
           <h2 className="text-base text-[#F9F1E2]">Earnings</h2>

@@ -52,7 +52,7 @@ const ClientsSignIn = ({ image, role }: WelcomeProps) => {
         {/* Mobile Hero Image */}
         <div className="relative h-[45vh] w-[92%] mx-4 rounded-lg overflow-hidden">
           <Image
-            src={"welcome-client-mobile/.svg"}
+            src={"welcome-client-mobile.svg"}
             alt={role}
             fill
             style={{ objectFit: "cover" }}

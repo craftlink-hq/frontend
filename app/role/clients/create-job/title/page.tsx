@@ -21,6 +21,7 @@ export default function Title() {
     setExperienceRequired,
     addSkill,
     removeSkill,
+    setJobLocation,
     jobTitle,
     jobLocation,
     experienceRequired,
