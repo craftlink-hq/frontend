@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { uploadFiles } from "@/utils/upload";
 import { toast } from "sonner";
 
+export default function PortfolioOnboarding() {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [projectTitle, setProjectTitle] = useState("");
