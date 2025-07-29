@@ -40,11 +40,11 @@ const JobDetails = ({ job }: { job: Job }) => {
 
   const titleDetails: TitleDetails[] = [
     {
-      imgSrc: "/location.png",
+      imgSrc: "/location.svg",
       name: job.preferredLocation,
     },
     {
-      imgSrc: "/language.png",
+      imgSrc: "/language.svg",
       name: job.language ? job.language : "English",
     },
     {
@@ -59,17 +59,17 @@ const JobDetails = ({ job }: { job: Job }) => {
   const displayPrice = job.price ? job.price / 1000000 : 0;
   const jobDetails: JobDetails[] = [
     {
-      imgSrc: "/money.png",
+      imgSrc: "/money.svg",
       detail: "Budget",
       detailValue: `$${displayPrice}`,
     },
     {
-      imgSrc: "/expertise.png",
+      imgSrc: "/expertise.svg",
       detail: "Experience",
       detailValue: job.experienceLevel,
     },
     {
-      imgSrc: "/calendar.png",
+      imgSrc: "/calendar.svg",
       detail: "Duration",
       detailValue: `${job.projectDuration.weeks} weeks`,
     },

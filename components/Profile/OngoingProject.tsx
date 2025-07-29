@@ -9,11 +9,11 @@ interface Details {
 const OngoingProjects = ({ project }: { project: Job }) => {
   const details: Details[] = [
     {
-      imgSrc: "/money.png",
+      imgSrc: "/money.svg",
       detailValue: `$${project.price}`,
     },
     {
-      imgSrc: "/calendar.png",
+      imgSrc: "/calendar.svg",
       detailValue: `${project.projectDuration.weeks} weeks`,
     },
   ];

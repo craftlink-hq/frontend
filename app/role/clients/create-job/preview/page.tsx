@@ -14,7 +14,7 @@ import handleApiError, { GigResponse } from "@/app/API/handleApiError";
 import useCreateGig from "@/hooks/Gasless/useCreateGig";
 import Loading from "@/components/Loading";
 
-export default function ProfilePreview() {
+export default function JobPreview() {
   const {
     jobTitle,
     jobDescription,
@@ -26,6 +26,7 @@ export default function ProfilePreview() {
     jobContextLink,
     additionalInfo,
     requiredSkills,
+    reset
   } = useGetJobData();
   const { username, location, clientBio, clientAvatar, preferredLanguage, joined } = useGetClientData();
   const { address } = useAccount();
@@ -51,7 +52,7 @@ export default function ProfilePreview() {
         clientAddress: address,
         title: jobTitle,
         skillCategory: requiredSkills,
-        preferredLocation: location,
+        preferredLocation: jobLocation || location,
         experienceLevel: experienceRequired,
         projectDescription: jobDescription,
         contextLink: jobContextLink,
@@ -92,6 +93,8 @@ export default function ProfilePreview() {
       await handleApiError(confirmResponse);
 
       toast.success("Gig successfully posted!");
+      // Clear cached job and client data after successful post
+      reset();
       router.push("/manage-jobs/clients");
     } catch (error) {
       toast.error("Error posting job");

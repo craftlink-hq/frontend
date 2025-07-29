@@ -42,7 +42,7 @@ export default function Onboarding() {
   const [fileError, setFileError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   // Hooks
-  const { username, location, clientBio, preferredLanguage, joined, setClientBio, setClientAvatar, setPreferredLanguage, setJoined } = useGetClientData();
+  const { username, location, clientBio, preferredLanguage, joined, setClientBio, setClientAvatar, setPreferredLanguage, setJoined, reset } = useGetClientData();
   const { uploadToIPFS } = IPFS();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const { registerAsClient, isLoading: registerClientLoading, error } = useRegisterClient();
@@ -88,6 +88,7 @@ export default function Onboarding() {
         return;
       }
       toast.success("Registered as client successfully");
+      reset(); // Reset the client data store
       router.push("/profile/clients");
     } catch (error) {
       console.error("Error during onboarding:", error);

@@ -1,22 +1,40 @@
-"use client"
+"use client";
 
-import { IoCheckmark } from "react-icons/io5"
+import { IoCheckmark } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface PaymentSuccessModalProps {
-  onDone: () => void
-  onLeaveReview: () => void
-  amount: number
-  walletAddress: string
+  onDone: () => void;
+  onLeaveReview: () => void;
+  amount: number;
+  walletAddress: string;
+  closeFn?: () => void;
 }
 
-const PaymentSuccessModal = ({  onDone, onLeaveReview, amount, walletAddress }: PaymentSuccessModalProps) => {
+const PaymentSuccessModal = ({
+  onDone,
+  onLeaveReview,
+  amount,
+  walletAddress,
+  closeFn
+}: PaymentSuccessModalProps) => {
   return (
     <div className=" rounded-lg p-8 w-full text-[#F9F1E2] font-merriweather relative text-center">
-
       {/* Header */}
       <div className="mb-8">
-        <h2 className="text-xl font-bold text-[#F9F1E2] mb-6">PAYMENT SUCCESSFUL</h2>
+      <div className=" flex w-full border-b bg-about border-[#FFFFFF40] px-2 py-4 justify-between items-center">
+          <h2 className="text-xl font-bold text-[#F9F1E2] ">
+            PAYMENT SUCCESSFUL
+          </h2>
 
+          <button
+            className=" top-12 right-12 bg-[#3B3A39] rounded-full p-2 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
+            onClick={closeFn}
+          >
+            <IoCloseSharp size={16} />
+          </button>
+        </div>
+      
         {/* Success Icon */}
         <div className="relative mb-6">
           {/* Decorative dots around the badge */}
@@ -55,9 +73,15 @@ const PaymentSuccessModal = ({  onDone, onLeaveReview, amount, walletAddress }: 
 
         {/* Success Message */}
         <div className="mb-6">
-          <h3 className="text-2xl font-bold text-[#F9F1E2] mb-2">You&apos;ve claimed ${amount.toLocaleString()}</h3>
-          <p className="text-[#B5B4AD] text-sm">Funds have been sent to your wallet: {walletAddress}</p>
-          <p className="text-[#B5B4AD] text-sm">Please refresh the page to get balance reflected</p>
+          <h3 className="text-2xl font-bold text-[#F9F1E2] mb-2">
+            You&apos;ve claimed ${amount.toLocaleString()}
+          </h3>
+          <p className="text-[#B5B4AD] text-sm">
+            Funds have been sent to your wallet: {walletAddress}
+          </p>
+          <p className="text-[#B5B4AD] text-sm">
+            Please refresh the page to get balance reflected
+          </p>
         </div>
       </div>
 
@@ -77,7 +101,7 @@ const PaymentSuccessModal = ({  onDone, onLeaveReview, amount, walletAddress }: 
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PaymentSuccessModal
+export default PaymentSuccessModal;

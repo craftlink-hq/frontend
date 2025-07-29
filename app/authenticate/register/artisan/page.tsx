@@ -54,7 +54,7 @@ export default function Register() {
 
   return (
     <Loading show={isLoading}>
-      <div className="flex h-[80vh] w-screen  items-center md:items-end justify-center py-4">
+      <div className="flex h-[80vh] md:h-[100vh] w-screen  items-center md:items-end justify-center py-4">
         <div className="flex flex-col  max-sm:w-[90vw] max-sm:py-4 rounded-lg bg-opacity-80  shadow-lg shadow-second  relative md:bottom-24  bg-[#F2E8CF0A] items-center md:min-h-[60%] ">
           <div className="flex flex-col text-center gap-y-4 md:px-8 items-center justify-center">
             <p className="font-alata text-fontPrimary pt-2 md:pt-8 text-xl md:text-[2vw]">

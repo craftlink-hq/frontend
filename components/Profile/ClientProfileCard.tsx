@@ -63,7 +63,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
           <div className="flex flex-col justify-between space-y-4 py-4">
             <div className="flex justify-between w-full px-2">
               <div className="flex items-center gap-2 mb-2">
-                <h2 className="text-2xl font-bold text-[rgb(252,248,240)] uppercase">
+                <h2 className="text-2xl font-alata text-[rgb(252,248,240)] uppercase">
                   #{client.username}
                 </h2>
                 <span className="flex text-[#F0FCF6] text-xs px-2 py-1 bg-[#04DF7621] border rounded-full border-[#04DF76]">
@@ -79,7 +79,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
               <div className="border-r border-[#FCFBF726]">
                 <div className="flex items-center gap-2 text-[#B5B4AD] mb-1">
                   <Image
-                    src="/location.png"
+                    src="/location.svg"
                     alt="location"
                     width={12}
                     height={14}
@@ -94,7 +94,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
               <div className="border-r border-[#FCFBF726]">
                 <div className="flex items-center gap-2 text-[#B5B4AD] mb-1">
                   <Image
-                    src="/language.png"
+                    src="/language.svg"
                     alt="language"
                     width={12}
                     height={14}

@@ -26,9 +26,6 @@ export default function MarketPlace(): JSX.Element {
   
   const isActive = (path: string): boolean => pathname === path;
 
-  const toggleFilter = (): void => {
-    setShowFilter(!showFilter);
-  };
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -367,7 +364,6 @@ interface ApiJob {
   return (
     <div className="w-screen">
       <MarketHeader 
-        toggleFilter={toggleFilter} 
         isActive={isActive} 
       />
       <HeroBanner />
@@ -429,7 +425,7 @@ interface ApiJob {
         </div>
       )}
 
-      <div className="px-4 md:px-8 xl:px-16 py-8 gap-x-12 md:flex w-screen md:items-stretch">
+      <div className="px-4 md:px-8 xl:px-16 py-8 gap-x-8 md:flex w-screen md:items-stretch">
         {/* Desktop Sidebar Filter */}
         <div className="hidden md:grid md:w-[25%] xl:w-[20%] md:h-full">
           <Filter filters={filters} />

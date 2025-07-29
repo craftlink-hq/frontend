@@ -21,7 +21,7 @@ export default function ClaimToken() {
   };
   return (
     <Loading show={isLoading}>
-      <div className="flex h-[80vh] items-center justify-center">
+      <div className="flex h-[80vh] items-center justify-center md:p-4">
         <div className="rounded-lg  border border-[#FCFBF726] md:border-0 shadow-lg h-[60vh] bg-[#F2E8CF0A] flex flex-col items-center justify-center w-[90%] md:w-[45vw] ">
           <p className="font-alata text-3xl md:text-[3vw] text-center text-[#F9F1E2] leading-8 md:leading-[3vw]">
             Claim USDT Token!

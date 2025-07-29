@@ -8,7 +8,7 @@ const Details = ({ details }: { details: DetailsProps }) => {
         <div className="flex flex-col h-full border border-[#FCFBF726] gap-y-2 px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
           <div className="flex  items-center justify-start gap-x-2">
             <Image
-              src={"/language.png"}
+              src={"/language.svg"}
               alt={"language"}
               width="12"
               height="12"
@@ -22,7 +22,7 @@ const Details = ({ details }: { details: DetailsProps }) => {
         <div className="flex flex-col border border-[#FCFBF726] gap-y-2 px-4 py-2 rounded-xl bg-[#F2E8CF0A]">
           <div className="flex  items-center justify-start gap-x-2">
             <Image
-              src={"/expertise.png"}
+              src={"/expertise.svg"}
               alt={"expertise"}
               width="15"
               height="15"
@@ -30,7 +30,7 @@ const Details = ({ details }: { details: DetailsProps }) => {
             <h3 className="text-sm text-[#D8D6CF]">Experience</h3>
           </div>
           <div className="flex  items-start justify-start gap-x-2">
-            <span className="text-[#D8D6CF]">{details.experience}</span>
+            <span className="text-[#D8D6CF] text-sm md:text-base">{details.experience}</span>
           </div>
         </div>
       </div>

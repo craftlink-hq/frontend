@@ -25,7 +25,7 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
   return (
     <div className="space-y-2 font-merriweather h-full">
       {/* Earnings Card */}
-      <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4 ">
+      <div className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-4">
         <div className="flex items-center gap-2 mb-1">
           <Image src={"/wallet.png"} alt={"coin"} width="18" height="18" />{" "}
           <h2 className="text-base text-[#F9F1E2]">Earnings</h2>
@@ -92,7 +92,7 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
           </div>
         </div>
 
-        <div className=" w-full flex justify-between ">
+        <div className=" w-full hidden md:flex justify-between ">
           <button
             onClick={onClaimCraftcoin}
             className="bg-[#FFD700] text-[#1A1203]  py-2 px-4 rounded-[4px] uppercase text-sm hover:bg-[#FFD700]/90 transition-colors"
@@ -105,6 +105,21 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
             className=" text-[#FFD700] border border-[#FFD700]  py-2 px-4 rounded-[4px] uppercase text-sm   transition-colors"
           >
             Buy Craftcoin
+          </button>
+        </div>
+         <div className=" w-full flex md:hidden justify-between ">
+          <button
+            onClick={onClaimCraftcoin}
+            className="bg-[#FFD700] text-[#1A1203]  py-2 px-4 rounded-[4px] uppercase text-sm hover:bg-[#FFD700]/90 transition-colors"
+          >
+            Claim
+          </button>
+
+          <button
+            onClick={onBuyCraftcoin}
+            className=" text-[#FFD700] border border-[#FFD700]  py-2 px-4 rounded-[4px] uppercase text-sm   transition-colors"
+          >
+            Buy
           </button>
         </div>
 

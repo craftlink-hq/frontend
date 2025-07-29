@@ -115,12 +115,12 @@ export default function Profile() {
       </div>
       <div className="pt-24 px-2 flex flex-col gap-y-4  md:px-16 2xl:px-32">
         <div className="w-fit pt-8">
-          <h1 className="font-bold text-xl  text-[#FCFBF7]">PROFILE</h1>
+          <h1 className="font-merriweather text-xl  text-[#FCFBF7]">PROFILE</h1>
           <p className="border-b-2 border-yellow w-[80%]"></p>
         </div>
 
         {/* New Profile Header Section */}
-        <div className="lg:grid lg:grid-cols-3 space-y-2 gap-2">
+        <div className="lg:grid lg:grid-cols-3 max-md:space-y-2 gap-2">
           <div className="lg:col-span-2 h-full">
             <ProfileCard profile={profile} />
           </div>

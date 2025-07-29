@@ -10,10 +10,10 @@ const Header = () => {
           {/* Mobile Logo */}
           <div className="md:hidden bg-yellow rounded-md px-4 py-2">
             <Image
-              src="/dark-logo.png"
+              src="/dark-logo.svg"
               alt="CraftLink logo"
-              width={13}
-              height={13}
+              width={24}
+              height={24}
             />
           </div>
           {/* Desktop Logo */}
