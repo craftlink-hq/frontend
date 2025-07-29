@@ -2,6 +2,7 @@
 
 import type { Applied } from "@/utils/types";
 import { percentage } from "@/utils/job";
+import useGetPlatformFee from "@/hooks/PaymentProcessor/useGetPlatformFee";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { useState } from "react";
 import Feedback from "./Feedback";
@@ -29,6 +30,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const router = useRouter();
   const { role } = useGetUserRole();
   const isClaimed = paymentDetails?.isReleased || false;
+  const platformFee = useGetPlatformFee();
 
   const onClaim = async () => {
     const databaseId = job.job.id;
@@ -276,7 +278,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
               onCancel={() => setIsModalOpen(false)}
               jobTitle={job.job.title}
               totalAmount={job.job.price ?? 404}
-              feePercentage={percentage}
+              feePercentage={platformFee ? platformFee : percentage}
               walletAddress={job.job.completedBy?.walletAddress || ""}
             />
           </AnimatedDiv>

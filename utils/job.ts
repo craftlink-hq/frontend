@@ -287,4 +287,4 @@ export const Completed: Applied[] = [
 export const jobs: Job[] = [fashionDesigner, fashion];
 
 
-export const percentage = 5
+export const percentage = 10
