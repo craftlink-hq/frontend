@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import { useGetUserRole } from "@/utils/store";
 import { IoIosStarOutline, IoIosStar } from "react-icons/io";
 
 interface FiveStarRatingProps {
@@ -42,15 +43,31 @@ const FiveStarRating: React.FC<FiveStarRatingProps> = ({ onRatingChange }) => {
 
 
 
-const Feedback = () => {
+
+interface FeedbackProps {
+  onCancel: () => void;
+}
+
+const Feedback = ({ onCancel }: FeedbackProps) => {
+  const [review, setReview] = useState("");
+  const { role } = useGetUserRole();
   const handleRatingChange = (rating: number) => {
     console.log("Selected Rating:", rating);
   };
+
+  // Determine heading text based on role
+  let roleText = "client";
+  if (role === "client") {
+    roleText = "artisan";
+  } else if (role === "artisan") {
+    roleText = "client";
+  }
+
   return (
     <div className="rounded-md bg-[#333333] flex flex-col text-[#FCFBF7] p-4 gap-y-8">
       <div>
         <h2 className="font-alata text-[#F9F1E2] text-2xl lg:text-3xl">
-          How would you rate your experience with the client?
+          How would you rate your experience with the {roleText}?
         </h2>
         <h4 className="text-[#B5B4AD]">
           Your feedback is crucial in helping us ensure a great experience for
@@ -63,14 +80,25 @@ const Feedback = () => {
       </div>
       <div className="w-full">
         <p>Review</p>
-        <textarea placeholder="Write a review for this client " className="h-44 focus:outline-[#262208] w-[80%] md:w-[70%] lg:w-[100%] font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 text-[#FCFBF7] placeholder:italic px-4 py-2" />
+        <textarea
+          placeholder={`Write a review for this ${roleText} `}
+          className="h-44 focus:outline-[#262208] w-[80%] md:w-[70%] lg:w-[100%] font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 text-[#FCFBF7] placeholder:italic px-4 py-2"
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+        />
       </div>
       <div className="flex justify-between font-merriweather">
-        <button className="hidden md:flex  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold">
-        SKIP FOR NOW
+        <button
+          className="hidden md:flex  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold"
+          onClick={onCancel}
+        >
+          SKIP FOR NOW
         </button>
-        <button className="flex md:hidden  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold">
-        SKIP
+        <button
+          className="flex md:hidden  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold"
+          onClick={onCancel}
+        >
+          SKIP
         </button>
         <button className="hidden md:flex rounded-md bg-yellow uppercase py-2 px-4 font-bold text-[#1A1203] ">
           GIVE FEEDBACK

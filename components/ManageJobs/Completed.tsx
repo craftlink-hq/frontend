@@ -260,7 +260,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             duration={0.5}
             className="bg-[#333333] border border-[#FCFBF726] w-[90vw] md:w-[40vw] lg:w-[35vw] rounded-xl p-4 relative max-w-md md:max-w-none mx-auto"
           >
-            <Feedback />
+            <Feedback onCancel={() => setIsModalOpen(false)}
+            />
           </AnimatedDiv>
         </Modal>
       )}
