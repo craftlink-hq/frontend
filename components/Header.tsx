@@ -12,8 +12,8 @@ const Header = () => {
             <Image
               src="/dark-logo.svg"
               alt="CraftLink logo"
-              width={13}
-              height={13}
+              width={24}
+              height={24}
             />
           </div>
           {/* Desktop Logo */}

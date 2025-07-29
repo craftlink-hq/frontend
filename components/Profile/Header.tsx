@@ -69,8 +69,8 @@ const ProfileHeader = ({ isActive }: Header) => {
             <Image
               src="/dark-logo.svg"
               alt="CraftLink logo"
-              width={13}
-              height={13}
+              width={24}
+              height={24}
             />
           </div>
           <div className="md:flex hidden gap-x-4  w-full items-center font-mooli">
