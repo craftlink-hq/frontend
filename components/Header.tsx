@@ -10,10 +10,10 @@ const Header = () => {
           {/* Mobile Logo */}
           <div className="md:hidden bg-yellow rounded-md px-4 py-2">
             <Image
-              src="/dark-logo.png"
+              src="/dark-logo.svg"
               alt="CraftLink logo"
-              width={13}
-              height={13}
+              width={24}
+              height={24}
             />
           </div>
           {/* Desktop Logo */}
@@ -24,7 +24,7 @@ const Header = () => {
               width={22}
               height={49}
             />
-            <span className="text-[20px] md:text-[28px]">
+            <span className="text-[20px] text-[#F9F1E2] md:text-[28px]">
               Craft
               <span className="bg-[#FFD700] text-[#1A1203] rounded-sm">
                 Link

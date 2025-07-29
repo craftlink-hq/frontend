@@ -27,7 +27,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                     <div className={`flex gap-2`}>
                       <div className="flex gap-x-2 self-center relative h-[22px] w-[22px]">
                         <Image
-                          src={"/money.png"}
+                          src={"/money.svg"}
                           alt="amount"
                           fill
                           className="object-contain"
@@ -40,7 +40,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                     <div className={`flex gap-2`}>
                       <div className="flex gap-x-2 self-center relative h-[22px] w-[22px]">
                         <Image
-                          src={"/calendar.png"}
+                          src={"/calendar.svg"}
                           alt={"timeline"}
                           fill
                           className="object-contain"

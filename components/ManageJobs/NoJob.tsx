@@ -34,7 +34,7 @@ const NoJob = ({ title, desc, imageSrc, jobType }: NoJobProps) => {
       className="min-h-screen flex items-center justify-center"
       style={{ backgroundColor: '#F2E8CF0A' }}
     >
-      <div className="grid font-merriweather text-[#F9F1E2] text-center py-8 lg:py-16 gap-y-8 justify-self-center w-[80%] md:w-[70%] lg:w-[40%] items-center">
+      <div className="grid font-merriweather text-[#F9F1E2] text-center py-4 md:py-8 lg:py-16 gap-y-8 justify-self-center w-[80%] md:w-[70%] lg:w-[40%] items-center">
         <div className="place-self-center relative h-[50vh] w-[70%]">
           <Image
             src={imageSrc}

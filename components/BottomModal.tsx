@@ -1,5 +1,4 @@
 "use client"
-import { IoCloseSharp } from "react-icons/io5"
 import type React from "react"
 
 import ReactDOM from "react-dom"
@@ -27,13 +26,6 @@ const BottomSheetModal = ({ children, closeFn, className }: BottomSheetModalProp
           className="bg-[#333333] rounded-t-[30px] shadow-2xl border-t border-l border-r border-[#444444] max-h-[90vh] overflow-x-scroll"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close Button */}
-          <button
-            className="absolute top-4 right-4 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors z-10"
-            onClick={closeFn}
-          >
-            <IoCloseSharp size={24} />
-          </button>
 
           {children}
         </AnimatedDiv>

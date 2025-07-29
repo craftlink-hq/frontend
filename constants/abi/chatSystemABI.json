@@ -93,6 +93,20 @@
         "internalType": "bytes32",
         "name": "_conversationId",
         "type": "bytes32"
+      }
+    ],
+    "name": "isConversationActive",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" },
+      {
+        "internalType": "bytes32",
+        "name": "_conversationId",
+        "type": "bytes32"
       },
       { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" },
       {
@@ -101,13 +115,14 @@
         "type": "bytes32"
       }
     ],
-    "name": "startConversation",
+    "name": "startConversationFor",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" },
       {
         "internalType": "bytes32",
         "name": "_conversationId",
@@ -116,7 +131,7 @@
       { "internalType": "bytes32", "name": "_databaseId", "type": "bytes32" },
       { "internalType": "bytes32", "name": "_newRootHash", "type": "bytes32" }
     ],
-    "name": "updateConversation",
+    "name": "updateConversationFor",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

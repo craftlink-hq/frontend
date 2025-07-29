@@ -8,6 +8,7 @@ import { LevelOfExperience, PreferedLanguage } from "@/utils/filters";
 import { suggestedSkillsArray } from "@/utils/skills";
 import { toast } from "sonner";
 import { ArtisanProfileProps } from "@/utils/profile";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface AboutEditModalProps {
   isOpen: boolean;
@@ -144,7 +145,7 @@ const AboutEditModal: React.FC<AboutEditModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className=" rounded-lg w-full max-w-4xl p-2 h-full text-[#F9F1E2] font-merriweather">
+    <div className=" rounded-lg w-full h-full text-[#F9F1E2] font-merriweather">
       {/* Header */}
       <div className="flex justify-between items-center p-6 border-b border-[#444444]">
         <div>
@@ -152,7 +153,14 @@ const AboutEditModal: React.FC<AboutEditModalProps> = ({
           <div className="w-16 h-1 bg-yellow mt-1"></div>
         </div>
 
-        
+        <button
+          className=" bg-[#3B3A39] rounded-full p-2 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
+          onClick={onClose}
+        >
+          <IoCloseSharp size={16} />
+        </button>
+
+
       </div>
 
       <div className="p-6 space-y-6">

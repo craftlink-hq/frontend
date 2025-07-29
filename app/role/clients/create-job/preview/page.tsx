@@ -14,7 +14,7 @@ import handleApiError, { GigResponse } from "@/app/API/handleApiError";
 import useCreateGig from "@/hooks/Gasless/useCreateGig";
 import Loading from "@/components/Loading";
 
-export default function ProfilePreview() {
+export default function JobPreview() {
   const {
     jobTitle,
     jobDescription,
@@ -26,6 +26,7 @@ export default function ProfilePreview() {
     jobContextLink,
     additionalInfo,
     requiredSkills,
+    reset
   } = useGetJobData();
   const { username, location, clientBio, clientAvatar, preferredLanguage, joined } = useGetClientData();
   const { address } = useAccount();
@@ -51,7 +52,7 @@ export default function ProfilePreview() {
         clientAddress: address,
         title: jobTitle,
         skillCategory: requiredSkills,
-        preferredLocation: jobLocation,
+        preferredLocation: jobLocation || location,
         experienceLevel: experienceRequired,
         projectDescription: jobDescription,
         contextLink: jobContextLink,
@@ -92,6 +93,8 @@ export default function ProfilePreview() {
       await handleApiError(confirmResponse);
 
       toast.success("Gig successfully posted!");
+      // Clear cached job and client data after successful post
+      reset();
       router.push("/manage-jobs/clients");
     } catch (error) {
       toast.error("Error posting job");
@@ -110,7 +113,7 @@ export default function ProfilePreview() {
     createdAt: new Date().toLocaleDateString(),
     projectDuration: { weeks: duration },
     title: jobTitle,
-    preferredLocation: jobLocation,
+    preferredLocation: jobLocation || location,
     language: "English",
     totalJobs: 1,
     experienceLevel: experienceRequired,
@@ -151,7 +154,7 @@ export default function ProfilePreview() {
     <Loading show={createGigLoading}>
       <div className="px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
         <div className="w-fit pt-8">
-          <h1 className="font-bold text-xl">JOB POST PREVIEW</h1>
+          <h1 className="font-bold text-xl text-[#FCFBF7]">JOB POST PREVIEW</h1>
           <p className="border-b-2 border-yellow w-[60%]"></p>
         </div>
         <div className="hidden md:grid w-full">

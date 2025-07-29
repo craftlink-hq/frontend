@@ -48,7 +48,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
 
       <div className="flex flex-col md:flex-row gap-4 w-full relative">
         <div className="flex-shrink-0">
-          <div className="relative h-72 w-84">
+          <div className="relative h-72 w-84 md:w-72 md:h-full">
             <Image
               src={profile.about.avatar || "/placeholder.svg"}
               alt="Profile avatar"
@@ -61,14 +61,14 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
         <div className="flex flex-col space-y-4  justify-center w-full items-start relative lg:left-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <h2 className="text-2xl font-bold text-[#FCF8F0] uppercase">
+              <h2 className="text-2xl font-alata text-[#FCF8F0] uppercase">
                 #{profile.about.username}
               </h2>
               <span className="flex text-[#F0FCF6] text-xs px-2 py-1 bg-[#04DF7621] border rounded-full border-[#04DF76]">
                 Verified
               </span>
             </div>
-            <p className="text-xl font-semibold text-[#FCF8F0] mb-2">
+            <p className="text-xl font-merriweather font-semibold text-[#FCF8F0] mb-2">
               {profile.about.jobTitle}
             </p>
           </div>
@@ -76,7 +76,7 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
           <div className="flex items-center gap-4 text-sm text-[#D8D6CF]">
             <div className="flex items-center gap-2">
               <Image
-                src="/location.png"
+                src="/location.svg"
                 alt="location"
                 width={16}
                 height={16}

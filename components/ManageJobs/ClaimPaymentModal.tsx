@@ -1,14 +1,15 @@
-"use client"
+"use client";
 
-import { IoInformationCircleOutline } from "react-icons/io5"
+import { IoInformationCircleOutline } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface ClaimPaymentModalProps {
-  onClaim: () => void
-  onCancel: () => void
-  jobTitle?: string
-  totalAmount: number
-  feePercentage: number
-  walletAddress: string
+  onClaim: () => void;
+  onCancel: () => void;
+  jobTitle?: string;
+  totalAmount: number;
+  feePercentage: number;
+  walletAddress: string;
 }
 
 const ClaimPaymentModal = ({
@@ -19,18 +20,28 @@ const ClaimPaymentModal = ({
   feePercentage,
   walletAddress,
 }: ClaimPaymentModalProps) => {
-  const feeAmount = (totalAmount * feePercentage) / 100
-  const receiveAmount = totalAmount - feeAmount
+  const feeAmount = (totalAmount * feePercentage) / 100;
+  const receiveAmount = totalAmount - feeAmount;
 
   return (
     <div className=" rounded-lg p-6 w-full text-[#F9F1E2] font-merriweather relative">
-    
-
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-[#F9F1E2] mb-3">CLAIM YOUR PAYMENT</h2>
+        <div className=" flex w-full border-b bg-about border-[#FFFFFF40] px-2 py-4 justify-between items-center">
+          <h2 className="text-xl font-bold text-[#F9F1E2] ">
+            CLAIM YOUR PAYMENT
+          </h2>
+
+          <button
+            className=" top-12 right-12 bg-[#3B3A39] rounded-full p-2 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
+            onClick={onCancel}
+          >
+            <IoCloseSharp size={16} />
+          </button>
+        </div>
         <p className="text-[#B5B4AD] text-sm leading-relaxed">
-          You&apos;re about to claim your payment for the completed job: <span className="text-[#F9F1E2]">{jobTitle}</span>
+          You&apos;re about to claim your payment for the completed job:{" "}
+          <span className="text-[#F9F1E2]">{jobTitle}</span>
         </p>
       </div>
 
@@ -45,19 +56,29 @@ const ClaimPaymentModal = ({
           {/* Total Job Amount */}
           <div className="flex justify-between items-center">
             <span className="text-[#B5B4AD]">Total Job Amount</span>
-            <span className="text-[#F9F1E2] font-medium">${totalAmount.toFixed(2)}</span>
+            <span className="text-[#F9F1E2] font-medium">
+              ${totalAmount.toFixed(2)}
+            </span>
           </div>
 
           {/* CraftLink Fee */}
           <div className="flex justify-between items-center">
-            <span className="text-[#B5B4AD]">CraftLink Fee ({feePercentage}%)</span>
-            <span className="text-[#F9F1E2] font-medium">${feeAmount.toFixed(2)}</span>
+            <span className="text-[#B5B4AD]">
+              CraftLink Fee ({feePercentage}%)
+            </span>
+            <span className="text-[#F9F1E2] font-medium">
+              ${feeAmount.toFixed(2)}
+            </span>
           </div>
 
           {/* Amount You'll Receive */}
           <div className="flex justify-between items-center pt-2 border-t border-[#3A3A3A]">
-            <span className="text-[#F9F1E2] font-medium">Amount You&apos;ll Receive</span>
-            <span className="text-[#F9F1E2] font-bold text-lg">${receiveAmount.toFixed(2)}</span>
+            <span className="text-[#F9F1E2] font-medium">
+              Amount You&apos;ll Receive
+            </span>
+            <span className="text-[#F9F1E2] font-bold text-lg">
+              ${receiveAmount.toFixed(2)}
+            </span>
           </div>
         </div>
       </div>
@@ -66,8 +87,12 @@ const ClaimPaymentModal = ({
       <div className="mb-6">
         <div className="bg-[#1A1A1A] rounded-lg p-4">
           <p className="text-[#B5B4AD] text-sm mb-1">Wallet Address:</p>
-          <p className="text-[#F9F1E2] font-mono text-sm mb-2">{walletAddress}</p>
-          <p className="text-[#B5B4AD] text-xs">Payment should reflect within 5 minutes</p>
+          <p className="text-[#F9F1E2] font-mono text-sm mb-2">
+            {walletAddress}
+          </p>
+          <p className="text-[#B5B4AD] text-xs">
+            Payment should reflect within 5 minutes
+          </p>
         </div>
       </div>
 
@@ -87,7 +112,7 @@ const ClaimPaymentModal = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ClaimPaymentModal
+export default ClaimPaymentModal;

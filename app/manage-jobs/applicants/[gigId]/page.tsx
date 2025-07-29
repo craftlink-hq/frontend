@@ -3,7 +3,6 @@
 import { appliedJobFilters } from "@/utils/filters";
 import ManageApplicants from "@/components/ManageJobs/ManageApplicants";
 import MarketHeader from "@/components/Marketplace/MarketHeader";
-import { useFilterState } from "@/context/filter";
 import { usePathname, useRouter } from "next/navigation";
 import { useFetchClientPostedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientPostedGigs";
 import { useState, use } from "react";
@@ -15,7 +14,6 @@ export default function JobApplicants({
 }: {
   params: Promise<{ gigId: string }>;
 }) {
-  const { filterState, setFilterState } = useFilterState();
   const pathname = usePathname();
   const router = useRouter();
   const { gigId } = use(params);
@@ -30,9 +28,7 @@ export default function JobApplicants({
 
   const isActive = (path: string) => pathname === path;
 
-  const toggleFilter = () => {
-    setFilterState(!filterState);
-  };
+
 
   const handleBackToJobs = () => {
     router.push("/manage-jobs/clients");
@@ -84,7 +80,7 @@ export default function JobApplicants({
         <div className="flex flex-col bg-[#333333] bg-opacity-[95%] min-h-screen">
           <div className="min-h-screen">
             <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
-              <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
+              <MarketHeader isActive={isActive}/>
 
               <div className="w-[90%] self-center flex justify-between">
                 <div className="self-center">

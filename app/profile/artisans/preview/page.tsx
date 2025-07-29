@@ -16,10 +16,11 @@ import axios from '@/app/API/axios';
 import handleApiError, { ArtisanResponse } from "@/app/API/handleApiError";
 import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
 import About from "@/components/Profile/About";
+import ProfileCard from "@/components/Profile/ProfileCard";
 
 export default function ProfilePreview() {
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
-  const { 
+  const {
     category,
     skills,
     experienceLevel,
@@ -31,9 +32,10 @@ export default function ProfilePreview() {
     availability,
     avatar,
     workHistory,
+    reset
   } = useGetArtisanData();
   const router = useRouter();
-  
+
   const { address } = useAccount();
   const detail = useGetArtisanDetails();
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -76,6 +78,7 @@ export default function ProfilePreview() {
       await handleApiError<ArtisanResponse>(backendResponse);
 
       toast.success("Profile posted successfully");
+      reset(); // Reset the artisan data store
       router.push("/profile/artisans");
     } catch (error) {
       toast.error("Error posting profile");
@@ -106,7 +109,7 @@ export default function ProfilePreview() {
       setProfile(transformedProfile);
       setIsInitialLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, detail]);
 
   if (isInitialLoading || isLoading || !profile) {
@@ -120,20 +123,14 @@ export default function ProfilePreview() {
       </div>
       <div className="pt-24 px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
         <div className="w-fit pt-8">
-          <h1 className="font-bold text-xl ">PREVIEW PROFILE</h1>
+          <h1 className="font-bold text-xl text-[#FCFBF7]">PREVIEW PROFILE</h1>
           <p className="border-b-2 border-yellow w-[60%]"></p>
         </div>
-        {/* <Status
-          // onClick={handleNext}
-          title={"Look at You, Ready to Shine!"}
-          desc={
-            "Here's how your craft comes to life for clients. Need a final touch? Go ahead and perfect it!"
-          }
-          button={"Go live now"}
-          imageSrc={"/preview.png"}
-        /> */}
-         <About profile={profile} />{" "}
-       
+        <div className="lg:h-[35vh]">
+          <ProfileCard profile={profile} />
+        </div>
+        <About profile={profile} />{" "}
+
         <Portfolio portfolio={profile.portfolio} />
         <button onClick={handleNext} className="flex self-end items-center w-fit py-2 px-4 uppercase bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base">
           GO LIVE NOW

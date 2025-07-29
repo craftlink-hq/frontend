@@ -8,6 +8,7 @@ import { ArtisanCategory } from "@/utils/filters";
 import { toast } from "sonner";
 import { uploadFiles } from "@/utils/upload";
 import { ProfileProps } from "@/utils/profile";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface ProfileEditModalProps {
   isOpen: boolean;
@@ -108,9 +109,16 @@ const EditProfile: React.FC<ProfileEditModalProps> = ({
       <div className="rounded-lg p-4 md:p-6 relative h-full text-[#F9F1E2] font-merriweather">
         <div className="flex justify-between items-center mb-6">
           <div>
-          <h2 className="text-xl font-bold text-[#F9F1E2]">EDIT PROFILE</h2>
-          <div className="w-18 h-1 bg-yellow mt-1"></div>
+            <h2 className="text-xl font-bold text-[#F9F1E2]">EDIT PROFILE</h2>
+            <div className="w-18 h-1 bg-yellow mt-1"></div>
           </div>
+
+          <button
+            className=" bg-[#3B3A39] rounded-full p-2 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
+            onClick={onClose}
+          >
+            <IoCloseSharp size={16} />
+          </button>
         </div>
 
         <div className="space-y-4 md:px-4 ">

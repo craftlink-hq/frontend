@@ -81,7 +81,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
   const { requiredCFT } = useGetRequiredCFT(job.id as string);
   const gigInfo = useGetGigInfo(job.id as string);
 
-  const { applyForGig } = useApplyForGig();
+  const { applyForGig, isLoading } = useApplyForGig();
 
   // Get dynamic status based on smart contract state
   const jobStatus = getJobStatus(gigInfo);
@@ -257,6 +257,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
           <ApplyConfirmationModal
             onCancel={() => setIsApplyModalOpen(false)}
             onConfirm={handleApplyConfirm}
+            isLoading={isLoading}
             craftCoinsRequired={requiredCFT ?? 404}
           />
         </Modal>

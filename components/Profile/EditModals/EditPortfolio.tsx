@@ -6,6 +6,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { uploadFiles } from "@/utils/upload";
 import { PortfolioProps } from "@/utils/profile";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface PortfolioEditModalProps {
   isOpen: boolean;
@@ -107,9 +108,16 @@ const EditPortfolio: React.FC<PortfolioEditModalProps> = ({
     <div className="rounded-lg p-6 relative h-full  text-[#F9F1E2] font-merriweather">
       <div className="flex justify-between items-center mb-6">
         <div>
-        <h2 className="text-xl font-bold text-[#F9F1E2]">ADD PORTFOLIO</h2>
-        <div className="w-16 h-1 bg-yellow mt-1"></div>
+          <h2 className="text-xl font-bold text-[#F9F1E2]">ADD PORTFOLIO</h2>
+          <div className="w-16 h-1 bg-yellow mt-1"></div>
         </div>
+
+        <button
+          className=" bg-[#3B3A39] rounded-full p-2 text-[#B5B4AD] hover:text-[#F9F1E2] transition-colors"
+          onClick={onClose}
+        >
+          <IoCloseSharp size={16} />
+        </button>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">

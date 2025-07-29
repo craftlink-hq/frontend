@@ -81,7 +81,7 @@ const ManageJobs = ({
             </div>
             <div className="flex flex-col w-[90vw] md:w-[75%] h-full">
               {/* Jobs List - Scrollable Container */}
-              <div className="jobs-container flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FCFBF726] scrollbar-track-[#9A9992] pr-2">
+              <div className="jobs-container flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FCFBF726] scrollbar-track-[#9A9992] ">
                 {" "}
                 <div className="space-y-4">
                   {paginatedJobs.map((job) => (

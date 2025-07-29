@@ -37,7 +37,7 @@ export default function Profile() {
       </div>
       <div className="pt-24 px-4 flex flex-col gap-y-4 md:px-16 2xl:px-32">
         <div className="w-fit pt-8">
-          <h1 className="font-bold text-xl">PROFILE</h1>
+          <h1 className="font-bold text-xl  text-[#FCFBF7]">PROFILE</h1>
           <p className="border-b-2 border-yellow w-[80%]"></p>
         </div>
 

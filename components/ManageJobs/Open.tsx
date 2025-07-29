@@ -3,15 +3,16 @@
 import type { Applied } from "@/utils/types"
 import AnimatedDiv from "@/components/AnimatedDiv"
 import Image from "next/image"
-import { formatDate } from "@/utils/formatDate"
+import { formatRelativeTime } from "@/utils/timeUtils";
 import useGetClientInfo from "@/hooks/ManageJob/useGetClientInfo"
-import useCloseGig from "@/hooks/GigMarketplace/useCloseGig"
 import { useRouter } from "next/navigation"
+import { useCloseGig } from "@/hooks/Gasless/useCloseGig"
+import Loading from "../Loading"
 
 const OpenJob = ({ job }: { job: Applied }) => {
   const applicants = job.job?.applicants
   const { clientData } = useGetClientInfo(job.job.client?.walletAddress || "")
-  const closeGig = useCloseGig()
+  const { closeGig, isLoading } = useCloseGig()
   const router = useRouter()
  
   const handleCloseJob = () => {
@@ -34,7 +35,8 @@ const OpenJob = ({ job }: { job: Applied }) => {
 
 
   return (
-    <AnimatedDiv
+    <Loading show={isLoading}>
+      <AnimatedDiv
       initialX="100%"
       animateX={0}
       exitX={"-100%"}
@@ -44,7 +46,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
       {/* Posted Date */}
       <div className="w-full bg-[#403F3E] p-3 md:p-4">
         <span className="text-xs md:text-sm bg-[#00F7FF17] text-[#47F9FF] italic rounded-md p-2 md:p-[10px]">
-          Posted: {formatDate(job.job?.createdAt) || "Two weeks ago"}
+          Posted: {formatRelativeTime(job.job?.createdAt) || "Two weeks ago"}
         </span>
       </div>
 
@@ -56,19 +58,19 @@ const OpenJob = ({ job }: { job: Applied }) => {
           {/* Job Details */}
           <div className="flex flex-wrap items-center text-xs md:text-sm text-[#B5B4AD] mb-2 gap-2 md:gap-0">
             <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2 border-r border-[#FCFBF726]">
-              <Image src={"/location.png"} alt={"location"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
+              <Image src={"/location.svg"} alt={"location"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
               <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">{clientData?.location}</span>
             </div>
             <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2 border-r border-[#FCFBF726]">
-              <Image src={"/language.png"} alt={"language"} width="12" height="14" className="md:w-[14px] md:h-[16px]" />
+              <Image src={"/language.svg"} alt={"language"} width="12" height="14" className="md:w-[14px] md:h-[16px]" />
               <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">{clientData?.language || "English"}</span>
             </div>
             <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2 border-r border-[#FCFBF726]">
-              <Image src={"/calendar.png"} alt={"timeline"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
+              <Image src={"/calendar.svg"} alt={"timeline"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
               <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">{job.job.projectDuration.weeks} weeks</span>
             </div>
             <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2">
-              <Image src={"/expertise.png"} alt={job.job.experienceLevel} width="16" height="14" className="md:w-[20px] md:h-[16px]" />
+              <Image src={"/expertise.svg"} alt={job.job.experienceLevel} width="16" height="14" className="md:w-[20px] md:h-[16px]" />
               <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">{job.job.experienceLevel}</span>
             </div>
           </div>
@@ -118,21 +120,21 @@ const OpenJob = ({ job }: { job: Applied }) => {
                 {/* Details */}
                 <div className="flex flex-wrap justify-center md:justify-start items-center gap-2 md:gap-4 text-xs md:text-sm text-[#B5B4AD]">
                   <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2 border-r border-[#FCFBF726]">
-                    <Image src={"/location.png"} alt={"location"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
+                    <Image src={"/location.svg"} alt={"location"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
                     <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">{applicants[0].location}</span>
                   </div>
                   <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2 border-r border-[#FCFBF726]">
-                    <Image src={"/language.png"} alt={"language"} width="12" height="14" className="md:w-[14px] md:h-[16px]" />
+                    <Image src={"/language.svg"} alt={"language"} width="12" height="14" className="md:w-[14px] md:h-[16px]" />
                     <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">
                       {applicants[0].preferredLanguages || "English"}
                     </span>
                   </div>
                   <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2 border-r border-[#FCFBF726]">
-                    <Image src={"/expertise.png"} alt={"expertise"} width="16" height="14" className="md:w-[20px] md:h-[16px]" />
+                    <Image src={"/expertise.svg"} alt={"expertise"} width="16" height="14" className="md:w-[20px] md:h-[16px]" />
                     <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">{applicants[0].experienceLevel}</span>
                   </div>
                   <div className="flex justify-center items-center gap-x-1 md:gap-x-2 px-1 md:px-2">
-                    <Image src={"/calendar.png"} alt={"timeline"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
+                    <Image src={"/calendar.svg"} alt={"timeline"} width="14" height="14" className="md:w-[18px] md:h-[16px]" />
                     <span className="font-merriweather text-[#D8D6CF] text-xs md:text-sm">
                       <span>Available to work</span>
                     </span>
@@ -189,6 +191,7 @@ const OpenJob = ({ job }: { job: Applied }) => {
         </div>
       )}
     </AnimatedDiv>
+    </Loading>
   )
 }
 

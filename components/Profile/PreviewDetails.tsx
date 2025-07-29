@@ -16,7 +16,7 @@ const PreviewDetails = ({ details }: { details: DetailsProps }) => {
         </div>
         <div className="flex  items-start justify-start gap-x-2">
           <Image
-            src={"/location.png"}
+            src={"/location.svg"}
             alt={"location"}
             width="22"
             height="22"
@@ -49,7 +49,7 @@ const PreviewDetails = ({ details }: { details: DetailsProps }) => {
         </div>
         <div className="flex  items-start justify-start gap-x-2">
           <Image
-            src={"/language.png"}
+            src={"/language.svg"}
             alt={"language"}
             width="18"
             height="18"
@@ -73,7 +73,7 @@ const PreviewDetails = ({ details }: { details: DetailsProps }) => {
         </div>
         <div className="flex  items-start justify-start gap-x-2">
           <Image
-            src={"/expertise.png"}
+            src={"/expertise.svg"}
             alt={"expertise"}
             width="22"
             height="22"
@@ -89,7 +89,7 @@ const PreviewDetails = ({ details }: { details: DetailsProps }) => {
         <div className="flex  items-start justify-start gap-x-2">
           <Image
             onClick={() => router.push("/role/artisans/onboarding/pricing")}
-            src={"/calendar.png"}
+            src={"/calendar.svg"}
             alt={"calendar"}
             width="22"
             height="22"
@@ -113,7 +113,7 @@ const PreviewDetails = ({ details }: { details: DetailsProps }) => {
         </div>
         <div className="flex  items-start justify-start gap-x-2">
           <Image
-            src={"/money.png"}
+            src={"/money.svg"}
             alt={"money"}
             width="22"
             height="22"

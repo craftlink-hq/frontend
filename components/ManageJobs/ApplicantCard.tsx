@@ -58,7 +58,7 @@ const ApplicantCard = ({
             <div className="flex flex-wrap items-center gap-4 text-sm text-[#B5B4AD]">
               <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726]">
                 <Image
-                  src={"/location.png"}
+                  src={"/location.svg"}
                   alt={"location"}
                   width="18"
                   height="16"
@@ -69,7 +69,7 @@ const ApplicantCard = ({
               </div>
               <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726]">
                 <Image
-                  src={"/language.png"}
+                  src={"/language.svg"}
                   alt={"language"}
                   width="14"
                   height="16"
@@ -80,7 +80,7 @@ const ApplicantCard = ({
               </div>
               <div className="flex justify-center items-center gap-x-2 px-2 border-r border-[#FCFBF726]">
                 <Image
-                  src={"/expertise.png"}
+                  src={"/expertise.svg"}
                   alt={"expertise"}
                   width="20"
                   height="16"
@@ -91,7 +91,7 @@ const ApplicantCard = ({
               </div>
               <div className="flex justify-center items-center gap-x-2 px-2">
                 <Image
-                  src={"/calendar.png"}
+                  src={"/calendar.svg"}
                   alt={"timeline"}
                   width="18"
                   height="16"
