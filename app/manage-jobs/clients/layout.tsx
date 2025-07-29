@@ -37,7 +37,7 @@ export default function Layout({
       <div className="flex flex-col bg-[#333333] bg-opacity-[95%] min-h-screen ">
         <div className="min-h-screen">
           <div className="flex gap-y-4 flex-col w-screen h-full pb-8">
-            <MarketHeader isActive={isActive} toggleFilter={toggleFilter} />
+            <MarketHeader isActive={isActive} />
             <div className="w-[90%] self-center flex flex-col md:flex-row justify-between gap-6 md:gap-4">
               <div className="self-center py-4 md:py-0">
                 <h2 className="text-[#FCFBF7] md:text-2xl font-bold mb-3 md:mb-0 text-2xl">

@@ -16,6 +16,7 @@ import axios from '@/app/API/axios';
 import handleApiError, { ArtisanResponse } from "@/app/API/handleApiError";
 import useGetArtisanDetails from "@/hooks/Registry/useGetArtisanDetails";
 import About from "@/components/Profile/About";
+import ProfileCard from "@/components/Profile/ProfileCard";
 
 export default function ProfilePreview() {
   const [profile, setProfile] = useState<ArtisanProfileProps | null>(null);
@@ -125,15 +126,7 @@ export default function ProfilePreview() {
           <h1 className="font-bold text-xl text-[#FCFBF7]">PREVIEW PROFILE</h1>
           <p className="border-b-2 border-yellow w-[60%]"></p>
         </div>
-        {/* <Status
-          // onClick={handleNext}
-          title={"Look at You, Ready to Shine!"}
-          desc={
-            "Here's how your craft comes to life for clients. Need a final touch? Go ahead and perfect it!"
-          }
-          button={"Go live now"}
-          imageSrc={"/preview.png"}
-        /> */}
+        <ProfileCard profile={profile} />
          <About profile={profile} />{" "}
        
         <Portfolio portfolio={profile.portfolio} />
