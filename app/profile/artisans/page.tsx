@@ -120,7 +120,7 @@ export default function Profile() {
         </div>
 
         {/* New Profile Header Section */}
-        <div className="lg:grid lg:grid-cols-3 max-sm:space-y-2 gap-2">
+        <div className="lg:grid lg:grid-cols-3 max-md:space-y-2 gap-2">
           <div className="lg:col-span-2 h-full">
             <ProfileCard profile={profile} />
           </div>
