@@ -16,6 +16,8 @@ import { useGetUserRole } from "@/utils/store";
 import useGetRequiredCFT from "@/hooks/GigMarketplace/useGetRequiredCFT";
 import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
 import useApplyForGig from "@/hooks/Gasless/useApplyForGig";
+import useHasAppliedForGig from "@/hooks/GigMarketplace/useHasAppliedForGig";
+import { toast } from "sonner";
 
 // Define the return type for job status
 interface JobStatus {
@@ -97,6 +99,8 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
     formatRelativeTime(job.createdAt)
   );
 
+  const hasApplied = useHasAppliedForGig(job.id as string);
+
   // Update relative time every minute
   React.useEffect(() => {
     const updateRelativeTime = () => {
@@ -157,7 +161,11 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => {
 
   const handleApplyConfirm = async () => {
     // Handle the actual application logic here
-    console.log("Applying for job:", job.id);
+    if (hasApplied) {
+      toast.warning("You have already applied for this gig.");
+      setIsApplyModalOpen(false);
+      return;
+    }
     await applyForGig(job.id as string);
     
     setIsApplyModalOpen(false);
