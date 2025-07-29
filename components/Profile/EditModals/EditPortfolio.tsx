@@ -8,7 +8,7 @@ import { uploadFiles } from "@/utils/upload";
 import { PortfolioProps } from "@/utils/profile";
 import { IoCloseSharp } from "react-icons/io5";
 
-interface PortfolioEditMoSdalProps {
+interface PortfolioEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (portfolioItem: PortfolioProps) => void;
