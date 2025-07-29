@@ -15,10 +15,10 @@ import useGetClientAverageRating from "../ReviewSystem/useGetClientAverageRating
 import useGetClientCreatedPaidJobs from "../GigMarketplace/useGetClientCreatedPaidJob";
 import useGetClientGigsCompleted from "../GigMarketplace/useGetClientGigsCompleted";
 
-const useGetClientDetails = () => {
+const useGetClientDetails = (address: string) => {
   const isClient = useIsClient();
   const { fetchFromIPFS } = IPFS();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [error, setError] = useState<string | null>(null);
   const [clientData, setClientData] = useState<Client | null>(null);
@@ -27,7 +27,7 @@ const useGetClientDetails = () => {
 
   const moneySpent = useGetClientAmountSpent();
   const gigCount = useGetClientGigCount();
-  const clientRating = useGetClientAverageRating();
+  const clientRating = useGetClientAverageRating(address as string);
 
   const fetchClientDetails = useCallback(async () => {
     if (!address || isClient === null) return;

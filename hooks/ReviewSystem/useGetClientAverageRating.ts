@@ -4,26 +4,29 @@ import { getReviewContract } from "@/constants/contracts";
 import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
+import { useAccount } from "@/lib/thirdweb-hooks";
 
-const useGetClientAverageRating = (clientAddress: string) => {
+const useGetClientAverageRating = (clientAddress?: string) => {
+  const { address } = useAccount();
   const [clientRating, setClientRating] = useState<number | null>(null);
 
   const fetchClientRating = useCallback(async () => {
     try {
       const contract = getReviewContract(readOnlyProvider);
-      const rating = await contract.getClientAverageRating(clientAddress);
+      const rating = await contract.getClientAverageRating(clientAddress || address);
       setClientRating(rating);
     } catch (error) {
       toast.error("Error checking client average rating");
       console.error("Error checking client rating:", error);
       setClientRating(null);
     }
-  }, [clientAddress]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   useEffect(() => {
     fetchClientRating();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchClientRating]);
 
   return clientRating;
 };

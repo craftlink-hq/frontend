@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import { readOnlyProvider } from "@/constants/providers";
 import { toast } from "sonner";
 
-const useGetClientAverageRating = (clientAddress: string) => {
+const useGetClientReviewCount = (clientAddress: string) => {
   const [reviewCount, setReviewCount] = useState<number>(0);
 
   const fetchReviewCount = useCallback(async () => {
@@ -28,4 +28,4 @@ const useGetClientAverageRating = (clientAddress: string) => {
   return reviewCount;
 };
 
-export default useGetClientAverageRating;
+export default useGetClientReviewCount;
