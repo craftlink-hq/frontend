@@ -47,12 +47,12 @@ const Feedback = () => {
     console.log("Selected Rating:", rating);
   };
   return (
-    <div className="rounded-md bg-[#333333] flex flex-col p-4 gap-y-8">
+    <div className="rounded-md bg-[#333333] flex flex-col text-[#FCFBF7] p-4 gap-y-8">
       <div>
-        <h2 className="font-alata text-2xl lg:text-3xl">
+        <h2 className="font-alata text-[#F9F1E2] text-2xl lg:text-3xl">
           How would you rate your experience with the client?
         </h2>
-        <h4>
+        <h4 className="text-[#B5B4AD]">
           Your feedback is crucial in helping us ensure a great experience for
           both artisans and clients.
         </h4>
