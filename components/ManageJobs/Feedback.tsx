@@ -63,7 +63,7 @@ const Feedback = () => {
       </div>
       <div className="w-full">
         <p>Review</p>
-        <textarea placeholder="Write a review for this client " className="h-44 focus:outline-[#262208] w-[80%] md:w-[70%] lg:w-[50%] font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 text-[#FCFBF7] placeholder:italic px-4 py-2" />
+        <textarea placeholder="Write a review for this client " className="h-44 focus:outline-[#262208] w-[80%] md:w-[70%] lg:w-[100%] font-merriweather bg-[#F2E8CF29] rounded-md placeholder:px-2 text-[#FCFBF7] placeholder:italic px-4 py-2" />
       </div>
       <div className="flex justify-between font-merriweather">
         <button className="hidden md:flex  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold">
