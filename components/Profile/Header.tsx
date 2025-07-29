@@ -19,7 +19,6 @@ import {
   FiChevronUp,
 } from "react-icons/fi";
 import { useAccount } from "@/lib/thirdweb-hooks";
-import SearchBar from "../SearchBar"
 
 
 interface Header {
