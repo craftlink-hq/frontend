@@ -1,6 +1,5 @@
 "use client";
 import MarketHeader from "@/components/Marketplace/MarketHeader";
-import { useFilterState } from "@/context/filter";
 import { links } from "@/utils/links";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,7 +12,6 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { filterState, setFilterState } = useFilterState();
   const pathname = usePathname();
   const tokenBalance = useGetTokenBalance();
   const checkAmountSpent = useGetClientAmountSpent();
@@ -28,9 +26,6 @@ export default function Layout({
     { href: links.client_closed, label: "Closed" },
   ];
 
-  const toggleFilter = () => {
-    setFilterState(!filterState);
-  };
 
   return (
     <div className="flex flex-col bg-[url('/bg.png')] min-h-screen w-screen bg-opacity-[25%]">
