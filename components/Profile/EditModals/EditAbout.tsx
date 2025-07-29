@@ -145,7 +145,7 @@ const AboutEditModal: React.FC<AboutEditModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className=" rounded-lg w-full max-w-4xl p-2 h-full text-[#F9F1E2] font-merriweather">
+    <div className=" rounded-lg w-full h-full text-[#F9F1E2] font-merriweather">
       {/* Header */}
       <div className="flex justify-between items-center p-6 border-b border-[#444444]">
         <div>
