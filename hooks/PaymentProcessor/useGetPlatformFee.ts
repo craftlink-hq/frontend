@@ -10,7 +10,7 @@ const useGetPlatformFee = () => {
   const checkPlatformFee = useCallback(async () => {
     try {
       const contract = getPaymentProcessorContract(readOnlyProvider);
-      const resp = await contract.getClientAmountSpent();
+      const resp = await contract.getPlatformFeePercentage();
       setPlatformFee(resp);
     } catch (error) {
       console.error("Error fetching platform fee:", error);
