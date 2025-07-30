@@ -21,7 +21,7 @@ export default function Profile() {
   const tokenBalance = useGetTokenBalance();
   const [error, setError] = useState<string | null>(null);
   const spent = useGetClientAmountSpent(address as string);
-  const { completedGigs: Completed, isLoading: gigsLoading } = useFetchClientCompletedGigs(address);
+  const { completedGigs: Completed } = useFetchClientCompletedGigs(address);
   const completedGigsCount = Completed.length;
 
   useEffect(() => {
