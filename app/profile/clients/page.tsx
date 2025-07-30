@@ -10,6 +10,8 @@ import useGetTokenBalance from "@/hooks/Token/useGetTokenBalance";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import { useAccount } from "@/lib/thirdweb-hooks";
+import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
+import { useFetchClientCompletedGigs } from "@/hooks/ManageJob/ClientHooks/useFetchClientCompletedGigs";
 
 export default function Profile() {
   const pathname = usePathname();
@@ -18,6 +20,9 @@ export default function Profile() {
   const { clientData, isLoading: clientLoading, error: clientError } = useGetClientDetails(address as string);
   const tokenBalance = useGetTokenBalance();
   const [error, setError] = useState<string | null>(null);
+  const spent = useGetClientAmountSpent(address as string);
+  const { completedGigs: Completed } = useFetchClientCompletedGigs(address);
+  const completedGigsCount = Completed.length;
 
   useEffect(() => {
     if (clientError) {
@@ -37,8 +42,6 @@ export default function Profile() {
     );
   }
 
-  const spent = clientData.moneySpent;
-
   return (
     <div>
       <div className="fixed z-50 backdrop-blur-3xl bg-opacity-100 h-[75px] w-full">
@@ -52,13 +55,13 @@ export default function Profile() {
 
         <div className="grid lg:grid-cols-3 gap-4">
           <div className="md:hidden h-full">
-            <ClientTokenUsage available={tokenBalance ?? 404} spent={spent} />
+            <ClientTokenUsage available={tokenBalance ?? 404} spent={spent as number} />
           </div>
           <div className="lg:col-span-2 h-full">
-            <ClientProfileCard client={clientData} />
+            <ClientProfileCard client={clientData} completedGigsCount={completedGigsCount} />
           </div>
           <div className="hidden md:flex lg:col-span-1 h-full">
-            <ClientTokenUsage available={tokenBalance ?? 404} spent={spent} />
+            <ClientTokenUsage available={tokenBalance ?? 404} spent={spent as number} />
           </div>
         </div>
 

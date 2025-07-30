@@ -12,9 +12,10 @@ import BottomSheetModal from "../BottomModal";
 
 interface ClientProfileCardProps {
   client: Client;
+  completedGigsCount: number;
 }
 
-const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
+const ClientProfileCard = ({ client, completedGigsCount }: ClientProfileCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileData, setProfileData] = useState(editProfile);
 
@@ -117,7 +118,7 @@ const ClientProfileCard = ({ client }: ClientProfileCardProps) => {
                   <span className="text-[10px] xl:text-xs">Hiring History</span>
                 </div>
                 <p className="text-[#F9F1E2] text-xs xl:text-sm">
-                  {client.posted} Jobs posted
+                  {completedGigsCount} Job{completedGigsCount !== 1 ? 's' : ''} posted
                 </p>
               </div>
             </div>
