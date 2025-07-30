@@ -17,6 +17,9 @@ import useGetPaymentDetails from "@/hooks/PaymentProcessor/useGetPaymentDetails"
 import useGetGigInfo from "@/hooks/GigMarketplace/useGetGigInfo";
 import { useRouter } from "next/navigation";
 import { useGetUserRole } from "@/utils/store";
+import { useAccount } from "@/lib/thirdweb-hooks";
+import useGetReviewDetails from "@/hooks/ReviewSystem/useGetReviewDetails";
+import { toast } from "sonner";
 
 const CompletedJob = ({ job }: { job: Applied }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +32,12 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   const paymentDetails = useGetPaymentDetails(paymentId);
   const router = useRouter();
   const { role } = useGetUserRole();
+  const { address } = useAccount();
   const isClaimed = paymentDetails?.isReleased || false;
   const platformFee = useGetPlatformFee();
+
+  const reviewee = role === "client" ? job.job.completedBy?.walletAddress || "" : job.job.client?.walletAddress || "";
+  const review = useGetReviewDetails(address || "", reviewee, job.job.id as string);
 
   const onClaim = async () => {
     const databaseId = job.job.id;
@@ -41,8 +48,8 @@ const CompletedJob = ({ job }: { job: Applied }) => {
 
     const success = await releaseArtisanFunds(String(databaseId));
     if (success) {
-      setIsClaimModalOpen(false)
-      setIsSuccessOpen(true)
+      setIsClaimModalOpen(false);
+      setIsSuccessOpen(true);
     } else {
       console.error("Failed to release artisan funds");
       return;
@@ -50,14 +57,26 @@ const CompletedJob = ({ job }: { job: Applied }) => {
   };
 
   const handleViewProfile = () => {
-    // Navigate to specific applicant profile,
-    let address
+    let address;
     if (role === "artisan") {
-      address = job?.job?.client?.walletAddress
+      address = job?.job?.client?.walletAddress;
       router.push(`/profile/clients/artisan-view/${address}`);
     } else if (role === "client") {
       address = job.job.completedBy?.walletAddress;
       router.push(`/profile/artisans/client-view/${address}`);
+    }
+  };
+
+  // Handle feedback button click with review check
+  const handleFeedbackClick = () => {
+    if (!address) {
+      toast.error("Please connect your wallet to give feedback.");
+      return;
+    }
+    if (review) {
+      toast.info("You have already submitted feedback for this job.");
+    } else {
+      setIsModalOpen(true);
     }
   };
 
@@ -91,7 +110,9 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             </p>
           )}
           <div className="flex flex-col">
-            <button className="text-[#FFD700] text-sm md:text-base" onClick={() => handleViewProfile()}>View Profile</button>
+            <button className="text-[#FFD700] text-sm md:text-base" onClick={() => handleViewProfile()}>
+              View Profile
+            </button>
             <p className="border-b border-yellow w-full"></p>
           </div>
         </div>
@@ -213,8 +234,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
             <span className="text-[#F9F1E2] font-medium text-sm md:text-base">
-              Completed:{" "}
-              <span className="text-[#B5B4AD]">Payment Released</span>
+              Completed: <span className="text-[#B5B4AD]">Payment Released</span>
             </span>
           </div>
         </div>
@@ -232,7 +252,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
               {isClaimed ? "Claimed" : "Claim Payment"}
             </button>
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleFeedbackClick}
               className="bg-[#262208] text-[#F9F1E2] font-bold px-4 md:px-6 py-3 md:py-2 rounded uppercase text-sm md:text-sm hover:bg-[#2A2A2A] transition-colors w-full md:w-auto md:flex-none"
             >
               Give Feedback
@@ -241,7 +261,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
         ) : (
           <div className="flex justify-end">
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleFeedbackClick}
               className="bg-[#262208] text-[#F9F1E2] font-bold px-4 md:px-6 py-2 rounded uppercase text-xs md:text-sm hover:bg-[#2A2A2A] transition-colors"
             >
               Give Feedback
@@ -260,7 +280,9 @@ const CompletedJob = ({ job }: { job: Applied }) => {
             duration={0.5}
             className="bg-[#333333] border border-[#FCFBF726] w-[90vw] md:w-[40vw] lg:w-[35vw] rounded-xl p-4 relative max-w-md md:max-w-none mx-auto"
           >
-            <Feedback onCancel={() => setIsModalOpen(false)}
+            <Feedback
+              onCancel={() => setIsModalOpen(false)}
+              databaseId={job.job.id as string}
             />
           </AnimatedDiv>
         </Modal>
