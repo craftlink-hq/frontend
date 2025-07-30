@@ -12,8 +12,7 @@ import { Client } from "@/utils/types";
 import useGetClientAmountSpent from "@/hooks/PaymentProcessor/useGetClientAmountSpent";
 import useGetClientGigCount from "../GigMarketplace/useGetClientGigCount";
 import useGetClientAverageRating from "../ReviewSystem/useGetClientAverageRating";
-import useGetClientCreatedPaidJobs from "../GigMarketplace/useGetClientCreatedPaidJob";
-import useGetClientGigsCompleted from "../GigMarketplace/useGetClientGigsCompleted";
+import { useFetchClientCompletedGigs } from "../ManageJob/ClientHooks/useFetchClientCompletedGigs";
 
 const useGetClientDetails = (address: string) => {
   const isClient = useIsClient();
@@ -22,8 +21,9 @@ const useGetClientDetails = (address: string) => {
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [error, setError] = useState<string | null>(null);
   const [clientData, setClientData] = useState<Client | null>(null);
-  const { createdPaidJobs } = useGetClientCreatedPaidJobs();
-  const { clientGigsCompleted } = useGetClientGigsCompleted();
+  const { completedGigs: Completed } = useFetchClientCompletedGigs(address);
+  const completedGigsCount = Completed.length;
+  console.log("Completed Gigs:", completedGigsCount);
 
   const moneySpent = useGetClientAmountSpent();
   const gigCount = useGetClientGigCount();
@@ -44,8 +44,6 @@ const useGetClientDetails = (address: string) => {
       const contract = getRegistryContract(readOnlyProvider);
       const details = await contract.getClientDetails(address);
       const ipfsHash = details[0];
-      const createdPaidJobsCount = createdPaidJobs?.length;
-      const completedJobsCount = clientGigsCompleted?.length;
 
       if (ipfsHash) {
         const parsedDetails = await fetchFromIPFS(ipfsHash);
@@ -70,11 +68,13 @@ const useGetClientDetails = (address: string) => {
           avatar: clientAvatar,
           id: address,
           moneySpent: Number(moneySpent),
-          completed: Number(completedJobsCount),
+          completed: completedGigsCount,
           posted: Number(gigCount),
-          noProjectSpentMoney: Number(createdPaidJobsCount),
+          noProjectSpentMoney: Number(Completed.length),
           rating: Number(clientRating),
         };
+
+        console.log("Client Data in useGetClient:", client);
 
         setClientData(client);
       } else {
@@ -88,11 +88,10 @@ const useGetClientDetails = (address: string) => {
       stopLoading();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, isClient, fetchFromIPFS]);
+  }, [address, isClient, fetchFromIPFS, moneySpent, gigCount, clientRating, Completed]);
 
   useEffect(() => {
     fetchClientDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
   return { clientData, isLoading, error };
