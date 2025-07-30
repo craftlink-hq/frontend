@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useGetUserRole } from "@/utils/store";
 import { toast } from "sonner";
 import FiveStarRating from "./FiveStarRating";
-import { ethers } from "ethers"; // For hashing the review text
+import IPFS from "@/hooks/useIPFS";
 import { useClientSubmitReview } from "@/hooks/Gasless/useClientSubmitReview";
 import { useArtisanSubmitReview } from "@/hooks/Gasless/useArtisanSubmitReview";
 import Loading from "../Loading";
@@ -21,6 +21,7 @@ const Feedback: React.FC<FeedbackProps> = ({ onCancel, databaseId }) => {
   const { role } = useGetUserRole();
   const { clientSubmitReview, isLoading: clientLoading } = useClientSubmitReview();
   const { artisanSubmitReview, isLoading: artisanLoading } = useArtisanSubmitReview();
+  const { uploadToIPFS } = IPFS();
 
   const handleRatingChange = (rating: number) => {
     console.log("Selected Rating:", rating);
@@ -41,8 +42,14 @@ const Feedback: React.FC<FeedbackProps> = ({ onCancel, databaseId }) => {
       return;
     }
 
-    // Hash the review text (simplified; consider using IPFS for production)
-    const commentHash = ethers.id(review);
+    let commentHash: string;
+    try {
+      commentHash = await uploadToIPFS(review);
+    } catch (ipfsError) {
+      toast.error("Failed to upload review to IPFS");
+      console.error("IPFS upload error:", ipfsError);
+      return;
+    }
 
     try {
       let success;
