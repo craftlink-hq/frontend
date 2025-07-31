@@ -92,7 +92,7 @@ export default function ClientProfileView({
           <Works works={completedGigs} />
 
           <PreviewReview reviews={profile.reviews} />
-        </div>
+        </div> 
       </div>
     </div>
   );
