@@ -9,7 +9,7 @@ import useIsArtisan from "@/hooks/Registry/useIsArtisan"
 import Link from "next/link"
 import { useGetUserRole } from "@/utils/store"
 import axios from "@/app/API/axios"
-import { useActiveAccount } from "thirdweb/react";
+import { useAccount } from "@/lib/thirdweb-hooks"
 
 interface WelcomeProps {
   image: string
@@ -17,13 +17,13 @@ interface WelcomeProps {
 }
 
 const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
-  const account = useActiveAccount();
+  const { address } = useAccount();
   const { isArtisan, isLoading: artisanCheckLoading } = useIsArtisan()
   const router = useRouter()
   const { setRole } = useGetUserRole()
 
   const handleSignIn = async () => {
-    if (!account) {
+    if (!address) {
       toast.error("Please connect your wallet to continue.");
       return;
     }
@@ -31,7 +31,7 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
     setRole(role)
 
     if (isArtisan) {
-      const response = await axios.get(`/api/artisans/${account?.address}`)
+      const response = await axios.get(`/api/artisans/${address}`)
       if (!response) {
         toast.info("Please complete your artisan profile.")
         router.push("/role/artisans/onboarding/category")
