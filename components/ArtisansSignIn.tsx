@@ -10,6 +10,7 @@ import Link from "next/link"
 import { useGetUserRole } from "@/utils/store"
 import axios from "@/app/API/axios"
 import { useAccount } from "@/lib/thirdweb-hooks"
+import mainAxios from "axios"
 
 interface WelcomeProps {
   image: string
@@ -31,16 +32,23 @@ const ArtisansSignIn = ({ image, role }: WelcomeProps) => {
     setRole(role)
 
     if (isArtisan) {
-      const response = await axios.get(`/api/artisans/${address}`)
-      if (!response) {
-        toast.info("Please complete your artisan profile.")
-        router.push("/role/artisans/onboarding/category")
-      } else {
-        toast.success("Welcome back, artisan!")
-        router.push("/profile/artisans")
+      try {
+        const response = await axios.get(`/api/artisans/${address}`);
+        if (response.status === 200) {
+          toast.success("Welcome back, artisan!");
+          router.push("/profile/artisans");
+        }
+      } catch (error) {
+        if (mainAxios.isAxiosError(error) && error.response?.status === 404) {
+          toast.info("Please complete your artisan profile.");
+          router.push("/role/artisans/onboarding/category");
+        } else {
+          toast.error("An error occurred while fetching your profile.");
+          console.error("Profile fetch error:", error);
+        }
       }
     } else {
-      router.push("/authenticate/register/artisan")
+      router.push("/authenticate/register/artisan");
     }
   }
 
