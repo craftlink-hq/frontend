@@ -50,7 +50,7 @@ export interface DetailsProps {
 }
 
 export interface ReviewsProp {
-  id: number;
+  id: string | number;
   reviewer: string;
   review: string;
   rating: number;

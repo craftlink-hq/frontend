@@ -21,6 +21,7 @@ export default function PortfolioOnboarding() {
   // Clear work history on mount to prevent duplicates
   useEffect(() => {
     resetWorkHistory();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleNext = async () => {

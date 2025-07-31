@@ -10,6 +10,14 @@ export default function CompletedJobs() {
   const { address } = useAccount();
   const { completedGigs: Completed, isLoading, error } = useFetchClientCompletedGigs(address);
 
+  if (!address) {
+    return (
+      <div className="text-red-500">
+        Please connect your wallet to view completed jobs.
+      </div>
+    );
+  }
+
   if (error) {
     console.error("Error fetching completed gigs:", error);
     return (
