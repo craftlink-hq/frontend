@@ -16,12 +16,12 @@ export default function PortfolioOnboarding() {
 
   const router = useRouter();
   const addWorkHistoryItem = useGetArtisanData((state) => state.addWorkHistoryItem);
-  const resetWorkHistory = useGetArtisanData((state) => state.reset);
+  const setWorkHistory = useGetArtisanData((state) => state.setWorkHistory);
 
-  // Clear work history on mount to prevent duplicates
+  // Clear only work history on mount to prevent duplicates
   useEffect(() => {
-    resetWorkHistory();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setWorkHistory([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleNext = async () => {

@@ -67,6 +67,7 @@ interface artisanData {
   addWorkHistoryItem: (item: WorkHistoryItem) => void;
   updateWorkHistoryItem: (index: number, item: WorkHistoryItem) => void;
   removeWorkHistoryItem: (index: number) => void;
+  setWorkHistory: (workHistory: WorkHistoryItem[]) => void;
   reset: () => void;
 }
 
@@ -113,6 +114,7 @@ export const useGetArtisanData = create<artisanData>()(
             removeWorkHistoryItem: (index) => set((state) => ({
               workHistory: state.workHistory.filter((_, i) => i !== index)
             })),
+            setWorkHistory: (workHistory) => set({ workHistory }),
             reset: () => set({
                 category: "",
                 skills: [],
