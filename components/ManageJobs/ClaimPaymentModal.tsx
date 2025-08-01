@@ -87,8 +87,8 @@ const ClaimPaymentModal = ({
       <div className="mb-6">
         <div className="bg-[#1A1A1A] rounded-lg p-4">
           <p className="text-[#B5B4AD] text-sm mb-1">Wallet Address:</p>
-          <p className="text-[#F9F1E2] font-mono text-sm mb-2">
-            {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+          <p className="text-[#F9F1E2] font-mono text-xs md:text-sm mb-2">
+            {walletAddress}
           </p>
           <p className="text-[#B5B4AD] text-xs">
             Payment should reflect within 5 minutes
