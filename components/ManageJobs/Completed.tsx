@@ -301,7 +301,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
               onCancel={() => setIsModalOpen(false)}
               jobTitle={job.job.title}
               totalAmount={job.job.price ?? 404}
-              feePercentage={platformFee ? platformFee : percentage}
+              feePercentage={platformFee ? Number(platformFee) : percentage}
               walletAddress={job.job.completedBy?.walletAddress || ""}
             />
           </AnimatedDiv>
