@@ -229,7 +229,7 @@ const Pagination = ({
         className="flex items-center justify-center md:justify-end w-full md:w-auto"
       >
         <div 
-          className="flex items-center rounded-lg w-[180px] md:w-[226px] h-[36px] md:h-[42px] gap-1 md:gap-2 p-[6px] md:p-2"
+          className="flex items-center rounded-lg h-[36px] md:h-[42px] gap-1 md:gap-2 p-[6px] md:p-2"
           style={{
             backgroundColor: '#1A1203',
             borderRadius: '8px'
