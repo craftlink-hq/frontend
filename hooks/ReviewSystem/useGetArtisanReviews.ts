@@ -34,10 +34,12 @@ const useGetArtisanReviews = (artisanAddress: string) => {
       console.error("Error fetching artisan review comments:", error);
       setReviews([]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artisanAddress]);
 
   useEffect(() => {
     fetchReviews();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return reviews;
