@@ -97,7 +97,7 @@ const Select = ({
                 </li>
               ))}
             {/* Always show the 'Specify others' input */}
-            <li className="flex gap-4 items-center mt-2">
+            <li className="grid gap-4 items-center mt-2">
               <div className="relative h-[20px] w-[20px] flex items-center justify-center">
                 <input
                   type="checkbox"
