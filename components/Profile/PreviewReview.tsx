@@ -36,13 +36,13 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
   return (
     <div className="flex font-merriweather text-[#F9F1E2] p-4 md:p-8 bg-profile border border-[#FCFBF726] rounded-lg h-full gap-y-8 w-full flex-col">
       <h3 className="text-2xl font-bold">Review</h3>
-      
+
       {reviews.length === 0 ? (
         <div className="w-full text-center text-[#D8D6CF] py-8 text-lg font-semibold">
           <span>No reviews yet</span>
-            <p className="text-sm text-[#B5B4AD] px-2">
-              This client hasn’t received any reviews from artisans. Once they complete a project, feedback will appear here.
-            </p>
+          <p className="text-sm text-[#B5B4AD] px-2">
+            This client hasn’t received any reviews from artisans. Once they complete a project, feedback will appear here.
+          </p>
         </div>
       ) : (
         <>
@@ -58,13 +58,13 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
               {/* Generate slides */}
               {Array.from({ length: totalSlides }, (_, slideIndex) => {
                 const slideReviews = reviews.slice(
-                  slideIndex * cardsPerSlide, 
+                  slideIndex * cardsPerSlide,
                   slideIndex * cardsPerSlide + cardsPerSlide
                 );
-                
+
                 return (
-                  <div 
-                    key={slideIndex} 
+                  <div
+                    key={slideIndex}
                     className="flex-shrink-0 w-full px-2 first:pl-0 last:pr-0"
                     style={{ width: `${100 / totalSlides}%` }}
                   >
@@ -75,9 +75,9 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
                           className="bg-[#F2E8CF0A] border-[0.5px] backdrop-blur-sm opacity-[200%] border-[#FCFBF726] rounded-lg min-h-[20vh] flex flex-col justify-between p-4 gap-y-4 w-full"
                         >
                           <h4 className="text-lg md:text-xl text-[#F9F1E2] font-bold break-words">
-                            {review.reviewer}
+                            {review.reviewer.slice(0, 4)}...{review.reviewer.slice(-4)}
                           </h4>
-                          <div className="border-l-[3px] border-[#FCFBF726] px-2 text-[#B5B4AD] text-sm md:text-lg break-words flex-1">
+                          <div className="border-l-[3px] border-[#FCFBF726] px-2 text-[#B5B4AD] text-sm  break-words flex-1">
                             {review.review}
                           </div>
                           <div className="flex font-merriweather font-bold gap-x-2 w-full justify-end mt-auto">
@@ -108,9 +108,8 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
               {Array.from({ length: totalSlides }, (_, index) => (
                 <button
                   key={index}
-                  className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors duration-200 ${
-                    currentView === index ? "bg-[#FFD700]" : "bg-gray-400"
-                  }`}
+                  className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors duration-200 ${currentView === index ? "bg-[#FFD700]" : "bg-gray-400"
+                    }`}
                   onClick={() => setCurrentView(index)}
                 />
               ))}

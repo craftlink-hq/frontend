@@ -73,38 +73,57 @@ const Select = ({
       {openFilters && (
         <div className="px-2 relative bottom-2">
           <ul className="w-full p-4 border-b-md shadow-md bg-[#26220826] border-t-0 border-[#FCFBF726] space-y-2">
-            {filters?.options.map((option) => (
-              <li key={option} className="flex gap-4">
-                <div className="relative h-[20px] w-[20px]">
-                  <input
-                    type="checkbox"
-                    onChange={() => handleCheck(option)}
-                    checked={checkedOption === option}
-                    className=" appearance-none h-[20px] w-[20px] border-2 rounded-full p-2 checked:border-0 checked:bg-[#04DF76] border-[#9A9992]"
-                  />
-                  {checkedOption === option && (
-                    <FaCheck
-                      size={12}
-                      color={"#111A00"}
-                      className="absolute top-[5px] left-[5px]"
-                      onClick={() => handleCheck(option)}
+            {filters?.options
+              .filter((option) => option !== "Others")
+              .map((option) => (
+                <li key={option} className="flex gap-4">
+                  <div className="relative h-[20px] w-[20px]">
+                    <input
+                      type="checkbox"
+                      onChange={() => handleCheck(option)}
+                      checked={checkedOption === option}
+                      className=" appearance-none h-[20px] w-[20px] border-2 rounded-full p-2 checked:border-0 checked:bg-[#04DF76] border-[#9A9992]"
                     />
-                  )}
-                </div>
-                {option}
-              </li>
-            ))}
-            {checkedOption === "Others" && (
-              <div className="mt-4">
+                    {checkedOption === option && (
+                      <FaCheck
+                        size={12}
+                        color={"#111A00"}
+                        className="absolute top-[5px] left-[5px]"
+                        onClick={() => handleCheck(option)}
+                      />
+                    )}
+                  </div>
+                  {option}
+                </li>
+              ))}
+            {/* Always show the 'Specify others' input */}
+            <li className="flex gap-4 items-center mt-2">
+              <div className="relative h-[20px] w-[20px] flex items-center justify-center">
                 <input
-                  type="text"
-                  placeholder="Please specify..."
-                  value={customInput}
-                  onChange={handleCustomInputChange}
-                  className="w-full px-4 py-2 border rounded-md bg-inherit placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#04DF76]"
+                  type="checkbox"
+                  onChange={() => handleCheck("Others")}
+                  checked={checkedOption === "Others"}
+                  className="appearance-none h-[20px] w-[20px] border-2 rounded-full p-2 checked:border-0 checked:bg-[#04DF76] border-[#9A9992]"
                 />
+                {checkedOption === "Others" && (
+                  <FaCheck
+                    size={12}
+                    color={"#111A00"}
+                    className="absolute top-[5px] left-[5px]"
+                    onClick={() => handleCheck("Others")}
+                  />
+                )}
               </div>
-            )}
+              <span className="mr-2">Specify others</span>
+              <input
+                type="text"
+                placeholder="Please specify..."
+                value={customInput}
+                onChange={handleCustomInputChange}
+                className="w-full px-4 py-2 border rounded-md bg-inherit placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#04DF76]"
+                onClick={() => setCheckedOption("Others")}
+              />
+            </li>
           </ul>
         </div>
       )}

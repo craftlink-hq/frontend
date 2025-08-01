@@ -35,10 +35,10 @@ const Review = ({ reviews }: { reviews: ReviewsProp[] }) => {
               key={review.id}
               className="bg-[#F2E8CF0A] border-[0.5px] backdrop-blur-sm opacity-[200%] border-[#FCFBF726] rounded-lg min-h-[20vh] min-w-[80%] md:min-w-[35%] md:max-w-[75%]  lg:max-w-[40%] xl:max-w-[35%] flex flex-col justify-between p-2 gap-y-4"
             >
-              <h4 className="text-xl text-[#F9F1E2] font-bold">
-                {review.reviewer}
+              <h4 className="text-lg md:text-xl text-[#F9F1E2] font-bold">
+                {review.reviewer.slice(0,4)}...{review.reviewer.slice(-4)}
               </h4>
-              <div className="border-l-[3px] border-[#FCFBF726] px-2 text-[#B5B4AD] text-lg">
+              <div className="border-l-[3px] border-[#FCFBF726] px-2 text-[#B5B4AD] text-sm">
                 {review.review}
               </div>
               <div className=" flex font-merriweather font-bold gap-x-2 w-full self-end justify-end">

@@ -39,15 +39,15 @@ const Works = ({ works }: { works?: Applied[] }) => {
         <div className="fixed inset-0 z-50 h-[100vh] bg-[#F2E8CF0A] w-screen bg-opacity-90 backdrop-blur-sm flex items-center justify-center ">
           <div className="relative bg-profile   rounded-lg p-8 md:min-w-[35%] md:max-w-[60%] md:min-h-[40%] border border-[#FCFBF726] flex ">
             <div className="flex flex-col">
-            <span className="text-lg font-alata text-[#F9F1E2] mb-2">{selectedWork.job.title}</span>
-            <span className="text-[#B5B4AD]">{selectedWork.job.projectDescription}</span>
-          </div>
+              <span className="text-lg font-alata text-[#F9F1E2] mb-2">{selectedWork.job.title}</span>
+              <span className="text-[#B5B4AD]">{selectedWork.job.projectDescription}</span>
+            </div>
             <button
               className="absolute top-0 right-1 rounded"
               onClick={() => setSelectedWork(null)}
             >
-                        <IoCloseSharp size={20} />
-            
+              <IoCloseSharp size={20} />
+
             </button>
           </div>
         </div>
