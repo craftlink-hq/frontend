@@ -48,7 +48,7 @@ const CompletedProjects = ({ projects }: { projects: Job[] }) => {
                         />
                       </div>
                       <span className="capitalize italic  self-center text-start text-[#F9F1E2]">
-                        Completed in {project.projectDuration.weeks} weeks
+                        Completed within {project.projectDuration.weeks} weeks
                       </span>
                     </div>
                   </div>

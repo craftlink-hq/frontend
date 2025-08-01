@@ -65,6 +65,7 @@ const useGetArtisanReviewInfos = (artisanAddress: string) => {
     if (artisanAddress) {
       fetchReviews();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artisanAddress]);
 
   return { reviews, isLoading };
