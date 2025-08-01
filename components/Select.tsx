@@ -58,9 +58,8 @@ const Select = ({
         onClick={() => toggleFilter()}
       >
         <div
-          className={`flex items-center justify-between bg-[#F2E8CF29] py-2 px-4 text-start w-full rounded-md border border-[#FCFBF726] relative ${
-            checkedOption ? "text-[#F9F1E2]" : " text-[#B5B4AD]"
-          }`}
+          className={`flex items-center justify-between bg-[#F2E8CF29] py-2 px-4 text-start w-full rounded-md border border-[#FCFBF726] relative ${checkedOption ? "text-[#F9F1E2]" : " text-[#B5B4AD]"
+            }`}
         >
           {selected()}
           {openFilters ? (
@@ -97,7 +96,7 @@ const Select = ({
                 </li>
               ))}
             {/* Always show the 'Specify others' input */}
-            <li className="grid gap-4 items-center mt-2">
+            <li className="flex gap-4 items-center mt-2">
               <div className="relative h-[20px] w-[20px] flex items-center justify-center">
                 <input
                   type="checkbox"
@@ -115,15 +114,15 @@ const Select = ({
                 )}
               </div>
               <span className="mr-2">Specify others</span>
-              <input
-                type="text"
-                placeholder="Please specify..."
-                value={customInput}
-                onChange={handleCustomInputChange}
-                className="w-full px-4 py-2 border rounded-md bg-inherit placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#04DF76]"
-                onClick={() => setCheckedOption("Others")}
-              />
             </li>
+            <input
+              type="text"
+              placeholder="Please specify..."
+              value={customInput}
+              onChange={handleCustomInputChange}
+              className="w-full px-4 py-2 border rounded-md bg-inherit placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#04DF76]"
+              onClick={() => setCheckedOption("Others")}
+            />
           </ul>
         </div>
       )}
