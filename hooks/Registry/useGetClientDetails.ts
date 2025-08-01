@@ -23,7 +23,6 @@ const useGetClientDetails = (address: string) => {
   const [clientData, setClientData] = useState<Client | null>(null);
   const { completedGigs: Completed } = useFetchClientCompletedGigs(address);
   const completedGigsCount = Completed.length;
-  console.log("Completed Gigs:", completedGigsCount);
 
   const moneySpent = useGetClientAmountSpent();
   const gigCount = useGetClientGigCount();
@@ -74,8 +73,6 @@ const useGetClientDetails = (address: string) => {
           rating: Number(clientRating),
         };
 
-        console.log("Client Data in useGetClient:", client);
-
         setClientData(client);
       } else {
         setError("No IPFS hash found for client");
@@ -92,6 +89,7 @@ const useGetClientDetails = (address: string) => {
 
   useEffect(() => {
     fetchClientDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
   return { clientData, isLoading, error };

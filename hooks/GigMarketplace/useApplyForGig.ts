@@ -68,8 +68,6 @@ const useApplyForGig = () => {
                     errorText = "An artisan has already been hired for this gig";
                 }
                 else {
-                    // console.log(err?.message);
-                    
                     errorText ="Trying to resolve error!";
                 }
 
