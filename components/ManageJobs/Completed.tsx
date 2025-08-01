@@ -298,7 +298,7 @@ const CompletedJob = ({ job }: { job: Applied }) => {
           >
             <ClaimPaymentModal
               onClaim={onClaim}
-              onCancel={() => setIsModalOpen(false)}
+              onCancel={() => setIsClaimModalOpen(false)}
               jobTitle={job.job.title}
               totalAmount={job.job.price ?? 404}
               feePercentage={platformFee ? Number(platformFee) : percentage}
