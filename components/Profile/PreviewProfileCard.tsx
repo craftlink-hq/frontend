@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import Image from "next/image"
 import type { ArtisanProfileProps } from "@/utils/profile";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import EditProfile from "./EditModals/EditProfile";
 import { editProfile } from "@/utils/profile";
 import { useState } from "react";
@@ -14,14 +14,14 @@ interface ProfileCardProps {
   profile: ArtisanProfileProps;
 }
 
-const ProfileCard = ({ profile }: ProfileCardProps) => {
+const PreviewProfileCard = ({ profile }: ProfileCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileData, setProfileData] = useState(editProfile);
 
-  const router = useRouter();
-  const handleBrowseJobs = () => {
-    router.push("/marketplace");
-  };
+//   const router = useRouter();
+//   const handleBrowseJobs = () => {
+//     router.push("/marketplace");
+//   };
 
   return (
     <div className="max-sm:w-full bg-[#F2E8CF0A] lg:flex rounded-lg p-2 md:p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
@@ -89,14 +89,14 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
             </div>
           </div>
 
-          <div className="max-sm:w-full">
+          {/* <div className="max-sm:w-full">
             <button
               onClick={handleBrowseJobs}
               className="max-sm:w-full bg-yellow text-[#1A1203] font-bold px-6 py-2 rounded-md uppercase text-sm hover:bg-yellow/90 transition-colors"
             >
               Browse Jobs
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="hidden w-[25%] lg:flex justify-end">
@@ -151,4 +151,4 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
   );
 };
 
-export default ProfileCard;
+export default PreviewProfileCard;

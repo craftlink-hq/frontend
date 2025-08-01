@@ -65,8 +65,19 @@ export default function MarketPlace(): JSX.Element {
   };
   
   const fetchGigs = async (): Promise<ApiJob[]> => {
-    const backendResponse = await axios.get("/api/gigs");
-    return backendResponse.data?.gigs;
+    let allGigs: ApiJob[] = [];
+    let page = 1;
+    let totalPages = 1;
+
+    do {
+      const backendResponse = await axios.get(`/api/gigs?page=${page}&limit=20`);
+      const { gigs, totalPages: pages } = backendResponse.data;
+      allGigs = [...allGigs, ...gigs];
+      totalPages = pages;
+      page += 1;
+    } while (page <= totalPages);
+
+    return allGigs;
   };
   
   const { isLoading, data } = useQuery({
