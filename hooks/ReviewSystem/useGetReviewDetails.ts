@@ -18,14 +18,30 @@ const useGetReviewDetails = (reviewer: string, reviewee: string, databaseId: str
   const [review, setReview] = useState<ReviewInfo | null>(null);
 
   const fetchReviewDetails = useCallback(async () => {
+    if (!reviewer || !reviewee || !databaseId) {
+      return;
+    }
+
     try {
       const contract = getReviewContract(readOnlyProvider);
       const reviewInfo = await contract.getReviewDetails(reviewer, reviewee, databaseId);
       setReview(reviewInfo);
-    } catch (error) {
-      toast.error("Error fetching review details");
-      console.error("Error fetching review details:", error);
-      setReview(null);
+    } catch (error: unknown) {
+      const isReviewNotFound = 
+        (error as { reason?: string; message?: string; revert?: { args?: string[] }; code?: string })?.reason === "Review not found" ||
+        (error as { reason?: string }).reason === "Review not found" ||
+        (error as { message?: string }).message?.includes("Review not found") ||
+        (error as { revert?: { args?: string[] } })?.revert?.args?.[0] === "Review not found";
+        // (error.code === "CALL_EXCEPTION" && error.reason === "Review not found");
+
+      if (isReviewNotFound) {
+        console.log("No review found for this combination - this is normal");
+        setReview(null);
+      } else {
+        console.error("Unexpected error fetching review details:", error);
+        toast.error("Error fetching review details");
+        setReview(null);
+      }
     }
   }, [reviewer, reviewee, databaseId]);
 

@@ -20,6 +20,7 @@ const useGetPlatformFee = () => {
 
   useEffect(() => {
     checkPlatformFee();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return platformFee;
