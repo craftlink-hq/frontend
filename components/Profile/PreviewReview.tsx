@@ -11,10 +11,10 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
 
   return (
     <div className="flex font-merriweather text-[#F9F1E2] p-4 md:p-8 bg-profile border border-[#FCFBF726] rounded-lg h-full gap-y-8 max-w-full flex-col">
-      <h3 className="text-2xl font-bold">Work History</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+      <h3 className="text-2xl font-bold">Reviews</h3>
+      <div className="min-w-screen flex overflow-x-scroll gap-x-4">
         {(!reviews || reviews.length === 0) ? (
-          <div className="text-center text-[#D8D6CF] py-8 text-lg font-semibold col-span-full">
+          <div className="w-full text-center text-[#D8D6CF] py-8 text-lg font-semibold col-span-full">
             No Reviews yet!
           </div>
         ) : (
@@ -22,8 +22,7 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
             <div
               key={review.id}
               onClick={() => setSelectedReview(review)}
-
-              className="bg-[#F2E8CF0A] border-[0.5px] backdrop-blur-sm opacity-[200%] border-[#FCFBF726] rounded-lg min-h-[20vh] min-w-[80%] md:min-w-[35%] md:max-w-[75%]  lg:max-w-[40%] xl:max-w-[35%] flex flex-col justify-between p-2 gap-y-4"
+              className="bg-[#F2E8CF0A] rounded-lg flex-shrink-0 w-full md:w-[35%]  flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
             >
               <h4 className="text-lg md:text-xl text-[#F9F1E2] font-bold">
                 {review.reviewer.slice(0, 4)}...{review.reviewer.slice(-4)}

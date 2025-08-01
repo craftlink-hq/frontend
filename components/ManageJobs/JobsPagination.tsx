@@ -17,9 +17,6 @@ interface CustomDropdownProps {
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, options }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [startIdx, setStartIdx] = useState(0);
-  const visibleCount = 3;
-
   const selectedOption = options.find(option => option.value === value);
 
   const handleOptionClick = (optionValue: number, disabled?: boolean) => {
@@ -27,20 +24,6 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, option
     onChange(optionValue);
     setIsOpen(false);
   };
-
-  const handlePrev = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setStartIdx((prev) => Math.max(0, prev - visibleCount));
-  };
-  const handleNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setStartIdx((prev) =>
-      Math.min(options.length - visibleCount, prev + visibleCount)
-    );
-  };
-
-  const canPrev = startIdx > 0;
-  const canNext = startIdx + visibleCount < options.length;
 
   return (
     <div className="relative">
@@ -72,20 +55,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ value, onChange, option
           className="absolute top-full left-0 right-0 mt-1 rounded-lg shadow-lg z-10 flex flex-col"
           style={{ backgroundColor: '#F2E8CF0A' }}
         >
-          <div className="flex items-center justify-between px-2 py-1">
-            <button
-              onClick={handlePrev}
-              disabled={!canPrev}
-              className={`px-2 py-1 text-lg ${canPrev ? 'text-white' : 'text-gray-500 cursor-not-allowed'}`}
-            >&#8592;</button>
-            <span className="flex-1"></span>
-            <button
-              onClick={handleNext}
-              disabled={!canNext}
-              className={`px-2 py-1 text-lg ${canNext ? 'text-white' : 'text-gray-500 cursor-not-allowed'}`}
-            >&#8594;</button>
-          </div>
-          {options.slice(startIdx, startIdx + visibleCount).map((option) => (
+          {options.map((option) => (
             <div
               key={option.value}
               onClick={() => handleOptionClick(option.value, option.disabled)}
@@ -170,8 +140,8 @@ const Pagination = ({
       { value: 2, label: `2 ${itemType}` },
       { value: 4, label: `4 ${itemType}` },
       { value: 8, label: `8 ${itemType}` },
-      { value: 12, label: `12 ${itemType}` },
-      { value: 20, label: `20 ${itemType}` }
+      // { value: 12, label: `12 ${itemType}` },
+      // { value: 20, label: `20 ${itemType}` }
     ];
 
     return baseOptions.map(option => ({
