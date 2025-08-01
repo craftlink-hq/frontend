@@ -9,7 +9,7 @@ const Works = ({ works }: { works?: Applied[] }) => {
   return (
     <div className="flex font-merriweather text-[#F9F1E2] p-4 md:p-8 bg-profile border border-[#FCFBF726] rounded-lg h-full gap-y-8 max-w-full flex-col">
       <h3 className="text-2xl font-bold">Work History</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+      <div className="min-w-screen flex overflow-x-scroll gap-x-4">
         {(!works || works.length === 0) ? (
           <div className="text-center text-[#D8D6CF] py-8 text-lg font-semibold col-span-full">
             No jobs yet!
@@ -18,7 +18,7 @@ const Works = ({ works }: { works?: Applied[] }) => {
           works.map((work) => (
             <div
               key={work.job._id}
-              className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-6 flex flex-col gap-2 shadow cursor-pointer hover:border-yellow-400 transition"
+              className="bg-[#F2E8CF0A] border border-[#FCFBF726] rounded-lg p-6 flex flex-col w-full md:w-[35%]  gap-2 shadow cursor-pointer hover:border-yellow-400 transition"
               onClick={() => setSelectedWork(work)}
             >
               <span className="font-bold text-xl">

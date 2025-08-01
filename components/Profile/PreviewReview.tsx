@@ -22,7 +22,7 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
             <div
               key={review.id}
               onClick={() => setSelectedReview(review)}
-              className="bg-[#F2E8CF0A] rounded-lg flex-shrink-0 w-full md:w-[35%] h-[400px] flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
+              className="bg-[#F2E8CF0A] rounded-lg flex-shrink-0 w-full md:w-[35%]  flex flex-col items-start px-4 py-2 md:p-2 gap-y-4"
             >
               <h4 className="text-lg md:text-xl text-[#F9F1E2] font-bold">
                 {review.reviewer.slice(0, 4)}...{review.reviewer.slice(-4)}

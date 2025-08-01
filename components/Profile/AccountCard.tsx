@@ -47,13 +47,13 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
   return (
     <div className="flex max-w-full font-merriweather text-[#F9F1E2] bg-profile border border-[#FCFBF726] rounded-lg  gap-x-4 justify-between">
       <div className="flex flex-col md:flex-row gap-4 p-4 md:p-8">
-        <span className=" h-72 w-96 relative">
+        <span className="h-72 w-84 md:w-72 md:h-full relative">
           {" "}
           <Image
             src={artisan.about.avatar}
             alt="avatar"
             fill
-            className="object-contain rounded-xl"
+            className="object-cover rounded-xl"
           />
         </span>
         <div className="flex flex-col py-4 gap-y-2">
@@ -68,35 +68,34 @@ const AccountCard = ({ artisan }: { artisan: ArtisanProfileProps }) => {
             </span>
           </span>
           <div className=" py-2 font-merriweather w-full self-start grid grid-cols-2 auto-cols-auto  gap-2">
-          {details.map((detail, index) => (
-            <div
-              key={detail.imgSrc}
-              className={`flex gap-2 p-2 ${
-                index === details.length - 1 && details.length % 2 !== 0
+            {details.map((detail, index) => (
+              <div
+                key={detail.imgSrc}
+                className={`flex gap-2 p-2 ${index === details.length - 1 && details.length % 2 !== 0
                   ? "col-span-2"
                   : ""
-              }`}
-            >
-              <div className="flex gap-x-2 self-center relative h-[22px] w-[22px]">
-                <Image
-                  src={detail.imgSrc}
-                  alt={detail.imgSrc}
-                 fill
-                 className="object-contain"
-                />
+                  }`}
+              >
+                <div className="flex gap-x-2 self-center relative h-[22px] w-[22px]">
+                  <Image
+                    src={detail.imgSrc}
+                    alt={detail.imgSrc}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <span className="capitalize  self-center text-start text-[#F9F1E2]">
+                  {detail.detailValue}
+                </span>
               </div>
-              <span className="capitalize  self-center text-start text-[#F9F1E2]">
-                {detail.detailValue}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="flex justify-between">
+            <button onClick={handleShareProfile} className="  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold text-sm md:text-base">
+              Share Profile
+            </button></div>
         </div>
-        <div className="flex justify-between">
-          <button onClick={handleShareProfile} className="  w-fit py-2 px-4 uppercase  bg-[#262208] rounded-md text-[#FCF8E3] font-bold text-sm md:text-base">
-            Share Profile
-          </button></div>
-        </div>
-       
+
       </div>
       <div className="hidden lg:flex flex-col justify-between">
         <div className="flex self-end gap-x-2 p-8">
