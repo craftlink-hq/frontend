@@ -14,7 +14,7 @@ const PreviewReview = ({ reviews }: { reviews: ReviewsProp[] }) => {
       <h3 className="text-2xl font-bold">Reviews</h3>
       <div className="min-w-screen flex overflow-x-scroll gap-x-4">
         {(!reviews || reviews.length === 0) ? (
-          <div className="text-center text-[#D8D6CF] py-8 text-lg font-semibold col-span-full">
+          <div className="w-full text-center text-[#D8D6CF] py-8 text-lg font-semibold col-span-full">
             No Reviews yet!
           </div>
         ) : (
