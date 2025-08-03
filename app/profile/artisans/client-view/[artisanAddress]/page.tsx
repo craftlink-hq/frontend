@@ -33,15 +33,15 @@ export default function ClientProfileView({
 
   useEffect(() => {
     const fetchArtisanProfile = async () => {
-      if (!artisanAddress) {
-        setIsLoading(false);
-        return;
-      }
-
       setIsLoading(true);
       setError(null);
 
       try {
+        if (!artisanAddress) {
+          setIsLoading(false);
+          return;
+        }
+
         const response = await axios.get(`/api/artisans/${artisanAddress}`);
         const artisanData = response.data.artisan;
 
@@ -74,7 +74,7 @@ export default function ClientProfileView({
     );
   }
 
-  if (isLoading || !profile) {
+  if (isLoading) {
     return <Loading show={true} />;
   }
 
@@ -84,9 +84,9 @@ export default function ClientProfileView({
         <ProfileHeader isActive={isActive} />
       </div>
       <div className="py-8 pt-32 px-4 flex flex-col gap-y-4 md:gap-y-8 md:px-8 xl:px-16 2xl:px-32">
-        <AccountCard artisan={profile} />
-        <PreviewAbout profile={profile} />
-        <PreviewPortfolio portfolio={profile.portfolio} />
+        {profile && <AccountCard artisan={profile} />}
+        {profile && <PreviewAbout profile={profile} />}
+        {profile && <PreviewPortfolio portfolio={profile.portfolio} />}
         <div className="grid gap-4">
           <Works works={completedGigs} />
           {reviewsLoading ? <Loading show={true} /> : <PreviewReview reviews={reviews} />}

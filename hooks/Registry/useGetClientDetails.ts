@@ -26,7 +26,7 @@ const useGetClientDetails = (address: string) => {
 
   const moneySpent = useGetClientAmountSpent();
   const gigCount = useGetClientGigCount();
-  const clientRating = useGetClientAverageRating(address as string);
+  const clientRating = useGetClientAverageRating(address);
 
   const fetchClientDetails = useCallback(async () => {
     if (!address || isClient === null) return;

@@ -21,7 +21,7 @@ export default function Profile() {
   const tokenBalance = useGetTokenBalance();
   const [error, setError] = useState<string | null>(null);
   const spent = useGetClientAmountSpent(address as string);
-  const { completedGigs: Completed } = useFetchClientCompletedGigs(address);
+  const { completedGigs: Completed, isLoading: completedLoading } = useFetchClientCompletedGigs(address);
   const completedGigsCount = Completed.length;
 
   useEffect(() => {
@@ -30,11 +30,11 @@ export default function Profile() {
     }
   }, [clientError]);
 
-  if (clientLoading) {
+  if (clientLoading || completedLoading) {
     return <Loading show={true} />;
   }
 
-  if (error || !clientData) {
+  if (error) {
     return (
       <div className="flex justify-center items-center h-screen">
         <p>{error || "Failed to load profile data due to reload"}</p>
@@ -58,7 +58,7 @@ export default function Profile() {
             <ClientTokenUsage available={tokenBalance ?? 404} spent={spent as number} />
           </div>
           <div className="lg:col-span-2 h-full">
-            <ClientProfileCard client={clientData} completedGigsCount={completedGigsCount} />
+            {clientData && <ClientProfileCard client={clientData} completedGigsCount={completedGigsCount} />}
           </div>
           <div className="hidden md:flex lg:col-span-1 h-full">
             <ClientTokenUsage available={tokenBalance ?? 404} spent={spent as number} />

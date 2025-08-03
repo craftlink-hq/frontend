@@ -42,15 +42,15 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchArtisanProfile = async () => {
-      if (!address) {
-        setIsLoading(false);
-        return;
-      }
-
       setIsLoading(true);
       setError(null);
 
       try {
+        if (!address) {
+          toast.message("Attempting to reconnect your account");
+          return;
+        }
+        
         const response = await axios.get(`/api/artisans/${address}`);
         const artisanData = response.data.artisan;
 
@@ -73,7 +73,7 @@ export default function Profile() {
     fetchArtisanProfile();
   }, [address, detail]);
 
-  if (isLoading || mintLoading || !profile) {
+  if (isLoading || mintLoading) {
     return <Loading show={false} />;
   }
 
@@ -122,7 +122,7 @@ export default function Profile() {
         {/* New Profile Header Section */}
         <div className="lg:grid lg:grid-cols-3 max-md:space-y-2 gap-2">
           <div className="lg:col-span-2 h-full">
-            <ProfileCard profile={profile} />
+            {profile && <ProfileCard profile={profile} />}
           </div>
           <div className="lg:col-span-1 h-full">
             <EarningsDisplay
@@ -135,10 +135,10 @@ export default function Profile() {
           </div>
         </div>
 
-        <About profile={profile} />
+        {profile && <About profile={profile} />}
 
-        <Portfolio portfolio={profile.portfolio} />
-        {profile.reviews && <Review reviews={profile.reviews} />}
+        {profile && <Portfolio portfolio={profile.portfolio} />}
+        {profile && <Review reviews={profile.reviews} />}
         <Settings />
         <div className="w-full">
           <Footer />

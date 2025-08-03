@@ -23,7 +23,7 @@ export default function ArtisanView({
   
   const jobs = completed.map(item => item.job);
 
- if (isLoading || !clientData) {
+ if (isLoading) {
     return <Loading show={false} />
   }
   if (error) {
@@ -43,7 +43,7 @@ export default function ArtisanView({
           <ProfileHeader isActive={isActive} />
         </div>
         <div className="pt-24 px-4  flex flex-col gap-y-4 md:gap-y-8 md:px-16 2xl:px-32">
-          <AccountCard client={clientData} />
+          {clientData && <AccountCard client={clientData} />}
           <CompletedProjects projects={jobs} />
           {/* <Footer /> */}
         </div>

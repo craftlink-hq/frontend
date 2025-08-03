@@ -12,6 +12,10 @@ const useGetClientAverageRating = (clientAddress?: string) => {
 
   const fetchClientRating = useCallback(async () => {
     try {
+      if (!clientAddress || !address) {
+        return;
+      }
+
       const contract = getReviewContract(readOnlyProvider);
       const rating = await contract.getClientAverageRating(clientAddress || address);
       setClientRating(rating);
@@ -21,12 +25,12 @@ const useGetClientAverageRating = (clientAddress?: string) => {
       setClientRating(null);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [(clientAddress || address)]);
 
   useEffect(() => {
     fetchClientRating();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchClientRating]);
+  }, []);
 
   return clientRating;
 };
