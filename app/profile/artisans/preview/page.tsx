@@ -127,14 +127,14 @@ export default function ProfilePreview() {
           <p className="border-b-2 border-yellow w-[60%]"></p>
         </div>
         <div className="lg:h-[35vh]">
-          <PreviewProfileCard profile={profile} />
+          <PreviewProfileCard profile={profile} next={handleNext} />
         </div>
         <About profile={profile} />{" "}
 
         <Portfolio portfolio={profile.portfolio} />
-        <button onClick={handleNext} className="flex self-end items-center w-fit py-2 px-4 uppercase bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base">
+        {/* <button onClick={handleNext} className="flex self-end items-center w-fit py-2 px-4 uppercase bg-yellow rounded-md text-[#1A1203] font-bold text-sm md:text-base">
           GO LIVE NOW
-        </button>
+        </button> */}
         <Footer />
       </div>
     </div>

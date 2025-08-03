@@ -12,9 +12,10 @@ import BottomSheetModal from "../BottomModal";
 
 interface ProfileCardProps {
   profile: ArtisanProfileProps;
+  next?: () => void; // Optional next function for navigation
 }
 
-const PreviewProfileCard = ({ profile }: ProfileCardProps) => {
+const PreviewProfileCard = ({ profile, next }: ProfileCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileData, setProfileData] = useState(editProfile);
 
@@ -89,14 +90,14 @@ const PreviewProfileCard = ({ profile }: ProfileCardProps) => {
             </div>
           </div>
 
-          {/* <div className="max-sm:w-full">
+          <div className="max-sm:w-full">
             <button
-              onClick={handleBrowseJobs}
+              onClick={next}
               className="max-sm:w-full bg-yellow text-[#1A1203] font-bold px-6 py-2 rounded-md uppercase text-sm hover:bg-yellow/90 transition-colors"
             >
-              Browse Jobs
+              Go Live Now
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
       <div className="hidden w-[25%] lg:flex justify-end">

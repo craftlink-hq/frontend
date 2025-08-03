@@ -12,14 +12,14 @@ export const company: Links[] = [
     name: "Careers",
     href: "",
   },
-  {
-    name: "Support",
-    href: "",
-  },
-  {
-    name: "Privacy Policy",
-    href: "",
-  },
+  // {
+  //   name: "Support",
+  //   href: "",
+  // },
+  // {
+  //   name: "Privacy Policy",
+  //   href: "",
+  // },
   {
     name: "Terms of Service",
     href: "",

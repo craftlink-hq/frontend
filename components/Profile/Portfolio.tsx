@@ -94,7 +94,7 @@ const Portfolio = ({ portfolio }: { portfolio: PortfolioProps[] }) => {
               <div className="flex justify-between w-full  ">
                 <div>
                   Duration:{" "}
-                  <span className="font-bold">{project.duration}</span>
+                  <span className="font-bold">{project.duration} weeks</span>
                 </div>
                 <div className="flex gap-x-2">
                   <span className="relative h-[32px] w-[32px] rounded-full bg-[#F2E8CF0A]">
