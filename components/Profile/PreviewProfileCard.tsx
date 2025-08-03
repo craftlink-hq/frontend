@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import type { ArtisanProfileProps } from "@/utils/profile";
-// import { useRouter } from "next/navigation";
 import EditProfile from "./EditModals/EditProfile";
 import { editProfile } from "@/utils/profile";
 import { useState } from "react";
@@ -18,11 +17,6 @@ interface ProfileCardProps {
 const PreviewProfileCard = ({ profile, next }: ProfileCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileData, setProfileData] = useState(editProfile);
-
-//   const router = useRouter();
-//   const handleBrowseJobs = () => {
-//     router.push("/marketplace");
-//   };
 
   return (
     <div className="max-sm:w-full bg-[#F2E8CF0A] lg:flex rounded-lg p-2 md:p-4 h-full border border-[#FCFBF726] text-[#F9F1E2] font-merriweather">
