@@ -27,7 +27,6 @@ export const wallets = [
         "email",
         "x",
         "passkey",
-        "phone",
       ],
     },
   }),
