@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { ConnectButton, darkTheme, useActiveAccount } from "thirdweb/react";
 import type { Account } from "thirdweb/wallets";
 import { useChainSwitch } from "@/hooks/useChainSwitch";
-import { liskSepolia } from "@/constants/chain";
+import { baseSepolia } from "thirdweb/chains";
+// import { liskSepolia } from "@/constants/chain";
+import { getBasename } from "@superdevfavour/basename";
 
 interface ConnectWalletProps {
   onConnect?: () => void;
@@ -15,14 +17,18 @@ interface ConnectWalletProps {
 const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletProps) => {
   const [mounted, setMounted] = useState(false);
   const account = useActiveAccount();
-  const [prevAccount, setPrevAccount] = useState<Account | undefined>(undefined);
-  const { isOnCorrectChain, switchToLiskSepolia } = useChainSwitch();
+  const [prevAccount, setPrevAccount] = useState<Account | undefined>(
+    undefined
+  );
+  const [basename, setBasename] = useState<string | null>(null);
+  const [isLoadingBasename, setIsLoadingBasename] = useState(false);
+  const { isOnCorrectChain, switchToBaseSepolia } = useChainSwitch();
 
   const origin =
     typeof window !== "undefined"
       ? window.location.origin
       : "https://craftlinkhq.com";
-      
+
   const metadata = {
     name: "craftLink",
     description: "The Future of Decentralized Commerce",
@@ -33,6 +39,29 @@ const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletPro
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Fetch Basename for connected wallet
+  useEffect(() => {
+    const fetchBasename = async () => {
+      if (!account?.address) {
+        setBasename(null);
+        return;
+      }
+
+      try {
+        setIsLoadingBasename(true);
+        const name = await getBasename(account.address);
+        setBasename(name || null);
+      } catch (error) {
+        console.log("No Basename found or error fetching:", error);
+        setBasename(null);
+      } finally {
+        setIsLoadingBasename(false);
+      }
+    };
+
+    fetchBasename();
+  }, [account?.address]);
 
   useEffect(() => {
     if (account && !prevAccount && onConnect) {
@@ -46,26 +75,42 @@ const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletPro
     if (account && !isOnCorrectChain) {
       // Small delay to ensure wallet is fully connected
       const timer = setTimeout(() => {
-        switchToLiskSepolia();
+        switchToBaseSepolia();
       }, 1000);
-      
+
       return () => clearTimeout(timer);
     }
-  }, [account, isOnCorrectChain, switchToLiskSepolia]);
+  }, [account, isOnCorrectChain, switchToBaseSepolia]);
+
+  // Format display name: Basename or shortened address
+  const getDisplayName = () => {
+    if (isLoadingBasename && account) {
+      return "Loading...";
+    }
+    if (basename) {
+      return basename;
+    }
+    if (account?.address) {
+      return `${account.address.slice(0, 6)}...${account.address.slice(-4)}`;
+    }
+    return label;
+  };
 
   if (!mounted) return null;
 
   return (
     <div>
       <div className="hidden md:flex">
-        <ConnectButton 
+        <ConnectButton
           client={thirdwebClient}
           appMetadata={metadata}
-          connectButton={{ label }}
+          connectButton={{
+            label: account ? getDisplayName() : label,
+          }}
           wallets={wallets}
           connectModal={{ size: "compact" }}
-          chain={liskSepolia} // Set default chain
-          chains={[liskSepolia]} // Restrict to only Lisk Sepolia
+          chain={baseSepolia}
+          chains={[baseSepolia]}
           theme={darkTheme({
             colors: {
               primaryButtonBg: "#FFD700",
@@ -74,14 +119,16 @@ const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletPro
         />
       </div>
       <div className="md:hidden flex">
-        <ConnectButton 
+        <ConnectButton
           client={thirdwebClient}
           appMetadata={metadata}
-          connectButton={{ label }}
+          connectButton={{
+            label: account ? getDisplayName() : label,
+          }}
           wallets={wallets}
           connectModal={{ size: "compact" }}
-          chain={liskSepolia} // Set default chain
-          chains={[liskSepolia]} // Restrict to only Lisk Sepolia
+          chain={baseSepolia}
+          chains={[baseSepolia]}
           theme={darkTheme({
             colors: {
               primaryButtonBg: "#FFD700",

@@ -5,7 +5,7 @@ import { useActiveAccount } from "thirdweb/react";
 
 const ChainSwitcher = () => {
   const account = useActiveAccount();
-  const { isOnCorrectChain, switchToLiskSepolia, currentChainId } = useChainSwitch();
+  const { isOnCorrectChain, switchToBaseSepolia, currentChainId } = useChainSwitch();
 
   if (!account) return null;
 
@@ -13,7 +13,7 @@ const ChainSwitcher = () => {
     return (
       <div className="flex items-center gap-2 text-sm text-green-600">
         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-        Connected to Lisk Sepolia
+        Connected to Base Sepolia
       </div>
     );
   }
@@ -25,10 +25,10 @@ const ChainSwitcher = () => {
         Wrong network (Chain ID: {currentChainId})
       </div>
       <button
-        onClick={switchToLiskSepolia}
+        onClick={switchToBaseSepolia}
         className="px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors"
       >
-        Switch to Lisk Sepolia
+        Switch to Base Sepolia
       </button>
     </div>
   );

@@ -26,7 +26,7 @@ export const liskSepolia = defineChain({
   testnet: true,
 });
 
-export const SUPPORTED_CHAIN_ID = 4202;
+export const SUPPORTED_CHAIN_ID = 84532; // 4202
 
 export const isSupportedChain = (
   chainId: number | undefined
