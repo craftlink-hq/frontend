@@ -3,7 +3,7 @@
 import { getGigContract } from "@/constants/contracts";
 import { readOnlyProvider } from "@/constants/providers";
 import { useEffect, useState, useCallback } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 const useGetGigInfo = (databaseId: string) => {
   const [gigInfo, setGigInfo] = useState<{
@@ -32,7 +32,7 @@ const useGetGigInfo = (databaseId: string) => {
         isClosed: gigData[6],
       });
     } catch (error) {
-      toast.error("Error fetching gig information");
+      // toast.error("Error fetching gig information");
       console.error("Error fetching gig info:", error);
       setGigInfo(null);
     }
