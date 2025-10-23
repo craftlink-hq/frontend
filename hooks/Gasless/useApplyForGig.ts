@@ -41,7 +41,9 @@ const useApplyForGig = () => {
       startLoading();
 
       try {
-        const provider = new ethers.JsonRpcProvider("https://rpc.sepolia-api.lisk.com");
+        const provider = new ethers.JsonRpcProvider(
+          "https://base-sepolia.g.alchemy.com/v2/7YcyjUTTMHZ7Ff_gdbynvaCPgRB6kL0Q"
+        );
         const gigContract = new ethers.Contract(
           process.env.GIG_MARKET_PLACE!,
           ['function getRequiredCFT(bytes32) view returns (uint256)'],
