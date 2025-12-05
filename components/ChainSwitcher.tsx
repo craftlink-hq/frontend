@@ -5,7 +5,7 @@ import { useActiveAccount } from "thirdweb/react";
 
 const ChainSwitcher = () => {
   const account = useActiveAccount();
-  const { isOnCorrectChain, switchToBaseSepolia, currentChainId } = useChainSwitch();
+  const { isOnCorrectChain, switchToLiskSepolia, currentChainId } = useChainSwitch();
 
   if (!account) return null;
 
@@ -25,7 +25,7 @@ const ChainSwitcher = () => {
         Wrong network (Chain ID: {currentChainId})
       </div>
       <button
-        onClick={switchToBaseSepolia}
+        onClick={switchToLiskSepolia}
         className="px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors"
       >
         Switch to Base Sepolia

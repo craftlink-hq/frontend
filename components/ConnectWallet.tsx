@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { ConnectButton, darkTheme, useActiveAccount } from "thirdweb/react";
 import type { Account } from "thirdweb/wallets";
 import { useChainSwitch } from "@/hooks/useChainSwitch";
-import { baseSepolia } from "thirdweb/chains";
-// import { liskSepolia } from "@/constants/chain";
+// import { baseSepolia } from "thirdweb/chains";
+import { liskSepolia } from "@/constants/chain";
 import { getBasename } from "@superdevfavour/basename";
 
 interface ConnectWalletProps {
@@ -22,7 +22,7 @@ const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletPro
   );
   const [basename, setBasename] = useState<string | null>(null);
   const [isLoadingBasename, setIsLoadingBasename] = useState(false);
-  const { isOnCorrectChain, switchToBaseSepolia } = useChainSwitch();
+  const { isOnCorrectChain, switchToLiskSepolia } = useChainSwitch();
 
   const origin =
     typeof window !== "undefined"
@@ -75,12 +75,12 @@ const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletPro
     if (account && !isOnCorrectChain) {
       // Small delay to ensure wallet is fully connected
       const timer = setTimeout(() => {
-        switchToBaseSepolia();
+        switchToLiskSepolia();
       }, 1000);
 
       return () => clearTimeout(timer);
     }
-  }, [account, isOnCorrectChain, switchToBaseSepolia]);
+  }, [account, isOnCorrectChain, switchToLiskSepolia]);
 
   // Format display name: Basename or shortened address
   const getDisplayName = () => {
@@ -109,8 +109,8 @@ const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletPro
           }}
           wallets={wallets}
           connectModal={{ size: "compact" }}
-          chain={baseSepolia}
-          chains={[baseSepolia]}
+          chain={liskSepolia}
+          chains={[liskSepolia]}
           theme={darkTheme({
             colors: {
               primaryButtonBg: "#FFD700",
@@ -127,8 +127,8 @@ const ConnectWallet = ({ onConnect, label = "Connect Wallet" }: ConnectWalletPro
           }}
           wallets={wallets}
           connectModal={{ size: "compact" }}
-          chain={baseSepolia}
-          chains={[baseSepolia]}
+          chain={liskSepolia}
+          chains={[liskSepolia]}
           theme={darkTheme({
             colors: {
               primaryButtonBg: "#FFD700",

@@ -42,7 +42,7 @@ const useApplyForGig = () => {
 
       try {
         const provider = new ethers.JsonRpcProvider(
-          "https://base-sepolia.g.alchemy.com/v2/7YcyjUTTMHZ7Ff_gdbynvaCPgRB6kL0Q"
+          "https://rpc.sepolia-api.lisk.com"
         );
         const gigContract = new ethers.Contract(
           process.env.GIG_MARKET_PLACE!,

@@ -42,7 +42,7 @@ const useCreateGig = () => {
 
       try {
         const provider = new ethers.JsonRpcProvider(
-          "https://base-sepolia.g.alchemy.com/v2/7YcyjUTTMHZ7Ff_gdbynvaCPgRB6kL0Q"
+          "https://rpc.sepolia-api.lisk.com"
         );
         const tokenContract = new ethers.Contract(process.env.TOKEN!, ['function balanceOf(address) view returns (uint256)'], provider);
         const budgetInWei = ethers.parseUnits(budget.toString(), 6);
