@@ -13,7 +13,7 @@ const ChainSwitcher = () => {
     return (
       <div className="flex items-center gap-2 text-sm text-green-600">
         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-        Connected to Base Sepolia
+        Connected to Lisk Sepolia
       </div>
     );
   }
@@ -28,7 +28,7 @@ const ChainSwitcher = () => {
         onClick={switchToLiskSepolia}
         className="px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors"
       >
-        Switch to Base Sepolia
+        Switch to Lisk Sepolia
       </button>
     </div>
   );
